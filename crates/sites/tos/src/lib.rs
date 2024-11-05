@@ -1,6 +1,5 @@
 mod config;
 use config::web_config;
-pub use inline_css::css;
 pub use ryde::*;
 use serde_json::Value;
 
@@ -9,19 +8,35 @@ pub fn router() -> Router {
 }
 
 async fn get_slash() -> Html {
-	let styles = css! {
-		me {
-			color: red;
-			background-color: #0x0000FF;
-		}
-	}
-	.to_string();
-
 	html! {
 		<Page>
 			<div>
-				<style>{styles}</style>
 				you are here
+				<style>r#"
+					me {
+						color: red;
+						background-color: #0000FF;
+					}
+				"#</style>
+			</div>
+			<div>
+				I change color every second.
+				<script>r#"
+					me().on("click", async ev => {
+						let el = me(ev) // Save target because async will lose it.
+						me(el).styles({ "transition": "background 1s" })
+						await sleep(1000)
+						me(el).styles({ "background": "red" })
+						await sleep(1000)
+						me(el).styles({ "background": "green" })
+						await sleep(1000)
+						me(el).styles({ "background": "blue" })
+						await sleep(1000)
+						me(el).styles({ "background": "none" })
+						await sleep(1000)
+						me(el).remove()
+					})
+				"#</script>
 			</div>
 		</Page>
 	}
@@ -55,7 +70,7 @@ pub fn Page(els: Elements) -> Component {
 				<script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js"></script>
 				<title>The Objective Standard</title>
 			</head>
-			<body>
+			<body hx-boost=true>
 				<div id="app" x-data="app">
 					<a href="https://vitejs.dev" target="_blank">
 						<img x-bind:src="viteLogo" class="logo" alt="Vite logo" />
@@ -68,8 +83,8 @@ pub fn Page(els: Elements) -> Component {
 						<button id="counter" type="button" x-on:click="count++" x-text="`count is ${count}`"></button>
 					</div>
 					<p class="read-the-docs">Click on the Vite and Alpine logos to learn more</p>
+					{els}
 				</div>
-				{els}
 			</body>
 		</html>
 	}
