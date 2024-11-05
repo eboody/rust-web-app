@@ -11,6 +11,13 @@ pub fn router() -> Router {
 async fn get_slash() -> Html {
 	html! {
 		<Html>
+			<style>
+				"
+					me {
+						background-color: red;
+					}
+				"
+			</style>
 			<div>you are here</div>
 		</Html>
 	}
@@ -22,7 +29,10 @@ fn Html(els: Elements) -> Component {
 		<!DOCTYPE html>
 		<html>
 			<head>
-				<title>ryde with rust</title>
+				<script src="https://unpkg.com/htmx.org@2.0.3"></script>
+				<script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"></script>
+				<script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js"></script>
+				<title>The Objective Standard</title>
 			</head>
 			<body>
 				{els}
