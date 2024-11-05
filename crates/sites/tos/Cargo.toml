@@ -12,6 +12,7 @@ tokio = { workspace = true }
 tower = "0.5"
 time = "0.3.36"
 ryde = { path = "../../libs/ryde" }
+inline-css = "0.0.3"
 
 [lints]
 workspace = true

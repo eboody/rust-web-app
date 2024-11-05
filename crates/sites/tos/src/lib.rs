@@ -2,6 +2,7 @@ mod component;
 
 use axum::{routing::get, Router};
 
+use inline_css::css;
 use ryde::*;
 
 pub fn router() -> Router {
@@ -9,16 +10,18 @@ pub fn router() -> Router {
 }
 
 async fn get_slash() -> Html {
+	let styles = css! {
+		me {
+			color: red;
+			background-color: blue;
+		}
+	}
+	.to_string();
+
 	html! {
 		<Html>
 			<div>
-				<style>
-					"
-						me {
-							color: red;
-						}
-					"
-				</style>
+				<style>{styles}</style>
 				you are here
 			</div>
 		</Html>
