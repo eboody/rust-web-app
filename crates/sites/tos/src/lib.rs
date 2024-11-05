@@ -11,14 +11,16 @@ pub fn router() -> Router {
 async fn get_slash() -> Html {
 	html! {
 		<Html>
-			<style>
-				"
-					me {
-						background-color: red;
-					}
-				"
-			</style>
-			<div>you are here</div>
+			<div>
+				<style>
+					"
+						me {
+							color: red;
+						}
+					"
+				</style>
+				you are here
+			</div>
 		</Html>
 	}
 }

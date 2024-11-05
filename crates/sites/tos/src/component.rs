@@ -15,7 +15,7 @@ impl IntoResponse for Html {
 }
 
 impl Render for Component {
-	fn render_to_string(&self, buffer: &mut String) {
-		self.html.clone();
+	fn render_to_string(&self, _buffer: &mut String) {
+		let _ = self.html.clone();
 	}
 }
