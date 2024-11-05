@@ -19,7 +19,7 @@ members = [
     "crates/tools/gen-key", 
     
     # -- Sites
-    "crates/sites/tos",    
+    "crates/sites/site_1",    
 ]
 
 # NOTE: Only the crates that are utilized in two or more sub-crates and benefit from global management
@@ -44,5 +44,5 @@ time = {version = "0.3", features = ["formatting", "parsing", "serde"]}
 derive_more = {version = "1.0.0", features = ["from", "display"] }
 
 [workspace.metadata.scripts]
-w = "cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -w vite-alpine/ -x \"run -p web-server\" & concurrently \"npm --prefix vite-alpine run dev\""
+w = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -w vite-alpine/ -x \"run -p web-server\" & concurrently \"npm --prefix vite-alpine run dev\""
 bundle = "npm --prefix vite-alpine run build"

@@ -68,7 +68,7 @@ pub fn Page(els: Elements) -> Component {
 				<script src="https://unpkg.com/htmx.org@2.0.3"></script>
 				<script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js"></script>
 				<script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js"></script>
-				<title>The Objective Standard</title>
+				<title>SITE1</title>
 			</head>
 			<body hx-boost=true>
 				<div id="app" x-data="app">

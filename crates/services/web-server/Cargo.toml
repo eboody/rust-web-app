@@ -31,7 +31,7 @@ strum_macros = "0.26"
 derive_more = { workspace = true }
 
 # -- Sites
-tos = { path = "../../sites/tos" }
+site_1 = { path = "../../sites/site_1/" }
 
 [dev-dependencies]
 httpc-test = "0.1"
