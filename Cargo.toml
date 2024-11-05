@@ -43,4 +43,4 @@ time = {version = "0.3", features = ["formatting", "parsing", "serde"]}
 derive_more = {version = "1.0.0", features = ["from", "display"] }
 
 [workspace.metadata.scripts]
-watch = "cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
+w = "cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
