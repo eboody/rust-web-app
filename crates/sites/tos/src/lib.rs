@@ -1,7 +1,5 @@
-use axum::{routing::get, Router};
-
-use inline_css::css;
-use ryde::*;
+pub use inline_css::css;
+pub use ryde::*;
 
 pub fn router() -> Router {
 	Router::new().route("/", get(get_slash))
