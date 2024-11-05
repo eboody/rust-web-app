@@ -1,5 +1,3 @@
-mod component;
-
 use axum::{routing::get, Router};
 
 use inline_css::css;
