@@ -13,7 +13,7 @@ async fn get_slash() -> Html {
 	let styles = css! {
 		me {
 			color: red;
-			background-color: blue;
+			background-color: #0x0000FF;
 		}
 	}
 	.to_string();
@@ -29,7 +29,7 @@ async fn get_slash() -> Html {
 }
 
 #[allow(non_snake_case)]
-fn Html(els: Elements) -> Component {
+pub fn Html(els: Elements) -> Component {
 	html! {
 		<!DOCTYPE html>
 		<html>
