@@ -13,6 +13,7 @@ pub struct Ebook {
 	pub sort: Option<serde_json::Value>,
 	pub status: String,
 	pub user_updated: Option<String>,
+	pub sub_text: Option<String>,
 }
 
 impl Ebook {
