@@ -23,8 +23,9 @@ WORKDIR /app
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
 COPY --from=builder /app/web-folder ./web-folder
+# Copy the contents of the hidden .vite directory to /web-folder in the final image
+COPY --from=builder /app/js/.vite /web-folder/js/.vite
 
-# Expose the port that the app runs on
 EXPOSE 3000
 
 # Run the binary
