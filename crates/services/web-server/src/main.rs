@@ -1,5 +1,4 @@
 // region:    --- Modules
-
 mod config;
 mod error;
 mod log;
@@ -40,6 +39,7 @@ async fn main() -> Result<()> {
 		.route_layer(middleware::from_fn(mw_ctx_require));
 
 	let routes_all = Router::new()
+		.route("/health", get(|| async { "OK" }))
 		.merge(routes_login::routes(mm.clone()))
 		.merge(site_1::router())
 		.nest("/api", routes_rpc)
@@ -47,7 +47,6 @@ async fn main() -> Result<()> {
 		.layer(middleware::from_fn_with_state(mm.clone(), mw_ctx_resolver))
 		.layer(CookieManagerLayer::new())
 		.layer(middleware::from_fn(mw_req_stamp_resolver))
-		.route("/health", get(|| async { "OK" }))
 		.fallback_service(routes_static::serve_dir());
 
 	// region:    --- Start Server
