@@ -2,6 +2,7 @@
 .*
 !.gitignore
 !web-folder
+!.vite
 
 # -- Rust
 # For .cargo/config.toml
