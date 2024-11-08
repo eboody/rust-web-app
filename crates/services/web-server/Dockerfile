@@ -3,6 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 
 COPY . .
+COPY web-folder/js/.vite web-folder/js/.vite
 RUN ls -la web-folder/js
 
 RUN cargo build -p web-server --release
