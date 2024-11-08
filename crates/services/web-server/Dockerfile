@@ -3,7 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 
 COPY . .
-COPY web-folder/js/.vite web-folder/js/.vite
+RUN ls -la web-folder/js
 
 # ENV RUST_MIN_STACK=934217728
 # # ENV RUST_BACKTRACE=1
@@ -23,9 +23,8 @@ WORKDIR /app
 
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
-COPY --from=builder /app/web-folder ./web-folder
-# Copy the contents of the hidden .vite directory to /web-folder in the final image
-COPY --from=builder /app/web-folder/js/.vite /web-folder/js/.vite
+COPY --from=builder /app/web-folder /web-folder
+RUN ls -la web-folder/js
 
 EXPOSE 3000
 
