@@ -1,6 +1,7 @@
 # By Default, Ignore any .*, except .gitignore
 .*
 !.gitignore
+!web-folder
 
 # -- Rust
 # For .cargo/config.toml
