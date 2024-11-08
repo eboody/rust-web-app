@@ -22,7 +22,7 @@ WORKDIR /app
 
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
-COPY --from=builder /app/web-folder/static ./web-folder
+COPY --from=builder /app/web-folder ./web-folder
 
 # Expose the port that the app runs on
 EXPOSE 3000
