@@ -26,7 +26,7 @@ COPY --from=builder /app/target/release/web-server .
 COPY --from=builder /app/web-folder /web-folder
 RUN ls -la web-folder/js
 
-EXPOSE 3000
+EXPOSE 3031
 
 # Run the binary
 CMD ["./web-server"]
