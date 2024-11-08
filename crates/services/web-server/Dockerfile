@@ -3,7 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 
 COPY . .
-RUN ls -la web-folder/js
+COPY web-folder/js/.vite web-folder/js/.vite
 
 # ENV RUST_MIN_STACK=934217728
 # # ENV RUST_BACKTRACE=1
@@ -24,9 +24,8 @@ WORKDIR /app
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
 COPY --from=builder /app/web-folder /web-folder
-RUN ls -la /web-folder/js
 
-EXPOSE 3031
+EXPOSE 3000
 
 # Run the binary
 CMD ["./web-server"]
