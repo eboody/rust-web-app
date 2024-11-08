@@ -3,7 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 
 COPY . .
-COPY ./web-folder/js/.vite web-folder/js/.vite
+COPY web-folder/js/.vite web-folder/js/.vite
 
 # ENV RUST_MIN_STACK=934217728
 # # ENV RUST_BACKTRACE=1
