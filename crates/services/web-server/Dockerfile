@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 COPY web-folder/js/.vite web-folder/js/.vite
-RUN ls -la web-folder/js
+RUN ls -la /web-folder/js
 
 RUN cargo build -p web-server --release
 
@@ -21,7 +21,7 @@ WORKDIR /app
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
 COPY --from=builder /app/web-folder /web-folder
-RUN ls -la web-folder/js
+RUN ls -la /web-folder/js
 
 EXPOSE 3000
 
