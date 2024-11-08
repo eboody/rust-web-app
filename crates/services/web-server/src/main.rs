@@ -12,8 +12,8 @@ use crate::web::mw_auth::{mw_ctx_require, mw_ctx_resolver};
 use crate::web::mw_req_stamp::mw_req_stamp_resolver;
 use crate::web::mw_res_map::mw_reponse_map;
 use crate::web::{routes_login, routes_static};
-use axum::{middleware, Router};
-use lib_core::_dev_utils;
+use axum::{middleware, routing::get, Router};
+//use lib_core::_dev_utils;
 use lib_core::model::ModelManager;
 use tokio::net::TcpListener;
 use tower_cookies::CookieManagerLayer;
@@ -47,6 +47,7 @@ async fn main() -> Result<()> {
 		.layer(middleware::from_fn_with_state(mm.clone(), mw_ctx_resolver))
 		.layer(CookieManagerLayer::new())
 		.layer(middleware::from_fn(mw_req_stamp_resolver))
+		.route("/health", get(|| async { "OK" }))
 		.fallback_service(routes_static::serve_dir());
 
 	// region:    --- Start Server
