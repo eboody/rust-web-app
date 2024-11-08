@@ -24,7 +24,7 @@ WORKDIR /app
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
 COPY --from=builder /app/web-folder /web-folder
-RUN ls -la web-folder/js
+RUN ls -la /web-folder/js
 
 EXPOSE 3031
 
