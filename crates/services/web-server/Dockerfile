@@ -24,7 +24,7 @@ WORKDIR /app
 COPY --from=builder /app/target/release/web-server .
 COPY --from=builder /app/web-folder ./web-folder
 # Copy the contents of the hidden .vite directory to /web-folder in the final image
-COPY --from=builder /app/js/.vite /web-folder/js/.vite
+COPY --from=builder /app/web-folder/js/.vite /web-folder/js/.vite
 
 EXPOSE 3000
 
