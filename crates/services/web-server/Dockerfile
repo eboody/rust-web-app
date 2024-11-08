@@ -20,7 +20,7 @@ WORKDIR /app
 
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
-COPY --from=builder /app/web-folder /web-folder
+COPY --from=builder /app/web-folder web-folder
 
 EXPOSE 3000
 
