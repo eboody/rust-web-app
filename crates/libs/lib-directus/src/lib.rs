@@ -3,8 +3,10 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ebook {
-	pub Availability: String,
-	pub Name: String,
+	#[serde(rename = "Availability")]
+	pub availability: String,
+	#[serde(rename = "Name")]
+	pub name: String,
 	pub cover_image: String,
 	pub date_created: String,
 	pub date_updated: Option<String>,

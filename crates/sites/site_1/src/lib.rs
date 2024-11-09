@@ -5,17 +5,25 @@ pub use ryde::*;
 use serde_json::Value;
 
 pub fn router() -> Router {
-	Router::new().route("/", get(get_slash))
+	Router::new()
+		.route("/", get(get_slash))
+		.route("/ebooks_menu", get(ebooks_menu))
 }
 
 async fn get_slash() -> Html {
-	let ebooks = lib_directus::get_ebooks().await.unwrap();
-
 	html! {
 		<Page>
-			<div class="ebook-container">
-				<style>
-							"
+			<div hx-get="/ebooks_menu" hx-swap="outerHTML" hx-trigger="load"></div>
+		</Page>
+	}
+}
+
+async fn ebooks_menu() -> Component {
+	let ebooks = lib_directus::get_ebooks().await.unwrap();
+	html! {
+				<div class="ebook-container">
+					<style>
+								"
 							me { margin: 30px; }
 
 							.grid-auto-fit {
@@ -76,20 +84,19 @@ async fn get_slash() -> Html {
 								}
 							}
 							"
-				</style>
+					</style>
 
-				<section>
-					<div class="grid-auto-fit">
-							{
-								ebooks.iter().map(|ebook| html! {
-									<EbookCard ebook=&ebook />
-								}).collect::<Vec<_>>()
-							}
-					</div>
-				</section>
+					<section>
+						<div class="grid-auto-fit">
+								{
+									ebooks.iter().map(|ebook| html! {
+										<EbookCard ebook=&ebook />
+									}).collect::<Vec<_>>()
+								}
+						</div>
+					</section>
 
-			</div>
-		</Page>
+				</div>
 	}
 }
 
@@ -150,7 +157,7 @@ pub fn EbookImage(ebook: &Ebook) -> Component {
 				}
 			"</style>
 	  <div class="book-3d__inner">
-			<img class="book-3d__cover" src={ebook.get_cover_image()} alt=ebook.Name>
+			<img class="book-3d__cover" src={ebook.get_cover_image()} alt=ebook.name>
 			<style>
 				{format!("
 						me {{
@@ -255,7 +262,7 @@ pub fn EbookCard(ebook: &Ebook) -> Component {
 					</style>
 					<article>
 						<EbookImage ebook=ebook />
-						<h2>{&ebook.Name}</h2>
+						<h2>{&ebook.name}</h2>
 						<p class="subtext">{&ebook.sub_text}
 							<style>
 							"me {
