@@ -73,9 +73,6 @@ fn get_cors_layer() -> CorsLayer {
 	CorsLayer::new()
 		.allow_origin(HeaderValue::from_str("https://wp.eman.network").unwrap())
 		.allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-		.allow_headers([
-			HeaderName::from_static("content-type"),
-			HeaderName::from_static("hx-request"),
-		])
+		.allow_headers(Any)
 		.allow_credentials(true)
 }
