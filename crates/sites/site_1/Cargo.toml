@@ -16,6 +16,7 @@ time = "0.3.36"
 ryde = { path = "../../libs/ryde" }
 inline-css = "0.0.3"
 serde_json = {workspace = true}
+reqwest = "0.12"
 
 [lints]
 workspace = true

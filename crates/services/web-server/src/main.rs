@@ -12,12 +12,8 @@ use crate::web::mw_auth::{mw_ctx_require, mw_ctx_resolver};
 use crate::web::mw_req_stamp::mw_req_stamp_resolver;
 use crate::web::mw_res_map::mw_reponse_map;
 use crate::web::{routes_login, routes_static};
-use axum::{
-	http::{HeaderName, HeaderValue},
-	middleware,
-	routing::get,
-	Router,
-};
+use axum::{http::HeaderValue, middleware, routing::get, Router};
+
 //use lib_core::_dev_utils;
 use lib_core::model::ModelManager;
 use tokio::net::TcpListener;
@@ -71,7 +67,7 @@ async fn main() -> Result<()> {
 
 fn get_cors_layer() -> CorsLayer {
 	CorsLayer::new()
-		.allow_origin(HeaderValue::from_str("https://wp.eman.network").unwrap())
+		.allow_origin(HeaderValue::from_static("*"))
 		.allow_methods([Method::GET, Method::POST, Method::OPTIONS])
 		.allow_headers(Any)
 }

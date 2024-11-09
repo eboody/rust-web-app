@@ -93,6 +93,12 @@ pub enum Error {
 	Join(String),
 }
 
+impl From<reqwest::Error> for Error {
+	fn from(value: reqwest::Error) -> Self {
+		Error::Io(value.to_string())
+	}
+}
+
 impl std::fmt::Display for Error {
 	fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
 		match self {

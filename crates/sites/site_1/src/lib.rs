@@ -1,4 +1,5 @@
 mod config;
+mod error;
 use config::web_config;
 use lib_directus::Ebook;
 pub use ryde::*;
@@ -8,6 +9,26 @@ pub fn router() -> Router {
 	Router::new()
 		.route("/", get(get_slash))
 		.route("/ebooks_menu", get(ebooks_menu))
+		.route("/ebooks/:id", patch(increment_ebook_hover))
+}
+
+pub async fn increment_ebook_hover(
+	Path(id): Path<u32>,
+) -> core::result::Result<(), Error> {
+	let url = format!("https://directus.eman.network/items/eBooks/{}", id);
+	let client = reqwest::Client::new();
+	let ebook = client.get(&url).send().await?.json::<Ebook>().await?;
+	let response = client
+		.patch(&url)
+		.json(&serde_json::json!({
+			"times_hovered_over": ebook.times_hovered_over + 1
+		}))
+		.send()
+		.await?;
+	let text = response.text().await?;
+	println!("{:#?}", text);
+
+	Ok(())
 }
 
 async fn get_slash() -> Html {
@@ -201,7 +222,7 @@ pub fn EbookImage(ebook: &Ebook) -> Component {
 #[allow(non_snake_case)]
 pub fn EbookCard(ebook: &Ebook) -> Component {
 	html! {
-			  <article class="card">
+			  <article class="card" hx-patch=format!("https://tosapp.eman.network/ebooks/{}", ebook.id) hx-trigger="mouseover">
 					<style>
 						"
 						me { 

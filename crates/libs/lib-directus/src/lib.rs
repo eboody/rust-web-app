@@ -16,6 +16,8 @@ pub struct Ebook {
 	pub status: String,
 	pub user_updated: Option<String>,
 	pub sub_text: Option<String>,
+	pub times_hovered_over: u32,
+	pub times_downloaded: u32,
 }
 
 impl Ebook {
