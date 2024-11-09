@@ -4,6 +4,8 @@ mod error;
 mod log;
 mod web;
 
+use std::str::FromStr;
+
 pub use self::error::{Error, Result};
 use config::web_config;
 
@@ -11,11 +13,17 @@ use crate::web::mw_auth::{mw_ctx_require, mw_ctx_resolver};
 use crate::web::mw_req_stamp::mw_req_stamp_resolver;
 use crate::web::mw_res_map::mw_reponse_map;
 use crate::web::{routes_login, routes_static};
-use axum::{middleware, routing::get, Router};
+use axum::{
+	http::{HeaderName, HeaderValue},
+	middleware,
+	routing::get,
+	Router,
+};
 //use lib_core::_dev_utils;
 use lib_core::model::ModelManager;
 use tokio::net::TcpListener;
 use tower_cookies::CookieManagerLayer;
+use tower_http::cors::CorsLayer;
 use tracing::info;
 use tracing_subscriber::EnvFilter;
 
@@ -47,6 +55,7 @@ async fn main() -> Result<()> {
 		.layer(middleware::from_fn_with_state(mm.clone(), mw_ctx_resolver))
 		.layer(CookieManagerLayer::new())
 		.layer(middleware::from_fn(mw_req_stamp_resolver))
+		.layer(get_cors_layer())
 		.fallback_service(routes_static::serve_dir());
 
 	// region:    --- Start Server
@@ -59,4 +68,11 @@ async fn main() -> Result<()> {
 	// endregion: --- Start Server
 
 	Ok(())
+}
+
+fn get_cors_layer() -> CorsLayer {
+	CorsLayer::new()
+		.allow_origin(HeaderValue::from_str("https://wp.eman.network").unwrap())
+		.allow_headers([HeaderName::from_static("content-type")])
+		.allow_credentials(true)
 }
