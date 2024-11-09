@@ -5,6 +5,7 @@ mod log;
 mod web;
 
 pub use self::error::{Error, Result};
+use axum::http::Method;
 use config::web_config;
 
 use crate::web::mw_auth::{mw_ctx_require, mw_ctx_resolver};
@@ -71,6 +72,10 @@ async fn main() -> Result<()> {
 fn get_cors_layer() -> CorsLayer {
 	CorsLayer::new()
 		.allow_origin(HeaderValue::from_str("https://wp.eman.network").unwrap())
-		.allow_headers([HeaderName::from_static("content-type")])
-		.allow_methods(Any)
+		.allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+		.allow_headers([
+			HeaderName::from_static("content-type"),
+			HeaderName::from_static("hx-request"),
+		])
+		.allow_credentials(true)
 }
