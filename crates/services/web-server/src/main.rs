@@ -4,8 +4,6 @@ mod error;
 mod log;
 mod web;
 
-use std::str::FromStr;
-
 pub use self::error::{Error, Result};
 use config::web_config;
 
@@ -23,7 +21,7 @@ use axum::{
 use lib_core::model::ModelManager;
 use tokio::net::TcpListener;
 use tower_cookies::CookieManagerLayer;
-use tower_http::cors::CorsLayer;
+use tower_http::cors::{Any, CorsLayer};
 use tracing::info;
 use tracing_subscriber::EnvFilter;
 
@@ -74,5 +72,5 @@ fn get_cors_layer() -> CorsLayer {
 	CorsLayer::new()
 		.allow_origin(HeaderValue::from_str("https://wp.eman.network").unwrap())
 		.allow_headers([HeaderName::from_static("content-type")])
-		.allow_credentials(true)
+		.allow_methods(Any)
 }
