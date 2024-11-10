@@ -1,5 +1,9 @@
-use reqwest::Error;
+use reqwest::{
+	header::{HeaderMap, HeaderValue, AUTHORIZATION},
+	Error,
+};
 use serde::{Deserialize, Serialize};
+use serde_json_debugging::DebugDeserialize;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ebook {
@@ -31,11 +35,16 @@ impl Ebook {
 }
 
 #[derive(Deserialize, Serialize, Debug)]
-pub struct ResponseData {
+pub struct ResponseVecData {
 	data: Vec<Ebook>,
 }
 
-impl ResponseData {
+#[derive(Deserialize, Serialize, Debug)]
+pub struct ResponseData {
+	pub data: Ebook,
+}
+
+impl ResponseVecData {
 	pub fn to_ebooks(self) -> Vec<Ebook> {
 		self.data
 	}
@@ -43,11 +52,19 @@ impl ResponseData {
 
 pub async fn get_ebooks() -> Result<Vec<Ebook>, Error> {
 	let url = "https://directus.eman.network/items/eBooks";
+	let token = std::env::var("DIRECTUS_TOKEN").unwrap();
+	let client = reqwest::Client::new();
+	let mut headers = HeaderMap::new();
+	headers.insert(
+		AUTHORIZATION,
+		HeaderValue::from_str(&format!("Bearer {}", token)).unwrap(),
+	);
 
 	// Send the GET request
-	let response = reqwest::get(url).await?;
-	let res: ResponseData = response.json().await?;
-	let ebooks = res.to_ebooks();
+	let response = client.get(url).headers(headers).send().await?;
+	let res: DebugDeserialize<ResponseVecData> = response.json().await?;
+	dbg!("{}", &res);
+	let ebooks = res.0.to_ebooks();
 
 	Ok(ebooks)
 }

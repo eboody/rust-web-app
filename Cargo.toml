@@ -11,6 +11,7 @@ members = [
     "crates/libs/lib-auth",  # e.g., for pwd, token.
     "crates/libs/lib-core",  # e.g., model, ctx, config.
     "crates/libs/ryde",    
+    "crates/libs/serde-json-debugging",
 
     # -- Application Services
     "crates/services/web-server",

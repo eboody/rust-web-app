@@ -1,0 +1,18 @@
+[package]
+name = "serde-json-debugging"
+version = "0.1.0"
+edition = "2021"
+authors = ["Eran Boodnero eran@eran.codes"]
+description = "A debug wrapper for Serde JSON deserialization that provides detailed error information"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/yourusername/serde-json-debugging"
+keywords = ["serde", "json", "deserialization", "debug", "error-handling"]
+categories = ["development-tools::debugging"]
+
+[dependencies]
+serde = "1.0"
+serde_json = "1.0"
+colored = "2"
+
+[lints]
+workspace = true

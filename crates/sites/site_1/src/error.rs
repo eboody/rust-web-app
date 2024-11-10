@@ -2,7 +2,7 @@ pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug)]
 pub enum Error {
-	Ryde(ryde::Error),
+	//Ryde(ryde::Error),
 	Reqwest(reqwest::Error),
 }
 
@@ -12,11 +12,11 @@ impl From<reqwest::Error> for Error {
 	}
 }
 
-impl From<ryde::Error> for Error {
-	fn from(e: ryde::Error) -> Self {
-		Error::Ryde(e)
-	}
-}
+//impl From<ryde::Error> for Error {
+//	fn from(e: ryde::Error) -> Self {
+//		Error::Ryde(e)
+//	}
+//}
 
 impl From<Error> for axum::Error {
 	fn from(e: Error) -> Self {
