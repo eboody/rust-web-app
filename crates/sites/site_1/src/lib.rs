@@ -11,10 +11,9 @@ use config::web_config;
 use error::Error;
 use inline_css::css;
 use lib_directus::Ebook;
-use maud::{html, Markup, Render, DOCTYPE};
+use maud::{html, Markup, PreEscaped, Render, DOCTYPE};
 use reqwest::{header::AUTHORIZATION, Client, StatusCode};
 use serde_json::Value;
-use stylist::style;
 
 pub fn router() -> Router {
 	Router::new()
@@ -23,9 +22,7 @@ pub fn router() -> Router {
 }
 
 async fn get_slash() -> Markup {
-	html! {
-		(page(ebooks_menu().await))
-	}
+	page(ebooks_menu().await)
 }
 
 pub fn page(children: Markup) -> Markup {
@@ -66,7 +63,8 @@ pub fn page(children: Markup) -> Markup {
 async fn ebooks_menu() -> Markup {
 	let ebooks = lib_directus::get_ebooks().await.unwrap();
 
-	let styles = r#"
+	let styles = PreEscaped(
+		r#"
 								me { margin: 30px; }
 
 								.grid-auto-fit {
@@ -126,7 +124,8 @@ async fn ebooks_menu() -> Markup {
 										}
 									}
 								}
-	"#;
+	"#,
+	);
 
 	html! {
 				div.ebook-container {
@@ -145,8 +144,10 @@ async fn ebooks_menu() -> Markup {
 }
 
 pub fn ebook_card(ebook: &Ebook) -> Markup {
-	let styles = r#"
+	let styles = PreEscaped(
+		r#"
                 me {
+									article.card {
                     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
                     font-family: 'Capitolina', serif; text-align: center;
                     padding: 1rem;
@@ -158,13 +159,13 @@ pub fn ebook_card(ebook: &Ebook) -> Markup {
 													--book-thickness: 15px;
 											}
 										}
-                }
-                me:hover {
+									}
+                article.card:hover {
                     transform: scale(1.01);
                     box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px,
                     rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
                 }
-                me > .subtext {
+								.subtext {
                     font-size: 20px;
                     line-height: 27px;
                     font-weight: 400;
@@ -172,7 +173,7 @@ pub fn ebook_card(ebook: &Ebook) -> Markup {
                     font-family: 'MyriadPro', sans-serif;
                     padding: 0 1rem 1rem 1rem;
                 }
-                me > a.download {
+                a.download {
                     background-color: #4683ec;
                     color: white;
                     border-radius: 4px;
@@ -188,7 +189,7 @@ pub fn ebook_card(ebook: &Ebook) -> Markup {
                     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
                     margin-top: 1rem;
                 }
-								me:has(> img) {
+								article.card:has(> img) {
 
 									border: 2px solid var(--clr-primary-300);
 									box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
@@ -222,114 +223,118 @@ pub fn ebook_card(ebook: &Ebook) -> Markup {
 										}
 									}
 								}
-	"#;
+							}
+	"#,
+	);
 
 	html! {
 		article.card
 		hx_patch=(format!("https://tosapp.eman.network/ebooks/{}", ebook.id))
 		hx_trigger="mouseover" {
-			style { (styles) }
 			(ebook_image(ebook))
 			h2 { (ebook.name) }
 			p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
 			a.download href=(ebook.get_file_download()) { "Download" }
 		}
+		style { (styles) }
 	}
 }
 
 pub fn ebook_image(ebook: &Ebook) -> Markup {
 	let styles = r#"
         me {
-            --book-thickness: 30px;
-            --cover-color: slategray;
-            perspective: 1000px;
-            max-width: 250px;
-            margin: 55px auto;
-            transition: max-width 0.3s, --book-thickness 0.3s;
-        }
-        @keyframes book-3d {
-            from { transform: rotateY(-15deg); }
-            to   { transform: rotateY(-25deg); }
-        }
-        @keyframes book-3d-back {
-            from { transform: rotateY(-25deg); }
-            to   { transform: rotateY(-15deg); }
-        }
-        me:hover > .book-3d__inner {
-            animation: book-3d-back .3s ease-out forwards;
-        }
-        me > img {
-            display: block;
-            width: 100%;
-            height: auto;
-            border-radius: 0px 2px 2px 0px;
-            transform: translateZ(var(--book-thickness));
-            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
-        }
-        me::after {
-            content: "";
-            position: absolute;
-            inset: 1px;
-            height: 99%;
-            border-radius: 3px;
-            pointer-events: none;
-            background: linear-gradient(
-                90deg,
-                rgba(0, 0, 0, 0.118) 0.65%,
-                rgba(255, 255, 255, 0.2) 1.53%,
-                rgba(255, 255, 255, 0.1) 2.38%,
-                rgba(0, 0, 0, 0.05) 3.26%,
-                rgba(255, 255, 255, 0.14) 5.68%,
-                rgba(244, 244, 244, 0) 6.96%
-            );
-        }
-
-				me > .book-3d__cover::after {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 1%;
-					width: 100%;
-					height: 100%;
-					transform: translateZ(calc(var(--book-thickness) * -1));
-					background-color: var(--cover-color);
-					border-radius: 0 2px 2px 0;
-					box-shadow: -10px 0 50px 10px rgba(0,0,0, 0.3);
-				}
-				me > .book-3d__cover::before {
-					position: absolute;
-					content: ' ';
-					left: 100%;
-					top: 1%;
-					width: calc(var(--book-thickness) * 2);
-					height: 98%;
-					transform: translate(-55%,0) rotateY(90deg);
-					background: linear-gradient(90deg, #fff 0%, hsl(0, 0%, 94%) 5%, #fff 10%, hsl(0, 0%, 94%) 15%, #fff 20%, hsl(0, 0%, 94%) 25%, #fff 30%, hsl(0, 0%, 94%) 35%, #fff 40%, hsl(0, 0%, 94%) 45%, #fff 50%, hsl(0, 0%, 94%) 55%, #fff 60%, hsl(0, 0%, 94%) 65%, #fff 70%, hsl(0, 0%, 94%) 75%, #fff 80%, hsl(0, 0%, 94%) 85%, #fff 90%, hsl(0, 0%, 94%) 95%, #fff 100%);
-				}
-				me > .book-3d__cover {
-					position: relative;
-					transform-style: preserve-3d;
-					transform: rotateY(-15deg);
-				}
+					.book {
+							--book-thickness: 30px;
+							--cover-color: slategray;
+							perspective: 1000px;
+							max-width: 250px;
+							margin: 55px auto;
+							transition: max-width 0.3s, --book-thickness 0.3s;
+					}
+					@keyframes book-3d {
+							from { transform: rotateY(-15deg); }
+							to   { transform: rotateY(-25deg); }
+					}
+					@keyframes book-3d-back {
+							from { transform: rotateY(-25deg); }
+							to   { transform: rotateY(-15deg); }
+					}
+					.book:hover .inner {
+							animation: book-3d-back .3s ease-out forwards;
+					}
+					.book img {
+							display: block;
+							width: 100%;
+							height: auto;
+							border-radius: 0px 2px 2px 0px;
+							transform: translateZ(var(--book-thickness));
+							box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+					}
+					.book::after {
+							content: "";
+							position: absolute;
+							inset: 1px;
+							height: 99%;
+							border-radius: 3px;
+							pointer-events: none;
+							background: linear-gradient(
+									90deg,
+									rgba(0, 0, 0, 0.118) 0.65%,
+									rgba(255, 255, 255, 0.2) 1.53%,
+									rgba(255, 255, 255, 0.1) 2.38%,
+									rgba(0, 0, 0, 0.05) 3.26%,
+									rgba(255, 255, 255, 0.14) 5.68%,
+									rgba(244, 244, 244, 0) 6.96%
+							);
+					}
+					.inner::after {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 1%;
+						width: 100%;
+						height: 100%;
+						transform: translateZ(calc(var(--book-thickness) * -1));
+						background-color: var(--cover-color);
+						border-radius: 0 2px 2px 0;
+						box-shadow: -10px 0 50px 10px rgba(0,0,0, 0.3);
+					}
+					.inner::before {
+						position: absolute;
+						content: ' ';
+						left: 100%;
+						top: 1%;
+						width: calc(var(--book-thickness) * 2);
+						height: 98%;
+						transform: translate(-55%,0) rotateY(90deg);
+						background: linear-gradient(90deg, #fff 0%, hsl(0, 0%, 94%) 5%, #fff 10%, hsl(0, 0%, 94%) 15%, #fff 20%, hsl(0, 0%, 94%) 25%, #fff 30%, hsl(0, 0%, 94%) 35%, #fff 40%, hsl(0, 0%, 94%) 45%, #fff 50%, hsl(0, 0%, 94%) 55%, #fff 60%, hsl(0, 0%, 94%) 65%, #fff 70%, hsl(0, 0%, 94%) 75%, #fff 80%, hsl(0, 0%, 94%) 85%, #fff 90%, hsl(0, 0%, 94%) 95%, #fff 100%);
+					}
+					.inner {
+						position: relative;
+						transform-style: preserve-3d;
+						transform: rotateY(-15deg);
+					}
     "#;
 
-	let styles = styles.to_owned()
-		+ &format!(
-			"me > .book-3d__cover {{
+	let styles = PreEscaped(format!(
+		"{}
+		.inner {{
 			animation: book-3d 1s ease 0.{}s forwards;
+		}}
 		}}",
-			ebook.id / 3
-		);
+		styles,
+		ebook.id / 3
+	));
 
 	html! {
-		div.book-3d {
-			style { (styles) }
-			div.book-3d__inner {
-				img.book-3d__cover
+		div.book {
+			div.inner {
+				img.cover
 					src=(ebook.get_cover_image())
 					alt=(ebook.name);
 			}
 		}
+		style { (styles) }
 	}
 }
 
