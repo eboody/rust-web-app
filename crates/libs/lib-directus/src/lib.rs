@@ -22,6 +22,7 @@ pub struct Ebook {
 	pub sub_text: Option<String>,
 	pub times_hovered_over: u32,
 	pub times_downloaded: u32,
+	pub hovers: Option<serde_json::Value>,
 }
 
 impl Ebook {

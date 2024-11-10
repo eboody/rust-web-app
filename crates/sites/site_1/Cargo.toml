@@ -18,6 +18,7 @@ inline-css = "0.0.3"
 serde_json = {workspace = true}
 reqwest = "0.12"
 maud = { version = "0.26.0", features = ["axum"] }
+stylist = "0.13.0"
 
 [lints]
 workspace = true
