@@ -29,7 +29,6 @@ pub fn app_layout(children: Markup) -> Markup {
 				(children)
 			}
 			div #header {
-				"Header"
 			}
 		}
 		(styles())
@@ -62,7 +61,7 @@ fn styles() -> Markup {
 				grid-area: header;
 				background-color: #fff;
 				border-bottom: 1px solid #ddd;
-				box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+				box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 			}
 			#content {
 				grid-area: content;
