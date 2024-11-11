@@ -27,6 +27,13 @@ pub fn base(children: Markup) -> Markup {
 				script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js" {}
 				link rel="stylesheet" href="https://fonts.cdnfonts.com/css/minion-pro" {}
+				style { (css! {
+					body {
+						font-family: "Minion Pro", serif;
+						margin: 0;
+						padding: 0;
+					}
+				}) }
 			}
 			body hx-boost="true" {
 				div id="app" x-data="app" {

@@ -15,5 +15,7 @@ pub fn router() -> Router {
 }
 
 async fn get_slash() -> Result<Markup> {
-	Ok(pages::base(ebooks::menu().await?))
+	Ok(pages::base(pages::layouts::app_layout(
+		ebooks::menu().await?,
+	)))
 }
