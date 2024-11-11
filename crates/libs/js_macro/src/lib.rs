@@ -1,36 +1,58 @@
 use proc_macro::TokenStream;
 use quote::quote;
 use syn::parse::{Parse, ParseStream};
-use syn::{braced, parse_macro_input};
+use syn::parse_macro_input;
 
-// Struct to parse and store the embedded JavaScript code
 struct JsBlock {
 	content: String,
 }
 
 impl Parse for JsBlock {
 	fn parse(input: ParseStream) -> syn::Result<Self> {
-		let content;
-		braced!(content in input);
-		let js_code = content.parse::<proc_macro2::TokenStream>()?.to_string();
+		//let content;
+		//braced!(content in input);
+		let js_code = input.parse::<proc_macro2::TokenStream>()?.to_string();
 		Ok(JsBlock { content: js_code })
 	}
+}
+
+struct CssBlock {
+	content: String,
+}
+
+impl Parse for CssBlock {
+	fn parse(input: ParseStream) -> syn::Result<Self> {
+		// parse the input as a string literal
+		let css_code = input.parse::<proc_macro2::TokenStream>()?.to_string();
+
+		let css_code = css_code
+			.replace("#0x", "#")
+			.replace(" - ", "-")
+			.replace("}", "}\n")
+			.replace(">\n", "> ")
+			.replace("@ ", "@");
+
+		Ok(CssBlock { content: css_code })
+	}
+}
+
+#[proc_macro]
+pub fn css(input: TokenStream) -> TokenStream {
+	let CssBlock { content } = parse_macro_input!(input as CssBlock);
+
+	let output = quote! {
+		maud::PreEscaped(#content.to_string())
+	};
+
+	TokenStream::from(output)
 }
 
 #[proc_macro]
 pub fn js(input: TokenStream) -> TokenStream {
 	let JsBlock { content } = parse_macro_input!(input as JsBlock);
 
-	let formatted_js = format!(
-		"\"{}\"",
-		content
-			.replace("\\", "\\\\") // Escape backslashes
-			.replace("\"", "\\\"") // Escape double quotes
-			.replace("\n", "\\n") // Preserve line breaks
-	);
-
 	let output = quote! {
-		#formatted_js
+			maud::PreEscaped(#content.to_string())
 	};
 
 	TokenStream::from(output)

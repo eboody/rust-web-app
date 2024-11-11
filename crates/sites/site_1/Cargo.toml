@@ -7,19 +7,15 @@ edition = "2021"
 lib-utils = { path = "../../libs/lib-utils" }
 lib-directus = { path = "../../libs/lib-directus" }
 js_macro = { path = "../../libs/js_macro" }
-# shtml = { git = "https://github.com/swlkr/shtml", version = "0.2.0" }
 axum = "0.7"
 axum-extra = { version = "0.9", features = ["cookie", "typed-header", "multipart"] }
 serde = { workspace = true }
 tokio = { workspace = true }
 tower = "0.5"
 time = "0.3.36"
-# ryde = { path = "../../libs/ryde" }
-inline-css = "0.0.3"
 serde_json = {workspace = true}
 reqwest = "0.12"
 maud = { version = "0.26.0", features = ["axum"] }
-stylist = "0.13.0"
 
 [lints]
 workspace = true

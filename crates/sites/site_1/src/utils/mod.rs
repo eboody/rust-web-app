@@ -3,6 +3,7 @@ use reqwest::{Client, StatusCode};
 use crate::prelude::*;
 mod macros;
 
+#[allow(unused)]
 pub async fn get_image(Path(image_id): Path<String>) -> Result<Response> {
 	let cover_image_url =
 		format!("https://directus.eman.network/assets/{}", image_id);

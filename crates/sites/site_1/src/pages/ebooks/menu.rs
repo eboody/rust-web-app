@@ -17,7 +17,12 @@ pub async fn menu() -> Result<Markup> {
 				}
 			}
 		}
-		style { (css! {{
+		style { (styles()) }
+	})
+}
+
+fn styles() -> PreEscaped<String> {
+	css! {
 			me { margin: 30px; }
 
 			.grid-auto-fit {
@@ -75,6 +80,5 @@ pub async fn menu() -> Result<Markup> {
 					}
 				}
 			}
-	}}) }
-	})
+	}
 }
