@@ -6,7 +6,6 @@
 
 # -- Rust
 # For .cargo/config.toml
-!.cargo/
 target/
 
 # For blueprint ignore Cargo.lock
