@@ -53,7 +53,13 @@ impl ResponseVecData {
 
 pub async fn get_ebooks() -> Result<Vec<Ebook>, Error> {
 	let url = "https://directus.eman.network/items/eBooks";
-	let token = std::env::var("DIRECTUS_TOKEN").unwrap();
+	let token = reqwest::get("https://tos-token-service.eman.network/token")
+		.await?
+		.text()
+		.await?;
+
+	dbg!("{}", &token);
+
 	let client = reqwest::Client::new();
 	let mut headers = HeaderMap::new();
 	headers.insert(

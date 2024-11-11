@@ -21,7 +21,7 @@ members = [
     "crates/tools/gen-key", 
     
     # -- Sites
-    "crates/sites/site_1", "crates/libs/lib-directus",    
+    "crates/sites/site_1", "crates/libs/lib-directus", "crates/libs/js_macro",    
 ]
 
 # NOTE: Only the crates that are utilized in two or more sub-crates and benefit from global management

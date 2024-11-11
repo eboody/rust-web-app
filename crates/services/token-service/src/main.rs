@@ -25,7 +25,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 		redis_pool: Arc::new(redis_pool.clone()),
 	};
 
-	// Fetch and cache the token immediately
+	// fetch and cache the token immediately
 	let token_client = TokenClient::new();
 	fetch_and_cache_token(&shared_state, &token_client).await?;
 
@@ -35,7 +35,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 		.with_state(shared_state.clone());
 
 	let job_scheduler = JobScheduler::new().await?;
-	let job = Job::new_async("0 */30 * * * *", move |_uuid, _l| {
+	let job = Job::new_async("0 */10 * * * *", move |_uuid, _l| {
 		let shared_state = shared_state.clone();
 		let token_client = TokenClient::new();
 		Box::pin(async move {

@@ -1,9 +1,12 @@
+use axum::http::StatusCode;
+use axum::response::{IntoResponse, Response};
+
 pub type Result<T> = core::result::Result<T, Error>;
 
 #[derive(Debug)]
 pub enum Error {
-	//Ryde(ryde::Error),
 	Reqwest(reqwest::Error),
+	HttpStatusCode(reqwest::StatusCode),
 }
 
 impl From<reqwest::Error> for Error {
@@ -12,12 +15,11 @@ impl From<reqwest::Error> for Error {
 	}
 }
 
-//impl From<ryde::Error> for Error {
-//	fn from(e: ryde::Error) -> Self {
-//		Error::Ryde(e)
-//	}
-//}
-
+impl From<reqwest::StatusCode> for Error {
+	fn from(e: reqwest::StatusCode) -> Self {
+		Error::HttpStatusCode(e)
+	}
+}
 impl From<Error> for axum::Error {
 	fn from(e: Error) -> Self {
 		axum::Error::new(e)
@@ -34,3 +36,17 @@ impl core::fmt::Display for Error {
 }
 
 impl std::error::Error for Error {}
+
+impl IntoResponse for Error {
+	fn into_response(self) -> Response {
+		match self {
+			Error::Reqwest(_) => {
+				(StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error")
+					.into_response()
+			}
+			Error::HttpStatusCode(status) => {
+				(status, "HTTP error encountered").into_response()
+			}
+		}
+	}
+}
