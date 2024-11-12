@@ -12,8 +12,8 @@ pub fn image(ebook: &Ebook) -> Markup {
 	);
 
 	html! {
-		div.book {
-			div.inner {
+		.book {
+			.inner {
 				img.cover
 					src=(ebook.get_cover_image())
 					alt=(ebook.name);

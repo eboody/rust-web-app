@@ -8,9 +8,9 @@ pub async fn menu() -> Result<Markup> {
 	let ebooks = ebooks?;
 
 	Ok(html! {
-		div.ebook-container {
+		.ebook-container {
 			section {
-				div.grid-auto-fit {
+				.grid-auto-fit {
 					@for ebook in ebooks {
 						(card(&ebook))
 					}
