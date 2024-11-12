@@ -21,65 +21,63 @@ pub async fn menu() -> Result<Markup> {
 	})
 }
 
-fn styles() -> PreEscaped<String> {
-	css! {
-			me { margin: 30px; }
+css! {
+		me { margin: 30px; }
 
 
-			.grid-auto-fit {
+		.grid-auto-fit {
+			display: grid;
+			gap: 3rem;
+			grid-template-columns: repeat(auto-fit, minmax(min(45ch, 100%), 1fr));
+
+			container: grid-auto-fit / inline-size;
+		}
+
+		@layer card-styling {
+			.card {
+				--padding: 1rem;
+
 				display: grid;
-				gap: 3rem;
-				grid-template-columns: repeat(auto-fit, minmax(min(45ch, 100%), 1fr));
+				overflow: hidden;
+				background-color: white;
+				border-radius: 4px;
 
-				container: grid-auto-fit / inline-size;
-			}
+				h2,
+				h3 {
+					color: black;
+				}
 
-			@layer card-styling {
-				.card {
-					--padding: 1rem;
+				> img {
+					object-fit: cover;
+					width: 100%;
+					height: 100%;
+				}
 
-					display: grid;
-					overflow: hidden;
-					background-color: white;
-					border-radius: 4px;
+				> :not(img) {
+					margin-block-start: 0;
+					margin-inline: 1rem;
+				}
 
-					h2,
-					h3 {
-						color: black;
-					}
+				> :not(img):first-child {
+					margin-block-start: 1rem;
+				}
 
-					> img {
-						object-fit: cover;
-						width: 100%;
-						height: 100%;
-					}
-
-					> :not(img) {
-						margin-block-start: 0;
-						margin-inline: 1rem;
-					}
-
-					> :not(img):first-child {
-						margin-block-start: 1rem;
-					}
-
-					> :not(img):last-child {
-						margin-block-end: 1rem;
-					}
+				> :not(img):last-child {
+					margin-block-end: 1rem;
 				}
 			}
+		}
 
-			@layer layout {
-				.primary-layout {
-					display: grid;
-					grid-template-columns:
-						[full-width] minmax(2rem, 1fr) [content-start] min(1600px, 100% - 4rem)
-						[content-end] minmax(2rem, 1fr);
+		@layer layout {
+			.primary-layout {
+				display: grid;
+				grid-template-columns:
+					[full-width] minmax(2rem, 1fr) [content-start] min(1600px, 100% - 4rem)
+					[content-end] minmax(2rem, 1fr);
 
-					& > * {
-						grid-column: 2 / -2;
-					}
+				& > * {
+					grid-column: 2 / -2;
 				}
 			}
-	}
+		}
 }
