@@ -1,8 +1,7 @@
-pub mod components;
 pub mod ebooks;
 pub mod layouts;
+pub mod views;
 
 mod base;
-mod routes;
 
 pub use base::base;

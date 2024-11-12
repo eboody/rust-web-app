@@ -1,4 +1,5 @@
 pub use crate::error::{Error, Result};
+pub use crate::views::*;
 pub use axum::{
 	extract::Path,
 	http::HeaderValue,

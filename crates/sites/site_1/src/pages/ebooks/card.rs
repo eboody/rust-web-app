@@ -10,7 +10,7 @@ pub fn card(ebook: &Ebook) -> Markup {
 			(image(ebook))
 			h2 .book-name { (ebook.name) }
 			p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
-			a.download href=(ebook.get_file_download()) { "Download" }
+			(button(ebook.get_file_download(), "Download"))
 		}
 		style { (styles()) }
 	}
@@ -47,22 +47,6 @@ fn styles() -> PreEscaped<String> {
 		article.card:hover {
 			box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
 			 rgba(17, 17, 26, 0.15) 0px 1px 0px;
-		}
-		a.download:hover {
-			box-shadow: rgb(255,255,255) 0px 0px 0px 2px, rgb(255,255,255) 0px 0px 0px 3px, rgb(255,255,255) 0px 0px 0px 4px, rgba(0,0,0, 1) 0px 0px 0px 5px;
-		}
-		a.download {
-			background-color: #0x000;
-			color: white;
-			text-decoration: none;
-			display: inline-block;
-			text-align: center;
-			max-width: 50%;
-			font-size: 24px;
-			padding: 0.5rem 1rem;
-			box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-			transition: box-shadow 0.3s;
-			margin-top: 1rem;
 		}
 		.subtext {
 			font-size: 20px;
