@@ -8,7 +8,7 @@ pub async fn menu() -> Result<Markup> {
 	let ebooks = ebooks?;
 
 	Ok(html! {
-		.ebook-container {
+		.ebooks-container {
 			section {
 				.grid-auto-fit {
 					@for ebook in ebooks {
@@ -24,6 +24,7 @@ pub async fn menu() -> Result<Markup> {
 fn styles() -> PreEscaped<String> {
 	css! {
 			me { margin: 30px; }
+
 
 			.grid-auto-fit {
 				display: grid;

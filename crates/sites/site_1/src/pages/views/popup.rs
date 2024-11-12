@@ -1,6 +1,7 @@
 use crate::prelude::*;
 
 pub fn popup(modal_content: Markup) -> Markup {
+	let js = js! {document.getElementById("content").classList.toggle("blurred");};
 	html! {
 		.popup {
 			.popup-overlay {}
@@ -12,6 +13,7 @@ pub fn popup(modal_content: Markup) -> Markup {
 			}
 		}
 		(styles())
+		script { (js) }
 	}
 }
 
@@ -38,6 +40,7 @@ fn styles() -> Markup {
 				border: 1px solid #888;
 				width: 80%;
 				overflow-x: hidden;
+				max-width: 1300px;
 			}
 			.popup-overlay {
 				position: fixed;
@@ -46,7 +49,7 @@ fn styles() -> Markup {
 				width: 100%;
 				height: 100%;
 				z-index: -1;
-				background-color: rgba(0,0,0,0.4);
+				background-color: rgba(0,0,0,0.7);
 			}
 			.close {
 				color: #aaaaaa;

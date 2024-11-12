@@ -38,7 +38,10 @@ pub fn app_layout(children: Markup) -> Markup {
 
 fn styles() -> Markup {
 	html! { style{(
-		css! { me {
+		css! {
+			.blurred {
+			}
+			me {
 			--menu-width: 100px;
 			--menu-item-width: 60px;
 			--header-height: 75px;
