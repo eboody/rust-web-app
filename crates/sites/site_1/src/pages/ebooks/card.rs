@@ -38,61 +38,61 @@ fn styles() -> PreEscaped<String> {
 					}
 				}
 			}
-		.card:hover > .book > .inner {
-				animation: book-3d-back 0.3s ease forwards;
-		}
-		.card:hover > .book > .shadow {
-				animation: book-shadow-3d-back 0.3s ease forwards;
-		}
-
-		article.card:hover {
-			box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
-			 rgba(17, 17, 26, 0.15) 0px 1px 0px;
-		}
-		.subtext {
-			font-size: 20px;
-			line-height: 27px;
-			font-weight: 400;
-			color: #505050;
-			padding: 0 1rem 1rem 1rem;
-		}
-		article.card:has(> img) {
-
-			border: 2px solid var(--clr-primary-300);
-			box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-
-
-			@container grid-auto-fit (inline-size > calc(30ch * 2 + 1rem)) {
-				grid-column: span 2;
-
-				display: grid;
-				grid-template-columns: subgrid;
-				gap: 0;
-
-				> img {
-					grid-column: 2;
-					grid-row: 1 / 4;
-				}
+			.card:hover > .book > .inner {
+					animation: book-3d-back 0.3s ease forwards;
+			}
+			.card:hover > .book > .shadow {
+					animation: book-shadow-3d-back 0.3s ease forwards;
 			}
 
-			@container grid-auto-fit (inline-size > calc(30ch * 4 + 3rem)) {
+			article.card:hover {
+				box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
+				 rgba(17, 17, 26, 0.15) 0px 1px 0px;
+			}
+			.subtext {
+				font-size: 20px;
+				line-height: 27px;
+				font-weight: 400;
+				color: #505050;
+				padding: 0 1rem 1rem 1rem;
+			}
+			article.card:has(> img) {
 
-				grid-column: span 2;
-				grid-row: span 2;
+				border: 2px solid var(--clr-primary-300);
+				box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
-				> :not(img) {
-					grid-column: 1 / -1;
+
+				@container grid-auto-fit (inline-size > calc(30ch * 2 + 1rem)) {
+					grid-column: span 2;
+
+					display: grid;
+					grid-template-columns: subgrid;
+					gap: 0;
+
+					> img {
+						grid-column: 2;
+						grid-row: 1 / 4;
+					}
 				}
 
-				> img {
-					grid-column: 1 / -1;
-					grid-row: 1;
+				@container grid-auto-fit (inline-size > calc(30ch * 4 + 3rem)) {
+
+					grid-column: span 2;
+					grid-row: span 2;
+
+					> :not(img) {
+						grid-column: 1 / -1;
+					}
+
+					> img {
+						grid-column: 1 / -1;
+						grid-row: 1;
+					}
 				}
 			}
+			h2.book-name {
+				font-family: "EB Garamond", sans-serif;
+			}
 		}
-		h2.book-name {
-			font-family: "EB Garamond", sans-serif;
-		}
-	}
 	}
 }
