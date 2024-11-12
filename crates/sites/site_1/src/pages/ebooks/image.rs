@@ -1,10 +1,5 @@
 use crate::prelude::*;
-use lib_directus::{get_ebook, Ebook};
-
-pub async fn image_view(Path(ebook_id): Path<u32>) -> Result<Markup> {
-	let ebook = get_ebook(ebook_id).await?;
-	Ok(image(&ebook))
-}
+use lib_directus::Ebook;
 
 pub fn image(ebook: &Ebook) -> Markup {
 	html! {

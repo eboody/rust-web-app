@@ -13,6 +13,5 @@ use crate::prelude::*;
 pub fn router() -> Router {
 	Router::new()
 		.route("/menu", get(menu))
-		.route("/image/:id", get(image::image_view))
 		.route("/popup/:id", get(ebook_popup))
 }
