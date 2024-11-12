@@ -11,13 +11,12 @@ pub fn image(ebook: &Ebook) -> Markup {
 			}
 			.shadow {}
 		}
-		style { (styles()) }
+		(styles())
 	}
 }
 
 fn styles() -> PreEscaped<String> {
 	css! {
-
 			@keyframes book-shadow-3d {
 					from {
 							transform: skewx(-45deg) skewy(2deg);

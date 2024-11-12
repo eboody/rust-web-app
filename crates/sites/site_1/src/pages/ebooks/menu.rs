@@ -17,7 +17,7 @@ pub async fn menu() -> Result<Markup> {
 				}
 			}
 		}
-		style { (styles()) }
+		(styles())
 	})
 }
 

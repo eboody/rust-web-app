@@ -43,7 +43,7 @@ pub fn css(input: TokenStream) -> TokenStream {
 	let CssBlock { content } = parse_macro_input!(input as CssBlock);
 
 	let output = quote! {
-		maud::PreEscaped(#content.to_string())
+		html! { style { (maud::PreEscaped(#content.to_string())) } }
 	};
 
 	TokenStream::from(output)
@@ -54,7 +54,7 @@ pub fn js(input: TokenStream) -> TokenStream {
 	let JsBlock { content } = parse_macro_input!(input as JsBlock);
 
 	let output = quote! {
-			maud::PreEscaped(#content.to_string())
+			html! { script { (PreEscaped(#content.to_string())) } }
 	};
 
 	TokenStream::from(output)

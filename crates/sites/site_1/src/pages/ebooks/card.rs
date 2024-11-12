@@ -12,7 +12,7 @@ pub fn card(ebook: &Ebook) -> Markup {
 			p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
 			(button(ebook.get_file_download(), "Download"))
 		}
-		style { (styles()) }
+		(styles())
 	}
 }
 

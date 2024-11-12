@@ -1,27 +1,13 @@
 use crate::prelude::*;
 
 pub fn app_layout(children: Markup) -> Markup {
-	let js = js! {
-		me("#menu").on("click", () => {
-			const expandedMenuSize = "500px 1fr";
-			const isExpanded = me("#layout").style.gridTemplateColumns === expandedMenuSize;
-			if (isExpanded) {
-				me("#layout").style.gridTemplateColumns = "var(--menu-width) 1fr";
-				me("img.logo").style.width = "100px";
-				me("img.logo").src = "/js/assets/tos_dark_small.svg";
-			} else {
-				me("#layout").style.gridTemplateColumns = expandedMenuSize;
-				me("img.logo").src = "/js/assets/tos_dark_large.svg";
-				me("img.logo").style.width = "400px";
-			}
-		});
-	};
-
 	html! {
 		div #layout {
 			div #menu {
 				img.logo src="/js/assets/tos_dark_small.svg"{}
-				div.menu-item {}
+				div.menu-item {
+					img src="/js/assets/books.svg" {}
+				}
 				div.menu-item {}
 				div.menu-item {}
 			}
@@ -32,16 +18,31 @@ pub fn app_layout(children: Markup) -> Markup {
 			}
 		}
 		(styles())
-		script { (js) }
+		(js())
+	}
+}
+
+fn js() -> Markup {
+	js! {
+		me("#menu").on("click", () => {
+			const expandedMenuSize = "500px 1fr";
+			const isExpanded = me("#layout").style.gridTemplateColumns === expandedMenuSize;
+			if (isExpanded) {
+				me("#layout").style.gridTemplateColumns = "var(--menu-width) 1fr";
+				//me("img.logo").style.width = "100px";
+				//me("img.logo").src = "/js/assets/tos_dark_small.svg";
+			} else {
+				me("#layout").style.gridTemplateColumns = expandedMenuSize;
+				//me("img.logo").src = "/js/assets/tos_dark_large.svg";
+				//me("img.logo").style.width = "400px";
+			}
+		});
 	}
 }
 
 fn styles() -> Markup {
-	html! { style{(
-		css! {
-			.blurred {
-			}
-			me {
+	css! {
+		me {
 			--menu-width: 100px;
 			--menu-item-width: 60px;
 			--header-height: 75px;
@@ -88,20 +89,23 @@ fn styles() -> Markup {
 
 				@container (min-width: 120px) {
 					.menu-item {
-						width: 80%;
 					}
 				}
 			}
 			.menu-item {
-				width: var(--menu-item-width);
+				width: 66%;
 				height: var(--menu-item-width);
 				background-color: #555;
 				transition: width 0.2s ease, height 0.2s ease;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
 			}
 			.logo {
 				width: 100px;
 				height: 100px;
 			}
-		}})
-	}}
+		}
+	}
 }

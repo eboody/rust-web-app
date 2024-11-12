@@ -31,8 +31,18 @@ pub async fn ebook_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 				(image(&ebook))
 			}
 		}
-		style { (styles()) }
+		(styles())
+		(js())
 	}))
+}
+
+fn js() -> Markup {
+	js! {
+		me(".no-thanks").on("click", (ev) => {
+			halt(ev);
+			me(ev).send("popup-dismissed");
+		});
+	}
 }
 
 fn styles() -> PreEscaped<String> {
