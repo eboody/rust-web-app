@@ -26,6 +26,12 @@ pub struct Ebook {
 }
 
 impl Ebook {
+	pub fn get_thumbnail(&self, width: u32) -> String {
+		format!(
+			"https://directus.eman.network/assets/{}$thumbnail={width}",
+			self.cover_image
+		)
+	}
 	pub fn get_cover_image(&self) -> String {
 		format!("https://directus.eman.network/assets/{}", self.cover_image)
 	}

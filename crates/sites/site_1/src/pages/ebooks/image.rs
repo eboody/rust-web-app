@@ -140,7 +140,6 @@ fn styles() -> PreEscaped<String> {
 				transform: translate(-55%,0) rotateY(90deg);
 				background: linear-gradient(90deg, #fff 0%, hsl(0, 0%, 80%) 5%, #fff 10%, hsl(0, 0%, 80%) 15%, #fff 20%, hsl(0, 0%, 80%) 25%, #fff 30%, hsl(0, 0%, 80%) 35%, #fff 40%, hsl(0, 0%, 80%) 45%, #fff 50%, hsl(0, 0%, 80%) 55%, #fff 60%, hsl(0, 0%, 80%) 65%, #fff 70%, hsl(0, 0%, 80%) 75%, #fff 80%, hsl(0, 0%, 80%) 85%, #fff 90%, hsl(0, 0%, 80%) 95%, #fff 100%);
 			}
-
 		}
 	}
 }

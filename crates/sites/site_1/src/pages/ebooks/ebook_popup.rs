@@ -1,3 +1,4 @@
+use super::image::image;
 use crate::views::popup;
 use lib_directus::get_ebook;
 
@@ -27,7 +28,7 @@ pub async fn ebook_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 				}
 			}
 			.right-side {
-				.ebook-image hx-get=(format!("/ebooks/image/{}", ebook.id)) hx-trigger="load" hx-swap="outerHTML" {}
+				(image(&ebook))
 			}
 		}
 		style { (styles()) }
