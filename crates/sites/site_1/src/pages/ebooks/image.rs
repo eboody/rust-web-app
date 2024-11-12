@@ -18,6 +18,7 @@ pub fn image(ebook: &Ebook) -> Markup {
 					src=(ebook.get_cover_image())
 					alt=(ebook.name);
 			}
+			.shadow {}
 		}
 		style { (styles()) }
 		script { (js) }
@@ -26,6 +27,22 @@ pub fn image(ebook: &Ebook) -> Markup {
 
 fn styles() -> PreEscaped<String> {
 	css! {
+			@keyframes book-shadow-3d {
+					from {
+							transform: skewX(-45deg) skewY(2deg);
+					}
+					to {
+							transform: skewX(-63deg) skewY(4.5deg);
+					}
+			}
+			@keyframes book-shadow-3d-back {
+					from {
+							transform: skewX(-63deg) skewY(4.5deg);
+					}
+					to {
+							transform: skewX(-45deg) skewY(2deg);
+					}
+			}
 			@keyframes book-3d {
 					from { transform: rotateY(-15deg); }
 					to   { transform: rotateY(-25deg); }
@@ -37,6 +54,8 @@ fn styles() -> PreEscaped<String> {
 			}
 
 			me {
+				--cover-width: 200px;
+
 				.book {
 						--book-thickness: 30px;
 						--cover-color: slategray;
@@ -44,6 +63,30 @@ fn styles() -> PreEscaped<String> {
 						max-width: 250px;
 						margin: 55px auto;
 						transition: max-width 0.3s, --book-thickness 0.3s;
+				}
+
+				.shadow{
+					content: "";
+					position: absolute;
+					left: -2%;
+					top: 85%;
+					z-index: -1;
+					background-color: rgba(0, 0, 0, 0.6);
+					width: 255px;
+					height: 58px;
+					transform-origin: bottom center;
+					transform-style: preserve-3d;
+					transform: skewX(-45deg) skewY(2deg);
+					filter: blur(7px);
+					transform-style: preserve-3d;
+					animation: book-shadow-3d 1s ease forwards;
+				}
+
+				.inner {
+					position: relative;
+					transform-style: preserve-3d;
+					transform: rotateY(-25deg);
+					animation: book-3d 1s ease forwards;
 				}
 
 				.book img {
@@ -93,12 +136,7 @@ fn styles() -> PreEscaped<String> {
 					transform: translate(-55%,0) rotateY(90deg);
 					background: linear-gradient(90deg, #fff 0%, hsl(0, 0%, 94%) 5%, #fff 10%, hsl(0, 0%, 94%) 15%, #fff 20%, hsl(0, 0%, 94%) 25%, #fff 30%, hsl(0, 0%, 94%) 35%, #fff 40%, hsl(0, 0%, 94%) 45%, #fff 50%, hsl(0, 0%, 94%) 55%, #fff 60%, hsl(0, 0%, 94%) 65%, #fff 70%, hsl(0, 0%, 94%) 75%, #fff 80%, hsl(0, 0%, 94%) 85%, #fff 90%, hsl(0, 0%, 94%) 95%, #fff 100%);
 				}
-				.inner {
-					position: relative;
-					transform-style: preserve-3d;
-					transform: rotateY(-25deg);
-					animation: book-3d 1s ease forwards;
-				}
+
 		}
 	}
 }

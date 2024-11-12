@@ -40,17 +40,16 @@ fn styles() -> PreEscaped<String> {
 		.card:hover > .book > .inner {
 				animation: book-3d-back 0.3s ease forwards;
 		}
+		.card:hover > .book > .shadow {
+				animation: book-shadow-3d-back 0.3s ease forwards;
+		}
 
 		article.card:hover {
-				box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
-				 rgba(17, 17, 26, 0.15) 0px 1px 0px;
+			box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
+			 rgba(17, 17, 26, 0.15) 0px 1px 0px;
 		}
-		.subtext {
-			font-size: 20px;
-			line-height: 27px;
-			font-weight: 400;
-			color: #505050;
-			padding: 0 1rem 1rem 1rem;
+		a.download:hover {
+			box-shadow: rgb(255,255,255) 0px 0px 0px 2px, rgb(255,255,255) 0px 0px 0px 3px, rgb(255,255,255) 0px 0px 0px 4px, rgba(0,0,0, 1) 0px 0px 0px 5px;
 		}
 		a.download {
 			background-color: #0x000;
@@ -62,7 +61,15 @@ fn styles() -> PreEscaped<String> {
 			font-size: 24px;
 			padding: 0.5rem 1rem;
 			box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+			transition: box-shadow 0.3s;
 			margin-top: 1rem;
+		}
+		.subtext {
+			font-size: 20px;
+			line-height: 27px;
+			font-weight: 400;
+			color: #505050;
+			padding: 0 1rem 1rem 1rem;
 		}
 		article.card:has(> img) {
 
