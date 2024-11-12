@@ -16,12 +16,20 @@ pub fn card(ebook: &Ebook) -> Markup {
 	}
 }
 
+fn js() -> Markup {
+	js! {
+		me(".card").on("click", (ev) => {
+			//me(ev)
+		});
+	}
+}
+
 fn styles() -> PreEscaped<String> {
 	css! {
 		me {
 			article.card {
-				box-shadow: rgba(17, 12, 46, 0.05) 0px 48px 100px 0px,
-				 rgba(17, 17, 26, 0.1) 0px 1px 0px;
+				box-shadow: rgba(17, 12, 46, 0.03) 0px 48px 100px 0px,
+				 rgba(17, 17, 26, 0.05) 0px 1px 0px;
 				padding: 1rem;
 				transition: transform 0.3s, box-shadow 0.5s;
 				text-align: center;
@@ -46,8 +54,8 @@ fn styles() -> PreEscaped<String> {
 			}
 
 			article.card:hover {
-				box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
-				 rgba(17, 17, 26, 0.15) 0px 1px 0px;
+				box-shadow: rgba(17, 12, 46, 0.2) 0px 48px 100px 0px,
+				 rgba(17, 17, 26, 0.2) 0px 1px 0px;
 			}
 			.subtext {
 				font-size: 20px;

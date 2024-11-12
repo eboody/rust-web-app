@@ -21,7 +21,13 @@ fn js() -> Markup {
 		me(".popup")
 		.on("popup-dismissed", (ev)=>{
 			me(ev).classAdd("vh");
-		})
+		});
+
+		me(".popup-overlay")
+		.on("click", () => me(".popup").send("popup-dismissed"));
+
+		me(".close")
+		.on("click", ()=>me(".popup").send("popup-dismissed"));
 	}
 }
 
