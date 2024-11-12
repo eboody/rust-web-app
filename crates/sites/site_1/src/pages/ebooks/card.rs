@@ -23,7 +23,7 @@ fn styles() -> PreEscaped<String> {
 				box-shadow: rgba(17, 12, 46, 0.05) 0px 48px 100px 0px,
 				 rgba(17, 17, 26, 0.1) 0px 1px 0px;
 				padding: 1rem;
-				transition: transform 0.2s, box-shadow 0.2s;
+				transition: transform 0.3s, box-shadow 0.5s;
 				text-align: center;
 				display: flex;
 				flex-direction: column;
@@ -31,14 +31,18 @@ fn styles() -> PreEscaped<String> {
 				justify-content: space-between;
 
 				@container grid-auto-fit (inline-size < calc(40ch * 2 + 1rem)) {
-					.book-3d {
+					.book {
 							max-width: 200px;
 							--book-thickness: 30px;
 					}
 				}
 			}
+		.card:hover > .book > .inner {
+				animation: book-3d-back 0.3s ease forwards;
+		}
+
 		article.card:hover {
-				box-shadow: rgba(17, 12, 46, 0.10) 0px 48px 100px 0px,
+				box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
 				 rgba(17, 17, 26, 0.15) 0px 1px 0px;
 		}
 		.subtext {

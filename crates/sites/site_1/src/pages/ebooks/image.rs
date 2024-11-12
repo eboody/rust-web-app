@@ -19,13 +19,23 @@ pub fn image(ebook: &Ebook) -> Markup {
 					alt=(ebook.name);
 			}
 		}
-		style { (styles(ebook)) }
+		style { (styles()) }
 		script { (js) }
 	}
 }
 
-fn styles(ebook: &Ebook) -> PreEscaped<String> {
-	let styles = css! {
+fn styles() -> PreEscaped<String> {
+	css! {
+			@keyframes book-3d {
+					from { transform: rotateY(-15deg); }
+					to   { transform: rotateY(-25deg); }
+			}
+
+			@keyframes book-3d-back {
+					from { transform: rotateY(-25deg); }
+					to   { transform: rotateY(-15deg); }
+			}
+
 			me {
 				.book {
 						--book-thickness: 30px;
@@ -35,17 +45,7 @@ fn styles(ebook: &Ebook) -> PreEscaped<String> {
 						margin: 55px auto;
 						transition: max-width 0.3s, --book-thickness 0.3s;
 				}
-				@keyframes book-3d {
-						from { transform: rotateY(-15deg); }
-						to   { transform: rotateY(-25deg); }
-				}
-				@keyframes book-3d-back {
-						from { transform: rotateY(-25deg); }
-						to   { transform: rotateY(-15deg); }
-				}
-			  .book {
-						animation: book-3d-back .3s ease-out forwards;
-				}
+
 				.book img {
 						display: block;
 						width: 100%;
@@ -96,17 +96,9 @@ fn styles(ebook: &Ebook) -> PreEscaped<String> {
 				.inner {
 					position: relative;
 					transform-style: preserve-3d;
-					transform: rotateY(-15deg);
+					transform: rotateY(-25deg);
+					animation: book-3d 1s ease forwards;
 				}
 		}
-	};
-
-	PreEscaped(format!(
-		"{}
-		me {{.inner {{
-			animation: book-3d 1s ease 0.{}s forwards;
-		}}}}",
-		styles.into_string(),
-		ebook.id
-	))
+	}
 }

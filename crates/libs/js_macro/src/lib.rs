@@ -30,6 +30,8 @@ impl Parse for CssBlock {
 			.replace(" - ", "-")
 			.replace("}", "}\n")
 			.replace(">\n", "> ")
+			.replace("@\n", "@")
+			.replace("book:hover.", "book:hover .")
 			.replace("@ ", "@");
 
 		Ok(CssBlock { content: css_code })
