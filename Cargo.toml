@@ -47,5 +47,5 @@ time = {version = "0.3", features = ["formatting", "parsing", "serde"]}
 derive_more = {version = "1.0.0", features = ["from", "display"] }
 
 [workspace.metadata.scripts]
-w = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -w vite-alpine/ -x \"run -p web-server\" & concurrently \"npm --prefix vite-alpine run dev\""
-bundle = "npm --prefix vite-alpine run build"
+w = "crs bundle & pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -w vite-alpine/ -x \"run -p web-server\" & concurrently \"npm --prefix vite-alpine run dev\""
+bundle = "rm -rf web-folder/js && npm --prefix vite-alpine run build"

@@ -26,6 +26,7 @@ impl Parse for CssBlock {
 		let css_code = input.parse::<proc_macro2::TokenStream>()?.to_string();
 
 		let css_code = css_code
+			.replace(" : ", ":")
 			.replace("#0x", "#")
 			.replace(" - ", "-")
 			.replace("}", "}\n")

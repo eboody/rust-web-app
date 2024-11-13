@@ -42,6 +42,13 @@ css! {
 				to   { transform: rotateY(-15deg); }
 		}
 
+		.card:hover > .book > .inner {
+				animation: book-3d-back 0.3s ease forwards;
+		}
+		.card:hover > .book > .shadow {
+				animation: book-shadow-3d-back 0.3s ease forwards;
+		}
+
 		me {
 		.book {
 			--book-thickness: 10px;

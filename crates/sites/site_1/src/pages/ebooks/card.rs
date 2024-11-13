@@ -43,19 +43,13 @@ css! {
 			justify-content: space-between;
 			gap: var(--size-2);
 		}
-		.card:hover > .book > .inner {
-				animation: book-3d-back 0.3s ease forwards;
-		}
-		.card:hover > .book > .shadow {
-				animation: book-shadow-3d-back 0.3s ease forwards;
-		}
 
 		article.card:hover {
 			box-shadow: rgba(17, 12, 46, 0.2) 0px 48px 100px 0px,
 			 rgba(17, 17, 26, 0.2) 0px 1px 0px;
 		}
 		.book-name{
-			font-size: var(--font-size-2);
+			font-size: var(--font-size-4);
 			font-weight: 700;
 			font-family: "Capitolina";
 		}

@@ -9,10 +9,10 @@ pub async fn ebook_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 	Ok(popup(html! {
 		.popup-container {
 			.left-side {
-				h3 { "Free Ebook" }
-				h1.title { (ebook.name.as_str()) }
+				.hook { "Free Ebook" }
+				.title { (ebook.name.as_str()) }
 				@if let Some(sub_text) = &ebook.sub_text {
-					h2.subtext { (sub_text) }
+					.subtext { (sub_text) }
 				}
 				form hx-post="/ebooks/signup" hx-swap="none" trigger="submit" {
 					label { "First Name" }
@@ -49,21 +49,33 @@ css! {
 			display: grid;
 			grid-template-columns: 2fr 1fr;
 			max-height: 700px;
+			max-width: 800px;
 		}
-		h3 {
-			align-self: center;
-			font-size: 24px;
+		.title {
+			font-size: var(--font-size-3);
+			text-align: center;
+		}
+		.subtext {
+			font-size: var(--font-size-1);
+			color: var(--text-2);
+			text-align: center;
+		}
+		.hook {
+			font-size: var(--font-size-2);
 			color: slategray;
+			text-align: center;
 		}
 
 		.left-side {
 			display: grid;
-			text-align: center;
 			grid-template-rows: 20px .5fr 1fr 2fr;
 			padding-inline: 75px;
+			justify-content: center;
 		}
 		.right-side {
 			align-self: center;
+			justify-self: center;
+			transform: scale(1.5);
 		}
 		.button-container {
 			display:flex;
@@ -75,7 +87,7 @@ css! {
 				background-color: transparent;
 				border: none;
 				text-decoration: underline;
-				font-size: 16px;
+				font-size: var(--font-size-1);
 			}
 		}
 		form {
@@ -84,6 +96,7 @@ css! {
 			justify-self: center;
 			max-height: 255px;
 			align-items: baseline;
+			gap: var(--size-1);
 
 			label {
 				align-self: center;
