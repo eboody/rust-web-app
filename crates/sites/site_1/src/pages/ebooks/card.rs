@@ -57,6 +57,7 @@ css! {
 		.book-name{
 			font-size: var(--font-size-2);
 			font-weight: 700;
+			font-family: "Capitolina";
 		}
 		.subtext {
 			font-size: var(--font-size-1);

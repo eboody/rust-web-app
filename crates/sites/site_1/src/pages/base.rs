@@ -44,7 +44,6 @@ pub fn base(children: Markup) -> Markup {
 
 css! {
 	body {
-		font-family: "Poppins", serif;
 		margin: 0;
 		padding: 0;
 	}
