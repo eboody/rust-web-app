@@ -44,13 +44,13 @@ css! {
 
 		me {
 		.book {
-			--book-thickness: 30px;
+			--book-thickness: 10px;
 			--cover-color: slategray;
-			--max-width: 250px;
+			--max-width: 150px;
 
 			perspective: 1000px;
 			max-width: var(--max-width);
-			margin: 55px auto;
+			margin-block: var(--size-5);
 			transition: max-width 0.3s, --book-thickness 0.3s;
 		}
 		.book:hover .inner {
@@ -63,10 +63,10 @@ css! {
 		.shadow{
 			content: "";
 			position: absolute;
-			left: -2%;
-			top: 85%;
+			left: 3%;
+			top: 71%;
 			z-index: -1;
-			background-color: rgba(0, 0, 0, 0.6);
+			background-color: rgba(0, 0, 0, 0.2);
 			width: var(--max-width);
 			height: 58px;
 			transform-origin: bottom center;

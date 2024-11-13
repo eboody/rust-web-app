@@ -4,12 +4,12 @@
     "src": "alpine_long.svg"
   },
   "index.html": {
-    "file": "assets/index-4M3bfbhh.js",
+    "file": "assets/index-DF2JryDO.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "css": [
-      "assets/index-CI1q28-7.css"
+      "assets/index-CdPI69S2.css"
     ],
     "assets": [
       "assets/alpine_long-ECqVBL3J.svg"

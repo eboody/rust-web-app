@@ -50,10 +50,9 @@ js! {
 
 css! {
 	me {
-		--menu-width: 100px;//100px;
-		--menu-item-width: 60px;
-		--header-height: 0px;//75px;
-		--menu-padding-inline: calc((var(--menu-width) - var(--menu-item-width)) / 2);
+		--menu-width: var(--size-8);
+		--menu-item-width: var(--size-5);
+		--header-height: var(--size-7);
 
 		#layout {
 			margin: 0;
@@ -70,15 +69,15 @@ css! {
 		}
 		#header {
 			grid-area: header;
-			background-color: #fff;
-			border-bottom: 1px solid #ddd;
+			background-color: var(--surface-1);
+			border-bottom: 1px solid var(--surface-4);
 			box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 		}
 		#content {
 			grid-area: content;
-			background-color: #fff;
+			background-color: var(--surface-1);
 			margin: 0;
-			padding: 25px;
+			padding: var(--size-fluid-4);
 			overflow: scroll;
 		}
 		#menu {
@@ -86,27 +85,21 @@ css! {
 
 			grid-area: menu;
 
-			background-color: #000;
+			background-color: black;
 
 			display: grid;
 			align-content: start;
+			align-items: center;
 			justify-items: center;
+
 			grid-template-rows: calc(var(--menu-item-width) + 25px) repeat(4, var(--menu-item-width)) 1fr;
 
-			gap: 10px;
-
-			padding: var(--menu-padding-inline);
-			padding-top: 25px;
-			align-items: center;
+			gap: var(--size-fluid-2);
+			padding-block: var(--size-fluid-2);
 			box-shadow: rgba(0, 0, 0, 0.4) 2px 0px 4px, rgba(0, 0, 0, 0.3) 7px 0px 13px -3px;
-
-			@container (min-width: 120px) {
-				.menu-item {
-				}
-			}
 		}
 		.menu-item {
-			width: 66%;
+			width: var(--menu-item-width);
 			height: var(--menu-item-width);
 			transition: width 0.2s ease, height 0.2s ease;
 			display: flex;
@@ -116,16 +109,14 @@ css! {
 		}
 		.menu-item.bottom {
 			align-self: end;
-			margin-bottom: 25px;
 			border: 1px solid white;
 			border-radius: 50%;
-			height: 50px;
-			width: 50px;
+			height: var(--menu-item-width);
+			width: var(--menu-item-width);
 		}
 		.logo {
-			width: 100px;
-			height: 100px;
-			gap: 20px;
+			width: calc(var(--menu-item-width) * 2);
+			height: calc(var(--menu-item-width) * 2);
 		}
 	}
 }

@@ -31,21 +31,17 @@ css! {
 		article.card {
 			box-shadow: rgba(17, 12, 46, 0.03) 0px 48px 100px 0px,
 			 rgba(17, 17, 26, 0.05) 0px 1px 0px;
-			padding: 1rem;
+
+			padding: var(--size-1);
+			padding-bottom: var(--size-7);
+			padding-inline: var(--size-7);
 			transition: transform 0.3s, box-shadow 0.5s;
 			text-align: center;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: space-between;
-			padding-bottom: 3rem;
-
-			@container grid-auto-fit (inline-size < calc(40ch * 2 + 1rem)) {
-				.book {
-						max-width: 200px;
-						--book-thickness: 30px;
-				}
-			}
+			gap: var(--size-2);
 		}
 		.card:hover > .book > .inner {
 				animation: book-3d-back 0.3s ease forwards;
@@ -58,12 +54,13 @@ css! {
 			box-shadow: rgba(17, 12, 46, 0.2) 0px 48px 100px 0px,
 			 rgba(17, 17, 26, 0.2) 0px 1px 0px;
 		}
+		.book-name{
+			font-size: var(--font-size-2);
+			font-weight: 700;
+		}
 		.subtext {
-			font-size: 20px;
-			line-height: 27px;
+			font-size: var(--font-size-1);
 			font-weight: 400;
-			color: #505050;
-			padding: 0 1rem 1rem 1rem;
 		}
 		article.card:has(> img) {
 
@@ -98,9 +95,6 @@ css! {
 					grid-row: 1;
 				}
 			}
-		}
-		h2.book-name {
-			font-family: "EB Garamond", sans-serif;
 		}
 	}
 }

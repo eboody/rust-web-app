@@ -8,6 +8,7 @@ struct TokenResponse {
 }
 
 #[derive(Deserialize)]
+#[allow(unused)]
 struct TokenData {
 	access_token: String,
 	expires: u64,

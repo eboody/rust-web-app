@@ -13,7 +13,7 @@ pub fn base(children: Markup) -> Markup {
 	let main_js = manifest["index.html"]["file"]
 		.as_str()
 		.expect("index.html not found in manifest");
-	let _main_css = manifest["index.html"]["css"][0]
+	let main_css = manifest["index.html"]["css"][0]
 		.as_str()
 		.expect("index.css not found in manifest");
 
@@ -23,6 +23,7 @@ pub fn base(children: Markup) -> Markup {
 			head {
 				title { "SITE1" }
 				script type="module" src=(format!("/js/{}", main_js)) {}
+				link rel="stylesheet" href=(format!("/js/{}", main_css)) {}
 				script src="https://unpkg.com/htmx.org@2.0.3" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js" {}
