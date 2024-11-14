@@ -1,4 +1,4 @@
-use super::image::image;
+use super::image;
 use crate::views::popup;
 use lib_directus::get_ebook;
 
@@ -26,7 +26,7 @@ pub async fn ebook_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 				}
 			}
 			.right-side {
-				(image(&ebook))
+				(&ebook)
 			}
 		}
 		(css())

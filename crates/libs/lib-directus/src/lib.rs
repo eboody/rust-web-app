@@ -1,3 +1,4 @@
+use maud::{html, Markup, Render};
 use reqwest::{
 	header::{HeaderMap, HeaderValue, AUTHORIZATION},
 	Error,
@@ -23,6 +24,20 @@ pub struct Ebook {
 	pub times_hovered_over: u32,
 	pub times_downloaded: u32,
 	pub hovers: Option<serde_json::Value>,
+}
+
+impl Render for Ebook {
+	fn render(&self) -> Markup {
+		let ebook = &self;
+		html! {
+			.book {
+				.inner {
+					img.cover src=(ebook.get_thumbnail(100)) alt=(ebook.name) {}
+				}
+				.shadow {}
+			}
+		}
+	}
 }
 
 impl Ebook {

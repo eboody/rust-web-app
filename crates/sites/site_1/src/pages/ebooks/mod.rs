@@ -5,7 +5,7 @@ mod menu;
 
 pub use card::card;
 pub use ebook_popup::ebook_popup;
-pub use image::image;
+pub use image::*;
 pub use menu::menu;
 
 use crate::prelude::*;

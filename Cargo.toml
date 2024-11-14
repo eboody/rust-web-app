@@ -49,3 +49,4 @@ derive_more = {version = "1.0.0", features = ["from", "display"] }
 [workspace.metadata.scripts]
 w = "crs bundle & pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -w vite-alpine/ -x \"run -p web-server\" & concurrently \"npm --prefix vite-alpine run dev\""
 bundle = "rm -rf web-folder/js && npm --prefix vite-alpine run build"
+devdb = "docker run --rm --name pg -p 5432:5432 -e POSTGRES_PASSWORD=welcome postgres:16"

@@ -1,15 +1,20 @@
 use crate::prelude::*;
 use lib_directus::Ebook;
 
-pub fn image(ebook: &Ebook) -> Markup {
-	html! {
-		.book {
-			.inner {
-				img.cover src=(ebook.get_thumbnail(100)) alt=(ebook.name) {}
+pub struct Image<'a>(pub &'a Ebook);
+
+impl<'a> Render for Image<'a> {
+	fn render(&self) -> Markup {
+		let ebook = &self.0;
+		html! {
+				.book {
+				.inner {
+					img.cover src=(ebook.get_thumbnail(100)) alt=(ebook.name) {}
 			}
 			.shadow {}
 		}
-		(css())
+			(css())
+		}
 	}
 }
 

@@ -1,5 +1,5 @@
 use super::image;
-use crate::prelude::*;
+use crate::{pages::ebooks, prelude::*};
 use lib_directus::Ebook;
 
 pub fn card(ebook: &Ebook) -> Markup {
@@ -8,7 +8,7 @@ pub fn card(ebook: &Ebook) -> Markup {
 		id=(&ebook.id)
 		hx_patch=(format!("https://tosapp.eman.network/ebooks/{}", ebook.id))
 		hx_trigger="mouseover" {
-			(image(ebook))
+			(ebook)
 			h2 .book-name { (ebook.name) }
 			p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
 			(Button::Primary { href: ebook.get_file_download(), text: "Download".to_owned() })
