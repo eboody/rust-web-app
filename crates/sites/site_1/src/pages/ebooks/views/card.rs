@@ -42,8 +42,8 @@ css! {
 				rgba(17, 12, 46, 0.03) 0px 48px 100px 0px,
 				rgba(17, 17, 26, 0.05) 0px 1px 0px;
 
-			padding: var(--size-1);
 			padding-bottom: var(--size-7);
+			padding-top: var(--size-4);
 			@media (max-width: 30rem) {
 				padding: var(--size-2);
 				padding-bottom: var(--size-3);
@@ -57,7 +57,7 @@ css! {
 			flex-direction: column;
 			align-items: center;
 			justify-content: space-between;
-			gap: var(--size-2);
+			gap: var(--size-3);
 		}
 
 		article.card:hover {

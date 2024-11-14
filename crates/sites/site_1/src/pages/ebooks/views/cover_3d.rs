@@ -87,7 +87,6 @@ css! {
 
 			perspective: 1000px;
 			max-width: var(--max-width);
-			margin-block: var(--size-5);
 			transition:
 				max-width 0.3s,
 				--book-thickness 0.3s;

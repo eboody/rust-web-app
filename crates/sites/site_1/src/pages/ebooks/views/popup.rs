@@ -99,12 +99,20 @@ css! {
 			color: var(--text-2);
 			text-align: center;
 			padding: var(--size-5) var(--size-10);
+			@media (max-width: 30rem) {
+				padding: var(--size-4) var(--size-2);
+			}
 		}
 		.book {
 			grid-area: book;
 			align-self: center;
 			justify-self: center;
 			transform: scale(1.3);
+			@media (max-width: 30rem) {
+				transform: scale(1);
+				margin-bottom: var(--size-5);
+				margin-top: var(--size-1);
+			}
 		}
 		.button-container {
 			display: flex;
