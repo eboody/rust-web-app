@@ -1,10 +1,8 @@
-use maud::{html, Markup, Render};
 use reqwest::{
 	header::{HeaderMap, HeaderValue, AUTHORIZATION},
 	Error,
 };
 use serde::{Deserialize, Serialize};
-use serde_json_debugging::DebugDeserialize;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Ebook {
@@ -24,20 +22,6 @@ pub struct Ebook {
 	pub times_hovered_over: u32,
 	pub times_downloaded: u32,
 	pub hovers: Option<serde_json::Value>,
-}
-
-impl Render for Ebook {
-	fn render(&self) -> Markup {
-		let ebook = &self;
-		html! {
-			.book {
-				.inner {
-					img.cover src=(ebook.get_thumbnail(100)) alt=(ebook.name) {}
-				}
-				.shadow {}
-			}
-		}
-	}
 }
 
 impl Ebook {
@@ -79,8 +63,6 @@ pub async fn get_ebooks() -> Result<Vec<Ebook>, Error> {
 		.text()
 		.await?;
 
-	dbg!("{}", &token);
-
 	let client = reqwest::Client::new();
 	let mut headers = HeaderMap::new();
 	headers.insert(
@@ -88,7 +70,6 @@ pub async fn get_ebooks() -> Result<Vec<Ebook>, Error> {
 		HeaderValue::from_str(&format!("Bearer {}", token)).unwrap(),
 	);
 
-	// Send the GET request
 	let response = client.get(url).headers(headers).send().await?;
 	let res: ResponseVecData = response.json().await?;
 	let ebooks = res.to_ebooks();
@@ -103,8 +84,6 @@ pub async fn get_ebook(id: u32) -> Result<Ebook, Error> {
 		.text()
 		.await?;
 
-	dbg!("{}", &token);
-
 	let client = reqwest::Client::new();
 	let mut headers = HeaderMap::new();
 	headers.insert(
@@ -112,11 +91,9 @@ pub async fn get_ebook(id: u32) -> Result<Ebook, Error> {
 		HeaderValue::from_str(&format!("Bearer {}", token)).unwrap(),
 	);
 
-	// Send the GET request
 	let response = client.get(url).headers(headers).send().await?;
-	let res: DebugDeserialize<ResponseData> = response.json().await?;
-	dbg!("{}", &res);
-	let ebook = res.0.data;
+	let res: ResponseData = response.json().await?;
+	let ebook = res.data;
 
 	Ok(ebook)
 }

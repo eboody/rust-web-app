@@ -1,16 +1,22 @@
 use crate::prelude::*;
 
-pub fn popup(modal_content: Markup) -> Markup {
-	html! {
-		.popup.fade-in {
-			.popup-overlay {}
-			.popup-content {
-				img.close src="/assets/close.svg" { }
-				(modal_content)
+pub struct Popup {
+	pub content: Markup,
+}
+
+impl Render for Popup {
+	fn render(&self) -> Markup {
+		html! {
+			.popup.fade-in {
+				.popup-overlay {}
+				.popup-content {
+					img.close src="/assets/close.svg" { }
+					(self.content)
+				}
 			}
+			(css())
+			(js())
 		}
-		(css())
-		(js())
 	}
 }
 
@@ -58,9 +64,14 @@ css! {
 			background-color: #fefefe;
 			margin: 15% auto;
 			padding: 50px;
+			@media (max-width: 30rem) {
+				padding: 10px;
+				margin: 5% auto;
+			}
 			border: 1px solid #888;
 			overflow-x: hidden;
 			width: fit-content;
+			max-width: 90%;
 
 			animation:
 				var(--animation-fade-in) forwards,
@@ -84,12 +95,17 @@ css! {
 			position: absolute;
 			top: 0;
 			right: 0;
-			padding: 10px;
 			cursor: pointer;
 			transition: background-color 0.3s;
+			padding: 10px;
 
 			&:hover {
 				background-color: var(--brand);
+			}
+
+			@media (max-width: 30rem) {
+				transform: scale(0.5);
+				padding: 0;
 			}
 		}
 	}

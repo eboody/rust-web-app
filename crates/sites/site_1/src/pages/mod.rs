@@ -1,7 +1,4 @@
 pub mod ebooks;
 pub mod layouts;
+pub mod routes;
 pub mod views;
-
-mod base;
-
-pub use base::base;

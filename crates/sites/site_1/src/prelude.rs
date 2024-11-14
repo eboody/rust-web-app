@@ -1,10 +1,10 @@
 pub use crate::error::{Error, Result};
 pub use crate::views::*;
 pub use axum::{
-	extract::Path,
+	extract::{Form, Path},
 	http::HeaderValue,
 	response::{IntoResponse, Response},
-	routing::get,
+	routing::{get, post},
 	Router,
 };
 pub use js_macro::{css, js};

@@ -1,14 +1,23 @@
-use super::image;
 use crate::{pages::ebooks, prelude::*};
 use lib_directus::Ebook;
 
-pub fn card(ebook: &Ebook) -> Markup {
+pub struct Card<'a> {
+	pub ebook: &'a Ebook,
+}
+
+impl<'a> Render for Card<'a> {
+	fn render(&self) -> Markup {
+		card(self.ebook)
+	}
+}
+
+fn card(ebook: &Ebook) -> Markup {
 	html! {
 		article.card
 		id=(&ebook.id)
 		hx_patch=(format!("https://tosapp.eman.network/ebooks/{}", ebook.id))
 		hx_trigger="mouseover" {
-			(ebook)
+			(ebooks::Cover3D{ ebook })
 			h2 .book-name { (ebook.name) }
 			p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
 			(Button::Primary { href: ebook.get_file_download(), text: "Download".to_owned() })
@@ -35,6 +44,10 @@ css! {
 
 			padding: var(--size-1);
 			padding-bottom: var(--size-7);
+			@media (max-width: 30rem) {
+				padding: var(--size-2);
+				padding-bottom: var(--size-3);
+			}
 			padding-inline: var(--size-7);
 			transition:
 				transform 0.3s,

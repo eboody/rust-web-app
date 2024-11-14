@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub fn app_layout(children: Markup) -> Markup {
+pub fn app(children: Markup) -> Markup {
 	html! {
 		div #layout {
 			div #menu {
@@ -37,30 +37,31 @@ pub fn app_layout(children: Markup) -> Markup {
 
 js! {
 	me("#menu").on("click", () => {
-		const expandedMenuSize = "500px 1fr";
+		const expandedMenuSize = "300px 1fr";
 		const isExpanded = me("#layout").style.gridTemplateColumns === expandedMenuSize;
 		if (isExpanded) {
 			me("#layout").style.gridTemplateColumns = "var(--menu-width) 1fr";
-			//me("img.logo").style.width = "100px";
-			//me("img.logo").src = "/js/assets/tos_dark_small.svg";
+			me("img.logo").src = "assets/tos_dark_small.svg";
+			me("img.logo").style.padding = "0";
+			me(".img-bg").style.transform= "scaleX(1)";
 		} else {
 			me("#layout").style.gridTemplateColumns = expandedMenuSize;
-			//me("img.logo").src = "/js/assets/tos_dark_large.svg";
-			//me("img.logo").style.width = "400px";
+			me("img.logo").src = "assets/tos_dark_large.svg";
+			me("img.logo").style.padding = "var(--size-2)";
+			me(".img-bg").style.transform= "scaleX(3)";
 		}
 	});
 }
 
 css! {
 	me {
-		--menu-width: var(--size-8);
+		--menu-width: 0px;//var(--size-8);
 		--menu-item-width: var(--size-5);
-		--header-height: var(--size-7);
+		--header-height: 0px; //var(--size-7);
 
 		.logo-container {
 
 			position: relative;
-			width: var(--menu-width);
 			height: var(--menu-width);
 			display: flex;
 			justify-content: center;
@@ -68,7 +69,6 @@ css! {
 			z-index: 1;
 
 			.logo {
-				width: calc(var(--menu-item-width) * 2);
 				height: calc(var(--menu-item-width) * 2);
 				display: flex;
 				justify-content: center;
@@ -87,6 +87,7 @@ css! {
 				position: absolute;
 				z-index: 0;
 				top: -4px;
+				transition: transform 0.2s ease;
 			}
 		}
 
@@ -117,6 +118,9 @@ css! {
 			margin: 0;
 			padding: var(--size-fluid-4);
 			overflow: scroll;
+			@media (max-width: 30rem) {
+				padding: var(--size-0);
+			}
 		}
 		#menu {
 			container-type: inline-size;

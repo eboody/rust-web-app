@@ -1,11 +1,13 @@
 use crate::prelude::*;
 use lib_directus::Ebook;
 
-pub struct Image<'a>(pub &'a Ebook);
+pub struct Cover3D<'a> {
+	pub ebook: &'a Ebook,
+}
 
-impl<'a> Render for Image<'a> {
+impl<'a> Render for Cover3D<'a> {
 	fn render(&self) -> Markup {
-		let ebook = &self.0;
+		let ebook = &self.ebook;
 		html! {
 				.book {
 				.inner {
@@ -53,6 +55,23 @@ css! {
 		}
 	}
 
+	@keyframes book-spine {
+		from {
+			transform: translateX(0);
+		}
+		to {
+			transform: translateX(-3px);
+		}
+	}
+	@keyframes book-spine-back {
+		from {
+			transform: translateX(-3px);
+		}
+		to {
+			transform: translateX(0);
+		}
+	}
+
 	.card:hover > .book > .inner {
 		animation: book-3d-back 0.3s ease forwards;
 	}
@@ -76,8 +95,12 @@ css! {
 		.book:hover .inner {
 			animation: book-3d-back 0.3s ease forwards;
 		}
+
 		.book:hover .shadow {
 			animation: book-shadow-3d-back 0.3s ease forwards;
+		}
+		.book:hover::after {
+			animation: book-spine 0.3s ease forwards;
 		}
 
 		.shadow {
@@ -118,10 +141,11 @@ css! {
 		.book::after {
 			content: "";
 			position: absolute;
-			inset: 1px;
-			height: 99%;
+			inset: 3px;
+			height: 97%;
 			border-radius: 3px;
 			pointer-events: none;
+			animation: book-spine-back 1s ease forwards;
 			background: linear-gradient(
 				90deg,
 				rgba(0, 0, 0, 0.118) 0.65%,
