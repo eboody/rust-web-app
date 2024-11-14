@@ -16,18 +16,18 @@ pub async fn menu() -> Result<Markup> {
 				}
 			}
 		}
-		(styles())
+		(css())
 	})
 }
 
 css! {
-		me {
-			.grid-auto-fit {
-				display: grid;
-				gap: var(--size-fluid-3);
-				grid-template-columns: repeat(auto-fit, minmax(min(35ch, 100%), 1fr));
+	me {
+		.grid-auto-fit {
+			display: grid;
+			gap: var(--size-fluid-3);
+			grid-template-columns: repeat(auto-fit, minmax(min(35ch, 100%), 1fr));
 
-				container: grid-auto-fit / inline-size;
-			}
+			container: grid-auto-fit / inline-size;
 		}
+	}
 }

@@ -44,7 +44,7 @@ pub fn css(input: TokenStream) -> TokenStream {
 	let CssBlock { content } = parse_macro_input!(input as CssBlock);
 
 	let output = quote! {
-		fn styles() -> Markup {
+		fn css() -> Markup {
 			html! { style { (maud::PreEscaped(#content.to_string())) } }
 		}
 	};

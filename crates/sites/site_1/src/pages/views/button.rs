@@ -1,29 +1,53 @@
 use crate::prelude::*;
 
-pub fn button(href: impl Into<String>, text: impl Into<String>) -> Markup {
-	html! {
-		a.download href=(href.into()) { (text.into()) }
-		(styles())
+pub enum Button {
+	Primary { href: String, text: String },
+	Secondary { href: String, text: String },
+}
+
+impl Render for Button {
+	fn render(&self) -> Markup {
+		html! {
+			@match self {
+				Button::Primary { href, text } =>
+					a href=(href) download=(text) {
+						button.primary {
+							(text)
+						}
+					},
+				Button::Secondary { href, text } =>
+					a href=(href) download=(text) {
+						button.secondary { (text) }
+					}
+			}
+			(css())
+		}
 	}
 }
 
 css! {
 	me {
-		a.download:hover {
-			box-shadow: rgb(255,255,255) 0px 0px 0px 2px, rgb(255,255,255) 0px 0px 0px 3px, rgb(255,255,255) 0px 0px 0px 4px, rgba(0,0,0, 1) 0px 0px 0px 5px;
+		button {
+			text-shadow: none;
+			transition: box-shadow 0.3s;
+
+			&:hover {
+				box-shadow:
+					rgb(255, 255, 255) 0px 0px 0px 2px,
+					rgb(255, 255, 255) 0px 0px 0px 3px,
+					rgb(255, 255, 255) 0px 0px 0px 4px,
+					rgba(0, 0, 0, 1) 0px 0px 0px 5px;
+			}
 		}
-		a.download {
+		button.primary {
 			background-color: #0x000;
 			color: white;
-			text-decoration: none;
-			display: inline-block;
-			text-align: center;
-			max-width: 50%;
-			font-size: var(--font-size-1);
-			padding: var(--size-1) var(--size-2);
-			box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-			transition: box-shadow 0.3s;
-			margin-top: 1rem;
+		}
+
+		button.secondary {
+			background-color: surface;
+			color: var(--text-2);
+			border: 1px solid var(--text-2);
 		}
 	}
 }

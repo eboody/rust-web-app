@@ -5,51 +5,57 @@ pub fn image(ebook: &Ebook) -> Markup {
 	html! {
 		.book {
 			.inner {
-				img.cover
-					src=(ebook.get_cover_image())
-					alt=(ebook.name);
+				img.cover src=(ebook.get_thumbnail(100)) alt=(ebook.name) {}
 			}
 			.shadow {}
 		}
-		(styles())
+		(css())
 	}
 }
 
 css! {
-		@keyframes book-shadow-3d {
-				from {
-						transform: skewx(-45deg) skewy(2deg);
-				}
-				to {
-						transform: skewX(-63deg) skewY(4.5deg);
-				}
+	@keyframes book-shadow-3d {
+		from {
+			transform: skewx(-45deg) skewy(2deg);
 		}
-		@keyframes book-shadow-3d-back {
-				from {
-						transform: skewX(-63deg) skewY(4.5deg);
-				}
-				to {
-						transform: skewX(-45deg) skewY(2deg);
-				}
+		to {
+			transform: skewX(-63deg) skewY(4.5deg);
 		}
-		@keyframes book-3d {
-				from { transform: rotateY(-15deg); }
-				to   { transform: rotateY(-25deg); }
+	}
+	@keyframes book-shadow-3d-back {
+		from {
+			transform: skewX(-63deg) skewY(4.5deg);
 		}
+		to {
+			transform: skewX(-45deg) skewY(2deg);
+		}
+	}
+	@keyframes book-3d {
+		from {
+			transform: rotateY(-15deg);
+		}
+		to {
+			transform: rotateY(-25deg);
+		}
+	}
 
-		@keyframes book-3d-back {
-				from { transform: rotateY(-25deg); }
-				to   { transform: rotateY(-15deg); }
+	@keyframes book-3d-back {
+		from {
+			transform: rotateY(-25deg);
 		}
+		to {
+			transform: rotateY(-15deg);
+		}
+	}
 
-		.card:hover > .book > .inner {
-				animation: book-3d-back 0.3s ease forwards;
-		}
-		.card:hover > .book > .shadow {
-				animation: book-shadow-3d-back 0.3s ease forwards;
-		}
+	.card:hover > .book > .inner {
+		animation: book-3d-back 0.3s ease forwards;
+	}
+	.card:hover > .book > .shadow {
+		animation: book-shadow-3d-back 0.3s ease forwards;
+	}
 
-		me {
+	me {
 		.book {
 			--book-thickness: 10px;
 			--cover-color: slategray;
@@ -58,7 +64,9 @@ css! {
 			perspective: 1000px;
 			max-width: var(--max-width);
 			margin-block: var(--size-5);
-			transition: max-width 0.3s, --book-thickness 0.3s;
+			transition:
+				max-width 0.3s,
+				--book-thickness 0.3s;
 		}
 		.book:hover .inner {
 			animation: book-3d-back 0.3s ease forwards;
@@ -67,7 +75,7 @@ css! {
 			animation: book-shadow-3d-back 0.3s ease forwards;
 		}
 
-		.shadow{
+		.shadow {
 			content: "";
 			position: absolute;
 			left: 3%;
@@ -91,31 +99,33 @@ css! {
 			animation: book-3d 1s ease forwards;
 		}
 
-		.book img {
-				display: block;
-				width: 100%;
-				height: auto;
-				border-radius: 0px 2px 2px 0px;
-				transform: translateZ(var(--book-thickness));
-				z-index:2;
-				box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+		.book img.cover {
+			display: block;
+			width: 100%;
+			height: auto;
+			border-radius: 0px 2px 2px 0px;
+			transform: translateZ(var(--book-thickness));
+			z-index: 2;
+			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
+			background: no-repeat center / contain url("/assets/tos_dark_small.svg")
+				#000;
 		}
 		.book::after {
-				content: "";
-				position: absolute;
-				inset: 1px;
-				height: 99%;
-				border-radius: 3px;
-				pointer-events: none;
-				background: linear-gradient(
-						90deg,
-						rgba(0, 0, 0, 0.118) 0.65%,
-						rgba(255, 255, 255, 0.2) 1.53%,
-						rgba(255, 255, 255, 0.1) 2.38%,
-						rgba(0, 0, 0, 0.05) 3.26%,
-						rgba(255, 255, 255, 0.14) 5.68%,
-						rgba(244, 244, 244, 0) 6.96%
-				);
+			content: "";
+			position: absolute;
+			inset: 1px;
+			height: 99%;
+			border-radius: 3px;
+			pointer-events: none;
+			background: linear-gradient(
+				90deg,
+				rgba(0, 0, 0, 0.118) 0.65%,
+				rgba(255, 255, 255, 0.2) 1.53%,
+				rgba(255, 255, 255, 0.1) 2.38%,
+				rgba(0, 0, 0, 0.05) 3.26%,
+				rgba(255, 255, 255, 0.14) 5.68%,
+				rgba(244, 244, 244, 0) 6.96%
+			);
 		}
 		.inner::after {
 			content: "";
@@ -127,18 +137,41 @@ css! {
 			transform: translateZ(calc(var(--book-thickness) * -1));
 			background-color: var(--cover-color);
 			border-radius: 0 2px 2px 0;
-			box-shadow: -10px 0 50px 10px rgba(0,0,0, 0.3);
+			box-shadow: -10px 0 50px 10px rgba(0, 0, 0, 0.3);
 		}
 		.inner::before {
 			position: absolute;
-			content: ' ';
+			content: " ";
 			left: 100%;
 			top: 1%;
 			width: calc(var(--book-thickness) * 2);
 			height: 98%;
 			z-index: 1;
-			transform: translate(-55%,0) rotateY(90deg);
-			background: linear-gradient(90deg, #fff 0%, hsl(0, 0%, 80%) 5%, #fff 10%, hsl(0, 0%, 80%) 15%, #fff 20%, hsl(0, 0%, 80%) 25%, #fff 30%, hsl(0, 0%, 80%) 35%, #fff 40%, hsl(0, 0%, 80%) 45%, #fff 50%, hsl(0, 0%, 80%) 55%, #fff 60%, hsl(0, 0%, 80%) 65%, #fff 70%, hsl(0, 0%, 80%) 75%, #fff 80%, hsl(0, 0%, 80%) 85%, #fff 90%, hsl(0, 0%, 80%) 95%, #fff 100%);
+			transform: translate(-55%, 0) rotateY(90deg);
+			background: linear-gradient(
+				90deg,
+				#fff 0%,
+				hsl(0, 0%, 80%) 5%,
+				#fff 10%,
+				hsl(0, 0%, 80%) 15%,
+				#fff 20%,
+				hsl(0, 0%, 80%) 25%,
+				#fff 30%,
+				hsl(0, 0%, 80%) 35%,
+				#fff 40%,
+				hsl(0, 0%, 80%) 45%,
+				#fff 50%,
+				hsl(0, 0%, 80%) 55%,
+				#fff 60%,
+				hsl(0, 0%, 80%) 65%,
+				#fff 70%,
+				hsl(0, 0%, 80%) 75%,
+				#fff 80%,
+				hsl(0, 0%, 80%) 85%,
+				#fff 90%,
+				hsl(0, 0%, 80%) 95%,
+				#fff 100%
+			);
 		}
 	}
 }

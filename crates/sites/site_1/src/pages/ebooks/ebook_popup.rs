@@ -20,10 +20,8 @@ pub async fn ebook_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 					label { "Last Name" }
 					input type="email" placeholder="Email" {}
 					.button-container{
-						(button(&ebook.get_file_download(), "Download"))
-						button.no-thanks {
-							"No Thanks"
-						}
+						(Button::Primary { href: ebook.get_file_download(), text: "Download".to_owned() })
+						(Button::Secondary { href: "#".to_owned(), text: "No Thanks".to_owned() })
 					}
 				}
 			}
@@ -31,13 +29,13 @@ pub async fn ebook_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 				(image(&ebook))
 			}
 		}
-		(styles())
+		(css())
 		(js())
 	}))
 }
 
 js! {
-	me(".no-thanks").on("click", (ev) => {
+	me(".secondary").on("click", (ev) => {
 		halt(ev);
 		me(ev).send("popup-dismissed");
 	});
@@ -81,13 +79,13 @@ css! {
 			display:flex;
 			flex-direction: column;
 			align-items: center;
-			gap: 1rem;
+			margin-top: var(--size-6);
+			gap: var(--size-3);
 
 			.no-thanks {
 				background-color: transparent;
-				border: none;
-				text-decoration: underline;
-				font-size: var(--font-size-1);
+				color: var(--text-2);
+				border: 1px solid var(--text-2);
 			}
 		}
 		form {
@@ -100,12 +98,10 @@ css! {
 
 			label {
 				align-self: center;
-				max-height: 30px;
 			}
 
 			input {
-				padding: 5px;
-				max-height: 30px;
+				padding: var(--size-2);
 			}
 		}
 	}

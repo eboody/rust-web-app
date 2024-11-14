@@ -14,6 +14,6 @@ pub fn router() -> Router {
 async fn get_slash() -> Result<Markup> {
 	Ok(pages::base(layouts::app_layout(html! {
 		div hx-get="/ebooks/popup/3" hx-trigger="load" hx-swap="outerHTML" {}
-		div hx-get="/ebooks/menu" hx-trigger="load" hx-swap="outerHTML" {}
+		(pages::ebooks::menu().await?)
 	})))
 }

@@ -1,6 +1,5 @@
 mod button;
 mod popup;
 
-pub use button::button;
-pub use popup::popup;
-
+pub use button::*;
+pub use popup::*;

@@ -8,5 +8,5 @@ pub use axum::{
 	Router,
 };
 pub use js_macro::{css, js};
-pub use maud::{html, Markup, PreEscaped, DOCTYPE};
+pub use maud::{html, Markup, PreEscaped, Render, DOCTYPE};
 pub use serde_json::Value;

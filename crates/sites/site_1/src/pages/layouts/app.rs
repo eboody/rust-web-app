@@ -4,21 +4,24 @@ pub fn app_layout(children: Markup) -> Markup {
 	html! {
 		div #layout {
 			div #menu {
-				img.logo src="/js/assets/tos_dark_small.svg"{}
+				div.logo-container {
+					.img-bg {}
+					img.logo src="/assets/tos_dark_small.svg"{}
+				}
 				div.menu-item.articles {
-					img src="/js/assets/article.svg" {}
+					img src="/assets/article.svg" {}
 				}
 				div.menu-item.bookmark {
-					img src="/js/assets/bookmark.svg" {}
+					img src="/assets/bookmark.svg" {}
 				}
 				div.menu-item.gift {
-					img src="/js/assets/gift.svg" {}
+					img src="/assets/gift.svg" {}
 				}
 				div.menu-item.books {
-					img src="/js/assets/books.svg" {}
+					img src="/assets/books.svg" {}
 				}
 				div.menu-item.bottom {
-					img src="/js/assets/user.svg" {}
+					img src="/assets/user.svg" {}
 				}
 			}
 			main #content {
@@ -27,7 +30,7 @@ pub fn app_layout(children: Markup) -> Markup {
 			div #header {
 			}
 		}
-		(styles())
+		(css())
 		(js())
 	}
 }
@@ -53,6 +56,41 @@ css! {
 		--menu-width: var(--size-8);
 		--menu-item-width: var(--size-5);
 		--header-height: var(--size-7);
+
+		.logo-container {
+
+			position: relative;
+			width: var(--menu-width);
+			height: var(--menu-width);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			z-index: 1;
+
+			.logo {
+				width: calc(var(--menu-item-width) * 2);
+				height: calc(var(--menu-item-width) * 2);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			.img-bg {
+				background-image: linear-gradient(
+					-45deg,
+					var(--brand) 50%,
+					var(--link) 50%
+				);
+				filter: blur(30px);
+				width: 50px;
+				height: 50px;
+				position: absolute;
+				z-index: 0;
+				top: -4px;
+			}
+		}
+
+
 
 		#layout {
 			margin: 0;
@@ -97,6 +135,7 @@ css! {
 			gap: var(--size-fluid-2);
 			padding-block: var(--size-fluid-2);
 			box-shadow: rgba(0, 0, 0, 0.4) 2px 0px 4px, rgba(0, 0, 0, 0.3) 7px 0px 13px -3px;
+			overflow: hidden;
 		}
 		.menu-item {
 			width: var(--menu-item-width);
@@ -114,9 +153,6 @@ css! {
 			height: var(--menu-item-width);
 			width: var(--menu-item-width);
 		}
-		.logo {
-			width: calc(var(--menu-item-width) * 2);
-			height: calc(var(--menu-item-width) * 2);
-		}
+
 	}
 }
