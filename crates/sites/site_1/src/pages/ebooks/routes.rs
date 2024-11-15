@@ -1,6 +1,7 @@
 use crate::pages::ebooks;
 use crate::prelude::*;
-use lib_active_campaign::ActiveCampaign;
+use lib_active_campaign::{ActiveCampaign, Contact, ContactForCreate};
+use reqwest::StatusCode;
 use serde::Deserialize;
 
 pub fn router() -> Router {
@@ -17,17 +18,21 @@ struct Signup {
 	first_name: String,
 }
 
-async fn temp_post(Form(signup): Form<Signup>) -> impl IntoResponse {
+async fn temp_post(Form(signup): Form<Signup>) -> Result<impl IntoResponse> {
 	let ac = ActiveCampaign::new(
+		std::env::var("ACTIVE_CAMPAIGN_KEY").unwrap(),
 		std::env::var("ACTIVE_CAMPAIGN_URL").unwrap(),
-		std::env::var("ACTIVE_CAMPAIGN_API_KEY").unwrap(),
 	);
 
-	let contact = ac
-		.get_contact(&signup.email)
-		.await
-		.expect("Failed to get contact.");
-	dbg!("{}", &contact);
+	ac.sync_contact(ContactForCreate {
+		email: signup.email,
+		first_name: Some(signup.first_name),
+		last_name: None,
+		phone: None,
+		field_values: None,
+	})
+	.await
+	.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
 
-	"temp post"
+	Ok(StatusCode::OK)
 }

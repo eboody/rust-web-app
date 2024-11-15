@@ -10,7 +10,7 @@ impl Render for Button {
 		html! {
 			@match self {
 				Button::Primary { href, text } => {
-					button.primary href=(href) download=(text) type="button" { (text) }
+					button.primary href=(href) download=(text) type="submit" { (text) }
 				},
 				Button::Secondary { href, text } => {
 					button.secondary href=(href) download=(text) { (text) }
