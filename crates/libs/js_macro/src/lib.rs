@@ -11,7 +11,9 @@ impl Parse for JsBlock {
 	fn parse(input: ParseStream) -> syn::Result<Self> {
 		//let content;
 		//braced!(content in input);
-		let js_code = input.parse::<proc_macro2::TokenStream>()?.to_string();
+		let js_code = format!("{:#}", input.parse::<proc_macro2::TokenStream>()?);
+
+		let js_code = js_code.replace(" r\"", " \"");
 		Ok(JsBlock { content: js_code })
 	}
 }
@@ -23,7 +25,7 @@ struct CssBlock {
 impl Parse for CssBlock {
 	fn parse(input: ParseStream) -> syn::Result<Self> {
 		// parse the input as a string literal
-		let css_code = input.parse::<proc_macro2::TokenStream>()?.to_string();
+		let css_code = format!("{:#}", input.parse::<proc_macro2::TokenStream>()?);
 
 		let css_code = css_code
 			.replace(" : ", ":")

@@ -108,7 +108,7 @@ css! {
 			left: 3%;
 			top: 71%;
 			z-index: -1;
-			background-color: rgba(0, 0, 0, 0.2);
+			background-color: rgba(0, 0, 0, 0.3);
 			width: var(--max-width);
 			height: 58px;
 			transform-origin: bottom center;
@@ -133,7 +133,6 @@ css! {
 			border-radius: 0px 2px 2px 0px;
 			transform: translateZ(var(--book-thickness));
 			z-index: 2;
-			box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.1);
 			background: no-repeat center / contain url("/assets/tos_dark_small.svg")
 				#000;
 		}

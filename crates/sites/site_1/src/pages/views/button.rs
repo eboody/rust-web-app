@@ -9,16 +9,12 @@ impl Render for Button {
 	fn render(&self) -> Markup {
 		html! {
 			@match self {
-				Button::Primary { href, text } =>
-					a href=(href) download=(text) {
-						button.primary {
-							(text)
-						}
-					},
-				Button::Secondary { href, text } =>
-					a href=(href) download=(text) {
-						button.secondary { (text) }
-					}
+				Button::Primary { href, text } => {
+					button.primary href=(href) download=(text) { (text) }
+				},
+				Button::Secondary { href, text } => {
+					button.secondary href=(href) download=(text) { (text) }
+				}
 			}
 			(css())
 		}

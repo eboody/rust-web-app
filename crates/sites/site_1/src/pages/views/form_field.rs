@@ -10,7 +10,7 @@ pub struct FormField<'a> {
 impl<'a> Render for FormField<'a> {
 	fn render(&self) -> Markup {
 		html! {
-			label { (self.label) }
+			//label { (self.label) }
 			input type=(self.input_type) name=(self.name) placeholder=(self.placeholder) {}
 		}
 	}

@@ -48,10 +48,29 @@ pub async fn get_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 }
 
 js! {
-	me(".secondary").on("click", (ev) => {
-		halt(ev);
-		me(ev).send("popup-dismissed");
-	});
+	{
+		me("button.primary").disabled = true;
+		me(".secondary").on("click", (ev) => {
+			halt(ev);
+			me(ev).send("popup-dismissed");
+		});
+
+		me("button.primary").on("valid-email", (ev) => {
+			console.log("valid email");
+			me(ev).disabled = false;
+		});
+
+		me("form input[name='first_name']").on("input", (ev) => {
+			let emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+			let emailRegex = new RegExp(emailPattern);
+
+			let isValidEmail = emailRegex.test(ev.target.value);
+
+			if (isValidEmail) {
+				me("button.primary").send("valid-email");
+			}
+		});
+	}
 }
 
 css! {
@@ -68,7 +87,6 @@ css! {
 			grid-template-rows: 1fr;
 
 			@media (max-width: 30rem) {
-				overflow: hidden;
 				grid-template-areas:
 					"hook"
 					"title"
@@ -77,6 +95,7 @@ css! {
 					"form";
 				grid-template-columns: 1fr;
 				grid-template-rows: 1fr;
+				padding-bottom: var(--size-3);
 			}
 		}
 		.hook {
@@ -89,6 +108,7 @@ css! {
 			grid-area: title;
 			font-size: var(--font-size-fluid-2);
 			text-align: center;
+			font-family: Capitolina;
 			@media (max-width: 30rem) {
 				font-size: var(--font-size-fluid-3);
 			}
@@ -133,7 +153,7 @@ css! {
 			min-width: 300px;
 			justify-self: center;
 			align-items: baseline;
-			gap: var(--size-1);
+			gap: var(--size-3);
 
 			label {
 				align-self: center;
@@ -141,6 +161,9 @@ css! {
 
 			input {
 				padding: var(--size-2);
+				box-shadow:
+					rgba(204, 219, 232, 0.6) 1px 1px 1px 0px inset,
+					rgba(255, 255, 255, 0.3) -3px -3px 6px 1px inset;
 			}
 		}
 	}
