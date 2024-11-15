@@ -48,29 +48,27 @@ pub async fn get_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 }
 
 js! {
-	{
-		me("button.primary").disabled = true;
-		me(".secondary").on("click", (ev) => {
-			halt(ev);
-			me(ev).send("popup-dismissed");
-		});
+	me("button.primary").disabled = true;
+	me(".secondary").on("click", (ev) => {
+		halt(ev);
+		me(ev).send("popup-dismissed");
+	});
 
-		me("button.primary").on("valid-email", (ev) => {
-			console.log("valid email");
-			me(ev).disabled = false;
-		});
+	me("button.primary").on("valid-email", (ev) => {
+		console.log("valid email");
+		me(ev).disabled = false;
+	});
 
-		me("form input[name='first_name']").on("input", (ev) => {
-			let emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-			let emailRegex = new RegExp(emailPattern);
+	me("form input[name='first_name']").on("input", (ev) => {
+		let emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+		let emailRegex = new RegExp(emailPattern);
 
-			let isValidEmail = emailRegex.test(ev.target.value);
+		let isValidEmail = emailRegex.test(ev.target.value);
 
-			if (isValidEmail) {
-				me("button.primary").send("valid-email");
-			}
-		});
-	}
+		if (isValidEmail) {
+			me("button.primary").send("valid-email");
+		}
+	});
 }
 
 css! {
