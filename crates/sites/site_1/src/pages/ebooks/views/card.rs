@@ -43,7 +43,7 @@ css! {
 				rgba(17, 17, 26, 0.05) 0px 1px 0px;
 
 			padding-bottom: var(--size-7);
-			padding-top: var(--size-4);
+			padding-top: var(--size-5);
 			@media (max-width: 30rem) {
 				padding: var(--size-2);
 				padding-bottom: var(--size-3);
@@ -58,6 +58,7 @@ css! {
 			align-items: center;
 			justify-content: space-between;
 			gap: var(--size-3);
+			overlflow: hidden;
 		}
 
 		article.card:hover {

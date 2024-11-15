@@ -73,10 +73,10 @@ css! {
 	}
 
 	.card:hover > .book > .inner {
-		animation: book-3d-back 0.3s ease forwards;
+		animation: book-3d-back 0.5s ease forwards;
 	}
 	.card:hover > .book > .shadow {
-		animation: book-shadow-3d-back 0.3s ease forwards;
+		animation: book-shadow-3d-back 0.5s ease forwards;
 	}
 
 	me {
@@ -88,18 +88,18 @@ css! {
 			perspective: 1000px;
 			max-width: var(--max-width);
 			transition:
-				max-width 0.3s,
-				--book-thickness 0.3s;
+				max-width 0.5s,
+				--book-thickness 0.5s;
 		}
 		.book:hover .inner {
-			animation: book-3d-back 0.3s ease forwards;
+			animation: book-3d-back 0.5s ease forwards;
 		}
 
 		.book:hover .shadow {
-			animation: book-shadow-3d-back 0.3s ease forwards;
+			animation: book-shadow-3d-back 0.5s ease forwards;
 		}
 		.book:hover::after {
-			animation: book-spine 0.3s ease forwards;
+			animation: book-spine 0.5s ease forwards;
 		}
 
 		.shadow {
@@ -114,7 +114,7 @@ css! {
 			transform-origin: bottom center;
 			transform-style: preserve-3d;
 			transform: skewX(-45deg) skewY(2deg);
-			filter: blur(7px);
+			filter: blur(5px);
 			transform-style: preserve-3d;
 			animation: book-shadow-3d 1s ease forwards;
 		}
@@ -164,7 +164,7 @@ css! {
 			transform: translateZ(calc(var(--book-thickness) * -1));
 			background-color: var(--cover-color);
 			border-radius: 0 2px 2px 0;
-			box-shadow: -10px 0 50px 10px rgba(0, 0, 0, 0.3);
+			box-shadow: -10px 0 50px 10px rgba(0, 0, 0, 0.25);
 		}
 		.inner::before {
 			position: absolute;

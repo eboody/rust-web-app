@@ -49,17 +49,27 @@ pub async fn get_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
 
 js! {
 	me("button.primary").disabled = true;
+
 	me(".secondary").on("click", (ev) => {
 		halt(ev);
 		me(ev).send("popup-dismissed");
 	});
 
 	me("button.primary").on("valid-email", (ev) => {
-		console.log("valid email");
-		me(ev).disabled = false;
+		me(ev).validEmail = true;
+		if (me(ev).validFirstName) {
+			me(ev).disabled = false;
+		}
 	});
 
-	me("form input[name='first_name']").on("input", (ev) => {
+	me("button.primary").on("valid-first-name", (ev) => {
+		me(ev).validFirstName = true;
+		if (me(ev).validEmail) {
+			me(ev).disabled = false;
+		}
+	});
+
+	me("form input[name='email']").on("input", (ev) => {
 		let emailPattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 		let emailRegex = new RegExp(emailPattern);
 
@@ -67,6 +77,20 @@ js! {
 
 		if (isValidEmail) {
 			me("button.primary").send("valid-email");
+		} else {
+			me("button.primary").disabled = true;
+		}
+	});
+
+	me("form input[name='first_name']").on("input", (ev) => {
+		let namePattern = r"^[a-zA-Z]{2,}$";
+		let nameRegex = new RegExp(namePattern);
+		let isValidFirstName = nameRegex.test(ev.target.value);
+
+		if (isValidFirstName) {
+			me("button.primary").send("valid-first-name");
+		} else {
+			me("button.primary").disabled = true;
 		}
 	});
 }
