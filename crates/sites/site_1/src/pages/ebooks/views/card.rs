@@ -16,6 +16,9 @@ fn card(ebook: &Ebook) -> Markup {
 		article.card
 		id=(&ebook.id)
 		hx_patch=(format!("https://tosapp.eman.network/ebooks/{}", ebook.id))
+		data-umami-event="ebook-card-clicked"
+		data-umami-event-ebook=(ebook.id)
+		data-umami-event-name=(ebook.name)
 		hx_trigger="mouseover" {
 			(ebooks::Cover3D{ ebook })
 			h2 .book-name { (ebook.name) }

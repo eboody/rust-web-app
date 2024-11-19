@@ -31,6 +31,8 @@ pub mod conv_user;
 pub mod modql_utils;
 pub mod user;
 
+mod directus;
+
 pub use self::error::{Error, Result};
 
 use crate::model::store::dbx::Dbx;
