@@ -160,6 +160,7 @@ pub struct ContactLinks {
 
 #[derive(Deserialize, Debug)]
 #[serde(rename_all = "camelCase")]
+#[allow(unused)]
 pub struct ContactResponse {
 	contact: Contact,
 }

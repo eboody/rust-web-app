@@ -241,7 +241,7 @@ macro_rules! impl_service {
         IdType: $id_type:ty,
         Traits: [$($trait_name:ident),*]
     ) => {
-        // Struct-level documentation
+        // struct-level documentation
         #[doc = concat!("Provides methods for managing [`", stringify!($resource), "`](models::", stringify!($resource), ") resources.")]
         #[doc = ""]
         #[doc = "### Overview"]
@@ -285,7 +285,7 @@ macro_rules! impl_service {
             }
         }
 
-        // Implement each specified trait for this service
+        // implement each specified trait for this service
         $(
             $crate::impl_service_trait!(
                 $service_name,

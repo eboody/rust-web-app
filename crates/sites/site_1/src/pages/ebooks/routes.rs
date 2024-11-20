@@ -1,6 +1,6 @@
 use crate::pages::ebooks;
 use crate::prelude::*;
-use lib_active_campaign::{ActiveCampaign, Contact, ContactForCreate};
+use lib_active_campaign::{ActiveCampaign, ContactForCreate};
 use reqwest::StatusCode;
 use serde::Deserialize;
 

@@ -1,8 +1,4 @@
 mod client;
-mod config;
-mod error;
-mod macros;
 pub mod prelude;
-mod resource;
+mod service;
 
-pub use error::{Error, Result};

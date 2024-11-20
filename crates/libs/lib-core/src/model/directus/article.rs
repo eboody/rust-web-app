@@ -26,24 +26,24 @@ pub struct ArticlesTranslations {
 	content: String,
 }
 
-pub struct ArticleManager {}
-
-impl ArticleManager {
-	pub fn new() -> Self {
-		ArticleManager {}
-	}
-
-	pub fn get_article(&self, id: &str) -> Article {
-		Article {
-			id: id.to_string(),
-			image: "image".to_string(),
-			status: Status::Published,
-			user_created: "user_created".to_string(),
-			date_created: OffsetDateTime::now_utc(),
-			user_updated: "user_updated".to_string(),
-			date_updated: OffsetDateTime::now_utc(),
-			author: 1,
-			translations: vec![],
-		}
-	}
-}
+//pub struct ArticleManager {}
+//
+//impl ArticleManager {
+//	pub fn new() -> Self {
+//		ArticleManager {}
+//	}
+//
+//	pub fn get_article(&self, id: &str) -> Article {
+//		Article {
+//			id: id.to_string(),
+//			image: "image".to_string(),
+//			status: Status::Published,
+//			user_created: "user_created".to_string(),
+//			date_created: OffsetDateTime::now_utc(),
+//			user_updated: "user_updated".to_string(),
+//			date_updated: OffsetDateTime::now_utc(),
+//			author: 1,
+//			translations: vec![],
+//		}
+//	}
+//}

@@ -1,53 +1,36 @@
-use crate::client;
+use std::num::ParseFloatError;
+
 use derive_more::From;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 
-use std::{fmt, num::ParseFloatError};
-
-/// A specialized `Result` type for the services crate.
+/// A specialized `Result` type for the SDK.
 ///
 /// This is defined as a convenience so that you don't have to write out
 /// `core::result::Result<T, Error>` every time.
 ///
-/// # Example
-///
-/// ```
-/// use services::Result;
-///
-/// fn your_service_function() -> Result<()> {
-///     // Your code here...
-///     Ok(())
-/// }
-/// ```
 pub type Result<T> = core::result::Result<T, Error>;
-pub type ServiceResult<T> = Result<T>;
 
-/// The error type for the services crate.
+/// The error type for the SDK.
 ///
-/// This enum represents all possible errors that can occur when using the services.
-/// It includes variants for service-specific errors, as well as wrapping errors
-/// originating from the client crate.
+/// This enum represents all possible errors that can occur when using the SDK.
+/// It includes variants for common HTTP errors, as well as errors originating
+/// from external crates like `reqwest` and `url`.
 #[serde_as]
 #[derive(Debug, From, Serialize)]
 pub enum Error {
-	/// An error originating from the client crate.
+	/// An error originating from the `reqwest` library.
 	///
-	/// This variant wraps `client::Error`, which can occur during HTTP requests or client operations.
+	/// This variant wraps `reqwest::Error`, which can occur during HTTP requests.
 	#[from]
-	ReqwestError(#[serde_as(as = "DisplayFromStr")] reqwest::Error),
-
-	/// Represents an error when invalid input is provided to a service method.
-	///
-	/// Contains a message describing the invalid input.
-	InvalidInput(String),
+	Reqwest(#[serde_as(as = "DisplayFromStr")] reqwest::Error),
 
 	/// An error related to invalid HTTP header values.
 	///
 	/// This variant wraps `reqwest::header::InvalidHeaderValue`, which occurs
 	/// when constructing headers with invalid values.
 	#[from]
-	HeaderValueError(
+	HeaderValue(
 		#[serde_as(as = "DisplayFromStr")] reqwest::header::InvalidHeaderValue,
 	),
 
@@ -59,6 +42,16 @@ pub enum Error {
 
 	#[from]
 	QueryString(#[serde_as(as = "DisplayFromStr")] serde_urlencoded::ser::Error),
+
+	/// Indicates that a required request body was missing.
+	///
+	/// This error occurs when a request expected a body but none was provided.
+	BodyMissing,
+
+	/// Represents an API-specific error returned by the server.
+	///
+	/// Contains a message describing the error details.
+	Api(String),
 
 	/// An error that occurs when parsing a float from a string fails.
 	///
@@ -103,7 +96,7 @@ pub enum Error {
 	/// Internal Server Error (HTTP 500).
 	///
 	/// The server encountered an unexpected condition that prevented it from fulfilling the request.
-	InternalServerError(String), // 500
+	InternalServer(String), // 500
 
 	/// Service Unavailable (HTTP 503).
 	///
@@ -116,7 +109,7 @@ pub enum Error {
 	GatewayTimeout(String), // 504
 }
 
-pub type ServiceError = Error;
+// region:    --- Error Boilerplate
 
 impl core::fmt::Display for Error {
 	/// Formats the error using the `Display` trait.
@@ -163,3 +156,4 @@ impl From<ParseFloatError> for Error {
 		Self::ParseFloat(value)
 	}
 }
+// endregion: --- Error Boilerplate
