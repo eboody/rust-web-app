@@ -2,7 +2,7 @@ use crate::model::store::dbx;
 use derive_more::From;
 use lib_auth::pwd;
 use serde::Serialize;
-use serde_with::{serde_as, DisplayFromStr};
+use serde_with::serde_as;
 use sqlx::error::DatabaseError;
 use std::borrow::Cow;
 
@@ -39,13 +39,6 @@ pub enum Error {
 	Pwd(pwd::Error),
 	#[from]
 	Dbx(dbx::Error),
-
-	// -- Externals
-	#[from]
-	SeaQuery(#[serde_as(as = "DisplayFromStr")] sea_query::error::Error),
-
-	#[from]
-	ModqlIntoSea(#[serde_as(as = "DisplayFromStr")] modql::filter::IntoSeaError),
 }
 
 impl Error {

@@ -20,18 +20,8 @@
 // region:    --- Modules
 
 mod acs;
-mod base;
 mod error;
 mod store;
-
-pub mod agent;
-pub mod conv;
-pub mod conv_msg;
-pub mod conv_user;
-pub mod modql_utils;
-pub mod user;
-
-mod directus;
 
 pub use self::error::{Error, Result};
 
@@ -42,10 +32,11 @@ use crate::model::store::new_db_pool;
 
 // region:    --- ModelManager
 
-#[cfg_attr(feature = "with-rpc", derive(rpc_router::RpcResource))]
 #[derive(Clone)]
+#[allow(unused)]
 pub struct ModelManager {
 	dbx: Dbx,
+	reqwest_client: reqwest::Client,
 }
 
 impl ModelManager {
@@ -55,12 +46,20 @@ impl ModelManager {
 			.await
 			.map_err(|ex| Error::CantCreateModelManagerProvider(ex.to_string()))?;
 		let dbx = Dbx::new(db_pool, false)?;
-		Ok(ModelManager { dbx })
+		let reqwest_client = reqwest::Client::new();
+		Ok(ModelManager {
+			dbx,
+			reqwest_client,
+		})
 	}
 
 	pub fn new_with_txn(&self) -> Result<ModelManager> {
 		let dbx = Dbx::new(self.dbx.db().clone(), true)?;
-		Ok(ModelManager { dbx })
+		let reqwest_client = reqwest::Client::new();
+		Ok(ModelManager {
+			dbx,
+			reqwest_client,
+		})
 	}
 
 	pub fn dbx(&self) -> &Dbx {

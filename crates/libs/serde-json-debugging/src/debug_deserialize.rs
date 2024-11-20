@@ -6,6 +6,12 @@ use std::any::type_name;
 #[derive(Debug)]
 pub struct DebugDeserialize<T>(pub T);
 
+impl<T> AsRef<T> for DebugDeserialize<T> {
+	fn as_ref(&self) -> &T {
+		&self.0
+	}
+}
+
 impl<'de, T> Deserialize<'de> for DebugDeserialize<T>
 where
 	T: DeserializeOwned,
