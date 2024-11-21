@@ -1,6 +1,7 @@
 use lib_utils::envs::get_env;
 use std::sync::OnceLock;
 
+#[allow(unused)]
 pub fn web_config() -> &'static WebConfig {
 	static INSTANCE: OnceLock<WebConfig> = OnceLock::new();
 
@@ -12,10 +13,12 @@ pub fn web_config() -> &'static WebConfig {
 }
 
 #[allow(non_snake_case)]
+#[allow(unused)]
 pub struct WebConfig {
 	pub WEB_FOLDER: String,
 }
 
+#[allow(unused)]
 impl WebConfig {
 	fn load_from_env() -> lib_utils::envs::Result<WebConfig> {
 		Ok(WebConfig {

@@ -23,7 +23,7 @@ impl Render for Menu {
 }
 
 pub async fn get_menu() -> Result<Markup> {
-	let ebooks = lib_directus::get_ebooks().await;
+	let ebooks = EbookService::find().await;
 
 	let ebooks = ebooks?;
 

@@ -1,13 +1,10 @@
-// region:    --- Modules
 mod config;
 mod error;
 mod web;
 
 pub use self::error::{Error, Result};
 use axum::http::Method;
-use config::web_config;
 
-use crate::web::routes_static;
 use axum::{http::HeaderValue, routing::get, Router};
 
 use lib_core::model::ModelManager;
@@ -31,8 +28,7 @@ async fn main() -> Result<()> {
 		.route("/health", get(|| async { "OK" }))
 		.merge(site_1::main_router())
 		.layer(CookieManagerLayer::new())
-		.layer(get_cors_layer())
-		.fallback_service(routes_static::serve_dir());
+		.layer(get_cors_layer());
 
 	let listener = TcpListener::bind("0.0.0.0:3031").await.unwrap();
 	info!("{:<12} - {:?}\n", "LISTENING", listener.local_addr());

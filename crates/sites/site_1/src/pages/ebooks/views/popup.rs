@@ -1,6 +1,6 @@
 use crate::pages::ebooks;
 use crate::views;
-use lib_directus::{get_ebook, Ebook};
+use lib_directus::{DirectusClient, Ebook, EbookService};
 
 use crate::prelude::*;
 
@@ -43,6 +43,7 @@ fn content_markup(ebook: &Ebook) -> Markup {
 }
 
 pub async fn get_popup(Path(ebook_id): Path<u32>) -> Result<Markup> {
+	let ebook = EbookService::new(DirectusClient::new());
 	let ebook = get_ebook(ebook_id).await?;
 	Ok(self::Popup { ebook: &ebook }.render())
 }

@@ -1,8 +1,11 @@
 pub mod base_service;
 pub mod error;
-pub mod macros;
+mod macros;
 mod resource;
-pub mod resource_service;
+mod resource_service;
 
+pub use crate::impl_service;
+pub use base_service::BaseService;
 pub use error::*;
 pub use resource::*;
+pub use resource_service::*;

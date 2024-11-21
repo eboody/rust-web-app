@@ -1,10 +1,11 @@
 use crate::pages::ebooks;
 use crate::prelude::*;
 use lib_active_campaign::{ActiveCampaign, ContactForCreate};
+use lib_core::model::ModelManager;
 use reqwest::StatusCode;
 use serde::Deserialize;
 
-pub fn router() -> Router {
+pub fn router(mm: ModelManager) -> Router {
 	Router::new()
 		.route("/menu", get(ebooks::get_menu))
 		.route("/popup/:id", get(ebooks::get_popup))

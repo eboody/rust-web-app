@@ -25,7 +25,7 @@ members = [
     "crates/libs/lib-directus",
     "crates/libs/lib-active-campaign", 
     "crates/libs/lib-anythingllm", 
-    "crates/libs/lib-sdk",
+    "crates/libs/lib-sdk", "crates/tools/split_structs",
 ]
 
 [workspace.dependencies]
@@ -49,6 +49,9 @@ strum_macros = { version = "0.26" }
 sqlx = { version = "0.8", features = [ "macros", "postgres", "uuid" , "runtime-tokio-native-tls"] }
 
 [workspace.metadata.scripts]
-w = "crs bundle & pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -w vite-alpine/ -x \"run -p web-server\" & concurrently \"npm --prefix vite-alpine run dev\""
-bundle = "rm -rf web-folder/js && npm --prefix vite-alpine run build"
+w = "cargo run-script bundle & cargo run-script watch"
+bundle = "cargo run-script bundle-site-1"
+watch = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
+bundle-site-1 = "rm -rf crates/sites/site_1/src/web-folder/js && npm --prefix crates/sites/site_1/src/vite-alpine run build"
 devdb = "docker run --rm --name pg -p 5432:5432 -e POSTGRES_PASSWORD=welcome postgres:16"
+merge_directus='pg2rs --connection-string $(grep DIRECTUS_CONNECTION_STRING .cargo/config.toml | sed -E "s/.*DIRECTUS_CONNECTION_STRING=\"?([^\"]+)\"?.*/\1/") --custom-traits ormlite::Model --schema public --output_file crates/libs/lib-core/src/model/structs.rs'

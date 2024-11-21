@@ -1,12 +1,11 @@
-use crate::config::web_config;
 use crate::prelude::*;
 
 pub fn base(children: Markup) -> Markup {
-	let folder = &web_config().WEB_FOLDER;
-
 	let manifest: Value = serde_json::from_str(
-		&std::fs::read_to_string(format!("{}/js/.vite/manifest.json", folder))
-			.expect("manifest.json not found"),
+		&std::fs::read_to_string(
+			"crates/sites/site_1/src/web-folder/js/.vite/manifest.json",
+		)
+		.expect("manifest.json not found"),
 	)
 	.expect("Error parsing manifest.json");
 
