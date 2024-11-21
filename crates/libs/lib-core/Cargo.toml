@@ -31,9 +31,8 @@ time = { workspace = true }
 derive_more = { workspace = true }
 
 reqwest = "0.12"
-postgres = "0.19"
-postgres-types = { version = "0.2", features = ["derive"] }
 ormlite = { version = "0.22", features = ["postgres", "json", "time", "uuid"] }
+
 
 [dev-dependencies]
 serial_test = "3"
