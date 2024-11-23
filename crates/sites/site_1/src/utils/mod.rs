@@ -2,6 +2,9 @@ use reqwest::{Client, StatusCode};
 
 use crate::prelude::*;
 mod macros;
+mod to_alphanumeric;
+
+pub use to_alphanumeric::to_alphanumeric;
 
 #[allow(unused)]
 pub async fn get_image(Path(image_id): Path<String>) -> Result<Response> {

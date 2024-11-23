@@ -1,56 +1,81 @@
 use crate::prelude::*;
 
 #[derive(Debug, Display)]
-pub enum Toast {
-	Success(String),
-	Info(String),
-	Warning(String),
-	Error(String),
+pub enum Toast<'a> {
+	Success { text: &'a str },
+	Info { text: &'a str },
+	Warning { text: &'a str },
+	Error { text: &'a str },
 }
 
-impl Render for Toast {
+impl Render for Toast<'_> {
 	fn render(&self) -> maud::Markup {
+		let id = format!(
+			"toast-{}",
+			to_alphanumeric(match self {
+				Toast::Success { text } => text,
+				Toast::Info { text } => text,
+				Toast::Warning { text } => text,
+				Toast::Error { text } => text,
+			})
+			.to_case(Case::Kebab)
+		);
+
 		html! {
-			#toast.fade-in {
+			.fade-in id=(id) {
 				.success-icon.icon {
 					@match self {
-						Toast::Success(_) => (icon::Check),
-						Toast::Info(_) => (icon::Info),
-						Toast::Warning(_) => (icon::Warning),
-						Toast::Error(_) => (icon::Error)
+						Toast::Success {..} => (icon::Check),
+						Toast::Info{..} => (icon::Info),
+						Toast::Warning{..} => (icon::Warning),
+						Toast::Error{..} => (icon::Error)
 					}
 				}
-				.message{
+				.message {
 					@match self {
-						Toast::Success(message) => {
-								div style="color: var(--success);" { (message) }
-						}
-						Toast::Info(message) => {
-								div style="color: var(--info);" { (message) }
-						}
-						Toast::Warning(message) => {
-								div style="color: var(--warning);" { (message) }
-						}
-						Toast::Error(message) => {
-								div style="color: var(--error);" { (message) }
-						}
+						Toast::Success { text } => {
+							div style="color: var(--success);" { (text) }
+						},
+						Toast::Info { text } => {
+							div style="color: var(--info);" { (text) }
+						},
+						Toast::Warning { text } => {
+							div style="color: var(--warning);" { (text) }
+						},
+						Toast::Error { text } => {
+							div style="color: var(--error);" { (text) }
+						},
 					}
 				}
-				#close-toast.icon {
+				.close-toast.icon toast-id=(id) {
 					(icon::Close)
 				}
 			}
+			(js())
 			(css())
 		}
 	}
 }
 
+js! {
+	setTimeout(() => {
+		me("[id^='toast-']").fadeOut(null, 30);
+	}, 4000);
+
+	me(".close-toast").on("click", (ev) => {
+		halt(ev);
+		let toastId = "#" + me(ev).attribute("toast-id");
+		let el = any(toastId);
+		el.fadeOut(null, 30);
+	});
+}
+
 css! {
 	me {
+		--main-transition: opacity 0.5s var(--ease-5);
+
 		.fade-in.htmx-added,
-		#toast {
-			opacity: 0;
-			transition: opacity 0.5s var(--ease-5);
+		[id^="toast-"] {
 			animation:
 				var(--animation-fade-in) forwards,
 				var(--animation-slide-in-down);
@@ -58,23 +83,28 @@ css! {
 			animation-duration: 0.5s;
 			animation-delay: 0.5s;
 		}
+
+		.fade-in.htmx-added,
+		.fade-in,
+		.fade-out,
+		[id^="toast-"].fade-in {
+			transition: var(--main-transition);
+			opacity: 0;
+		}
+
 		.fade-in {
 			opacity: 1;
-			transition: opacity 0.5s var(--ease-5);
 		}
-		.fade-out {
-			opacity: 0;
-			transition: opacity 0.5s var(--ease-5);
-		}
-		#toast {
+
+		[id^="toast-"] {
 			position: fixed;
 			overflow: hidden;
 
 			display: grid;
 			grid-template-columns: min-content 1fr min-content;
 			grid-gap: 1rem;
-			align-self: start;
-			justify-self: center;
+
+			right: 2%;
 
 			padding: 1rem;
 			background-color: var(--surface-1);

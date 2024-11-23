@@ -10,7 +10,8 @@ impl Render for PopupSignupForm<'_> {
 		html! {
 			form
 			hx-post="/ebooks/signup"
-			hx-swap="none"
+			hx-swap="outerHTML"
+			hx-target="#popup"
 			trigger="submit" {
 				(FormField {
 					name: "first_name",

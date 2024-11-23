@@ -88,7 +88,7 @@ css! {
 		}
 		.popup-overlay {
 			position: fixed;
-			inset:0;
+			inset: 0;
 			width: 100%;
 			height: 100%;
 			z-index: -1;
