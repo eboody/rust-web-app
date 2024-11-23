@@ -1,21 +1,23 @@
 use crate::prelude::*;
-use lib_directus::Ebook;
+use lib_core::model::{CoverImage, Ebook};
 
 pub struct Cover3D<'a> {
 	pub ebook: &'a Ebook,
 }
 
-impl<'a> Render for Cover3D<'a> {
+impl Render for Cover3D<'_> {
 	fn render(&self) -> Markup {
 		let ebook = &self.ebook;
+		let title = ebook.title.as_deref().unwrap_or("ebook title");
+
 		html! {
-				.book {
+			.book {
 				.inner {
-					img.cover src=(ebook.get_thumbnail(100)) alt=(ebook.name) {}
+					img.cover src=(ebook.thumbnail_url(100)) alt=(title);
+				}
+				.shadow {}
 			}
-			.shadow {}
-		}
-			(css())
+		(css())
 		}
 	}
 }
@@ -72,13 +74,6 @@ css! {
 		}
 	}
 
-	.card:hover > .book > .inner {
-		animation: book-3d-back 0.5s ease forwards;
-	}
-	.card:hover > .book > .shadow {
-		animation: book-shadow-3d-back 0.5s ease forwards;
-	}
-
 	me {
 		.book {
 			--book-thickness: 10px;
@@ -90,6 +85,10 @@ css! {
 			transition:
 				max-width 0.5s,
 				--book-thickness 0.5s;
+			@media (max-width: 30rem) {
+					--max-width: 75px;
+					--book-thickness: 5px;
+			}
 		}
 		.book:hover .inner {
 			animation: book-3d-back 0.5s ease forwards;
@@ -110,7 +109,7 @@ css! {
 			z-index: -1;
 			background-color: rgba(0, 0, 0, 0.3);
 			width: var(--max-width);
-			height: 58px;
+			height: calc(var(--max-width) / 2.5);
 			transform-origin: bottom center;
 			transform-style: preserve-3d;
 			transform: skewX(-45deg) skewY(2deg);

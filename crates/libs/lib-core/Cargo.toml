@@ -26,12 +26,13 @@ sqlx = { workspace = true }
 # -- Tracing
 tracing = "0.1"
 # -- Others
-uuid = {version = "1", features = ["v4","fast-rng",]}
+uuid = { workspace = true }
 time = { workspace = true }
 derive_more = { workspace = true }
 
 reqwest = "0.12"
 ormlite = { version = "0.22", features = ["postgres", "json", "time", "uuid"] }
+sea-orm = { version = "1.1.0", features = [ "macros" , "postgres-array", "runtime-tokio-native-tls", "sqlx-postgres", "uuid", "time", "sqlx", "serde_json", "json-array"] }
 
 
 [dev-dependencies]

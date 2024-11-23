@@ -1,5 +1,5 @@
 use crate::{pages::ebooks, prelude::*};
-use lib_directus::Ebook;
+use lib_core::model::Ebook;
 
 pub struct Menu {
 	pub ebooks: Vec<Ebook>,
@@ -23,11 +23,12 @@ impl Render for Menu {
 }
 
 pub async fn get_menu() -> Result<Markup> {
-	let ebooks = EbookService::find().await;
+	//let ebooks = EbookService::find().await;
+	//
+	//let ebooks = ebooks?;
 
-	let ebooks = ebooks?;
-
-	Ok(Menu { ebooks }.render())
+	//Ok(Menu { ebooks }.render())
+	Ok(html! {})
 }
 
 css! {
@@ -37,7 +38,5 @@ css! {
 		grid-template-columns: repeat(auto-fit, minmax(min(35ch, 100%), 1fr));
 
 		container: grid-auto-fit / inline-size;
-	}
-	me {
 	}
 }

@@ -7,6 +7,7 @@ pub type Result<T> = core::result::Result<T, Error>;
 pub enum Error {
 	Reqwest(reqwest::Error),
 	HttpStatusCode(reqwest::StatusCode),
+	Ormlite(ormlite::Error),
 }
 
 impl From<reqwest::Error> for Error {
@@ -23,6 +24,12 @@ impl From<reqwest::StatusCode> for Error {
 impl From<Error> for axum::Error {
 	fn from(e: Error) -> Self {
 		axum::Error::new(e)
+	}
+}
+
+impl From<ormlite::Error> for Error {
+	fn from(e: ormlite::Error) -> Self {
+		Error::Ormlite(e)
 	}
 }
 
@@ -46,6 +53,9 @@ impl IntoResponse for Error {
 			}
 			Error::HttpStatusCode(status) => {
 				(status, "HTTP error encountered").into_response()
+			}
+			Error::Ormlite(e) => {
+				(StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response()
 			}
 		}
 	}

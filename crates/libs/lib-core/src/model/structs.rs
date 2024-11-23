@@ -2,6 +2,7 @@
 // Make sure to add `ormlite = { version = "0.22", features = ["postgres", "json", "time", "uuid"] }` to Cargo.toml
 use uuid::Uuid;
 type Json = serde_json::Value;
+use ormlite::model::{Join, JoinMeta};
 
 #[derive(Debug, ormlite::Model)]
 pub struct Articles {
@@ -480,16 +481,65 @@ pub struct DirectusWebhooks {
 }
 
 #[derive(Debug, ormlite::Model)]
+#[ormlite(table = "ebooks")]
 pub struct Ebooks {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub status: String,
 	pub sort: Option<i32>,
 	pub user_created: Option<Uuid>,
-	pub date_created: Option<String>,
+	pub date_created: Option<time::OffsetDateTime>,
 	pub user_updated: Option<Uuid>,
-	pub date_updated: Option<String>,
-	pub date_published: Option<String>,
+	pub date_updated: Option<time::OffsetDateTime>,
+	pub date_published: Option<time::OffsetDateTime>,
+}
+
+#[derive(Debug, ormlite::Model)]
+#[ormlite(table = "ebooks_translations")]
+pub struct Ebook {
+	#[ormlite(primary_key)]
+	pub id: i32,
+	#[ormlite(join_column = "ebooks_id")]
+	pub ebook: Join<Ebooks>,
+	pub languages_code: Option<String>,
+	pub cover_image: Option<Uuid>,
+	pub content: Option<String>,
+	pub title: Option<String>,
+	pub slug: Option<String>,
+	pub summary: Option<String>,
+	pub file: Option<Uuid>,
+	pub descriptor: Option<String>,
+}
+
+pub trait Asset {
+	const BASE_URL: &'static str;
+	fn file_url(&self) -> String;
+}
+
+impl Asset for Ebook {
+	const BASE_URL: &'static str = "https://directus.eman.network/assets";
+	fn file_url(&self) -> String {
+		format!("{}/{}", Self::BASE_URL, self.file.as_ref().unwrap())
+	}
+}
+
+pub trait CoverImage: Asset {
+	fn cover_image_url(&self) -> String;
+	fn thumbnail_url(&self, width: u32) -> String;
+}
+
+impl CoverImage for Ebook {
+	fn cover_image_url(&self) -> String {
+		format!("{}/{}", Self::BASE_URL, self.cover_image.as_ref().unwrap())
+	}
+
+	fn thumbnail_url(&self, width: u32) -> String {
+		format!(
+			"{}/{}$thumbnail={width}",
+			Self::BASE_URL,
+			self.cover_image.as_ref().unwrap()
+		)
+	}
 }
 
 #[derive(Debug, ormlite::Model)]
@@ -498,20 +548,6 @@ pub struct EbooksDirectusUsers {
 	pub id: i32,
 	pub ebooks_id: Option<Uuid>,
 	pub directus_users_id: Option<Uuid>,
-}
-
-#[derive(Debug, ormlite::Model)]
-pub struct EbooksTranslations {
-	#[ormlite(primary_key)]
-	pub id: i32,
-	pub ebooks_id: Option<Uuid>,
-	pub languages_code: Option<String>,
-	pub cover_image: Option<Uuid>,
-	pub content: Option<String>,
-	pub title: Option<String>,
-	pub slug: Option<String>,
-	pub summary: Option<String>,
-	pub file: Option<Uuid>,
 }
 
 #[derive(Debug, ormlite::Model)]

@@ -22,11 +22,11 @@ async fn main() -> Result<()> {
 		.with_env_filter(EnvFilter::from_default_env())
 		.init();
 
-	let _mm = ModelManager::new().await?;
+	let mm = ModelManager::new().await?;
 
 	let routes_all = Router::new()
 		.route("/health", get(|| async { "OK" }))
-		.merge(site_1::main_router())
+		.merge(site_1::main_router(mm))
 		.layer(CookieManagerLayer::new())
 		.layer(get_cors_layer());
 

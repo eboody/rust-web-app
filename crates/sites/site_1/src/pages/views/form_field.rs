@@ -7,7 +7,7 @@ pub struct FormField<'a> {
 	pub name: &'a str,
 }
 
-impl<'a> Render for FormField<'a> {
+impl Render for FormField<'_> {
 	fn render(&self) -> Markup {
 		html! {
 			//label { (self.label) }

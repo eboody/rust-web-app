@@ -4,4 +4,4 @@ mod prelude;
 mod utils;
 
 pub use pages::routes::main_router;
-pub use pages::views;
+pub use pages::views as view;

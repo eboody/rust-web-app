@@ -1,11 +1,11 @@
 use crate::prelude::*;
 
-pub enum Button {
-	Primary { href: String, text: String },
-	Secondary { href: String, text: String },
+pub enum Button<'a> {
+	Primary { href: &'a str, text: &'a str },
+	Secondary { href: &'a str, text: &'a str },
 }
 
-impl Render for Button {
+impl Render for Button<'_> {
 	fn render(&self) -> Markup {
 		html! {
 			@match self {
@@ -28,30 +28,38 @@ css! {
 			transition:
 				box-shadow 0.3s,
 				background-color 0.3s,
-				color 0.3s;
+				color 0.3s opacity 0.3s;
 			box-shadow:
 				rgba(50, 50, 105, 0.15) 0px 2px 5px 0px,
 				rgba(0, 0, 0, 0.05) 0px 1px 1px 0px;
 
 			&:hover {
 				box-shadow:
-					rgb(255, 255, 255) 0px 0px 0px 2px,
-					rgb(255, 255, 255) 0px 0px 0px 3px,
-					rgb(255, 255, 255) 0px 0px 0px 4px,
-					rgba(0, 0, 0, 1) 0px 0px 0px 5px,
-					rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+					var(--surface-1) 0px 0px 0px 2px,
+					var(--surface-1) 0px 0px 0px 3px,
+					var(--surface-1) 0px 0px 0px 4px,
+					var(--brand) 0px 0px 0px 5px,
+					var(--brand) 0px 3px 3px 0px;
 			}
 		}
 
 		button.primary {
-			background-color: #0x000;
-			color: white;
+			background-color: var(--brand);
+			color: var(--surface-1);
 		}
 
 		button.secondary {
-			background-color: surface;
-			color: var(--text-2);
-			border: 1px solid var(--text-2);
+			background-color: var(--surface-1);
+			color: var(--text-2) !important;
+			border: 1px solid var(--text-2) !important;
+			&:hover {
+				box-shadow:
+					var(--surface-1) 0px 0px 0px 2px,
+					var(--surface-1) 0px 0px 0px 3px,
+					var(--surface-1) 0px 0px 0px 4px,
+					var(--text-2) 0px 0px 0px 5px,
+					var(--text-2) 0px 3px 3px 0px;
+			}
 		}
 		button:disabled {
 			background-color: #ccc;

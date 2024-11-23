@@ -1,6 +1,6 @@
 use crate::pages::ebooks;
 use crate::prelude::*;
-use lib_active_campaign::{ActiveCampaign, ContactForCreate};
+use axum::extract::State;
 use lib_core::model::ModelManager;
 use reqwest::StatusCode;
 use serde::Deserialize;
@@ -10,6 +10,7 @@ pub fn router(mm: ModelManager) -> Router {
 		.route("/menu", get(ebooks::get_menu))
 		.route("/popup/:id", get(ebooks::get_popup))
 		.route("/signup", post(temp_post))
+		.with_state(mm)
 }
 
 #[derive(Deserialize, Debug, Clone)]
@@ -19,21 +20,11 @@ struct Signup {
 	first_name: String,
 }
 
-async fn temp_post(Form(signup): Form<Signup>) -> Result<impl IntoResponse> {
-	let ac = ActiveCampaign::new(
-		std::env::var("ACTIVE_CAMPAIGN_KEY").unwrap(),
-		std::env::var("ACTIVE_CAMPAIGN_URL").unwrap(),
-	);
-
-	ac.sync_contact(ContactForCreate {
-		email: signup.email,
-		first_name: Some(signup.first_name),
-		last_name: None,
-		phone: None,
-		field_values: None,
-	})
-	.await
-	.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
+async fn temp_post(State(mm): State<ModelManager>) -> Result<impl IntoResponse> {
+	mm.reqwest()
+		.get("https://n8n.eman.network/webhook-test/24478e2d-b29a-43dd-bc71-59ea2efbcf6c")
+		.send()
+		.await?;
 
 	Ok(StatusCode::OK)
 }

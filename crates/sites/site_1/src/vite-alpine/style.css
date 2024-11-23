@@ -41,7 +41,7 @@ html {
 
 /* light theme */
 html {
-  --brand-light: var(--orange-6);
+  --brand-light: var(--blue-7);
 
   --text-1-light: var(--gray-8);
   --text-2-light: var(--gray-7);
@@ -50,11 +50,16 @@ html {
   --surface-2-light: var(--gray-1);
   --surface-3-light: var(--gray-2);
   --surface-4-light: var(--gray-3);
+
+  --success-light: var(--green-6);
+  --warning-light: var(--yellow-6);
+  --info-light: var(--blue-6);
+  --error-light: var(--red-6);
 }
 
 /* dark theme */
 html {
-  --brand-dark: var(--orange-3);
+  --brand-dark: var(--blue-9);
 
   --text-1-dark: var(--gray-3);
   --text-2-dark: var(--gray-5);
@@ -63,11 +68,16 @@ html {
   --surface-2-dark: var(--gray-11);
   --surface-3-dark: var(--gray-10);
   --surface-4-dark: var(--gray-9);
+
+  --success-dark: var(--green-5);
+  --warning-dark: var(--yellow-5);
+  --info-dark: var(--blue-5);
+  --error-dark: var(--red-5);
 }
 
 /* dim theme */
 html {
-  --brand-dim: var(--orange-4);
+  --brand-dim: var(--blue-5);
 
   --text-1-dim: var(--gray-3);
   --text-2-dim: var(--gray-4);
@@ -76,6 +86,11 @@ html {
   --surface-2-dim: var(--gray-7);
   --surface-3-dim: var(--gray-6);
   --surface-4-dim: var(--gray-5);
+
+  --success-dim: var(--green-4);
+  --warning-dim: var(--yellow-4);
+  --info-dim: var(--blue-4);
+  --error-dim: var(--red-4);
 }
 
 /* adaptive aliases */
@@ -89,6 +104,11 @@ html {
   --surface-2: var(--surface-2-light);
   --surface-3: var(--surface-3-light);
   --surface-4: var(--surface-4-light);
+
+  --success: var(--success-light);
+  --warning: var(--warning-light);
+  --info: var(--info-light);
+  --error: var(--error-light);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -102,6 +122,11 @@ html {
     --surface-2: var(--surface-2-dark);
     --surface-3: var(--surface-3-dark);
     --surface-4: var(--surface-4-dark);
+
+    --success: var(--success-dark);
+    --warning: var(--warning-dark);
+    --info: var(--info-dark);
+    --error: var(--error-dark);
   }
 }
 
@@ -116,6 +141,11 @@ html {
     --surface-2: var(--surface-2-dim);
     --surface-3: var(--surface-3-dim);
     --surface-4: var(--surface-4-dim);
+
+    --success: var(--success-dim);
+    --warning: var(--warning-dim);
+    --info: var(--info-dim);
+    --error: var(--error-dim);
   }
 }
 
@@ -129,6 +159,11 @@ html {
   --surface-2: var(--surface-2-purple);
   --surface-3: var(--surface-3-purple);
   --surface-4: var(--surface-4-purple);
+
+  --success: var(--green-5);
+  --warning: var(--yellow-5);
+  --info: var(--blue-5);
+  --error: var(--red-5);
 }
 
 h1,h2,h3,h4,p,dt {
@@ -152,4 +187,18 @@ html {
 :where(input[type=file])::file-selector-button {
   border-radius: 0;
   border: none;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    align-self: center;
+    justify-self: center;
+    background-color: var(--surface-2);
+    transition:
+      background-color 0.3s,
+      box-shadow 0.3s;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+
 }
