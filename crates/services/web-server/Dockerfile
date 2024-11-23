@@ -3,6 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 
 COPY . .
+COPY crates/sites/site_1/src/web-folder web-folder
 COPY crates/sites/site_1/src/web-folder/js/.vite web-folder/js/.vite
 RUN ls -la web-folder/js
 
