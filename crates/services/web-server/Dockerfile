@@ -3,7 +3,7 @@ FROM rust:latest AS builder
 WORKDIR /app
 
 COPY . .
-COPY web-folder/js/.vite web-folder/js/.vite
+COPY crates/sites/site_1/src/web-folder/js/.vite web-folder/js/.vite
 RUN ls -la web-folder/js
 
 RUN cargo build -p web-server --release
@@ -20,7 +20,7 @@ WORKDIR /app
 
 # Copy the built binary from the builder stage
 COPY --from=builder /app/target/release/web-server .
-COPY --from=builder /app/web-folder web-folder
+COPY --from=builder /app/web-folder crates/sites/site_1/src/web-folder
 
 EXPOSE 3000
 
