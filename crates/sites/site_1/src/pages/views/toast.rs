@@ -13,7 +13,7 @@ impl Render for Toast<'_> {
 		let uuid = uuid::Uuid::new_v4();
 
 		html! {
-			.fade-in id=(uuid) {
+			.fade-in id={ "toast-" (uuid) } {
 				.success-icon.icon {
 					@match self {
 						Toast::Success {..} => (icon::Check),
