@@ -10,19 +10,10 @@ pub enum Toast<'a> {
 
 impl Render for Toast<'_> {
 	fn render(&self) -> maud::Markup {
-		let id = format!(
-			"toast-{}",
-			to_alphanumeric(match self {
-				Toast::Success { text } => text,
-				Toast::Info { text } => text,
-				Toast::Warning { text } => text,
-				Toast::Error { text } => text,
-			})
-			.to_case(Case::Kebab)
-		);
+		let uuid = uuid::Uuid::new_v4();
 
 		html! {
-			.fade-in id=(id) {
+			.fade-in id=(uuid) {
 				.success-icon.icon {
 					@match self {
 						Toast::Success {..} => (icon::Check),
@@ -47,7 +38,7 @@ impl Render for Toast<'_> {
 						},
 					}
 				}
-				.close-toast.icon toast-id=(id) {
+				.close-toast.icon toast-id=(uuid) {
 					(icon::Close)
 				}
 			}

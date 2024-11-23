@@ -6,11 +6,12 @@ pub struct Popup {
 
 impl Render for Popup {
 	fn render(&self) -> Markup {
+		let uuid = uuid::Uuid::new_v4();
 		html! {
-			#popup.fade-in {
+			#popup.fade-in uuid=(uuid) {
 				.popup-overlay {}
 				.popup-content {
-					.close.icon { (icon::Close) }
+					.close.icon uuid=(uuid){ (icon::Close) }
 					(self.content)
 				}
 			}
