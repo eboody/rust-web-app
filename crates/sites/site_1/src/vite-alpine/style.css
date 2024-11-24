@@ -203,6 +203,7 @@ html {
 
   svg {
     pointer-events: none;
+    stroke: var(--text-2);
   }
 
 }
