@@ -24,8 +24,8 @@ async fn popup_form_filled(
 	State(mm): State<ModelManager>,
 	Form(form): Form<Signup>,
 ) -> Result<Markup> {
-	println!("Received form data: {:?}", form);
-	mm.reqwest()
+	let res = mm
+		.reqwest()
 		.post(
 			"https://n8n.eman.network/webhook/78b2e1c3-ceac-43d9-85c7-3870cf37710a",
 		)
@@ -39,7 +39,17 @@ async fn popup_form_filled(
 		)
 		.header("Content-Type", "application/json")
 		.send()
-		.await?;
+		.await;
 
-	Ok(html! {(Toast::Success { text: "Check your email for your download link!" })})
+	if let Err(e) = res {
+		Ok(Toast::Error {
+			text: format!("Error: {}", e),
+		}
+		.render())
+	} else {
+		Ok(Toast::Success {
+			text: "Check your email for your download link!".into(),
+		}
+		.render())
+	}
 }

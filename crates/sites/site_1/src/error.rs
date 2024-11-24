@@ -1,3 +1,5 @@
+use crate::prelude::*;
+use crate::view::Toast;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 
@@ -8,6 +10,18 @@ pub enum Error {
 	Reqwest(reqwest::Error),
 	HttpStatusCode(reqwest::StatusCode),
 	Ormlite(ormlite::Error),
+}
+
+impl Render for Error {
+	fn render(&self) -> Markup {
+		html! {
+			(match self {
+				Error::Reqwest(e) => Toast::Error { text: e.to_string() },
+				Error::HttpStatusCode(e) => Toast::Error { text: e.to_string() },
+				Error::Ormlite(e) => Toast::Error { text: e.to_string() },
+			})
+		}
+	}
 }
 
 impl From<reqwest::Error> for Error {

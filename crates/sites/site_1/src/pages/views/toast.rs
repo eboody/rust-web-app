@@ -1,14 +1,16 @@
+use std::borrow::Cow;
+
 use crate::prelude::*;
 
 #[derive(Debug, Display)]
-pub enum Toast<'a> {
-	Success { text: &'a str },
-	Info { text: &'a str },
-	Warning { text: &'a str },
-	Error { text: &'a str },
+pub enum Toast {
+	Success { text: String },
+	Info { text: String },
+	Warning { text: String },
+	Error { text: String },
 }
 
-impl Render for Toast<'_> {
+impl Render for Toast {
 	fn render(&self) -> maud::Markup {
 		let uuid = uuid::Uuid::new_v4();
 
