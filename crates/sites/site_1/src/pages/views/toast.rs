@@ -50,14 +50,15 @@ impl Render for Toast<'_> {
 
 js! {
 	setTimeout(() => {
-		me("[id^='toast-']").fadeOut(null, 30);
+		me("[id^='toast-']").classRemove("fade-in").classAdd("slide-out");
 	}, 4000);
 
 	me(".close-toast").on("click", (ev) => {
 		halt(ev);
-		let toastId = "#" + me(ev).attribute("toast-id");
+		let toastId = "#toast-" + me(ev).attribute("toast-id");
 		let el = any(toastId);
-		el.fadeOut(null, 30);
+		el.classRemove("fade-in").classAdd("slide-out");
+		setTimeout(el.remove, 500);
 	});
 }
 
@@ -71,8 +72,16 @@ css! {
 				var(--animation-fade-in) forwards,
 				var(--animation-slide-in-down);
 			animation-timing-function: var(--ease-5);
-			animation-duration: 0.5s;
-			animation-delay: 0.5s;
+			animation-duration: 0.3s;
+			animation-delay: 0.2s;
+		}
+
+		.slide-out {
+			animation:
+				var(--animation-fade-out) forwards,
+				var(--animation-slide-out-up);
+			animation-timing-function: var(--ease-5);
+			animation-duration: 0.3s;
 		}
 
 		.fade-in.htmx-added,

@@ -79,7 +79,7 @@ css! {
 				grid-template-columns 0.3s,
 				grid-template-rows 0.3s;
 
-			@media (max-width: 30rem) {
+			@media (max-width: 35rem) {
 				grid-template-areas:
 					"hook"
 					"title"
@@ -136,12 +136,13 @@ css! {
 			grid-area: book;
 			align-self: center;
 			justify-self: center;
+			z-index: -1;
 			transform: scale(1.3);
 			transition:
 				margin 0.3s,
 				transform 0.3s;
 
-			@media (max-width: 30rem) {
+			@media (max-width: 35rem) {
 				margin-bottom: var(--size-6);
 				margin-top: var(--size-3);
 			}

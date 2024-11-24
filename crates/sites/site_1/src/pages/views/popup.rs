@@ -25,8 +25,9 @@ js! {
 	me("#popup").on("popup-dismissed", async (ev) => {
 		let el = me(ev);
 		el.classAdd("fade-out");
+		el.classRemove("fade-in");
 		await sleep(500);
-		el.classAdd("vh");
+		el.remove();
 	});
 
 	me(".popup-overlay").on("click", () => me("#popup").send("popup-dismissed"));
@@ -40,11 +41,9 @@ css! {
 		--main-transition: opacity 0.5s var(--main-ease);
 
 		.fade-in.htmx-added,
-		.fade-in,
 		.fade-out,
 		.popup-content {
 			opacity: 0;
-			transition: var(--main-transition);
 		}
 
 		.fade-in {
@@ -60,10 +59,12 @@ css! {
 			overflow: auto;
 			background-color: rgb(0, 0, 0);
 			background-color: rgba(0, 0, 0, 0.4);
+			transition: var(--main-transition);
 		}
 		.popup-content {
 			position: relative;
 			overflow-x: hidden;
+			top: 2%;
 
 			border: 1px solid #888;
 			background-color: var(--surface-1);
@@ -74,7 +75,8 @@ css! {
 
 			transition:
 				width 0.3s,
-				padding 0.3s;
+				padding 0.3s,
+				var(--main-transition);
 			animation:
 				var(--animation-fade-in) forwards,
 				var(--animation-slide-in-down);
@@ -94,6 +96,7 @@ css! {
 			height: 100%;
 			z-index: -1;
 			background-color: rgba(0, 0, 0, 0.7);
+			transition: var(--main-transition);
 
 			animation: var(--animation-fade-in) 1s var(--main-ease);
 		}

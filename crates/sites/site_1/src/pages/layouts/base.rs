@@ -34,12 +34,4 @@ css! {
 		margin: 0;
 		padding: 0;
 	}
-	.vh {
-			clip: rect(0 0 0 0);
-			clip-path: inset(50%);
-			block-size: 1px;
-			inline-size: 1px;
-			overflow: hidden;
-			white-space: nowrap;
-	}
 }
