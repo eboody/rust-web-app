@@ -101,6 +101,7 @@ css! {
 
 		.title {
 			grid-area: title;
+			color: var(--text-1);
 
 			font-size: var(--font-size-fluid-2);
 			text-align: center;
