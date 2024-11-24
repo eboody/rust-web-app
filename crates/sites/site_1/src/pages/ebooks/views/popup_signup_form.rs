@@ -7,30 +7,42 @@ pub struct PopupSignupForm<'a> {
 
 impl Render for PopupSignupForm<'_> {
 	fn render(&self) -> Markup {
-		let url = std::env::var("APP_URL")
+		let app_url = std::env::var("APP_URL")
 			.unwrap_or_else(|_| "https://tos.eman.network".to_string());
+
+		let url = format!("{}/ebooks/signup", app_url);
+
 		html! {
 			form
-			hx-post={(url)"/ebooks/signup"}
+			hx-post=(url)
 			hx-swap="outerHTML"
 			hx-target="#popup"
-			trigger="submit" {
+			hx-trigger="submit" {
 				(FormField {
 					name: "first_name",
-					label: "First Name",
+					label: Some("First Name"),
 					input_type: "text",
-					placeholder: "First Name"
+					placeholder: Some("First Name"),
+					value: None
 				})
 				(FormField {
 					name: "email",
-					label: "Email",
+					label: Some("Email"),
 					input_type: "email",
-					placeholder: "Email"
+					placeholder: Some("Email"),
+					value: None
+				})
+				(FormField {
+					name: "ebook_name",
+					input_type: "hidden",
+					label: None,
+					placeholder: None,
+					value: Some(self.ebook.title.as_deref().unwrap_or("No title"))
 				})
 
 				.button-container{
-					(Button::Primary { href: &self.ebook.file_url(), text: "Yes, send me my free ebook!" })
-					(Button::Secondary { href: "#", text: "No Thanks" })
+					(Button::Primary { href: None, text: "Yes, send me my free ebook!" })
+					(Button::Secondary { href: None, text: "No Thanks" })
 				}
 			}
 			(js())

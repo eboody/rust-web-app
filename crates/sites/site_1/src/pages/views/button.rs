@@ -1,8 +1,14 @@
 use crate::prelude::*;
 
 pub enum Button<'a> {
-	Primary { href: &'a str, text: &'a str },
-	Secondary { href: &'a str, text: &'a str },
+	Primary {
+		href: Option<&'a str>,
+		text: &'a str,
+	},
+	Secondary {
+		href: Option<&'a str>,
+		text: &'a str,
+	},
 }
 
 impl Render for Button<'_> {
@@ -10,10 +16,10 @@ impl Render for Button<'_> {
 		html! {
 			@match self {
 				Button::Primary { href, text } => {
-					button.primary href=(href) download=(text) type="submit" { (text) }
+					button.primary href=[href] download=(text) type="submit" { (text) }
 				},
 				Button::Secondary { href, text } => {
-					button.secondary href=(href) download=(text) { (text) }
+					button.secondary href=[href] download=(text) { (text) }
 				}
 			}
 			(css())
@@ -24,6 +30,7 @@ impl Render for Button<'_> {
 css! {
 	me {
 		button {
+			color: var(--text-1);
 			text-shadow: none;
 			transition:
 				box-shadow 0.3s,

@@ -2,6 +2,7 @@ use crate::pages::ebooks;
 use crate::prelude::*;
 use axum::extract::State;
 use serde::Deserialize;
+use serde_json::json;
 
 pub fn router(mm: ModelManager) -> Router {
 	Router::new()
@@ -19,9 +20,24 @@ struct Signup {
 	ebook_name: String,
 }
 
-async fn popup_form_filled(State(mm): State<ModelManager>) -> Result<Markup> {
+async fn popup_form_filled(
+	State(mm): State<ModelManager>,
+	Form(form): Form<Signup>,
+) -> Result<Markup> {
+	println!("Received form data: {:?}", form);
 	mm.reqwest()
-		.get("https://n8n.eman.network/webhook-test/24478e2d-b29a-43dd-bc71-59ea2efbcf6c")
+		.post(
+			"https://n8n.eman.network/webhook/78b2e1c3-ceac-43d9-85c7-3870cf37710a",
+		)
+		.body(
+			json!({
+				"email": form.email,
+				"first_name": form.first_name,
+				"ebook_name": form.ebook_name,
+			})
+			.to_string(),
+		)
+		.header("Content-Type", "application/json")
 		.send()
 		.await?;
 

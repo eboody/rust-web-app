@@ -57,7 +57,6 @@ css! {
 			width: 100%;
 			height: 100%;
 			overflow: auto;
-			background-color: rgb(0, 0, 0);
 			background-color: rgba(0, 0, 0, 0.4);
 			transition: var(--main-transition);
 		}
@@ -66,7 +65,7 @@ css! {
 			overflow-x: hidden;
 			top: 2%;
 
-			border: 1px solid #888;
+			border: 1px solid var(--surface-3);
 			background-color: var(--surface-1);
 			margin: 15% auto;
 			padding: 50px;
