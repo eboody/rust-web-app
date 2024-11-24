@@ -76,9 +76,9 @@ css! {
 
 	me {
 		.book {
-			--book-thickness: 10px;
+			--book-thickness: min(1dvw, 10px);
 			--cover-color: slategray;
-			--max-width: 150px;
+			--max-width: min(15dvw, 150px);
 
 			perspective: 1000px;
 			max-width: var(--max-width);
@@ -86,8 +86,8 @@ css! {
 				max-width 0.5s,
 				--book-thickness 0.5s;
 			@media (max-width: 30rem) {
-					--max-width: 75px;
-					--book-thickness: 5px;
+				--max-width: 75px;
+				--book-thickness: 5px;
 			}
 		}
 		.book:hover .inner {
