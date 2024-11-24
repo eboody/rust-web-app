@@ -1,21 +1,7 @@
 use crate::prelude::*;
 
 pub fn base(children: Markup) -> Markup {
-	let manifest: Value = serde_json::from_str(
-		&std::fs::read_to_string(
-			"crates/sites/site_1/src/web-folder/js/.vite/manifest.json",
-		)
-		.expect("manifest.json not found"),
-	)
-	.expect("Error parsing manifest.json");
-
-	let main_js = manifest["index.html"]["file"]
-		.as_str()
-		.expect("index.html not found in manifest");
-	let main_css = manifest["index.html"]["css"][0]
-		.as_str()
-		.expect("index.css not found in manifest");
-
+	let Assets { main_js, main_css } = get_js_and_css_files();
 	html! {
 		(DOCTYPE)
 		html {

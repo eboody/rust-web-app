@@ -1,9 +1,11 @@
 use reqwest::{Client, StatusCode};
 
 use crate::prelude::*;
+mod get_js_and_css_files;
 mod macros;
 mod to_alphanumeric;
 
+pub use get_js_and_css_files::*;
 pub use to_alphanumeric::to_alphanumeric;
 
 #[allow(unused)]
