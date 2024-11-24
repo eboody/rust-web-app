@@ -98,6 +98,7 @@ css! {
 
 		[id^="toast-"] {
 			position: fixed;
+			top: 4%;
 			overflow: hidden;
 
 			display: grid;
@@ -110,8 +111,10 @@ css! {
 			background-color: var(--surface-1);
 			border-radius: 0.5rem;
 			box-shadow:
+				rgba(17, 12, 46, 0.15) 0px 48px 100px 0px,
 				rgba(0, 0, 0, 0.05) 0px 0px 0px 1px,
 				rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+
 
 			.success-icon {
 				cursor: default;

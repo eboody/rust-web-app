@@ -7,9 +7,11 @@ pub struct PopupSignupForm<'a> {
 
 impl Render for PopupSignupForm<'_> {
 	fn render(&self) -> Markup {
+		let url = std::env::var("APP_URL")
+			.unwrap_or_else(|_| "https://tos.eman.network".to_string());
 		html! {
 			form
-			hx-post="/ebooks/signup"
+			hx-post={(url)"/ebooks/signup"}
 			hx-swap="outerHTML"
 			hx-target="#popup"
 			trigger="submit" {
