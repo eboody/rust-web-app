@@ -51,7 +51,7 @@ sqlx = { version = "0.8", features = [ "macros", "postgres", "uuid" , "runtime-t
 
 [workspace.metadata.scripts]
 w = "cargo run-script bundle & cargo run-script watch"
-bundle = "cargo run-script bundle-site-1"
+bundle = "rm ./crates/sites/site_1/src/web-folder/assets/index* & cargo run-script bundle-site-1"
 watch = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
 bundle-site-1 = "rm -rf crates/sites/site_1/src/web-folder/js && npm --prefix crates/sites/site_1/src/vite-alpine run build"
 devdb = "docker run --rm --name pg -p 5432:5432 -e POSTGRES_PASSWORD=welcome postgres:16"
