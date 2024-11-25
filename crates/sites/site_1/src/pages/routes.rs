@@ -26,19 +26,11 @@ async fn get_slash() -> Result<Markup> {
 
 fn js_and_css_routes() -> Router {
 	let Assets { main_js, main_css } = get_js_and_css_files();
+	let web_folder = std::env::var("SERVICE_WEB_FOLDER").unwrap();
 	Router::new()
 		.route_service(
 			"/css",
-			ServeFile::new(format!(
-				"crates/sites/site_1/src/web-folder/js/{}",
-				main_css
-			)),
+			ServeFile::new(format!("{}/{}", web_folder, main_css)),
 		)
-		.route_service(
-			"/js",
-			ServeFile::new(format!(
-				"crates/sites/site_1/src/web-folder/js/{}",
-				main_js
-			)),
-		)
+		.route_service("/js", ServeFile::new(format!("{}/{}", web_folder, main_js)))
 }
