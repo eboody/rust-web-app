@@ -7,8 +7,8 @@ pub fn base(children: Markup) -> Markup {
 		html {
 			head {
 				title { "SITE1" }
-				script type="module" src=(format!("/js/{}", main_js)) {}
-				link rel="stylesheet" href=(format!("/js/{}", main_css)) {}
+				script type="module" src=(format!("/{}", main_js)) {}
+				link rel="stylesheet" href=(format!("/{}", main_css)) {}
 				script src="https://unpkg.com/htmx.org@2.0.3" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js" {}

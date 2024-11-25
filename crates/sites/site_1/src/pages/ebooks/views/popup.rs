@@ -39,7 +39,6 @@ pub async fn get_popup(State(mm): State<ModelManager>) -> Result<Markup> {
 	let ebook = Ebook::select()
 		.where_("languages_code = ?")
 		.bind("en-US")
-		.where_("published = true")
 		.join(Ebook::ebook())
 		.fetch_one(mm.orm())
 		.await?;

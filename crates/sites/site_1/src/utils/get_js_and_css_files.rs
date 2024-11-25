@@ -7,7 +7,7 @@ pub struct Assets {
 pub fn get_js_and_css_files() -> Assets {
 	let manifest: Value = serde_json::from_str(
 		&std::fs::read_to_string(
-			"crates/sites/site_1/src/web-folder/js/.vite/manifest.json",
+			"crates/sites/site_1/src/web-folder/.vite/manifest.json",
 		)
 		.expect("manifest.json not found"),
 	)

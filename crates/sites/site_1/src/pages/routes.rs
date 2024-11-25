@@ -19,7 +19,7 @@ pub fn main_router(mm: ModelManager) -> Router {
 
 async fn get_slash() -> Result<Markup> {
 	Ok(layouts::base(layouts::app(html! {
-		div hx-get="/ebooks/popup/10f440ac-680d-4c84-b50b-e1d2a1272727" hx-trigger="load" hx-swap="outerHTML" {}
+		div hx-get="/ebooks/popup" hx-trigger="load" hx-swap="outerHTML" {}
 		//(ebooks::get_menu().await?)
 	})))
 }
