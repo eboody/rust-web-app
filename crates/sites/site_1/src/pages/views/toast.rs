@@ -98,6 +98,7 @@ css! {
 
 		[id^="toast-"] {
 			position: fixed;
+			z-index: 1003; // the header is 1002?!
 			top: 4%;
 			overflow: hidden;
 
