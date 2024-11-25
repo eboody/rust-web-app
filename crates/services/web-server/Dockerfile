@@ -4,8 +4,8 @@ WORKDIR /app
 
 COPY . .
 COPY crates/sites/site_1/src/web-folder web-folder
-COPY crates/sites/site_1/src/web-folder/js/.vite web-folder/js/.vite
-RUN ls -la web-folder/js
+COPY crates/sites/site_1/src/web-folder/.vite web-folder/.vite
+RUN ls -la web-folder
 
 RUN cargo build -p web-server --release
 
