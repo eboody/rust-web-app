@@ -20,23 +20,23 @@
 @import "open-props/colors-hsl";
 @import "open-props/brand-colors";
 
-html {
-  --font-system-ui: system-ui, sans-serif;
-  --font-transitional: Charter, Bitstream Charter, Sitka Text, Cambria, serif;
-  --font-old-style: Iowan Old Style, Palatino Linotype, URW Palladio L, P052, serif;
-  --font-humanist: Seravek, Gill Sans Nova, Ubuntu, Calibri, DejaVu Sans, source-sans-pro, sans-serif;
-  --font-geometric-humanist: Avenir, Montserrat, Corbel, URW Gothic, source-sans-pro, sans-serif;
-  --font-classical-humanist: Optima, Candara, Noto Sans, source-sans-pro, sans-serif;
-  --font-neo-grotesque: Inter, Roboto, Helvetica Neue, Arial Nova, Nimbus Sans, Arial, sans-serif;
-  --font-monospace-slab-serif: Nimbus Mono PS, Courier New, monospace;
-  --font-monospace-code: Dank Mono, Operator Mono, Inconsolata, Fira Mono, ui-monospace, SF Mono,Monaco, Droid Sans Mono, Source Code Pro, Cascadia Code,Menlo, Consolas, DejaVu Sans Mono, monospace;
-  --font-industrial: Bahnschrift, DIN Alternate, Franklin Gothic Medium, Nimbus Sans Narrow, sans-serif-condensed, sans-serif;
-  --font-rounded-sans: ui-rounded, Hiragino Maru Gothic ProN, Quicksand, Comfortaa, Manjari, Arial Rounded MT, Arial Rounded MT Bold, Calibri, source-sans-pro, sans-serif;
-  --font-slab-serif: Rockwell, Rockwell Nova, Roboto Slab, DejaVu Serif, Sitka Small, serif;
-  --font-antique: Superclarendon, Bookman Old Style, URW Bookman, URW Bookman L, Georgia Pro, Georgia, serif;
-  --font-didone: Didot, Bodoni MT, Noto Serif Display, URW Palladio L, P052, Sylfaen, serif;
-  --font-handwritten: Segoe Print, Bradley Hand, Chilanka, TSCu_Comic, casual, cursive;
-}
+/*html {*/
+/*  --font-system-ui: system-ui, sans-serif;*/
+/*  --font-transitional: Charter, Bitstream Charter, Sitka Text, Cambria, serif;*/
+/*  --font-old-style: Iowan Old Style, Palatino Linotype, URW Palladio L, P052, serif;*/
+/*  --font-humanist: Seravek, Gill Sans Nova, Ubuntu, Calibri, DejaVu Sans, source-sans-pro, sans-serif;*/
+/*  --font-geometric-humanist: Avenir, Montserrat, Corbel, URW Gothic, source-sans-pro, sans-serif;*/
+/*  --font-classical-humanist: Optima, Candara, Noto Sans, source-sans-pro, sans-serif;*/
+/*  --font-neo-grotesque: Inter, Roboto, Helvetica Neue, Arial Nova, Nimbus Sans, Arial, sans-serif;*/
+/*  --font-monospace-slab-serif: Nimbus Mono PS, Courier New, monospace;*/
+/*  --font-monospace-code: Dank Mono, Operator Mono, Inconsolata, Fira Mono, ui-monospace, SF Mono,Monaco, Droid Sans Mono, Source Code Pro, Cascadia Code,Menlo, Consolas, DejaVu Sans Mono, monospace;*/
+/*  --font-industrial: Bahnschrift, DIN Alternate, Franklin Gothic Medium, Nimbus Sans Narrow, sans-serif-condensed, sans-serif;*/
+/*  --font-rounded-sans: ui-rounded, Hiragino Maru Gothic ProN, Quicksand, Comfortaa, Manjari, Arial Rounded MT, Arial Rounded MT Bold, Calibri, source-sans-pro, sans-serif;*/
+/*  --font-slab-serif: Rockwell, Rockwell Nova, Roboto Slab, DejaVu Serif, Sitka Small, serif;*/
+/*  --font-antique: Superclarendon, Bookman Old Style, URW Bookman, URW Bookman L, Georgia Pro, Georgia, serif;*/
+/*  --font-didone: Didot, Bodoni MT, Noto Serif Display, URW Palladio L, P052, Sylfaen, serif;*/
+/*  --font-handwritten: Segoe Print, Bradley Hand, Chilanka, TSCu_Comic, casual, cursive;*/
+/*}*/
 
 
 /* light theme */
@@ -57,41 +57,41 @@ html {
   --error-light: var(--red-6);
 }
 
-/* dark theme */
-html {
-  --brand-dark: var(--blue-9);
-
-  --text-1-dark: var(--gray-3);
-  --text-2-dark: var(--gray-5);
-
-  --surface-1-dark: var(--gray-12);
-  --surface-2-dark: var(--gray-11);
-  --surface-3-dark: var(--gray-10);
-  --surface-4-dark: var(--gray-9);
-
-  --success-dark: var(--green-5);
-  --warning-dark: var(--yellow-5);
-  --info-dark: var(--blue-5);
-  --error-dark: var(--red-5);
-}
-
-/* dim theme */
-html {
-  --brand-dim: var(--blue-5);
-
-  --text-1-dim: var(--gray-3);
-  --text-2-dim: var(--gray-4);
-
-  --surface-1-dim: var(--gray-8);
-  --surface-2-dim: var(--gray-7);
-  --surface-3-dim: var(--gray-6);
-  --surface-4-dim: var(--gray-5);
-
-  --success-dim: var(--green-4);
-  --warning-dim: var(--yellow-4);
-  --info-dim: var(--blue-4);
-  --error-dim: var(--red-4);
-}
+/*/* dark theme */*/
+/*html {*/
+/*  --brand-dark: var(--blue-9);*/
+/**/
+/*  --text-1-dark: var(--gray-3);*/
+/*  --text-2-dark: var(--gray-5);*/
+/**/
+/*  --surface-1-dark: var(--gray-12);*/
+/*  --surface-2-dark: var(--gray-11);*/
+/*  --surface-3-dark: var(--gray-10);*/
+/*  --surface-4-dark: var(--gray-9);*/
+/**/
+/*  --success-dark: var(--green-5);*/
+/*  --warning-dark: var(--yellow-5);*/
+/*  --info-dark: var(--blue-5);*/
+/*  --error-dark: var(--red-5);*/
+/*}*/
+/**/
+/*/* dim theme */*/
+/*html {*/
+/*  --brand-dim: var(--blue-5);*/
+/**/
+/*  --text-1-dim: var(--gray-3);*/
+/*  --text-2-dim: var(--gray-4);*/
+/**/
+/*  --surface-1-dim: var(--gray-8);*/
+/*  --surface-2-dim: var(--gray-7);*/
+/*  --surface-3-dim: var(--gray-6);*/
+/*  --surface-4-dim: var(--gray-5);*/
+/**/
+/*  --success-dim: var(--green-4);*/
+/*  --warning-dim: var(--yellow-4);*/
+/*  --info-dim: var(--blue-4);*/
+/*  --error-dim: var(--red-4);*/
+/*}*/
 
 /* adaptive aliases */
 :root {
@@ -111,43 +111,43 @@ html {
   --error: var(--error-light);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --brand: var(--brand-dark);
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --brand: var(--brand-dark);*/
+/**/
+/*    --text-1: var(--text-1-dark);*/
+/*    --text-2: var(--text-2-dark);*/
+/**/
+/*    --surface-1: var(--surface-1-dark);*/
+/*    --surface-2: var(--surface-2-dark);*/
+/*    --surface-3: var(--surface-3-dark);*/
+/*    --surface-4: var(--surface-4-dark);*/
+/**/
+/*    --success: var(--success-dark);*/
+/*    --warning: var(--warning-dark);*/
+/*    --info: var(--info-dark);*/
+/*    --error: var(--error-dark);*/
+/*  }*/
+/*}*/
 
-    --text-1: var(--text-1-dark);
-    --text-2: var(--text-2-dark);
-
-    --surface-1: var(--surface-1-dark);
-    --surface-2: var(--surface-2-dark);
-    --surface-3: var(--surface-3-dark);
-    --surface-4: var(--surface-4-dark);
-
-    --success: var(--success-dark);
-    --warning: var(--warning-dark);
-    --info: var(--info-dark);
-    --error: var(--error-dark);
-  }
-}
-
-@media (prefers-contrast: less) {
-  :root {
-    --brand: var(--brand-dim);
-
-    --text-1: var(--text-1-dim);
-    --text-2: var(--text-2-dim);
-
-    --surface-1: var(--surface-1-dim);
-    --surface-2: var(--surface-2-dim);
-    --surface-3: var(--surface-3-dim);
-    --surface-4: var(--surface-4-dim);
-
-    --success: var(--success-dim);
-    --warning: var(--warning-dim);
-    --info: var(--info-dim);
-    --error: var(--error-dim);
-  }
-}
+/*@media (prefers-contrast: less) {*/
+/*  :root {*/
+/*    --brand: var(--brand-dim);*/
+/**/
+/*    --text-1: var(--text-1-dim);*/
+/*    --text-2: var(--text-2-dim);*/
+/**/
+/*    --surface-1: var(--surface-1-dim);*/
+/*    --surface-2: var(--surface-2-dim);*/
+/*    --surface-3: var(--surface-3-dim);*/
+/*    --surface-4: var(--surface-4-dim);*/
+/**/
+/*    --success: var(--success-dim);*/
+/*    --warning: var(--warning-dim);*/
+/*    --info: var(--info-dim);*/
+/*    --error: var(--error-dim);*/
+/*  }*/
+/*}*/
 
 [color-scheme="purple"] {
   --brand: var(--brand-purple);
@@ -166,19 +166,19 @@ html {
   --error: var(--red-5);
 }
 
-h1,h2,h3,h4,p,dt {
-  color: var(--text-1);
-}
-
-h5,h6,small,dd {
-  color: var(--text-2);
-}
-
-html {
-  background-color: var(--surface-1);
-  color: var(--text-1);
-  accent-color: var(--link);
-}
+/*h1,h2,h3,h4,p,dt {*/
+/*  color: var(--text-1);*/
+/*}*/
+/**/
+/*h5,h6,small,dd {*/
+/*  color: var(--text-2);*/
+/*}*/
+/**/
+/*html {*/
+/*  background-color: var(--surface-1);*/
+/*  color: var(--text-1);*/
+/*  accent-color: var(--link);*/
+/*}*/
 
 
 /*overrides*/
