@@ -7,7 +7,7 @@ use serde_json::json;
 pub fn router(mm: ModelManager) -> Router {
 	Router::new()
 		.route("/menu", get(ebooks::get_menu))
-		.route("/popup/:id", get(ebooks::get_popup))
+		.route("/popup", get(ebooks::get_popup))
 		.route("/signup", post(popup_form_filled))
 		.with_state(mm)
 }

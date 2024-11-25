@@ -35,15 +35,11 @@ fn content_markup(ebook: &Ebook) -> Markup {
 	}
 }
 
-pub async fn get_popup(
-	Path(ebook_id): Path<uuid::Uuid>,
-	State(mm): State<ModelManager>,
-) -> Result<Markup> {
+pub async fn get_popup(State(mm): State<ModelManager>) -> Result<Markup> {
 	let ebook = Ebook::select()
 		.where_("languages_code = ?")
 		.bind("en-US")
-		.where_("ebooks_id = ?")
-		.bind(ebook_id)
+		.where_("published = true")
 		.join(Ebook::ebook())
 		.fetch_one(mm.orm())
 		.await?;
