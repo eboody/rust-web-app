@@ -2,6 +2,7 @@ use derive_more::From;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 
+#[allow(unused)]
 pub type Result<T> = core::result::Result<T, Error>;
 
 #[serde_as]

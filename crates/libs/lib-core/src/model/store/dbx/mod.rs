@@ -15,12 +15,14 @@ use tokio::sync::Mutex;
 // endregion: --- Modules
 
 #[derive(Debug, Clone)]
+#[allow(unused)]
 pub struct Dbx {
 	db_pool: Db,
 	txn_holder: Arc<Mutex<Option<TxnHolder>>>,
 	with_txn: bool,
 }
 
+#[allow(unused)]
 impl Dbx {
 	pub fn new(db_pool: Db, with_txn: bool) -> Result<Self> {
 		Ok(Dbx {
@@ -32,11 +34,13 @@ impl Dbx {
 }
 
 #[derive(Debug)]
+#[allow(unused)]
 struct TxnHolder {
 	txn: Transaction<'static, Postgres>,
 	counter: i32,
 }
 
+#[allow(unused)]
 impl TxnHolder {
 	fn new(txn: Transaction<'static, Postgres>) -> Self {
 		TxnHolder { txn, counter: 1 }
@@ -66,6 +70,7 @@ impl DerefMut for TxnHolder {
 	}
 }
 
+#[allow(unused)]
 impl Dbx {
 	pub async fn begin_txn(&self) -> Result<()> {
 		if !self.with_txn {

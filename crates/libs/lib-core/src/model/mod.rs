@@ -7,23 +7,23 @@ pub use structs::*;
 
 pub use self::error::{Error, Result};
 
-use crate::model::store::dbx::Dbx;
-use crate::model::store::new_db_pool;
+//use crate::model::store::dbx::Dbx;
+//use crate::model::store::new_db_pool;
 
 #[derive(Clone)]
 #[allow(unused)]
 pub struct ModelManager {
-	dbx: Dbx,
+	//dbx: Dbx,
 	reqwest: reqwest::Client,
 	directus: ormlite::postgres::PgPool,
 }
 
 impl ModelManager {
 	pub async fn new() -> Result<Self> {
-		let db_pool = new_db_pool()
-			.await
-			.map_err(|ex| Error::CantCreateModelManagerProvider(ex.to_string()))?;
-		let dbx = Dbx::new(db_pool, false)?;
+		//let db_pool = new_db_pool()
+		//	.await
+		//	.map_err(|ex| Error::CantCreateModelManagerProvider(ex.to_string()))?;
+		//let dbx = Dbx::new(db_pool, false)?;
 		let reqwest_client = reqwest::Client::new();
 
 		let orm = ormlite::postgres::PgPoolOptions::new()
@@ -33,7 +33,7 @@ impl ModelManager {
 			.unwrap();
 
 		Ok(ModelManager {
-			dbx,
+			//dbx,
 			reqwest: reqwest_client,
 			directus: orm,
 		})
@@ -52,9 +52,9 @@ impl ModelManager {
 	//	})
 	//}
 
-	pub fn dbx(&self) -> &Dbx {
-		&self.dbx
-	}
+	//pub fn dbx(&self) -> &Dbx {
+	//	&self.dbx
+	//}
 	pub fn orm(&self) -> &ormlite::postgres::PgPool {
 		&self.directus
 	}

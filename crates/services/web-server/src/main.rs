@@ -39,7 +39,7 @@ async fn main() -> Result<()> {
 	Ok(())
 }
 
-fn get_cors_layer() -> CorsLayer {
+pub fn get_cors_layer() -> CorsLayer {
 	CorsLayer::new()
 		.allow_origin(HeaderValue::from_static("*"))
 		.allow_methods([Method::PATCH, Method::GET, Method::POST, Method::OPTIONS])
