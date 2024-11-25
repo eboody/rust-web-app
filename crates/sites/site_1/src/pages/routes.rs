@@ -30,7 +30,7 @@ fn js_and_css_routes() -> Router {
 	Router::new()
 		.route_service(
 			"/css",
-			ServeFile::new(format!("{}/{}", web_folder, main_css)),
+			ServeFile::new(format!("{}/assets/{}", web_folder, main_css)),
 		)
 		.route_service("/js", ServeFile::new(format!("{}/{}", web_folder, main_js)))
 }
