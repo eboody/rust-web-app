@@ -138,7 +138,6 @@ css! {
 			grid-area: book;
 			align-self: center;
 			justify-self: center;
-			z-index: -1;
 			transform: scale(1.3);
 			transition:
 				margin 0.3s,
@@ -146,7 +145,7 @@ css! {
 
 			@media (max-width: 35rem) {
 				margin-bottom: var(--size-6);
-				margin-top: var(--size-3);
+				margin-top: var(--size-6);
 			}
 		}
 	}

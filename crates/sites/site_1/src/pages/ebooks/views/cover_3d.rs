@@ -90,10 +90,10 @@ css! {
 				--book-thickness: 5px;
 			}
 		}
+
 		.book:hover .inner {
 			animation: book-3d-back 0.5s ease forwards;
 		}
-
 		.book:hover .shadow {
 			animation: book-shadow-3d-back 0.5s ease forwards;
 		}
