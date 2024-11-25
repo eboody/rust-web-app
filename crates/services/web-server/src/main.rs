@@ -30,7 +30,7 @@ async fn main() -> Result<()> {
 		.layer(CookieManagerLayer::new())
 		.layer(get_cors_layer());
 
-	let listener = TcpListener::bind("0.0.0.0:3031").await.unwrap();
+	let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
 	info!("{:<12} - {:?}\n", "LISTENING", listener.local_addr());
 	axum::serve(listener, routes_all.into_make_service())
 		.await
