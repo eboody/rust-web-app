@@ -111,7 +111,7 @@ css! {
 			align-items: center;
 			margin-top: var(--size-6);
 			gap: var(--size-3);
-			width: fit-content;
+			width: 100%;
 
 			button.secondary {
 				background-color: transparent;

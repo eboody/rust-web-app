@@ -30,6 +30,7 @@ impl Render for Button<'_> {
 css! {
 	me {
 		button {
+			width: inherit;
 			color: var(--text-1);
 			text-shadow: none;
 			transition:
