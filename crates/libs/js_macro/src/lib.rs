@@ -13,7 +13,17 @@ impl Parse for JsBlock {
 		//braced!(content in input);
 		let js_code = format!("{:#}", input.parse::<proc_macro2::TokenStream>()?);
 
-		let js_code = js_code.replace(" r\"", " \"");
+		let js_code = js_code
+			.replace(" r\"", " \"")
+			.replace("(r\"", "(\"")
+			.replace("[r\"", "[\"")
+			.replace(" \"`", " `")
+			.replace("`\";", "`;")
+			.replace("(\"`", "(`")
+			.replace("`\" ", "` ")
+			.replace("[\"`", "[`")
+			.replace("`\")", "`)")
+			.replace("`\"]", "`]");
 		Ok(JsBlock { content: js_code })
 	}
 }

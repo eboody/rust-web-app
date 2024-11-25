@@ -2,6 +2,8 @@ use crate::pages::*;
 use crate::prelude::*;
 
 use axum::{routing::get, Router};
+use layouts::App;
+use layouts::Base;
 use lib_core::model::ModelManager;
 use maud::Markup;
 use tower_http::services::ServeDir;
@@ -18,10 +20,41 @@ pub fn main_router(mm: ModelManager) -> Router {
 }
 
 async fn get_slash() -> Result<Markup> {
-	Ok(layouts::base(layouts::app(html! {
-		div hx-get="/ebooks/popup" hx-trigger="load" hx-swap="outerHTML" {}
+	Ok(Base(App(
+		html! {
+		#pre-ebook-popup hx-get="/ebooks/popup" hx-trigger="showPopup" hx-swap="innerHTML" {}
+		(js())
 		//(ebooks::get_menu().await?)
-	})))
+	}
+	).render()).render())
+}
+
+js! {
+	function setCookie(name, value, days) {
+		const date = new Date();
+		date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+		document.cookie =
+			"`${name}=${value}; expires=${date.toUTCString()}; path=/;`";
+	}
+
+	function getCookie(name) {
+		const value = "`; ${name}`";
+		const parts = value.split("; " + name + "=");
+		if (parts.length === 2) {
+			return parts.pop().split(";").shift() === "true";
+		}
+		return false;
+	}
+
+	onloadAdd((_) => {
+		if (!getCookie("popupShown")) {
+			me("#pre-ebook-popup").send("showPopup");
+
+			setCookie("popupShown", "true", 30); //expires in 30 days
+		} else {
+			console.log("Popup already shown, skipping...");
+		}
+	});
 }
 
 fn js_and_css_routes() -> Router {

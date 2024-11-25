@@ -1,6 +1,14 @@
 use crate::prelude::*;
 
-pub fn app(children: Markup) -> Markup {
+pub struct App(pub Markup);
+
+impl Render for App {
+	fn render(&self) -> Markup {
+		app(self.0.clone())
+	}
+}
+
+fn app(children: Markup) -> Markup {
 	html! {
 		div #layout {
 			div #menu {

@@ -1,6 +1,14 @@
 use crate::prelude::*;
 
-pub fn base(children: Markup) -> Markup {
+pub struct Base(pub Markup);
+
+impl Render for Base {
+	fn render(&self) -> Markup {
+		base(self.0.clone())
+	}
+}
+
+fn base(children: Markup) -> Markup {
 	let Assets { main_js, main_css } = get_js_and_css_files();
 	let umami_id = std::env::var("UMAMI_SITE_ID").expect("Expected UMAMI_SITE_ID");
 	html! {

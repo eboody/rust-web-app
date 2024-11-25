@@ -56,10 +56,6 @@ js! {
 		me(ev).send("popup-dismissed");
 	});
 
-	localStorage.setItem("ebook_popup", JSON.stringify({
-		ebook_id: me(".popup-container").attribute("ebook_id"),
-		date_viewed: new Date().getTime(),
-	}));
 }
 
 css! {
