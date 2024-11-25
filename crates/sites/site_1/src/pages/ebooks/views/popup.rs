@@ -1,6 +1,6 @@
 use crate::pages::ebooks;
 use crate::prelude::*;
-use lib_core::model::Ebook;
+use lib_core::model::{Ebook, Language};
 
 pub struct Popup<'a> {
 	pub ebook: &'a Ebook,
@@ -38,7 +38,9 @@ fn content_markup(ebook: &Ebook) -> Markup {
 pub async fn get_popup(State(mm): State<ModelManager>) -> Result<Markup> {
 	let ebook = Ebook::select()
 		.where_("languages_code = ?")
-		.bind("en-US")
+		.bind(Language::English.to_string())
+		.where_("status = ?")
+		.bind("published")
 		.join(Ebook::ebook())
 		.fetch_one(mm.orm())
 		.await?;

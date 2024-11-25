@@ -2,4 +2,4 @@ mod article;
 mod language;
 mod status;
 
-pub use status::*;
+pub use {article::*, language::*, status::*};
