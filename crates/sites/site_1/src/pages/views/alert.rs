@@ -1,6 +1,7 @@
 use crate::prelude::*;
 
 #[derive(Debug, Display)]
+#[allow(dead_code)]
 pub enum Alert<'a> {
 	Information { text: &'a str },
 	Warning { text: &'a str },

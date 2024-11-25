@@ -7,6 +7,7 @@ pub struct Tooltip<'a> {
 }
 
 #[derive(Debug, Display)]
+#[allow(dead_code)]
 pub enum TooltipPosition {
 	Top,
 	Bottom,

@@ -1,5 +1,6 @@
 use crate::prelude::*;
 
+#[allow(dead_code)]
 pub enum Modal<'a> {
 	Info { title: &'a str, body: &'a str },
 	Warning { title: &'a str, body: &'a str },

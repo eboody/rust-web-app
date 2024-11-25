@@ -1,9 +1,7 @@
-use clap::{command, Arg};
-use std::fs::{self, File};
-use std::io::{self, BufRead, BufReader, Write};
-use std::path::Path;
+use std::fs::File;
+use std::io::{self, Write};
 
-fn main() -> io::Result<()> {
+fn main() {
 	//// Parse command-line arguments using clap
 	//let matches = App::new("Split Structs")
 	//	.version("1.0")
@@ -79,11 +77,10 @@ fn main() -> io::Result<()> {
 	//if let Some(struct_name) = current_struct {
 	//	save_to_file(output_dir, &struct_name, &current_lines)?;
 	//}
-
-	Ok(())
 }
 
 // Helper function to save the current struct to a file
+#[allow(dead_code)]
 fn save_to_file(
 	output_dir: &str,
 	struct_name: &str,

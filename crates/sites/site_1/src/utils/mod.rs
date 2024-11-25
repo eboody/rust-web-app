@@ -6,7 +6,6 @@ mod macros;
 mod to_alphanumeric;
 
 pub use get_js_and_css_files::*;
-pub use to_alphanumeric::to_alphanumeric;
 
 #[allow(unused)]
 pub async fn get_image(Path(image_id): Path<String>) -> Result<Response> {

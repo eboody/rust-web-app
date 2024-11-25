@@ -17,7 +17,7 @@ impl Render for Popup<'_> {
 
 fn content_markup(ebook: &Ebook) -> Markup {
 	html! {
-		.popup-container {
+		.popup-container ebook_id=(ebook.id) {
 				.hook { "Free Ebook" }
 				@if let Some(title) = &ebook.title {
 					.title { (title) }
@@ -41,7 +41,7 @@ pub async fn get_popup(
 ) -> Result<Markup> {
 	let ebook = Ebook::select()
 		.where_("languages_code = ?")
-		.bind("en")
+		.bind("en-US")
 		.where_("ebooks_id = ?")
 		.bind(ebook_id)
 		.join(Ebook::ebook())
@@ -57,6 +57,11 @@ js! {
 	me(".secondary").on("click", (ev) => {
 		halt(ev);
 		me(ev).send("popup-dismissed");
+	});
+
+	localStorage.setItem("ebook_popup", {
+		ebook_id: me(".popup-container").attribute("ebook_id"),
+		date_viewed: new Date().getTime(),
 	});
 }
 

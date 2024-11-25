@@ -24,11 +24,14 @@ async fn popup_form_filled(
 	State(mm): State<ModelManager>,
 	Form(form): Form<Signup>,
 ) -> Result<Markup> {
+	let n8n_url = std::env::var("EBOOK_N8N_URL").unwrap_or(
+		"https://n8n.eman.network/webhook-test/03cf713c-7a5a-457d-b58c-807744de76a6"
+			.to_owned(),
+	);
+
 	let res = mm
 		.reqwest()
-		.post(
-			"https://n8n.eman.network/webhook/78b2e1c3-ceac-43d9-85c7-3870cf37710a",
-		)
+		.post(n8n_url)
 		.body(
 			json!({
 				"email": form.email,

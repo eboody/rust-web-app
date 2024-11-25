@@ -503,7 +503,6 @@ pub struct Ebook {
 	pub ebook: Join<Ebooks>,
 	pub languages_code: Option<String>,
 	pub cover_image: Option<Uuid>,
-	pub content: Option<String>,
 	pub title: Option<String>,
 	pub slug: Option<String>,
 	pub summary: Option<String>,
