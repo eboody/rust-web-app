@@ -30,21 +30,7 @@ async fn get_slash() -> Result<Markup> {
 }
 
 js! {
-	function setCookie(name, value, days) {
-		const date = new Date();
-		date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-		document.cookie =
-			"`${name}=${value}; expires=${date.toUTCString()}; path=/;`";
-	}
 
-	function getCookie(name) {
-		const value = "`; ${name}`";
-		const parts = value.split("; " + name + "=");
-		if (parts.length === 2) {
-			return parts.pop().split(";").shift() === "true";
-		}
-		return false;
-	}
 
 	onloadAdd((_) => {
 		if (!getCookie("popupShown")) {

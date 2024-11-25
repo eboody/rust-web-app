@@ -44,6 +44,7 @@ impl Parse for CssBlock {
 			.replace("}", "}\n")
 			.replace(">\n", "> ")
 			.replace("@\n", "@")
+			.replace("Em", "em")
 			.replace("book:hover.", "book:hover .")
 			.replace("@ ", "@");
 
