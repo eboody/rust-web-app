@@ -6,26 +6,26 @@ resolver = "2"
 members = [
     # -- Application Libraries
     "crates/libs/lib-utils",
-    "crates/libs/lib-auth",
+    # "crates/libs/lib-auth",
     "crates/libs/lib-core",
     "crates/libs/serde-json-debugging",
 
     # -- Application Services
     "crates/services/web-server",
-    "crates/services/token-service",
+    # "crates/services/token-service",
 
     # -- Tools
-    "crates/tools/gen-key",
+    # "crates/tools/gen-key",
 
     # -- Sites
     "crates/sites/site_1", 
     "crates/libs/js_macro", 
 
     # -- SDKs
-    "crates/libs/lib-directus",
-    "crates/libs/lib-active-campaign", 
-    "crates/libs/lib-anythingllm", 
-    "crates/libs/lib-sdk", "crates/tools/split_structs",
+    # "crates/libs/lib-directus",
+    # "crates/libs/lib-active-campaign", 
+    # "crates/libs/lib-anythingllm", 
+    # "crates/libs/lib-sdk", "crates/tools/split_structs",
 ]
 
 [workspace.dependencies]

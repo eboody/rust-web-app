@@ -7,14 +7,14 @@ use maud::Markup;
 use tower_http::services::ServeDir;
 use tower_http::services::ServeFile;
 
-const PUBLIC_DIR: &str = "crates/sites/site_1/src/web-folder";
-
 pub fn main_router(mm: ModelManager) -> Router {
 	Router::new()
 		.route("/", get(get_slash))
 		.nest("/ebooks", ebooks::router(mm.clone()))
 		.merge(js_and_css_routes())
-		.fallback_service(ServeDir::new(PUBLIC_DIR))
+		.fallback_service(ServeDir::new(
+			std::env::var("SERVICE_WEB_FOLDER").unwrap(),
+		))
 }
 
 async fn get_slash() -> Result<Markup> {
