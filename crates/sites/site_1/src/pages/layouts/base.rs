@@ -21,6 +21,7 @@ fn base(children: Markup) -> Markup {
 				script src="https://unpkg.com/htmx.org@2.0.3" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/css-scope-inline@main/script.js" {}
 				script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js" {}
+				script type="module" src="/assets/signals.js" {}
 				script defer src="https://umami.eman.network/script.js" data-website-id=(umami_id) {}
 				link rel="preconnect" href="https://fonts.googleapis.com" {}
 				link rel="preconnect" href="https://fonts.gstatic.com" crossorigin {}
