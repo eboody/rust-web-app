@@ -98,7 +98,7 @@ css! {
 
 		[id^="toast-"] {
 			position: fixed;
-			z-index: 1003; // the header is 1002?!
+			z-index: 1003; // the wordpress navbar is 1002?!
 			top: 4%;
 			overflow: hidden;
 
@@ -119,7 +119,6 @@ css! {
 
 			.success-icon {
 				cursor: default;
-				background-image: url("/assets/check.svg");
 
 				svg path {
 					stroke: var(--success);
