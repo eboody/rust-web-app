@@ -215,3 +215,8 @@ html {
   }
 
 }
+
+#dropdownMenuHamburger,
+.searchbox-submit{
+  box-shadow: none;
+}
