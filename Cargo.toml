@@ -6,7 +6,6 @@ resolver = "2"
 members = [
     # -- Application Libraries
     "crates/libs/lib-utils",
-    # "crates/libs/lib-auth",
     "crates/libs/lib-core",
     "crates/libs/serde-json-debugging",
 
@@ -22,11 +21,11 @@ members = [
     "crates/libs/js_macro", 
 
     # -- SDKs
-    "crates/libs/lib-stirling-pdf"
-    # "crates/libs/lib-directus",
-    # "crates/libs/lib-active-campaign", 
-    # "crates/libs/lib-anythingllm", 
-    # "crates/libs/lib-sdk", "crates/tools/split_structs",
+    "crates/libs/lib-stirling-pdf",
+    "crates/libs/lib-directus",
+    "crates/libs/lib-fb-marketing",
+    "crates/libs/lib-coolify",
+    "crates/libs/lib-anythingllm",
 ]
 
 [workspace.dependencies]

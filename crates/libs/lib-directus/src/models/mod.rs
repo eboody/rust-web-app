@@ -1,3 +1,4 @@
+pub use serde_json;
 pub mod accept_invite_request;
 pub use self::accept_invite_request::AcceptInviteRequest;
 pub mod activity;
