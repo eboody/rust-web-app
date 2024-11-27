@@ -24,7 +24,7 @@ members = [
     "crates/libs/lib-stirling-pdf",
     "crates/libs/lib-directus",
     "crates/libs/lib-fb-marketing",
-    "crates/libs/lib-coolify",
+    # "crates/libs/lib-coolify",
     "crates/libs/lib-anythingllm",
 ]
 
