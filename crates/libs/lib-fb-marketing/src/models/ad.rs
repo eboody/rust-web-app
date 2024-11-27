@@ -74,9 +74,9 @@ pub struct Ad {
 	pub tracking_specs: Option<serde_json::Value>,
 }
 
-impl Into<String> for Ad {
-	fn into(self) -> String {
-		serde_json::to_string(&self).unwrap()
+impl From<Ad> for String {
+	fn from(val: Ad) -> Self {
+		serde_json::to_string(&val).unwrap()
 	}
 }
 

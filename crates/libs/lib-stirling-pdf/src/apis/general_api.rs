@@ -287,7 +287,7 @@ impl GeneralApi for GeneralApiClient {
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
         }
-        let mut local_var_form = reqwest::multipart::Form::new();
+        let local_var_form = reqwest::multipart::Form::new();
         // TODO: support file upload for 'fileInput' parameter
         local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
@@ -355,7 +355,7 @@ impl GeneralApi for GeneralApiClient {
         if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
             local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
         }
-        let mut local_var_form = reqwest::multipart::Form::new();
+        let local_var_form = reqwest::multipart::Form::new();
         // TODO: support file upload for 'fileInput' parameter
         local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 

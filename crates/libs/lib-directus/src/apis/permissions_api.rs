@@ -169,8 +169,8 @@ impl PermissionsApi for PermissionsApiClient {
 
         if let Some(ref local_var_str) = fields {
             local_var_req_builder = match "csv" {
-                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("fields".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-                _ => local_var_req_builder.query(&[("fields", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+                "multi" => local_var_req_builder.query(&local_var_str.iter().map(|p| ("fields".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("fields", &local_var_str.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
         }
         if let Some(ref local_var_str) = meta {
@@ -206,8 +206,8 @@ impl PermissionsApi for PermissionsApiClient {
 
         if let Some(ref local_var_str) = fields {
             local_var_req_builder = match "csv" {
-                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("fields".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-                _ => local_var_req_builder.query(&[("fields", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+                "multi" => local_var_req_builder.query(&local_var_str.iter().map(|p| ("fields".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("fields", &local_var_str.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
         }
         if let Some(ref local_var_str) = limit {
@@ -221,8 +221,8 @@ impl PermissionsApi for PermissionsApiClient {
         }
         if let Some(ref local_var_str) = sort {
             local_var_req_builder = match "csv" {
-                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("sort".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-                _ => local_var_req_builder.query(&[("sort", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+                "multi" => local_var_req_builder.query(&local_var_str.iter().map(|p| ("sort".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("sort", &local_var_str.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
         }
         if let Some(ref local_var_str) = filter {
@@ -296,8 +296,8 @@ impl PermissionsApi for PermissionsApiClient {
 
         if let Some(ref local_var_str) = fields {
             local_var_req_builder = match "csv" {
-                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("fields".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-                _ => local_var_req_builder.query(&[("fields", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+                "multi" => local_var_req_builder.query(&local_var_str.iter().map(|p| ("fields".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("fields", &local_var_str.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
         }
         if let Some(ref local_var_str) = limit {
@@ -311,8 +311,8 @@ impl PermissionsApi for PermissionsApiClient {
         }
         if let Some(ref local_var_str) = sort {
             local_var_req_builder = match "csv" {
-                "multi" => local_var_req_builder.query(&local_var_str.into_iter().map(|p| ("sort".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
-                _ => local_var_req_builder.query(&[("sort", &local_var_str.into_iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
+                "multi" => local_var_req_builder.query(&local_var_str.iter().map(|p| ("sort".to_owned(), p.to_string())).collect::<Vec<(std::string::String, std::string::String)>>()),
+                _ => local_var_req_builder.query(&[("sort", &local_var_str.iter().map(|p| p.to_string()).collect::<Vec<String>>().join(",").to_string())]),
             };
         }
         if let Some(ref local_var_str) = filter {

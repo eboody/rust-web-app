@@ -298,7 +298,7 @@ impl CampaignApi for CampaignApiClient {
 			local_var_req_builder = match "multi" {
 				"multi" => local_var_req_builder.query(
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| ("effective_status".to_owned(), p.to_string()))
 						.collect::<Vec<(std::string::String, std::string::String)>>(
 						),
@@ -306,7 +306,7 @@ impl CampaignApi for CampaignApiClient {
 				_ => local_var_req_builder.query(&[(
 					"effective_status",
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| p.to_string())
 						.collect::<Vec<String>>()
 						.join(",")
@@ -326,7 +326,7 @@ impl CampaignApi for CampaignApiClient {
 			local_var_req_builder = match "csv" {
 				"multi" => local_var_req_builder.query(
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| ("fields".to_owned(), p.to_string()))
 						.collect::<Vec<(std::string::String, std::string::String)>>(
 						),
@@ -334,7 +334,7 @@ impl CampaignApi for CampaignApiClient {
 				_ => local_var_req_builder.query(&[(
 					"fields",
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| p.to_string())
 						.collect::<Vec<String>>()
 						.join(",")
@@ -346,7 +346,7 @@ impl CampaignApi for CampaignApiClient {
 			local_var_req_builder = match "csv" {
 				"multi" => local_var_req_builder.query(
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| ("summary".to_owned(), p.to_string()))
 						.collect::<Vec<(std::string::String, std::string::String)>>(
 						),
@@ -354,7 +354,7 @@ impl CampaignApi for CampaignApiClient {
 				_ => local_var_req_builder.query(&[(
 					"summary",
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| p.to_string())
 						.collect::<Vec<String>>()
 						.join(",")

@@ -87,7 +87,7 @@ impl ActivityApi for ActivityApiClient {
 			local_var_req_builder = match "csv" {
 				"multi" => local_var_req_builder.query(
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| ("fields".to_owned(), p.to_string()))
 						.collect::<Vec<(std::string::String, std::string::String)>>(
 						),
@@ -95,7 +95,7 @@ impl ActivityApi for ActivityApiClient {
 				_ => local_var_req_builder.query(&[(
 					"fields",
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| p.to_string())
 						.collect::<Vec<String>>()
 						.join(",")
@@ -119,7 +119,7 @@ impl ActivityApi for ActivityApiClient {
 			local_var_req_builder = match "csv" {
 				"multi" => local_var_req_builder.query(
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| ("sort".to_owned(), p.to_string()))
 						.collect::<Vec<(std::string::String, std::string::String)>>(
 						),
@@ -127,7 +127,7 @@ impl ActivityApi for ActivityApiClient {
 				_ => local_var_req_builder.query(&[(
 					"sort",
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| p.to_string())
 						.collect::<Vec<String>>()
 						.join(",")
@@ -192,7 +192,7 @@ impl ActivityApi for ActivityApiClient {
 			local_var_req_builder = match "csv" {
 				"multi" => local_var_req_builder.query(
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| ("fields".to_owned(), p.to_string()))
 						.collect::<Vec<(std::string::String, std::string::String)>>(
 						),
@@ -200,7 +200,7 @@ impl ActivityApi for ActivityApiClient {
 				_ => local_var_req_builder.query(&[(
 					"fields",
 					&local_var_str
-						.into_iter()
+						.iter()
 						.map(|p| p.to_string())
 						.collect::<Vec<String>>()
 						.join(",")

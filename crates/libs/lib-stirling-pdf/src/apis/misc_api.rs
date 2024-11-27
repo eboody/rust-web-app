@@ -500,7 +500,7 @@ impl MiscApi for MiscApiClient {
 			local_var_req_builder = local_var_req_builder
 				.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
 		}
-		let mut local_var_form = reqwest::multipart::Form::new();
+		let local_var_form = reqwest::multipart::Form::new();
 		// TODO: support file upload for 'fileInput' parameter
 		local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
@@ -1161,7 +1161,7 @@ impl MiscApi for MiscApiClient {
 			local_var_req_builder = local_var_req_builder
 				.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
 		}
-		let mut local_var_form = reqwest::multipart::Form::new();
+		let local_var_form = reqwest::multipart::Form::new();
 		// TODO: support file upload for 'fileInput' parameter
 		local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
