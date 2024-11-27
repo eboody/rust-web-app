@@ -105,7 +105,7 @@ css! {
 			content: "";
 			position: absolute;
 			left: 3%;
-			top: 71%;
+			top: 73%;
 			z-index: -1;
 			background-color: rgba(0, 0, 0, 0.3);
 			width: var(--max-width);

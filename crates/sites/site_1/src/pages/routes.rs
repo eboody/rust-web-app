@@ -34,6 +34,7 @@ js! {
 
 	onloadAdd((_) => {
 		if (!getCookie("popupShown")) {
+
 			me("#pre-ebook-popup").send("showPopup");
 
 			setCookie("popupShown", "true", 30); //expires in 30 days

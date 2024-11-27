@@ -22,6 +22,7 @@ members = [
     "crates/libs/js_macro", 
 
     # -- SDKs
+    "crates/libs/lib-stirling-pdf"
     # "crates/libs/lib-directus",
     # "crates/libs/lib-active-campaign", 
     # "crates/libs/lib-anythingllm", 

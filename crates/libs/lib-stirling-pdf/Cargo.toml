@@ -1,0 +1,16 @@
+[package]
+name = "openapi"
+version = "0.34.0"
+authors = ["OpenAPI Generator team and contributors"]
+description = "API documentation for all Server-Side processing. Please note some functionality might be UI only and missing from here."
+# Override this license by providing a License Object in the OpenAPI.
+license = "Unlicense"
+edition = "2021"
+
+[dependencies]
+serde = { version = "^1.0", features = ["derive"] }
+serde_json = "^1.0"
+serde_repr = "^0.1"
+url = "^2.5"
+uuid = { version = "^1.8", features = ["serde", "v4"] }
+reqwest = { version = "^0.12", features = ["json", "multipart"] }
