@@ -8,6 +8,7 @@ edition = "2021"
 lib-utils = { path = "../../libs/lib-utils"}
 lib-auth = { path = "../../libs/lib-auth"}
 lib-core = { path = "../../libs/lib-core"}
+lib-automation = { path = "../../libs/lib-automation"}
 # -- Async
 tokio = { version = "1", features = ["full"] }
 # -- Json

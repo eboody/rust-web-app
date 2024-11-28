@@ -20,7 +20,7 @@ reqwest = "0.12"
 maud = { version = "0.26.0", features = ["axum"] }
 
 tower-http = { version = "0.6", features = ["fs", "cors"] }
-ormlite = { version = "0.22", features = [ "postgres", "json", "time", "uuid" ] }
+ormlite = { workspace = true }
 uuid = { workspace = true }
 
 convert_case = "0.6"

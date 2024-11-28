@@ -7,7 +7,7 @@ members = [
     # -- Application Libraries
     "crates/libs/lib-utils",
     "crates/libs/lib-core",
-    "crates/libs/serde-json-debugging",
+    "crates/libs/debug-deserialize",
 
     # -- Application Services
     "crates/services/web-server",
@@ -25,7 +25,7 @@ members = [
     "crates/libs/lib-directus",
     "crates/libs/lib-fb-marketing",
     # "crates/libs/lib-coolify",
-    "crates/libs/lib-anythingllm",
+    "crates/libs/lib-anythingllm", "crates/libs/lib-automation",
 ]
 
 [workspace.dependencies]
@@ -48,6 +48,10 @@ strum = { version = "0.26", features = ["derive"] }
 strum_macros = { version = "0.26" }
 
 sqlx = { version = "0.8", features = [ "macros", "postgres", "uuid" , "runtime-tokio-native-tls"] }
+
+ormlite = { version = "0.22", features = [ "postgres", "json", "time", "uuid" ] }
+
+bon = "*"
 
 [workspace.metadata.scripts]
 w = "cargo run-script bundle & cargo run-script watch"

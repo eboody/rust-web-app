@@ -1,0 +1,28 @@
+[package]
+name = "lib-automation"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lib-utils = { path = "../lib-utils" }
+lib-directus = { path = "../lib-directus" }
+lib-anythingllm = { path = "../lib-anythingllm" }
+lib-stirling-pdf = { path = "../lib-stirling-pdf" }
+lib-core = { path = "../lib-core" }
+debug-deserialize = { path = "../debug-deserialize/" }
+
+serde = { workspace = true }
+serde_with = { workspace = true }
+serde_json = { workspace = true }
+derive_more = { workspace = true }
+tokio = { workspace = true }
+bon = { workspace = true }
+reqwest = { workspace = true, features = [ "multipart" , "json"] }
+url = { workspace = true }
+ormlite = { workspace = true }
+uuid = { workspace = true }
+
+axum = "*"
+
+[lints]
+workspace = true

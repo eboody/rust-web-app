@@ -26,7 +26,8 @@ async fn main() -> Result<()> {
 
 	let routes_all = Router::new()
 		.route("/health", get(|| async { "OK" }))
-		.merge(site_1::main_router(mm))
+		.merge(site_1::main_router(mm.clone()))
+		.merge(lib_automation::routes(mm.clone()))
 		.layer(CookieManagerLayer::new())
 		.layer(get_cors_layer());
 
