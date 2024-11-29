@@ -8,7 +8,12 @@ use lib_anythingllm::models::ChatResponse;
 use lib_anythingllm::models::ResponseData;
 use lib_core::model::DirectusFiles;
 use lib_core::model::DirectusFolders;
+use lib_core::model::Ebook;
+use lib_core::model::EbookBuilder;
+use lib_core::model::Ebooks;
 use lib_core::model::{ModelManager, UploadFilePayload};
+use ormlite::model::Join;
+use ormlite::model::ModelBuilder;
 use ormlite::Model;
 use reqwest::multipart;
 use serde_json::json;
@@ -36,19 +41,34 @@ pub async fn on_ebook_file_upload(
 		return Ok(());
 	}
 
-	//let file_bytes = get_file_byes(&mm, directus_file.id).await?;
+	let file_bytes = get_file_byes(&mm, directus_file.id).await?;
 
-	//save_ebook_cover_image(
-	//	&mm,
-	//	payload.clone(),
-	//	ebooks_covers_folder.id,
-	//	&file_bytes,
-	//)
-	//.await?;
+	save_ebook_cover_image(
+		&mm,
+		payload.clone(),
+		ebooks_covers_folder.id,
+		&file_bytes,
+	)
+	.await?;
 
-	//embed_ebook_anythingllm(&mm, &directus_file, &file_bytes).await?;
+	embed_ebook_anythingllm(&mm, &directus_file, &file_bytes).await?;
 
-	generate_metadata(&payload, &mm).await?;
+	let ebook_cover_file = DirectusFiles::select()
+		.where_("title = ?")
+		.bind(payload.title.clone())
+		.where_("folder = ?")
+		.bind(ebooks_covers_folder.id)
+		.fetch_one(mm.orm())
+		.await?;
+
+	let ebook_builder = generate_metadata(&payload, &mm).await?;
+
+	let res = ebook_builder
+		.file(Some(directus_file.id))
+		.cover_image(Some(ebook_cover_file.id))
+		.insert(mm.orm())
+		.await?;
+	dbg!("res: {}", &res);
 
 	Ok(())
 }
@@ -135,8 +155,7 @@ pub async fn save_ebook_cover_image(
 				.mime_str("image/jpeg")?,
 		);
 
-	let upload_res = mm
-		.reqwest()
+	mm.reqwest()
 		.post("https://directus.eman.network/files")
 		.headers(config().DIRECTUS_HEADERS.clone())
 		.multipart(directus_upload_form)
@@ -145,7 +164,6 @@ pub async fn save_ebook_cover_image(
 		.text()
 		.await?;
 
-	dbg!("upload_res: {}", &upload_res);
 	Ok(())
 }
 
@@ -273,10 +291,10 @@ async fn embed_ebook_anythingllm(
 	Ok(())
 }
 
-async fn generate_metadata(
+async fn generate_metadata<'a>(
 	payload: &UploadFilePayload,
 	mm: &ModelManager,
-) -> Result<()> {
+) -> Result<EbookBuilder<'a>> {
 	let gen_descriptior_message = format!(
 		r"Generate a descriptor 
 		(A very SHORT 1-sentence description) 
@@ -308,23 +326,29 @@ async fn generate_metadata(
 	);
 
 	let descriptor = chat(mm, gen_descriptior_message).await?.text_response;
+	dbg!("descriptor: {}", &descriptor);
 	let slug = chat(mm, gen_slug_message).await?.text_response;
+	dbg!("slug: {}", &slug);
 	let summary = chat(mm, gen_summary_message).await?.text_response;
+	dbg!("summary: {}", &summary);
 	let title = chat(mm, gen_title_message).await?.text_response;
+	dbg!("title: {}", &title);
 
-	mm.reqwest()
-		.post("https://directus.eman.network/items/ebooks")
-		.headers(config().DIRECTUS_HEADERS_JSON.clone())
-		.body(
-			json!({
-				"status": "published"
-			})
-			.to_string(),
-		)
-		.send()
-		.await?;
+	let ebook = Ebooks::builder()
+		.id(Uuid::new_v4())
+		.status("draft")
+		.insert(mm.orm())
+		.await;
+	dbg!("ebook: {}", &ebook);
+	let ebook = ebook?;
 
-	Ok(())
+	Ok(Ebook::builder()
+		.slug(slug)
+		.descriptor(descriptor)
+		.title(title)
+		.summary(summary)
+		.languages_code(Some("en".to_owned()))
+		.ebook(Join::new(ebook)))
 }
 
 async fn chat(mm: &ModelManager, message: String) -> Result<ChatResponse> {

@@ -510,7 +510,7 @@ pub struct DirectusWebhooks {
 	pub migrated_flow: Option<Uuid>,
 }
 
-#[derive(Debug, ormlite::Model)]
+#[derive(Debug, ormlite::Model, Deserialize)]
 #[ormlite(table = "ebooks")]
 pub struct Ebooks {
 	#[ormlite(primary_key)]
@@ -540,6 +540,29 @@ pub struct Ebook {
 	pub descriptor: Option<String>,
 }
 
+#[derive(Debug, Deserialize)]
+pub struct EbooksTranslationsItem {
+	pub id: i32,
+	pub languages_code: Option<String>,
+	pub cover_image: Option<Uuid>,
+	pub title: Option<String>,
+	pub slug: Option<String>,
+	pub summary: Option<String>,
+	pub file: Option<Uuid>,
+	pub descriptor: Option<String>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct EbooksItem {
+	pub id: Uuid,
+	pub status: String,
+	pub sort: Option<i32>,
+	pub user_created: Option<Uuid>,
+	pub date_created: Option<time::OffsetDateTime>,
+	pub user_updated: Option<Uuid>,
+	pub date_updated: Option<time::OffsetDateTime>,
+	pub date_published: Option<time::OffsetDateTime>,
+}
 pub trait Asset {
 	const BASE_URL: &'static str;
 	fn file_url(&self) -> String;
