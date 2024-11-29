@@ -4,14 +4,57 @@ use crate::Result;
 use axum::body::Bytes;
 use axum::http::HeaderValue;
 use axum::{extract::State, Json};
+use lib_anythingllm::models::ChatResponse;
 use lib_anythingllm::models::ResponseData;
 use lib_core::model::DirectusFiles;
 use lib_core::model::DirectusFolders;
+use lib_core::model::Ebook;
+use lib_core::model::Ebooks;
 use lib_core::model::{ModelManager, UploadFilePayload};
 use ormlite::Model;
+use reqwest::header::CONTENT_TYPE;
 use reqwest::multipart;
 use serde_json::json;
 use uuid::Uuid;
+
+pub async fn on_ebook_file_upload(
+	State(mm): State<ModelManager>,
+	Json(payload): Json<UploadFilePayload>,
+) -> Result<()> {
+	let directus_file = DirectusFiles::select()
+		.where_("filename_disk = ?")
+		.bind(payload.filename_disk.clone())
+		.fetch_one(mm.orm())
+		.await?;
+
+	let ebooks_covers_folder = DirectusFolders::select()
+		.where_("name = ?")
+		.bind("Covers")
+		.where_("parent = ?")
+		.bind(directus_file.folder)
+		.fetch_one(mm.orm())
+		.await?;
+
+	if !is_pdf_file(&payload, &directus_file, &ebooks_covers_folder) {
+		return Ok(());
+	}
+
+	//let file_bytes = get_file_byes(&mm, directus_file.id).await?;
+
+	//save_ebook_cover_image(
+	//	&mm,
+	//	payload.clone(),
+	//	ebooks_covers_folder.id,
+	//	&file_bytes,
+	//)
+	//.await?;
+
+	//embed_ebook_anythingllm(&mm, &directus_file, &file_bytes).await?;
+
+	generate_metadata(&payload, &mm).await?;
+
+	Ok(())
+}
 
 fn is_pdf_file(
 	payload: &UploadFilePayload,
@@ -30,7 +73,7 @@ pub async fn get_file_byes(mm: &ModelManager, d_id: Uuid) -> Result<Bytes> {
 	Ok(mm
 		.reqwest()
 		.get(format!("{}/assets/{}", config().DIRECTUS_URL, d_id))
-		.headers(config().DIRECTUS_AUTH_HEADERS.clone())
+		.headers(config().DIRECTUS_HEADERS.clone())
 		.send()
 		.await?
 		.bytes()
@@ -98,7 +141,7 @@ pub async fn save_ebook_cover_image(
 	let upload_res = mm
 		.reqwest()
 		.post("https://directus.eman.network/files")
-		.headers(config().DIRECTUS_AUTH_HEADERS.clone())
+		.headers(config().DIRECTUS_HEADERS.clone())
 		.multipart(directus_upload_form)
 		.send()
 		.await?
@@ -106,43 +149,6 @@ pub async fn save_ebook_cover_image(
 		.await?;
 
 	dbg!("upload_res: {}", &upload_res);
-	Ok(())
-}
-
-pub async fn on_ebook_file_upload(
-	State(mm): State<ModelManager>,
-	Json(payload): Json<UploadFilePayload>,
-) -> Result<()> {
-	let directus_file = DirectusFiles::select()
-		.where_("filename_disk = ?")
-		.bind(payload.filename_disk.clone())
-		.fetch_one(mm.orm())
-		.await?;
-
-	let ebooks_covers_folder = DirectusFolders::select()
-		.where_("name = ?")
-		.bind("Covers")
-		.where_("parent = ?")
-		.bind(directus_file.folder)
-		.fetch_one(mm.orm())
-		.await?;
-
-	if !is_pdf_file(&payload, &directus_file, &ebooks_covers_folder) {
-		return Ok(());
-	}
-
-	let file_bytes = get_file_byes(&mm, directus_file.id).await?;
-
-	//save_ebook_cover_image(
-	//	&mm,
-	//	payload.clone(),
-	//	ebooks_covers_folder.id,
-	//	&file_bytes,
-	//)
-	//.await?;
-
-	embed_ebook_anythingllm(&mm, &directus_file, &file_bytes).await?;
-
 	Ok(())
 }
 
@@ -155,13 +161,15 @@ async fn embed_ebook_anythingllm(
 	let existing_docs = mm
 		.reqwest()
 		.get("https://anything.eman.network/api/v1/documents")
-		.headers(config().ANYTHING_AUTH.clone())
+		.headers(config().ANYTHING_HEADERS.clone())
 		.send()
 		.await
 		.map_err(Error::Request)?
 		.text()
 		.await
 		.map_err(Error::Request)?;
+
+	dbg!("existing_docs: {}", &existing_docs);
 
 	let doc_exists = existing_docs.contains(&d_file.filename_download);
 
@@ -183,7 +191,7 @@ async fn embed_ebook_anythingllm(
 		.reqwest()
 		.post("https://anything.eman.network/api/v1/document/upload")
 		.multipart(form)
-		.headers(config().ANYTHING_AUTH.clone())
+		.headers(config().ANYTHING_HEADERS.clone())
 		.send()
 		.await
 		.map_err(Error::Request)?;
@@ -219,14 +227,11 @@ async fn embed_ebook_anythingllm(
 		]
 	});
 
-	let mut headers = config().ANYTHING_AUTH.clone();
-	headers.insert("Content-Type", HeaderValue::from_static("application/json"));
-
 	let move_res = mm
 		.reqwest()
 		.post("https://anything.eman.network/api/v1/document/move-files")
 		.body(move_body.to_string())
-		.headers(headers.clone())
+		.headers(config().ANYTHING_HEADERS_JSON.clone())
 		.send()
 		.await?;
 
@@ -269,6 +274,80 @@ async fn embed_ebook_anythingllm(
 		"Successfully uploaded, moved, and updated embeddings for the document."
 	);
 	Ok(())
+}
+
+async fn generate_metadata(
+	payload: &UploadFilePayload,
+	mm: &ModelManager,
+) -> Result<()> {
+	let gen_descriptior_message = format!(
+		r"Generate a descriptor 
+		(A very SHORT 1-sentence description) 
+		for {}. 
+		DO NOT MAKE IT LONG. And make it compelling...
+		thought provoking if possible but enticing",
+		payload.title
+	);
+
+	let gen_slug_message = format!(
+		r"
+		Generate a slug for the ebook {}.
+		",
+		payload.title
+	);
+
+	let gen_summary_message = format!(
+		r"
+		Generate a summary for the ebook {}.
+		",
+		payload.title
+	);
+
+	let gen_title_message = format!(
+		r"
+		Generate a title for the ebook {}.
+		",
+		payload.title
+	);
+
+	let descriptor = chat(mm, gen_descriptior_message).await?.text_response;
+	let slug = chat(mm, gen_slug_message).await?.text_response;
+	let summary = chat(mm, gen_summary_message).await?.text_response;
+	let title = chat(mm, gen_title_message).await?.text_response;
+
+	mm.reqwest()
+		.post("https://directus.eman.network/items/ebooks")
+		.headers(config().DIRECTUS_HEADERS_JSON.clone())
+		.body(
+			json!({
+				"status": "published"
+			})
+			.to_string(),
+		)
+		.send()
+		.await?;
+
+	Ok(())
+}
+
+async fn chat(mm: &ModelManager, message: String) -> Result<ChatResponse> {
+	let mut headers = config().ANYTHING_AUTH.clone();
+	headers.insert("Content-Type", HeaderValue::from_static("application/json"));
+
+	let body = json!({
+		"message": message
+	})
+	.to_string();
+
+	Ok(mm
+		.reqwest()
+		.post("https://anything.eman.network/api/v1/workspace/ebooks/chat")
+		.body(body)
+		.headers(headers)
+		.send()
+		.await?
+		.json::<ChatResponse>()
+		.await?)
 }
 
 //payload: UploadFilePayload {

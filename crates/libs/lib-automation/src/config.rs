@@ -17,10 +17,12 @@ pub fn config() -> &'static AutomationConfig {
 pub struct AutomationConfig {
 	pub DIRECTUS_URL: String,
 	pub DIRECTUS_DB: String,
-	pub DIRECTUS_AUTH_HEADERS: HeaderMap,
+	pub DIRECTUS_HEADERS: HeaderMap,
+	pub DIRECTUS_HEADERS_JSON: HeaderMap,
 	pub DIRECTUS_TOKEN: String,
 	pub ANYTHINGLLM_URL: String,
-	pub ANYTHING_AUTH: HeaderMap,
+	pub ANYTHING_HEADERS: HeaderMap,
+	pub ANYTHING_HEADERS_JSON: HeaderMap,
 	pub ANYTHINGLLM_KEY: String,
 }
 
@@ -45,13 +47,23 @@ impl AutomationConfig {
 			.unwrap(),
 		);
 
+		let mut anything_headers_json = anything_headers.clone();
+		anything_headers_json
+			.insert("Content-Type", HeaderValue::from_static("application/json"));
+
+		let mut directus_headers_json = directus_auth_headers.clone();
+		directus_headers_json
+			.insert("Content-Type", HeaderValue::from_static("application/json"));
+
 		Ok(AutomationConfig {
 			DIRECTUS_URL: get_env("DIRECTUS_URL")?,
 			DIRECTUS_DB: get_env("DIRECTUS_DB")?,
-			DIRECTUS_AUTH_HEADERS: directus_auth_headers,
+			DIRECTUS_HEADERS: directus_auth_headers,
+			DIRECTUS_HEADERS_JSON: directus_headers_json,
 			DIRECTUS_TOKEN: get_env("DIRECTUS_TOKEN")?,
 			ANYTHINGLLM_URL: get_env("ANYTHINGLLM_URL")?,
-			ANYTHING_AUTH: anything_headers,
+			ANYTHING_HEADERS: anything_headers,
+			ANYTHING_HEADERS_JSON: anything_headers_json,
 			ANYTHINGLLM_KEY: get_env("ANYTHINGLLM_KEY")?,
 		})
 	}
