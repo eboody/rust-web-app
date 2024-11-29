@@ -8,11 +8,8 @@ use lib_anythingllm::models::ChatResponse;
 use lib_anythingllm::models::ResponseData;
 use lib_core::model::DirectusFiles;
 use lib_core::model::DirectusFolders;
-use lib_core::model::Ebook;
-use lib_core::model::Ebooks;
 use lib_core::model::{ModelManager, UploadFilePayload};
 use ormlite::Model;
-use reqwest::header::CONTENT_TYPE;
 use reqwest::multipart;
 use serde_json::json;
 use uuid::Uuid;
@@ -255,7 +252,7 @@ async fn embed_ebook_anythingllm(
         .reqwest()
         .post("https://anything.eman.network/api/v1/workspace/ebooks/update-embeddings")
         .body(update_embeddings_body.to_string())
-        .headers(headers)
+        .headers(config().ANYTHING_HEADERS_JSON.clone())
         .send()
         .await?;
 
@@ -331,7 +328,7 @@ async fn generate_metadata(
 }
 
 async fn chat(mm: &ModelManager, message: String) -> Result<ChatResponse> {
-	let mut headers = config().ANYTHING_AUTH.clone();
+	let mut headers = config().ANYTHING_HEADERS.clone();
 	headers.insert("Content-Type", HeaderValue::from_static("application/json"));
 
 	let body = json!({
