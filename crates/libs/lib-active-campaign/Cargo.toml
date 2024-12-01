@@ -8,7 +8,6 @@ reqwest = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 serde_with = { workspace = true }
-url_serde = { workspace = true }
 lib-utils = { path = "../lib-utils"}
 url = { workspace = true }
 time = { workspace = true }

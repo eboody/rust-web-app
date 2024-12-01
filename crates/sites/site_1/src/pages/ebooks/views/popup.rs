@@ -1,9 +1,9 @@
 use crate::pages::ebooks;
 use crate::prelude::*;
-use lib_core::model::{Ebook, Language};
+use lib_core::model::{EbooksTranslations, Language};
 
 pub struct Popup<'a> {
-	pub ebook: &'a Ebook,
+	pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for Popup<'_> {
@@ -15,16 +15,12 @@ impl Render for Popup<'_> {
 	}
 }
 
-fn content_markup(ebook: &Ebook) -> Markup {
+fn content_markup(ebook: &EbooksTranslations) -> Markup {
 	html! {
 		.popup-container ebook_id=(ebook.id) {
 				.hook { "Free Ebook" }
-				@if let Some(title) = &ebook.title {
-					.title { (title) }
-				}
-				@if let Some(descriptor) = &ebook.descriptor {
-					.descriptor { (descriptor) }
-				}
+					.title { (&ebook.title.as_deref().unwrap_or("")) }
+					.descriptor { (&ebook.descriptor.as_deref().unwrap_or("")) }
 				(ebooks::PopupSignupForm { ebook })
 				.book{
 					(ebooks::Cover3D { ebook })
@@ -36,12 +32,12 @@ fn content_markup(ebook: &Ebook) -> Markup {
 }
 
 pub async fn get_popup(State(mm): State<ModelManager>) -> Result<Markup> {
-	let ebook = Ebook::select()
+	let ebook = EbooksTranslations::select()
 		.where_("languages_code = ?")
 		.bind(Language::English.to_string())
 		.where_("status = ?")
 		.bind("published")
-		.join(Ebook::ebook())
+		.join(EbooksTranslations::ebook())
 		.fetch_one(mm.orm())
 		.await?;
 

@@ -1,8 +1,8 @@
 use crate::prelude::*;
-use lib_core::model::Ebook;
+use lib_core::model::EbooksTranslations;
 
 pub struct PopupSignupForm<'a> {
-	pub ebook: &'a Ebook,
+	pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for PopupSignupForm<'_> {
@@ -37,7 +37,7 @@ impl Render for PopupSignupForm<'_> {
 					input_type: "hidden",
 					label: None,
 					placeholder: None,
-					value: Some(self.ebook.title.as_deref().unwrap_or("No title"))
+					value: self.ebook.title.as_deref()
 				})
 
 				.button-container{

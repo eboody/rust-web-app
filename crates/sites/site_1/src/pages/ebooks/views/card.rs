@@ -1,8 +1,8 @@
 use crate::prelude::*;
-use lib_core::model::Ebook;
+use lib_core::model::EbooksTranslations;
 
 pub struct Card<'a> {
-	pub ebook: &'a Ebook,
+	pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for Card<'_> {
@@ -11,7 +11,7 @@ impl Render for Card<'_> {
 	}
 }
 
-fn card(ebook: &Ebook) -> Markup {
+fn card(ebook: &EbooksTranslations) -> Markup {
 	html! {
 		article.card
 		id=(&ebook.id)

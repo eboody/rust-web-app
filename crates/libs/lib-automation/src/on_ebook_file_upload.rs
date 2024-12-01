@@ -4,13 +4,16 @@ use crate::Result;
 use axum::body::Bytes;
 use axum::http::HeaderValue;
 use axum::{extract::State, Json};
+use lib_anythingllm::apis::urlencode;
 use lib_anythingllm::models::ChatResponse;
+use lib_anythingllm::models::LocalFile;
 use lib_anythingllm::models::ResponseData;
 use lib_core::model::DirectusFiles;
 use lib_core::model::DirectusFolders;
-use lib_core::model::Ebook;
-use lib_core::model::EbookBuilder;
+use lib_core::model::DirectusUsers;
 use lib_core::model::Ebooks;
+use lib_core::model::EbooksTranslations;
+use lib_core::model::EbooksTranslationsBuilder;
 use lib_core::model::{ModelManager, UploadFilePayload};
 use ormlite::model::Join;
 use ormlite::model::ModelBuilder;
@@ -51,7 +54,22 @@ pub async fn on_ebook_file_upload(
 	)
 	.await?;
 
-	embed_ebook_anythingllm(&mm, &directus_file, &file_bytes).await?;
+	let first_few_pages_file_name =
+		format!("First few pages of {}", payload.filename_download.clone());
+
+	let first_few_pages =
+		get_first_pages_of_pdf(&mm, first_few_pages_file_name.clone(), &file_bytes)
+			.await?;
+
+	embed_ebook_anythingllm(&mm, first_few_pages_file_name, &first_few_pages)
+		.await?;
+
+	embed_ebook_anythingllm(
+		&mm,
+		directus_file.filename_download.clone(),
+		&file_bytes,
+	)
+	.await?;
 
 	let ebook_cover_file = DirectusFiles::select()
 		.where_("title = ?")
@@ -67,7 +85,7 @@ pub async fn on_ebook_file_upload(
 		.file(Some(directus_file.id))
 		.cover_image(Some(ebook_cover_file.id))
 		.insert(mm.orm())
-		.await?;
+		.await;
 	dbg!("res: {}", &res);
 
 	Ok(())
@@ -78,12 +96,16 @@ fn is_pdf_file(
 	d_file: &DirectusFiles,
 	d_folder: &DirectusFolders,
 ) -> bool {
-	payload.type_.clone().unwrap() == "application/pdf"
-		&& (d_file.folder.to_string()
-			== d_folder
-				.parent
-				.map(|u| u.to_string())
-				.unwrap_or("".to_owned()))
+	if let Some(folder) = &d_file.folder {
+		payload.type_.clone().unwrap() == "application/pdf"
+			&& (folder.to_string()
+				== d_folder
+					.parent
+					.map(|u| u.to_string())
+					.unwrap_or("".to_owned()))
+	} else {
+		false
+	}
 }
 
 pub async fn get_file_byes(mm: &ModelManager, d_id: Uuid) -> Result<Bytes> {
@@ -167,9 +189,32 @@ pub async fn save_ebook_cover_image(
 	Ok(())
 }
 
+pub async fn get_first_pages_of_pdf(
+	mm: &ModelManager,
+	file_name: String,
+	file_bytes: &Bytes,
+) -> Result<Bytes> {
+	let form = multipart::Form::new()
+		.part(
+			"fileInput",
+			multipart::Part::stream(file_bytes.clone())
+				.file_name(file_name)
+				.mime_str("application/pdf")?,
+		)
+		.part("pageNumbers", multipart::Part::text("3-100"));
+
+	Ok(mm
+		.reqwest()
+		.post("https://spdf.eman.network/api/v1/general/remove-pages")
+		.multipart(form)
+		.send()
+		.await?
+		.bytes()
+		.await?)
+}
 async fn embed_ebook_anythingllm(
 	mm: &ModelManager,
-	d_file: &DirectusFiles,
+	file_name: String,
 	file_bytes: &Bytes,
 ) -> Result<()> {
 	// Step 1: Check if the document already exists
@@ -186,10 +231,10 @@ async fn embed_ebook_anythingllm(
 
 	dbg!("existing_docs: {}", &existing_docs);
 
-	let doc_exists = existing_docs.contains(&d_file.filename_download);
+	let doc_exists = existing_docs.contains(&file_name);
 
 	if doc_exists {
-		println!("Document already exists, skipping upload.");
+		println!("Document already exists, skipping upload to AnythingLLM.");
 		return Ok(());
 	}
 
@@ -197,7 +242,7 @@ async fn embed_ebook_anythingllm(
 	let form = multipart::Form::new().part(
 		"file",
 		multipart::Part::stream(file_bytes.clone())
-			.file_name(d_file.filename_download.clone())
+			.file_name(file_name)
 			.mime_str("application/pdf")
 			.map_err(Error::Request)?,
 	);
@@ -273,6 +318,7 @@ async fn embed_ebook_anythingllm(
         .headers(config().ANYTHING_HEADERS_JSON.clone())
         .send()
         .await?;
+	dbg!("update_res: {}", &update_res);
 
 	if !update_res.status().is_success() {
 		let error_body = update_res
@@ -294,7 +340,7 @@ async fn embed_ebook_anythingllm(
 async fn generate_metadata<'a>(
 	payload: &UploadFilePayload,
 	mm: &ModelManager,
-) -> Result<EbookBuilder<'a>> {
+) -> Result<EbooksTranslationsBuilder<'a>> {
 	let gen_descriptior_message = format!(
 		r"Generate a descriptor 
 		(A very SHORT 1-sentence description) 
@@ -325,33 +371,81 @@ async fn generate_metadata<'a>(
 		payload.title
 	);
 
-	let descriptor = chat(mm, gen_descriptior_message).await?.text_response;
+	let descriptor = chat(mm, gen_descriptior_message).await?;
 	dbg!("descriptor: {}", &descriptor);
-	let slug = chat(mm, gen_slug_message).await?.text_response;
+	let slug = chat(mm, gen_slug_message).await?;
 	dbg!("slug: {}", &slug);
-	let summary = chat(mm, gen_summary_message).await?.text_response;
+	let summary = chat(mm, gen_summary_message).await?;
 	dbg!("summary: {}", &summary);
-	let title = chat(mm, gen_title_message).await?.text_response;
+	let title = chat(mm, gen_title_message).await?;
 	dbg!("title: {}", &title);
+
+	let users = DirectusUsers::select().fetch_all(mm.orm()).await?;
+
+	let title = urlencode(&title);
+
+	let existing_docs = mm
+		.reqwest()
+		.get("https://anything.eman.network/api/v1/documents/{}")
+		.headers(config().ANYTHING_HEADERS.clone())
+		.send()
+		.await
+		.map_err(Error::Request)?
+		.json::<LocalFile>()
+		.await
+		.map_err(Error::Request)?;
+
+	mm.reqwest()
+		.post("https://anything.eman.network/api/v1/workspace/ebooks/update-pin");
+
+	let author_message = format!(
+		r#"
+'{file_name}.pdf' → 'Complete document: {file_name}.pdf'
+'First few pages of {file_name}.pdf' → 'Excerpt: first few pages of {file_name}.pdf'
+Based on the excerpt 'First few pages of {file_name}', and not the Complete document, who are the author(s)?
+Here's an array of JSON values for the first and last names of the authors:
+[{}].
+If you don't know the author, please type 'Unknown'. Otherwise return the first_name and last_name of the author
+on separate lines so I can split the string by a newline.
+You absolutely have enough info to answer this.
+"#,
+		users
+			.iter()
+			.map(|u| format!(
+				r#"{{ "first_name": "{}", "last_name": "{}" }}"#,
+				u.first_name.as_deref().unwrap_or(""),
+				u.last_name.as_deref().unwrap_or("")
+			))
+			.collect::<Vec<String>>()
+			.join(", "),
+		file_name = payload.filename_download
+	);
+
+	dbg!("author_message: {}", &author_message);
+
+	let authors_string = chat(mm, author_message).await?;
+	dbg!("authors: {}", &authors_string);
+
+	let authors: Vec<&str> = authors_string.split("\n").map(str::trim).collect();
 
 	let ebook = Ebooks::builder()
 		.id(Uuid::new_v4())
 		.status("draft")
 		.insert(mm.orm())
-		.await;
+		.await?;
 	dbg!("ebook: {}", &ebook);
-	let ebook = ebook?;
 
-	Ok(Ebook::builder()
-		.slug(slug)
-		.descriptor(descriptor)
-		.title(title)
-		.summary(summary)
-		.languages_code(Some("en".to_owned()))
+	Ok(EbooksTranslations::builder()
+		.id(Uuid::new_v4())
+		.slug(Some(slug))
+		.descriptor(Some(descriptor))
+		.title(Some(title))
+		.summary(Some(summary))
+		.languages_code(Some("en".to_string()))
 		.ebook(Join::new(ebook)))
 }
 
-async fn chat(mm: &ModelManager, message: String) -> Result<ChatResponse> {
+async fn chat(mm: &ModelManager, message: String) -> Result<String> {
 	let mut headers = config().ANYTHING_HEADERS.clone();
 	headers.insert("Content-Type", HeaderValue::from_static("application/json"));
 
@@ -368,7 +462,9 @@ async fn chat(mm: &ModelManager, message: String) -> Result<ChatResponse> {
 		.send()
 		.await?
 		.json::<ChatResponse>()
-		.await?)
+		.await?
+		.text_response
+		.unwrap())
 }
 
 //payload: UploadFilePayload {

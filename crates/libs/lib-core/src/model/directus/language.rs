@@ -18,3 +18,11 @@ pub enum Language {
 	#[display("th")]
 	Thai,
 }
+
+#[derive(Debug, ormlite::Model)]
+pub struct Languages {
+	#[ormlite(primary_key)]
+	pub code: String,
+	pub direction: Option<String>,
+	pub name: Option<String>,
+}

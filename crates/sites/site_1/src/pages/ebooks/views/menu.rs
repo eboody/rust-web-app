@@ -1,8 +1,8 @@
 use crate::{pages::ebooks, prelude::*};
-use lib_core::model::Ebook;
+use lib_core::model::EbooksTranslations;
 
 pub struct Menu {
-	pub ebooks: Vec<Ebook>,
+	pub ebooks: Vec<EbooksTranslations>,
 }
 
 impl Render for Menu {
@@ -23,7 +23,7 @@ impl Render for Menu {
 }
 
 pub async fn get_menu() -> Result<Markup> {
-	//let ebooks = EbookService::find().await;
+	//let ebooks = EbooksTranslationsService::find().await;
 	//
 	//let ebooks = ebooks?;
 

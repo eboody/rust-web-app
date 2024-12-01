@@ -17,21 +17,18 @@ lib-utils = { path = "../../libs/lib-utils"}
 lib-auth = { path = "../../libs/lib-auth"}
 # -- Async
 tokio = { version = "1", features = ["full"] }
-# -- Json
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_with = { workspace = true }
 # -- Data
 sqlx = { workspace = true }
-# -- Tracing
 tracing = "0.1"
 # -- Others
 uuid = { workspace = true }
 time = { workspace = true }
 derive_more = { workspace = true }
-
 reqwest = "0.12"
-ormlite = { version = "0.22", features = ["postgres", "json", "time", "uuid"] }
+ormlite = { version = "0.22", features = ["json", "postgres", "time", "uuid"] }
 
 [dev-dependencies]
 serial_test = "3"

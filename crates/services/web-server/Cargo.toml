@@ -11,20 +11,15 @@ lib-core = { path = "../../libs/lib-core"}
 lib-automation = { path = "../../libs/lib-automation"}
 # -- Async
 tokio = { version = "1", features = ["full"] }
-# -- Json
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 serde_with = { workspace = true }
-# -- Web
-axum = {version = "0.7", features = ["macros"]}
-tower-http = { version = "0.6", features = ["fs", "cors"] }
+axum = { version = "0.7", features = ["macros"] }
+tower-http = { version = "0.6", features = ["cors", "fs"] }
 tower-cookies = "0.10"
-# -- Tracing
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 # -- Others
-time = { workspace = true }
-uuid = {version = "1", features = ["v4","fast-rng",]}
 strum_macros = "0.26"
 derive_more = { workspace = true }
 

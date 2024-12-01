@@ -1,49 +1,43 @@
-use serde::{Deserialize, Serialize};
-use time::OffsetDateTime;
+use uuid::Uuid;
 
-use super::Status;
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct Article {
-	id: String,
-	image: String,
-	status: Status,
-	user_created: String,
-	date_created: OffsetDateTime,
-	user_updated: String,
-	date_updated: OffsetDateTime,
-	author: u32,
-
-	translations: Vec<ArticlesTranslations>,
+#[derive(Debug, ormlite::Model)]
+pub struct Articles {
+	#[ormlite(primary_key)]
+	pub id: i32,
+	pub status: String,
+	pub sort: Option<i32>,
+	pub user_created: Option<Uuid>,
+	pub date_created: Option<String>,
+	pub user_updated: Option<Uuid>,
+	pub date_updated: Option<String>,
+	pub featured_image: Option<Uuid>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, ormlite::Model)]
+pub struct ArticlesDirectusUsers {
+	#[ormlite(primary_key)]
+	pub id: i32,
+	pub articles_id: Option<i32>,
+	pub directus_users_id: Option<Uuid>,
+}
+
+#[derive(Debug, ormlite::Model)]
+pub struct ArticlesTags {
+	#[ormlite(primary_key)]
+	pub id: i32,
+	pub articles_id: Option<i32>,
+	pub tags_id: Option<i32>,
+}
+
+#[derive(Debug, ormlite::Model)]
 pub struct ArticlesTranslations {
-	article_id: String,
-	language_code: String,
-	title: String,
-	summary: String,
-	content: String,
+	#[ormlite(primary_key)]
+	pub id: i32,
+	pub articles_id: Option<i32>,
+	pub languages_code: Option<String>,
+	pub content: Option<String>,
+	pub title: Option<String>,
+	pub slug: Option<String>,
+	pub summary: Option<String>,
+	pub descriptor: Option<String>,
 }
-
-//pub struct ArticleManager {}
-//
-//impl ArticleManager {
-//	pub fn new() -> Self {
-//		ArticleManager {}
-//	}
-//
-//	pub fn get_article(&self, id: &str) -> Article {
-//		Article {
-//			id: id.to_string(),
-//			image: "image".to_string(),
-//			status: Status::Published,
-//			user_created: "user_created".to_string(),
-//			date_created: OffsetDateTime::now_utc(),
-//			user_updated: "user_updated".to_string(),
-//			date_updated: OffsetDateTime::now_utc(),
-//			author: 1,
-//			translations: vec![],
-//		}
-//	}
-//}

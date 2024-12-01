@@ -1,14 +1,14 @@
 use crate::prelude::*;
-use lib_core::model::{CoverImage, Ebook};
+use lib_core::model::{CoverImage, EbooksTranslations};
 
 pub struct Cover3D<'a> {
-	pub ebook: &'a Ebook,
+	pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for Cover3D<'_> {
 	fn render(&self) -> Markup {
 		let ebook = &self.ebook;
-		let title = ebook.title.as_deref().unwrap_or("ebook title");
+		let title = &ebook.title.as_deref().unwrap_or("Ebook");
 
 		html! {
 			.book {

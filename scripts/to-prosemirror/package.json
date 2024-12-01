@@ -1,0 +1,17 @@
+{
+  "name": "html-to-prosemirror",
+  "version": "1.0.0",
+  "main": "htp.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jsdom": "^25.0.1",
+    "prosemirror-model": "^1.24.0",
+    "prosemirror-schema-basic": "^1.2.3"
+  }
+}
