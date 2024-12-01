@@ -1,9 +1,10 @@
 mod config;
 mod error;
-mod on_ebook_file_upload;
+mod on_docx_upload;
+mod on_file_upload;
 mod routes;
 
-pub use on_ebook_file_upload::on_ebook_file_upload;
+pub use on_file_upload::on_file_upload;
 
 pub use config::config;
 

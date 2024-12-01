@@ -11,6 +11,8 @@ pub type Result<T> = core::result::Result<T, Error>;
 #[serde_as]
 #[derive(Debug, From, Serialize)]
 pub enum Error {
+	#[from]
+	Io(#[serde_as(as = "DisplayFromStr")] std::io::Error),
 	MissingEnv(&'static str),
 	WrongFormat(String),
 	#[from]
@@ -19,6 +21,9 @@ pub enum Error {
 	Ormlite(#[serde_as(as = "DisplayFromStr")] ormlite::Error),
 
 	SerdeJson(#[serde_as(as = "DisplayFromStr")] serde_json::Error),
+
+	#[from]
+	LibSubstack(lib_substack::Error),
 }
 
 impl IntoResponse for Error {

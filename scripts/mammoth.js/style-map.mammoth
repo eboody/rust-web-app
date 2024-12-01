@@ -1,0 +1,17 @@
+# Map 'Art Title' style to an h1 element
+p.ArtTitle => h1:fresh
+
+# Map 'Byline' style to a paragraph with class 'byline'
+p.Byline => p.byline:fresh
+
+# Map 'First Paragraph' style to a paragraph with class 'first-paragraph'
+p.FirstParagraph => p.first-paragraph:fresh
+
+# Map 'Quote' style to a blockquote element to preserve indentation
+p.Quote => blockquote:fresh
+
+# Map 'Emphasis' run style to an em element for italics
+r.Emphasis => em
+
+# Map 'Superscript' run style to a sup element
+r.Superscript => sup

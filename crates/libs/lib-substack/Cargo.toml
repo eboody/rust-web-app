@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 serde = { workspace = true }
 serde_json = { workspace = true }
+serde_with = { workspace = true }
 derive_more = { workspace = true }
 regex = "1"
 encoding_rs = "0.8"

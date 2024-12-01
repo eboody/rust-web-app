@@ -1,3 +1,9 @@
+mod endnote_converter;
+mod error;
+mod structs;
+
+pub use error::{Error, Result};
+
 use encoding_rs::UTF_8;
 use std::{
 	fs::{self, File},
@@ -6,29 +12,21 @@ use std::{
 	process::Command,
 };
 
-mod endnote_converter;
-mod structs;
 pub use endnote_converter::*;
 pub use structs::*;
 
-pub fn convert_docx_to_md(
-	input_path: &Path,
-	output_path: &Path,
-) -> Result<(), Box<dyn std::error::Error>> {
-	dbg!("here");
+pub fn convert_docx_to_md(input_path: &Path, output_path: &Path) -> Result<()> {
 	let html_output = Command::new("./scripts/mammoth.js/bin/mammoth")
-		.arg("--style-map=style-map.mammoth")
+		.arg("--style-map=scripts/mammoth.js/style-map.mammoth")
 		.arg(input_path)
 		.output()?;
-	dbg!("here");
 
 	if !html_output.status.success() {
-		return Err(format!(
+		return Err(Error::MammothFailed(format!(
 			"Failed to run mammoth on {:?}: {}",
 			input_path,
 			String::from_utf8_lossy(&html_output.stderr)
-		)
-		.into());
+		)));
 	}
 
 	let (html_string, _, had_errors) = UTF_8.decode(&html_output.stdout);
@@ -38,6 +36,12 @@ pub fn convert_docx_to_md(
 
 	let markdown =
 		htmd::convert(&html_string).expect("Failed to convert HTML to Markdown");
+	let markdown = markdown.replace(
+		r#"
+    
+    [↑]"#,
+		" [↑]",
+	);
 	let markdown_bytes = markdown.as_bytes();
 
 	let mut file = File::create(output_path)?;
@@ -48,7 +52,7 @@ pub fn convert_docx_to_md(
 
 pub fn get_content_from_file<T: AsRef<Path>>(
 	file_path: T,
-) -> Result<Content, Box<dyn std::error::Error>> {
+) -> std::result::Result<Content, Box<dyn std::error::Error>> {
 	let content = fs::read_to_string(file_path)?;
 	let document: Content = serde_json::from_str(&content)?;
 	Ok(document)
