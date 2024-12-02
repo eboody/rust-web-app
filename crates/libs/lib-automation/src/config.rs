@@ -24,6 +24,7 @@ pub struct AutomationConfig {
 	pub ANYTHING_HEADERS: HeaderMap,
 	pub ANYTHING_HEADERS_JSON: HeaderMap,
 	pub ANYTHINGLLM_KEY: String,
+	pub OPENAI_API_KEY: String,
 }
 
 impl AutomationConfig {
@@ -65,6 +66,7 @@ impl AutomationConfig {
 			ANYTHING_HEADERS: anything_headers,
 			ANYTHING_HEADERS_JSON: anything_headers_json,
 			ANYTHINGLLM_KEY: get_env("ANYTHINGLLM_KEY")?,
+			OPENAI_API_KEY: get_env("OPENAI_API_KEY")?,
 		})
 	}
 }

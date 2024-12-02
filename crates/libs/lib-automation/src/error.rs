@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use crate::TriggerRequest;
 use axum::response::{IntoResponse, Response};
 use derive_more::From;
 use reqwest::StatusCode;
@@ -24,6 +25,11 @@ pub enum Error {
 
 	#[from]
 	LibSubstack(lib_substack::Error),
+
+	NoKeyInTrigger(TriggerRequest),
+
+	#[from]
+	Uuid(#[serde_as(as = "DisplayFromStr")] uuid::Error),
 }
 
 impl IntoResponse for Error {

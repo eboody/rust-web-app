@@ -50,6 +50,16 @@ pub struct Document {
 	pub content: Vec<Content>,
 }
 
+impl From<Document> for Content {
+	fn from(doc: Document) -> Self {
+		Content {
+			type_: doc.doc_type,
+			content: Some(doc.content),
+			..Default::default()
+		}
+	}
+}
+
 #[derive(Debug, Deserialize, Clone, Serialize, Default)]
 pub struct Content {
 	#[serde(rename = "type")]

@@ -5,6 +5,7 @@ mod structs;
 pub use error::{Error, Result};
 
 use encoding_rs::UTF_8;
+use lib_core::model::{Articles, ArticlesTranslations, Language, ModelManager};
 use std::{
 	fs::{self, File},
 	io::Write,
@@ -13,6 +14,7 @@ use std::{
 };
 
 pub use endnote_converter::*;
+use ormlite::{types::Uuid, Model};
 pub use structs::*;
 
 pub fn convert_docx_to_md(input_path: &Path, output_path: &Path) -> Result<()> {
@@ -58,6 +60,13 @@ pub fn get_content_from_file<T: AsRef<Path>>(
 	Ok(document)
 }
 
+pub fn get_content_from_string(
+	content: &str,
+) -> std::result::Result<Content, Box<dyn std::error::Error>> {
+	let document: Content = serde_json::from_str(content)?;
+	Ok(document)
+}
+
 pub fn extract_heading(document: &mut Content) -> Option<String> {
 	let heading = document.content.as_ref().and_then(|nodes| {
 		nodes.iter().find_map(|node| {
@@ -79,6 +88,38 @@ pub fn extract_heading(document: &mut Content) -> Option<String> {
 	}
 
 	heading
+}
+
+pub async fn export_to_substack(mm: &ModelManager, article_id: Uuid) -> Result<()> {
+	let english_article = ArticlesTranslations::select()
+		.join(ArticlesTranslations::article())
+		.where_("languages_code = ?")
+		.bind(Language::English.to_string())
+		.where_("articles_id = ?")
+		.bind(article_id)
+		.fetch_one(mm.orm())
+		.await?;
+	let article_prosemirror = md_to_prosemirror(
+		&english_article
+			.content
+			.ok_or_else(|| Error::NoArticleContent)?,
+	);
+	dbg!("article_prosemirror: {}", &article_prosemirror);
+	todo!()
+}
+
+pub fn md_to_prosemirror(md: &str) -> Result<Document> {
+	let prosemirror_output = Command::new("./scripts/to-prosemirror/mdtp.js")
+		.arg(md)
+		.output()?;
+	if !prosemirror_output.status.success() {
+		return Err(Error::ProseMirrorFailed);
+	}
+
+	let (prosemirror_string, _, _) = UTF_8.decode(&prosemirror_output.stdout);
+
+	let doc: Document = serde_json::from_str(&prosemirror_string)?;
+	Ok(doc)
 }
 
 //#[tokio::main]

@@ -62,12 +62,18 @@ function convertMarkdownFileToProseMirror(inputFile, outputDir) {
 if (require.main === module) {
   const args = process.argv.slice(2);
 
-  if (args.length !== 2) {
-    console.error("Usage: mtp.js markdown_string");
+  if (args.length !== 1) {
+    console.error("Usage: mtp.js <markdown_string>");
     process.exit(1);
   }
 
   const [markdown] = args;
 
-  return markdownToProseMirror(markdown);
+  try {
+    const prosemirrorJson = markdownToProseMirror(markdown);
+    console.log(JSON.stringify(prosemirrorJson, null, 2));
+  } catch (err) {
+    console.error("Error processing Markdown:", err);
+    process.exit(1);
+  }
 }

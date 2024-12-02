@@ -14,6 +14,13 @@ pub enum Error {
 	Io(#[serde_as(as = "DisplayFromStr")] std::io::Error),
 
 	MammothFailed(String),
+
+	#[from]
+	Ormlite(#[serde_as(as = "DisplayFromStr")] ormlite::Error),
+
+	ProseMirrorFailed,
+
+	NoArticleContent,
 }
 
 impl std::error::Error for Error {}

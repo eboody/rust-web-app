@@ -497,3 +497,5 @@ pub mod webhooks_migrated_flow;
 pub use self::webhooks_migrated_flow::WebhooksMigratedFlow;
 pub mod x_metadata;
 pub use self::x_metadata::XMetadata;
+pub mod trigger_request;
+pub use self::trigger_request::*;
