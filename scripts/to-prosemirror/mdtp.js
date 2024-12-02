@@ -59,22 +59,15 @@ function convertMarkdownFileToProseMirror(inputFile, outputDir) {
   });
 }
 
-// Main CLI logic
 if (require.main === module) {
   const args = process.argv.slice(2);
 
   if (args.length !== 2) {
-    console.error("Usage: mtp.js <input-file.md> <output-dir>");
+    console.error("Usage: mtp.js markdown_string");
     process.exit(1);
   }
 
-  const [inputFile, outputDir] = args;
+  const [markdown] = args;
 
-  // Ensure output directory exists
-  if (!fs.existsSync(outputDir)) {
-    console.error(`Error: Output directory ${outputDir} does not exist.`);
-    process.exit(1);
-  }
-
-  convertMarkdownFileToProseMirror(inputFile, outputDir);
+  return markdownToProseMirror(markdown);
 }
