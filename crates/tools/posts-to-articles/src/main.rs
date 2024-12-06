@@ -1,4 +1,4 @@
-use lib_core::model::directus::{Articles, ArticlesSubstackStatus, Posts, Users};
+use lib_core::model::directus::{Articles, Posts, Users};
 use ormlite::{
 	model::{Model, ModelBuilder},
 	postgres::PgPool,

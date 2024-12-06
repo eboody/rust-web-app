@@ -25,6 +25,7 @@ pub struct DraftByline {
 	pub is_guest: bool,
 }
 
+#[allow(unused)]
 #[derive(Deserialize, Debug)]
 pub struct DraftResponse {
 	pub id: i64,

@@ -1,6 +1,4 @@
 use axum::http::{HeaderMap, HeaderValue};
-use lib_utils::envs::get_env;
-use reqwest::header::AUTHORIZATION;
 use std::sync::OnceLock;
 
 pub fn config() -> &'static SubstackConfig {

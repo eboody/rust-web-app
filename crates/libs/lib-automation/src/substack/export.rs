@@ -127,6 +127,7 @@ pub async fn export_draft(mm: &ModelManager, article_id: Uuid) -> Result<()> {
 	Ok(())
 }
 
+#[allow(unused)]
 pub async fn delete_draft(
 	mm: &ModelManager,
 	substack_status: ArticlesSubstackStatus,
