@@ -1,10 +1,8 @@
 mod acs;
-mod directus;
+pub mod directus;
 mod error;
 mod store;
-mod structs;
 
-pub use directus::*;
 //pub use structs::*;
 
 pub use self::error::{Error, Result};

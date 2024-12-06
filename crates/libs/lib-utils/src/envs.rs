@@ -1,6 +1,5 @@
 use crate::b64::b64u_decode;
-use std::env;
-use std::str::FromStr;
+use std::{env, str::FromStr};
 
 pub fn get_env(name: &'static str) -> Result<String> {
 	env::var(name).map_err(|_| Error::MissingEnv(name))

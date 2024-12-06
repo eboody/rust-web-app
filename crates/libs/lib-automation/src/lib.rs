@@ -1,14 +1,9 @@
+pub mod anythingllm;
 mod config;
-mod directus_trigger;
+pub mod directus;
 mod error;
-mod on_docx_upload;
-mod on_file_upload;
+pub mod openai;
+pub mod prelude;
 mod routes;
-
-pub use on_file_upload::on_file_upload;
-
-pub use config::config;
-
-pub use directus_trigger::*;
-pub use error::{Error, Result};
-pub use routes::routes;
+pub mod substack;
+pub use routes::*;

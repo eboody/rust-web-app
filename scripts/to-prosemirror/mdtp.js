@@ -10,11 +10,31 @@ const { addListNodes } = require("prosemirror-schema-list");
 
 // Extend the basic schema to include list nodes
 const schema = new Schema({
-  nodes: addListNodes(basicSchema.spec.nodes, "paragraph block*", "block"),
+  nodes: addListNodes(basicSchema.spec.nodes, "paragraph block*", "block").update("image", {
+    inline: true,
+    group: "inline",
+    draggable: true,
+    attrs: {
+      src: {},
+      alt: { default: null },
+      title: { default: null },
+    },
+    parseDOM: [
+      {
+        tag: "img[src]",
+        getAttrs: (dom) => ({
+          src: dom.getAttribute("src"),
+          alt: dom.getAttribute("alt"),
+          title: dom.getAttribute("title"),
+        }),
+      },
+    ],
+    toDOM: (node) => ["img", node.attrs],
+  }),
   marks: basicSchema.spec.marks,
 });
 
-// Markdown parser using ProseMirror schema with lists
+// Markdown parser using ProseMirror schema with lists and images
 const mdParser = new MarkdownParser(schema, markdownIt(), {
   paragraph: { block: "paragraph" },
   heading: { block: "heading", getAttrs: (tok) => ({ level: +tok.tag.slice(1) }) },
@@ -30,6 +50,14 @@ const mdParser = new MarkdownParser(schema, markdownIt(), {
   strong: { mark: "strong" },
   link: { mark: "link", getAttrs: (tok) => ({ href: tok.attrGet("href"), title: tok.attrGet("title") }) },
   code_inline: { mark: "code" },
+  image: {
+    node: "image",
+    getAttrs: (tok) => ({
+      src: tok.attrGet("src"),
+      alt: tok.attrGet("alt") || null,
+      title: tok.attrGet("title") || null,
+    }),
+  },
 });
 
 function markdownToProseMirror(markdown) {
@@ -55,7 +83,6 @@ function convertMarkdownFileToProseMirror(inputFile, outputDir) {
       }
       console.log(`Converted ${inputFile} to ${outputFile}`);
     });
-
   });
 }
 

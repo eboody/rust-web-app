@@ -8,7 +8,8 @@ members = [
     "crates/libs/lib-utils",
     "crates/libs/lib-core",
     "crates/libs/lib-debug-deserialize",
-    "crates/libs/lib-substack",
+    # "crates/libs/lib-substack",
+    "crates/libs/js_macro", 
 
     # -- Application Services
     "crates/services/web-server",
@@ -19,44 +20,42 @@ members = [
 
     # -- Sites
     "crates/sites/site_1", 
-    "crates/libs/js_macro", 
 
     # -- SDKs
-    "crates/libs/lib-stirling-pdf",
-    "crates/libs/lib-directus",
-    "crates/libs/lib-fb-marketing",
+    # "crates/libs/lib-stirling-pdf",
+    # "crates/libs/lib-directus",
+    # "crates/libs/lib-fb-marketing",
     # "crates/libs/lib-coolify",
-    "crates/libs/lib-anythingllm", 
+    # "crates/libs/lib-anythingllm", 
     "crates/libs/lib-automation", 
+    "crates/tools/posts-to-articles", 
 ]
 
 [workspace.dependencies]
+tokio = { version = "1", features = ["full"] }
+
+sqlx = { version = "0.8", features = ["postgres", "runtime-tokio", "uuid", "macros"] }
+ormlite = { path = "/home/eran/code/ormlite/ormlite" , features = ["json", "postgres", "time", "uuid"] }
+
+url = { version = "2", features = ["serde"] }
+uuid = { version = "1", features = ["fast-rng", "serde", "v4"] }
+time = { version = "0.3", features = ["formatting", "parsing", "serde"] }
+
+reqwest = { version = "0.12", features = ["json"] }
+derive_more = { version = "1.0.0", features = ["display", "from"] }
+urlencode = "1"
+
 serde_with = { version = "3", features = ["time_0_3"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-serde_urlencoded = { version = "0.7" }
 url_serde = { version = "0.2" }
-url = { version = "2", features = ["serde"] }
-uuid = { version = "1", features = ["fast-rng", "serde", "v4"] }
-urlencode = "1"
-
-tokio = { version = "1", features = ["full"] }
-time = { version = "0.3", features = ["formatting", "parsing", "serde"] }
-derive_more = { version = "1.0.0", features = ["display", "from"] }
-reqwest = { version = "0.12", features = ["json"] }
-
-strum = { version = "0.26", features = ["derive"] }
-strum_macros = { version = "0.26" }
-
-sqlx = { version = "0.8", features = ["postgres", "runtime-tokio-native-tls", "uuid"] }
-
-ormlite = { version = "0.22", features = ["json", "postgres", "time", "uuid"] }
-bon = "*"
+serde_urlencoded = { version = "0.7" }
 
 [workspace.metadata.scripts]
 w = "cargo run-script bundle & cargo run-script watch"
 bundle = "rm ./crates/sites/site_1/src/web-folder/assets/index* & cargo run-script bundle-site-1"
-watch = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
+watch = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w Cargo.toml -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
 bundle-site-1 = "rm -rf crates/sites/site_1/src/web-folder/js && npm --prefix crates/sites/site_1/src/vite-alpine run build"
 devdb = "docker run --rm --name pg -p 5432:5432 -e POSTGRES_PASSWORD=welcome postgres:16"
 merge_directus='pg2rs --postgres_crate ormlite --connection-string $(grep DIRECTUS_DB .cargo/config.toml | sed -E "s/.*DIRECTUS_DB=\"?([^\"]+)\"?.*/\1/") --schema public --output_file crates/libs/lib-core/src/model/directus_structs.rs'
+fmt = "cargo +nightly fmt"

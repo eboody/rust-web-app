@@ -1,4 +1,5 @@
 # rustfmt doc - https://rust-lang.github.io/rustfmt/
+unstable_features = true
 
 hard_tabs = true
 edition = "2021"
@@ -7,3 +8,6 @@ edition = "2021"
 max_width = 85
 # chain_width = 40
 # array_width = 40
+
+imports_granularity = "Crate"
+reorder_imports = true

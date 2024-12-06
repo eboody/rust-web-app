@@ -1,10 +1,8 @@
 use super::{Error, Result};
-use crate::config::auth_config;
-use crate::pwd::scheme::Scheme;
-use argon2::password_hash::SaltString;
+use crate::{config::auth_config, pwd::scheme::Scheme};
 use argon2::{
-	Algorithm, Argon2, Params, PasswordHash, PasswordHasher as _,
-	PasswordVerifier as _, Version,
+	password_hash::SaltString, Algorithm, Argon2, Params, PasswordHash,
+	PasswordHasher as _, PasswordVerifier as _, Version,
 };
 use std::sync::OnceLock;
 

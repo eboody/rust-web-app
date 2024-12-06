@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use lib_core::model::EbooksTranslations;
+use lib_core::model::directus::EbooksTranslations;
 
 pub struct PopupSignupForm<'a> {
 	pub ebook: &'a EbooksTranslations,

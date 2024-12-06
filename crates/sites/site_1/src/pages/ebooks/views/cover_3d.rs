@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use lib_core::model::{CoverImage, EbooksTranslations};
+use lib_core::model::directus::{CoverImage, EbooksTranslations};
 
 pub struct Cover3D<'a> {
 	pub ebook: &'a EbooksTranslations,

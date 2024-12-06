@@ -43,7 +43,7 @@ pub struct DraftResponse {
 	// i might need to add more fields here
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Document {
 	#[serde(rename = "type")]
 	pub doc_type: NodeType,

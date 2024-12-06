@@ -1,13 +1,10 @@
-use crate::pages::*;
-use crate::prelude::*;
+use crate::{pages::*, prelude::*};
 
 use axum::{routing::get, Router};
-use layouts::App;
-use layouts::Base;
+use layouts::{App, Base};
 use lib_core::model::ModelManager;
 use maud::Markup;
-use tower_http::services::ServeDir;
-use tower_http::services::ServeFile;
+use tower_http::services::{ServeDir, ServeFile};
 
 pub fn main_router(mm: ModelManager) -> Router {
 	Router::new()

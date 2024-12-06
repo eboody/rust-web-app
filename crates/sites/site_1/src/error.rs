@@ -1,7 +1,8 @@
-use crate::prelude::*;
-use crate::view::Toast;
-use axum::http::StatusCode;
-use axum::response::{IntoResponse, Response};
+use crate::{prelude::*, view::Toast};
+use axum::{
+	http::StatusCode,
+	response::{IntoResponse, Response},
+};
 
 pub type Result<T> = core::result::Result<T, Error>;
 

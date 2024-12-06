@@ -1,9 +1,8 @@
-use super::Json;
-use ormlite::model::{Join, JoinMeta, Model};
-use time::OffsetDateTime;
+use ormlite::model::{Join, JoinMeta};
+use time::{Date, OffsetDateTime};
 use uuid::Uuid;
 
-#[derive(Debug, ormlite::Model, Default)]
+#[derive(Debug, ormlite::Model)]
 pub struct Articles {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
@@ -14,25 +13,29 @@ pub struct Articles {
 	pub user_updated: Option<Uuid>,
 	pub date_updated: Option<OffsetDateTime>,
 	pub featured_image: Option<Uuid>,
-}
-
-#[derive(Debug, ormlite::Model)]
-pub struct ArticlesDirectusUsers {
-	#[ormlite(primary_key)]
-	pub id: i32,
-	pub articles_id: Option<i32>,
-	pub directus_users_id: Option<Uuid>,
+	pub author: Uuid,
+	pub date_published: Option<Date>,
+	pub content: Option<String>,
+	pub title: Option<String>,
+	pub sub_title: Option<String>,
+	pub summary: Option<String>,
+	pub descriptor: Option<String>,
+	pub endnotes: Option<String>,
+	pub slug: Option<String>,
+	pub substack_status: Option<Uuid>,
+	//#[ormlite(join_column = "substack_status")]
+	//pub substack_status: Join<ArticlesSubstackStatus>,
 }
 
 #[derive(Debug, ormlite::Model)]
 pub struct ArticlesTags {
 	#[ormlite(primary_key)]
 	pub id: i32,
-	pub articles_id: Option<i32>,
-	pub tags_id: Option<i32>,
+	pub articles_id: i32,
+	pub tags_id: i32,
 }
 
-#[derive(Debug, Model)]
+#[derive(Debug, ormlite::Model)]
 pub struct ArticlesTranslations {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
@@ -44,4 +47,24 @@ pub struct ArticlesTranslations {
 	pub title: Option<String>,
 	pub summary: Option<String>,
 	pub descriptor: Option<String>,
+	pub endnotes: Option<String>,
+	pub slug: Option<String>,
+}
+
+#[derive(Debug, ormlite::Model)]
+#[ormlite(table = "articles_substack_status")]
+pub struct ArticlesSubstackStatus {
+	pub id: Uuid,
+	pub articles_id: Uuid,
+	pub substack_id: i64,
+	pub status: ArticleStatus,
+	pub sort: Option<i32>,
+	pub date_updated: OffsetDateTime,
+	pub message: Option<String>,
+}
+
+#[derive(Debug, ormlite::Enum)]
+pub enum ArticleStatus {
+	Draft,
+	Published,
 }

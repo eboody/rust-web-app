@@ -8,9 +8,10 @@ pub fn transform_to_substack_format(node: &mut Content) {
 			{
 				if let Some(attrs) = &link_mark.attrs {
 					if let Some(href) = &attrs.href {
-						let re = regex::Regex::new(r"#endnote-(\d+)").unwrap();
+						let re =
+							regex::Regex::new(r"#(end|foot)note-(\d+)").unwrap();
 						if let Some(captures) = re.captures(href) {
-							if let Some(number) = captures.get(1) {
+							if let Some(number) = captures.get(2) {
 								//replace node with a footnote anchor node
 								*node = Content {
 									type_: NodeType::FootnoteAnchor,

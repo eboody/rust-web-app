@@ -16,7 +16,8 @@ pub struct SqlxMigrations {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusAccess {
+#[ormlite(table = "directus_access")]
+pub struct Access {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub role: Option<Uuid>,
@@ -26,7 +27,8 @@ pub struct DirectusAccess {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusActivity {
+#[ormlite(table = "directus_activity")]
+pub struct Activity {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub action: String,
@@ -41,7 +43,8 @@ pub struct DirectusActivity {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusCollections {
+#[ormlite(table = "directus_collections")]
+pub struct Collections {
 	#[ormlite(primary_key)]
 	pub collection: String,
 	pub icon: Option<String>,
@@ -66,7 +69,8 @@ pub struct DirectusCollections {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusComments {
+#[ormlite(table = "directus_comments")]
+pub struct Comments {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub collection: String,
@@ -79,7 +83,8 @@ pub struct DirectusComments {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusDashboards {
+#[ormlite(table = "directus_dashboards")]
+pub struct Dashboards {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: String,
@@ -91,7 +96,8 @@ pub struct DirectusDashboards {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusExtensions {
+#[ormlite(table = "directus_extensions")]
+pub struct Extensions {
 	#[ormlite(primary_key)]
 	pub enabled: bool,
 	pub id: Uuid,
@@ -101,7 +107,8 @@ pub struct DirectusExtensions {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusFields {
+#[ormlite(table = "directus_fields")]
+pub struct Fields {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub collection: String,
@@ -124,8 +131,9 @@ pub struct DirectusFields {
 	pub validation_message: Option<String>,
 }
 
-#[derive(Debug, ormlite::Model)]
-pub struct DirectusFiles {
+#[derive(Debug, ormlite::Model, Clone, Serialize)]
+#[ormlite(table = "directus_files")]
+pub struct Files {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub storage: String,
@@ -157,7 +165,8 @@ pub struct DirectusFiles {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusFlows {
+#[ormlite(table = "directus_flows")]
+pub struct Flows {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: String,
@@ -174,23 +183,26 @@ pub struct DirectusFlows {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusFolders {
+#[ormlite(table = "directus_folders")]
+pub struct Folders {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: String,
 	pub parent: Option<Uuid>,
 }
 
-#[derive(Debug, ormlite::Model)]
-pub struct DirectusMigrations {
-	#[ormlite(primary_key)]
-	pub version: String,
-	pub name: String,
-	pub timestamp: Option<String>,
-}
+//#[derive(Debug, ormlite::Model)]
+//#[ormlite(table = "directus_migrations")]
+//pub struct Migrations {
+//	#[ormlite(primary_key)]
+//	pub version: String,
+//	pub name: String,
+//	pub timestamp: Option<String>,
+//}
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusNotifications {
+#[ormlite(table = "directus_notifications")]
+pub struct Notifications {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub timestamp: Option<String>,
@@ -204,7 +216,8 @@ pub struct DirectusNotifications {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusOperations {
+#[ormlite(table = "directus_operations")]
+pub struct Operations {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: Option<String>,
@@ -222,7 +235,8 @@ pub struct DirectusOperations {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusPanels {
+#[ormlite(table = "directus_panels")]
+pub struct Panels {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub dashboard: Uuid,
@@ -243,7 +257,8 @@ pub struct DirectusPanels {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusPermissions {
+#[ormlite(table = "directus_permissions")]
+pub struct Permissions {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub collection: String,
@@ -256,7 +271,8 @@ pub struct DirectusPermissions {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusPolicies {
+#[ormlite(table = "directus_policies")]
+pub struct Policies {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: String,
@@ -269,7 +285,8 @@ pub struct DirectusPolicies {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusPresets {
+#[ormlite(table = "directus_presets")]
+pub struct Presets {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub bookmark: Option<String>,
@@ -287,7 +304,8 @@ pub struct DirectusPresets {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusRelations {
+#[ormlite(table = "directus_relations")]
+pub struct Relations {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub many_collection: String,
@@ -302,7 +320,8 @@ pub struct DirectusRelations {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusRevisions {
+#[ormlite(table = "directus_revisions")]
+pub struct Revisions {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub activity: i32,
@@ -315,7 +334,8 @@ pub struct DirectusRevisions {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusRoles {
+#[ormlite(table = "directus_roles")]
+pub struct Roles {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: String,
@@ -325,7 +345,8 @@ pub struct DirectusRoles {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusSessions {
+#[ormlite(table = "directus_sessions")]
+pub struct Sessions {
 	#[ormlite(primary_key)]
 	pub token: String,
 	pub user: Option<Uuid>,
@@ -338,7 +359,8 @@ pub struct DirectusSessions {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusSettings {
+#[ormlite(table = "directus_settings")]
+pub struct Settings {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub project_name: String,
@@ -376,7 +398,8 @@ pub struct DirectusSettings {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusShares {
+#[ormlite(table = "directus_shares")]
+pub struct Shares {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub name: Option<String>,
@@ -393,7 +416,8 @@ pub struct DirectusShares {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusTranslations {
+#[ormlite(table = "directus_translations")]
+pub struct Translations {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub language: String,
@@ -401,8 +425,9 @@ pub struct DirectusTranslations {
 	pub value: String,
 }
 
-#[derive(Debug, ormlite::Model)]
-pub struct DirectusUsers {
+#[derive(Clone, Debug, ormlite::Model)]
+#[ormlite(table = "directus_users")]
+pub struct Users {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub first_name: Option<String>,
@@ -419,7 +444,7 @@ pub struct DirectusUsers {
 	pub status: String,
 	pub role: Option<Uuid>,
 	pub token: Option<String>,
-	pub last_access: Option<String>,
+	pub last_access: Option<OffsetDateTime>,
 	pub last_page: Option<String>,
 	pub provider: String,
 	pub external_identifier: Option<String>,
@@ -433,7 +458,8 @@ pub struct DirectusUsers {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusVersions {
+#[ormlite(table = "directus_versions")]
+pub struct Versions {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
 	pub key: String,
@@ -449,7 +475,8 @@ pub struct DirectusVersions {
 }
 
 #[derive(Debug, ormlite::Model)]
-pub struct DirectusWebhooks {
+#[ormlite(table = "directus_webhooks")]
+pub struct Webhooks {
 	#[ormlite(primary_key)]
 	pub id: i32,
 	pub name: String,
@@ -473,6 +500,7 @@ pub struct SpatialRefSys {
 	pub srtext: Option<String>,
 	pub proj_4_text: Option<String>,
 }
+
 #[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct UploadFilePayload {
 	pub storage: String,
@@ -480,8 +508,8 @@ pub struct UploadFilePayload {
 	pub filename_download: String,
 	pub title: String,
 	#[serde(rename = "type")]
-	pub type_: Option<String>,
-	pub folder: Option<Uuid>,
+	pub type_: String,
+	pub folder: Uuid,
 	pub uploaded_by: Option<Uuid>,
 	pub created_on: Option<String>,
 	pub modified_by: Option<Uuid>,

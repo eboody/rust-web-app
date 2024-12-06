@@ -1,10 +1,10 @@
-use crate::ctx::Ctx;
-use crate::model::ModelManager;
-use sqlx::postgres::PgPoolOptions;
-use sqlx::{Pool, Postgres};
-use std::fs;
-use std::path::{Path, PathBuf};
-use std::time::Duration;
+use crate::{ctx::Ctx, model::ModelManager};
+use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+use std::{
+	fs,
+	path::{Path, PathBuf},
+	time::Duration,
+};
 use tracing::info;
 
 type Db = Pool<Postgres>;

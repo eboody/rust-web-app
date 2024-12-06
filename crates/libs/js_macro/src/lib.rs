@@ -1,7 +1,9 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::parse::{Parse, ParseStream};
-use syn::parse_macro_input;
+use syn::{
+	parse::{Parse, ParseStream},
+	parse_macro_input,
+};
 
 struct JsBlock {
 	content: String,

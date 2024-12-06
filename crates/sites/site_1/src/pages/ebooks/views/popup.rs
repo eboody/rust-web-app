@@ -1,6 +1,5 @@
-use crate::pages::ebooks;
-use crate::prelude::*;
-use lib_core::model::{EbooksTranslations, Language};
+use crate::{pages::ebooks, prelude::*};
+use lib_core::model::directus::{EbooksTranslations, Language};
 
 pub struct Popup<'a> {
 	pub ebook: &'a EbooksTranslations,

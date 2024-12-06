@@ -11,4 +11,8 @@ mod popup;
 mod toast;
 mod tooltip;
 
-pub use {button::*, form_field::*, icon::*, popup::*, toast::*};
+pub use button::*;
+pub use form_field::*;
+pub use icon::*;
+pub use popup::*;
+pub use toast::*;

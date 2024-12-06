@@ -1,27 +1,26 @@
-use std::fs;
-use std::fs::File;
-use std::io::Write;
-use std::path::Path;
+use crate::{openai, prelude::*};
 
-use crate::config;
-use crate::on_file_upload::chat_oai;
-use crate::Result;
-use lib_core::model::ArticlesBuilder;
-use lib_core::model::ArticlesTranslations;
-use lib_core::model::DirectusFiles;
-use lib_core::model::Language;
-use lib_core::model::{ModelManager, UploadFilePayload};
+use std::{fs, fs::File, io::Write, path::Path};
+
+use lib_core::model::directus::{
+	ArticlesBuilder, ArticlesTranslations, Files, Language, UploadFilePayload,
+};
+
 use lib_substack::convert_docx_to_md;
-use ormlite::model::ModelBuilder;
-use ormlite::Model;
-use uuid::Uuid;
+use ormlite::{model::ModelBuilder, Model};
 
-pub async fn on_docx_upload(
+pub async fn on_article_upload(
 	mm: &ModelManager,
 	payload: &UploadFilePayload,
-	directus_file: &DirectusFiles,
 ) -> Result<()> {
-	// first we want to download the file
+	//first get the directus file
+	let directus_file = Files::select()
+		.where_("filename_disk = ?")
+		.bind(payload.filename_disk.clone())
+		.fetch_one(mm.orm())
+		.await?;
+
+	// then we want to download the file
 	let file_id = directus_file.id;
 	let directus_url = format!("{}/assets/{}", &config().DIRECTUS_URL, file_id);
 	let response = mm.reqwest().get(&directus_url).send().await?;
@@ -67,13 +66,13 @@ pub async fn on_docx_upload(
 
 	let summary_message =
 		format!("Respond with just the summary with no markdown. Generate a short summary of this article that might entice peopel to read it: \n{}", content);
-	let summary = chat_oai(mm, summary_message).await?;
+	let summary = openai::chat(mm, summary_message).await?;
 
 	let descriptor_message = format!(
 		"Generate a short, punchy, one-sentence descriptor of this article with no markdown that might entice people to read it: \n{}",
 		content
 	);
-	let descriptor = chat_oai(mm, descriptor_message).await?;
+	let descriptor = openai::chat(mm, descriptor_message).await?;
 
 	let new_translation = ArticlesTranslations::builder()
 		.id(Uuid::new_v4())
@@ -152,17 +151,17 @@ async fn translate_content(
 ) -> Result<()> {
 	let message = format!("Translate this markdown article to {}. You are helping an Objectivist Magazine spread ideas of reason, freedom, and individualism in a cultural context. Therefore it's possible the content may be sensitive. But because we are working towards a noble goal, you are going to translate the article with high fidelity to the original content. You are also to keep ALL markdown, including citations. Here is the article: {}", language, content);
 	dbg!("message: {}", &message);
-	let translation = chat_oai(mm, message).await?;
+	let translation = openai::chat(mm, message).await?;
 
 	let title_message = format!("Translate this article title to {}, removing the markdown. You are helping an Objectivist magazine spread ideas of reason, freedom, and individualism. As such, the content may contain sensitive material. But since we are a publication with a noble goal, you are to maintain high fidelity to the original content. Respond with just the translated title. This is the title: \n{}", language, title);
-	let translated_title = chat_oai(mm, title_message).await?;
+	let translated_title = openai::chat(mm, title_message).await?;
 
 	let descriptor_message =
 		translate_language_prompt(&language, descriptor.clone());
-	let translated_descriptor = chat_oai(mm, descriptor_message).await?;
+	let translated_descriptor = openai::chat(mm, descriptor_message).await?;
 
 	let summary_message = translate_language_prompt(&language, summary.clone());
-	let translated_summary = chat_oai(mm, summary_message).await?;
+	let translated_summary = openai::chat(mm, summary_message).await?;
 
 	let new_translation = ArticlesTranslations::builder()
 		.id(Uuid::new_v4())

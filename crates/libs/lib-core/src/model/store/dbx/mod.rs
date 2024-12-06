@@ -5,11 +5,15 @@ mod error;
 pub use error::{Error, Result};
 
 use crate::model::store::Db;
-use sqlx::postgres::any::AnyConnectionBackend;
-use sqlx::query::{Query, QueryAs};
-use sqlx::{FromRow, IntoArguments, Pool, Postgres, Transaction};
-use std::ops::{Deref, DerefMut};
-use std::sync::Arc;
+use sqlx::{
+	postgres::any::AnyConnectionBackend,
+	query::{Query, QueryAs},
+	FromRow, IntoArguments, Pool, Postgres, Transaction,
+};
+use std::{
+	ops::{Deref, DerefMut},
+	sync::Arc,
+};
 use tokio::sync::Mutex;
 
 // endregion: --- Modules

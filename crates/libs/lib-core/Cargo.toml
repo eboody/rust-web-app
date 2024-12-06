@@ -28,7 +28,8 @@ uuid = { workspace = true }
 time = { workspace = true }
 derive_more = { workspace = true }
 reqwest = "0.12"
-ormlite = { version = "0.22", features = ["json", "postgres", "time", "uuid"] }
+ormlite = { workspace = true }
+bon = "*"
 
 [dev-dependencies]
 serial_test = "3"

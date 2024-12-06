@@ -1,13 +1,18 @@
 use std::sync::Arc;
 
-use crate::TriggerRequest;
 use axum::response::{IntoResponse, Response};
 use derive_more::From;
+use lib_core::model::directus::UploadFilePayload;
 use reqwest::StatusCode;
 use serde::Serialize;
 use serde_with::{serde_as, DisplayFromStr};
 
+use crate::directus;
+
 pub type Result<T> = core::result::Result<T, Error>;
+pub type BoxResult<T> = core::result::Result<T, Box<Error>>;
+
+use crate::substack;
 
 #[serde_as]
 #[derive(Debug, From, Serialize)]
@@ -26,10 +31,17 @@ pub enum Error {
 	#[from]
 	LibSubstack(lib_substack::Error),
 
-	NoKeyInTrigger(TriggerRequest),
+	NoKeyInTrigger(directus::trigger::Request),
 
 	#[from]
 	Uuid(#[serde_as(as = "DisplayFromStr")] uuid::Error),
+
+	UnknownMimeType(UploadFilePayload),
+	UnknownContentType(UploadFilePayload),
+	UnknownFolderContentType(UploadFilePayload),
+
+	#[from]
+	Substack(substack::Error),
 }
 
 impl IntoResponse for Error {
@@ -56,5 +68,11 @@ impl std::error::Error for Error {}
 impl From<serde_json::Error> for Error {
 	fn from(e: serde_json::Error) -> Self {
 		Error::SerdeJson(e)
+	}
+}
+
+impl From<Box<Error>> for Error {
+	fn from(e: Box<Error>) -> Self {
+		*e
 	}
 }

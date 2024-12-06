@@ -5,12 +5,14 @@ mod structs;
 pub use error::{Error, Result};
 
 use encoding_rs::UTF_8;
-use lib_core::model::{Articles, ArticlesTranslations, Language, ModelManager};
+use lib_core::model::{directus::*, ModelManager};
 use std::{
 	fs::{self, File},
 	io::Write,
 	path::Path,
 	process::Command,
+	thread::sleep,
+	time::Duration,
 };
 
 pub use endnote_converter::*;
@@ -99,12 +101,66 @@ pub async fn export_to_substack(mm: &ModelManager, article_id: Uuid) -> Result<(
 		.bind(article_id)
 		.fetch_one(mm.orm())
 		.await?;
-	let article_prosemirror = md_to_prosemirror(
+	let doc = md_to_prosemirror(
 		&english_article
 			.content
 			.ok_or_else(|| Error::NoArticleContent)?,
-	);
-	dbg!("article_prosemirror: {}", &article_prosemirror);
+	)?;
+
+	let mut doc = doc.into();
+	transform_to_substack_format(&mut doc);
+
+	let payload = DraftRequest {
+		audience: "everyone".to_string(),
+		draft_body: serde_json::to_string(&doc).unwrap(),
+		draft_bylines: vec![DraftByline {
+			id: 292604153,
+			is_guest: false,
+		}],
+		draft_podcast_duration: None,
+		draft_podcast_preview_upload_id: None,
+		draft_podcast_upload_id: None,
+		draft_podcast_url: "".to_string(),
+		draft_section_id: None,
+		draft_subtitle: "".to_string(),
+		draft_title: english_article.title.ok_or_else(|| Error::NoArticleTitle)?,
+		draft_video_upload_id: None,
+		draft_voiceover_upload_id: None,
+		section_chosen: false,
+		r#type: "newsletter".to_string(),
+	};
+
+	let mut headers = reqwest::header::HeaderMap::new();
+	headers.insert("accept", "application/json".parse().unwrap());
+	headers.insert("content-type", "application/json".parse().unwrap());
+	headers.insert("user-agent", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36".parse().unwrap());
+	headers.insert("cookie", "ab_experiment_sampled=\"false\"; ab_testing_id=\"08ed65a0-9a42-4070-a9b0-a513f220ee66\"; cookie_storage_key=05a051ab-3608-4165-b0fb-57028fc8d6b5; substack.sid=s%3AAXkgh2skDfIuUkpmVQrvrNW5c_PW8fb_.4I39nNwU2k7LTZ%2F2V61EYyNAeLksqJvOk6EIyAK5%2FyY; ajs_anonymous_id=\"b6bf0691-177b-4411-b6fa-fee8b5767bdd\"; substack.lli=1; __cf_bm=jGEhBtEFPt1UfN.4xBhXs7xgRUrerOTA3wnirL7s7UU-1732980009-1.0.1.1-OaPCDJ0K3yBpbom97WYOoMrf20Aoh6phruERFayEBq5GOelsPjhNs4gUVXz4wiyaE_TvPt3NOdfnReY9jNAnkA; visit_id={\"id\":\"962508ff-2f87-421d-96ed-bafcd2db690c\",\"timestamp\":\"2024-11-30T15:25:11.807Z\",\"utm_source\":\"substack\"}; AWSALBTG=RtLsRiLD88Ab2ywUwrRCGeZWBbRQGYPc3dVEPcSJe++l04pvwm22ggzYyOKE5uNnt6JEOrqzEBQ3zR3JV7eLc+fooxjqjzzzzdz5Z/JEDciXukVeq16GQie2vSNv4knI9YATiy6ge9sOjXw6JOZmUG0ugQVe7K/ON5Ic3AU66tyu; AWSALBTGCORS=RtLsRiLD88Ab2ywUwrRCGeZWBbRQGYPc3dVEPcSJe++l04pvwm22ggzYyOKE5uNnt6JEOrqzEBQ3zR3JV7eLc+fooxjqjzzzzdz5Z/JEDciXukVeq16GQie2vSNv4knI9YATiy6ge9sOjXw6JOZmUG0ugQVe7K/ON5Ic3AU66tyu".parse().unwrap());
+
+	let response = mm
+		.reqwest()
+		.post("https://theobjectivestandard.substack.com/api/v1/drafts")
+		.headers(headers.clone())
+		.json(&payload)
+		.send()
+		.await?;
+
+	let draft_response = response.json::<DraftResponse>().await?;
+
+	println!("response: {:?}", draft_response);
+
+	sleep(Duration::from_secs(25));
+
+	let response = mm
+		.reqwest()
+		.delete(format!(
+			"https://theobjectivestandard.substack.com/api/v1/drafts/{}",
+			draft_response.id
+		))
+		.headers(headers)
+		.send()
+		.await?;
+
+	dbg!("response: {}", &response);
 	todo!()
 }
 

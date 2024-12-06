@@ -1,5 +1,4 @@
-use crate::pages::ebooks;
-use crate::prelude::*;
+use crate::{pages::ebooks, prelude::*};
 use axum::extract::State;
 use serde::Deserialize;
 use serde_json::json;

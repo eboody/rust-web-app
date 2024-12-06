@@ -1,122 +1,99 @@
-use crate::config;
-use crate::Error;
-use crate::Result;
-use axum::body::Bytes;
-use axum::http::HeaderValue;
-use axum::{extract::State, Json};
-use lib_anythingllm::apis::urlencode;
-use lib_anythingllm::models::ChatResponse;
-use lib_anythingllm::models::LocalFile;
-use lib_anythingllm::models::ResponseData;
-use lib_core::model::DirectusFiles;
-use lib_core::model::DirectusFolders;
-use lib_core::model::DirectusUsers;
-use lib_core::model::Ebooks;
-use lib_core::model::EbooksTranslations;
-use lib_core::model::EbooksTranslationsBuilder;
-use lib_core::model::{ModelManager, UploadFilePayload};
-use ormlite::model::Join;
-use ormlite::model::ModelBuilder;
-use ormlite::Model;
+use crate::{anythingllm, prelude::*};
+use axum::{body::Bytes, http::HeaderValue};
+use lib_anythingllm::{
+	apis::urlencode,
+	models::{ChatResponse, LocalFile},
+};
+use lib_core::model::{
+	directus::{
+		Ebooks, EbooksTranslations, EbooksTranslationsBuilder, Files, Folders,
+		UploadFilePayload, Users,
+	},
+	ModelManager,
+};
 use reqwest::multipart;
 use serde_json::json;
-use uuid::Uuid;
 
-use super::on_docx_upload::on_docx_upload;
-
-pub async fn on_file_upload(
-	State(mm): State<ModelManager>,
-	Json(payload): Json<UploadFilePayload>,
+#[allow(unused)]
+pub async fn on_ebook_upload(
+	mm: &ModelManager,
+	payload: &UploadFilePayload,
 ) -> Result<()> {
-	dbg!("payload: {}", &payload);
-	let directus_file = DirectusFiles::select()
-		.where_("filename_disk = ?")
-		.bind(payload.filename_disk.clone())
-		.fetch_one(mm.orm())
-		.await?;
-
-	if is_docx_file(&payload) {
-		let res = on_docx_upload(&mm, &payload, &directus_file).await;
-		dbg!("res: {}", &res);
-
-		return Ok(());
-	}
-
-	//let ebooks_covers_folder = DirectusFolders::select()
-	//	.where_("name = ?")
-	//	.bind("Covers")
-	//	.where_("parent = ?")
-	//	.bind(directus_file.folder)
-	//	.fetch_one(mm.orm())
-	//	.await?;
-	//
-	//if !is_pdf_file_ebook(&payload, &directus_file, &ebooks_covers_folder) {
-	//	return Ok(());
-	//}
-	//
-	//let file_bytes = get_file_byes(&mm, directus_file.id).await?;
-	//
-	//save_ebook_cover_image(
-	//	&mm,
-	//	payload.clone(),
-	//	ebooks_covers_folder.id,
-	//	&file_bytes,
-	//)
-	//.await?;
-	//
-	//let first_few_pages_file_name =
-	//	format!("First few pages of {}", payload.filename_download.clone());
-	//
-	//let first_few_pages =
-	//	get_first_pages_of_pdf(&mm, first_few_pages_file_name.clone(), &file_bytes)
-	//		.await?;
-	//
-	//embed_ebook_anythingllm(&mm, first_few_pages_file_name, &first_few_pages)
-	//	.await?;
-	//
-	//embed_ebook_anythingllm(
-	//	&mm,
-	//	directus_file.filename_download.clone(),
-	//	&file_bytes,
-	//)
-	//.await?;
-	//
-	//let ebook_cover_file = DirectusFiles::select()
-	//	.where_("title = ?")
-	//	.bind(payload.title.clone())
-	//	.where_("folder = ?")
-	//	.bind(ebooks_covers_folder.id)
-	//	.fetch_one(mm.orm())
-	//	.await?;
-	//
-	//let ebook_builder = generate_metadata(&payload, &mm).await?;
-	//
-	//let res = ebook_builder
-	//	.file(Some(directus_file.id))
-	//	.cover_image(Some(ebook_cover_file.id))
-	//	.insert(mm.orm())
-	//	.await;
-	//dbg!("res: {}", &res);
-
-	Ok(())
+	todo!()
 }
 
-fn is_docx_file(payload: &UploadFilePayload) -> bool {
-	payload.type_.clone().unwrap()
+//let ebooks_covers_folder = DirectusFolders::select()
+//	.where_("name = ?")
+//	.bind("Covers")
+//	.where_("parent = ?")
+//	.bind(directus_file.folder)
+//	.fetch_one(mm.orm())
+//	.await?;
+//
+//if !is_pdf_file_ebook(&payload, &directus_file, &ebooks_covers_folder) {
+//	return Ok(());
+//}
+//
+//let file_bytes = get_file_byes(&mm, directus_file.id).await?;
+//
+//save_ebook_cover_image(
+//	&mm,
+//	payload.clone(),
+//	ebooks_covers_folder.id,
+//	&file_bytes,
+//)
+//.await?;
+//
+//let first_few_pages_file_name =
+//	format!("First few pages of {}", payload.filename_download.clone());
+//
+//let first_few_pages =
+//	get_first_pages_of_pdf(&mm, first_few_pages_file_name.clone(), &file_bytes)
+//		.await?;
+//
+//embed_ebook_anythingllm(&mm, first_few_pages_file_name, &first_few_pages)
+//	.await?;
+//
+//embed_ebook_anythingllm(
+//	&mm,
+//	directus_file.filename_download.clone(),
+//	&file_bytes,
+//)
+//.await?;
+//
+//let ebook_cover_file = DirectusFiles::select()
+//	.where_("title = ?")
+//	.bind(payload.title.clone())
+//	.where_("folder = ?")
+//	.bind(ebooks_covers_folder.id)
+//	.fetch_one(mm.orm())
+//	.await?;
+//
+//let ebook_builder = generate_metadata(&payload, &mm).await?;
+//
+//let res = ebook_builder
+//	.file(Some(directus_file.id))
+//	.cover_image(Some(ebook_cover_file.id))
+//	.insert(mm.orm())
+//	.await;
+//dbg!("res: {}", &res);
+
+fn _is_docx_file(payload: &UploadFilePayload) -> bool {
+	payload.type_.clone()
 		== "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 }
 
-fn is_pdf_file(payload: &UploadFilePayload) -> bool {
-	payload.type_.clone().unwrap() == "application/pdf"
+fn _is_pdf_file(payload: &UploadFilePayload) -> bool {
+	payload.type_.clone() == "application/pdf"
 }
 
-fn is_pdf_file_ebook(
+fn _is_pdf_file_ebook(
 	payload: &UploadFilePayload,
-	d_file: &DirectusFiles,
-	d_folder: &DirectusFolders,
+	d_file: &Files,
+	d_folder: &Folders,
 ) -> bool {
 	if let Some(folder) = &d_file.folder {
-		payload.type_.clone().unwrap() == "application/pdf"
+		payload.type_.clone() == "application/pdf"
 			&& (folder.to_string()
 				== d_folder
 					.parent
@@ -127,7 +104,7 @@ fn is_pdf_file_ebook(
 	}
 }
 
-pub async fn get_file_byes(mm: &ModelManager, d_id: Uuid) -> Result<Bytes> {
+pub async fn _get_file_byes(mm: &ModelManager, d_id: Uuid) -> Result<Bytes> {
 	Ok(mm
 		.reqwest()
 		.get(format!("{}/assets/{}", config().DIRECTUS_URL, d_id))
@@ -138,7 +115,7 @@ pub async fn get_file_byes(mm: &ModelManager, d_id: Uuid) -> Result<Bytes> {
 		.await?)
 }
 
-pub async fn save_ebook_cover_image(
+pub async fn _save_ebook_cover_image(
 	mm: &ModelManager,
 	payload: UploadFilePayload,
 	covers_folder_id: Uuid,
@@ -208,7 +185,7 @@ pub async fn save_ebook_cover_image(
 	Ok(())
 }
 
-pub async fn get_first_pages_of_pdf(
+pub async fn _get_first_pages_of_pdf(
 	mm: &ModelManager,
 	file_name: String,
 	file_bytes: &Bytes,
@@ -231,7 +208,7 @@ pub async fn get_first_pages_of_pdf(
 		.bytes()
 		.await?)
 }
-async fn embed_ebook_anythingllm(
+async fn _embed_ebook_anythingllm(
 	mm: &ModelManager,
 	file_name: String,
 	file_bytes: &Bytes,
@@ -286,7 +263,7 @@ async fn embed_ebook_anythingllm(
 		)));
 	}
 
-	let response_data: ResponseData = upload_res.json().await?;
+	let response_data: anythingllm::Response = upload_res.json().await?;
 
 	let from_location = response_data
 		.documents
@@ -356,7 +333,7 @@ async fn embed_ebook_anythingllm(
 	Ok(())
 }
 
-async fn generate_metadata<'a>(
+async fn _generate_metadata<'a>(
 	payload: &UploadFilePayload,
 	mm: &ModelManager,
 ) -> Result<EbooksTranslationsBuilder<'a>> {
@@ -399,11 +376,11 @@ async fn generate_metadata<'a>(
 	let title = chat(mm, gen_title_message).await?;
 	dbg!("title: {}", &title);
 
-	let users = DirectusUsers::select().fetch_all(mm.orm()).await?;
+	let users = Users::select().fetch_all(mm.orm()).await?;
 
 	let title = urlencode(&title);
 
-	let existing_docs = mm
+	let _existing_docs = mm
 		.reqwest()
 		.get("https://anything.eman.network/api/v1/documents/{}")
 		.headers(config().ANYTHING_HEADERS.clone())
@@ -414,8 +391,8 @@ async fn generate_metadata<'a>(
 		.await
 		.map_err(Error::Request)?;
 
-	mm.reqwest()
-		.post("https://anything.eman.network/api/v1/workspace/ebooks/update-pin");
+	//mm.reqwest()
+	//	.post("https://anything.eman.network/api/v1/workspace/ebooks/update-pin");
 
 	let author_message = format!(
 		r#"
@@ -445,7 +422,7 @@ You absolutely have enough info to answer this.
 	let authors_string = chat(mm, author_message).await?;
 	dbg!("authors: {}", &authors_string);
 
-	let authors: Vec<&str> = authors_string.split("\n").map(str::trim).collect();
+	let _authors: Vec<&str> = authors_string.split("\n").map(str::trim).collect();
 
 	let ebook = Ebooks::builder()
 		.id(Uuid::new_v4())
@@ -464,6 +441,7 @@ You absolutely have enough info to answer this.
 		.ebook(Join::new(ebook)))
 }
 
+#[allow(unused)]
 pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
 	let mut headers = config().ANYTHING_HEADERS.clone();
 	headers.insert("Content-Type", HeaderValue::from_static("application/json"));
@@ -484,49 +462,6 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
 		.await?
 		.text_response
 		.unwrap())
-}
-
-pub async fn chat_oai(mm: &ModelManager, message: String) -> Result<String> {
-	use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
-
-	// Define the OpenAI API endpoint and your API key
-	let openai_api_url = "https://api.openai.com/v1/chat/completions";
-	let openai_api_key = config().OPENAI_API_KEY.clone(); // Ensure your config includes the API key
-
-	// Set up headers
-	let mut headers = HeaderMap::new();
-	headers.insert("Content-Type", HeaderValue::from_static("application/json"));
-	headers.insert(
-		AUTHORIZATION,
-		HeaderValue::from_str(&format!("Bearer {}", openai_api_key)).unwrap(),
-	);
-
-	// Define the body payload as per OpenAI's requirements
-	let body = json!({
-		"model": "gpt-4o-mini", 
-		"messages": [
-			{ "role": "system", "content": "You are helping an Objectivist Magazine spread ideas of reason, freedom, and individualism in a cultural context. Therefore it's possible the content may be sensitive. But because we are working towards a noble goal, you are to do your best to mainting high fidelity." },
-			{ "role": "user", "content": message }
-		]
-	})
-	.to_string();
-
-	// Make the request
-	let response = mm
-		.reqwest()
-		.post(openai_api_url)
-		.body(body)
-		.headers(headers)
-		.send()
-		.await?;
-
-	// Parse and return the response
-	let response_body: serde_json::Value = response.json().await?;
-	if let Some(reply) = response_body["choices"][0]["message"]["content"].as_str() {
-		Ok(reply.to_string())
-	} else {
-		Ok("".to_string())
-	}
 }
 
 //payload: UploadFilePayload {

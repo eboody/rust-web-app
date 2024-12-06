@@ -13,6 +13,7 @@ ormlite = { workspace = true }
 regex = "1"
 encoding_rs = "0.8"
 htmd = "0.1"
+reqwest = { workspace = true }
 
 [lints]
 workspace = true

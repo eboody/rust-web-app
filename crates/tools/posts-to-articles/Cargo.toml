@@ -1,0 +1,15 @@
+[package]
+name = "posts-to-articles"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+ormlite = { workspace = true }
+lib-core = { path = "../../libs/lib-core" }
+lib-utils = { path = "../../libs/lib-utils" }
+tokio = { workspace = true }
+htmd = "0.1"
+regex = "1"
+
+[lints]
+workspace = true
