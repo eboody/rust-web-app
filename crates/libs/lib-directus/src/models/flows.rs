@@ -53,7 +53,7 @@ pub struct Flows {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub options: Option<Option<serde_json::Value>>,
+	pub options: Option<Option<json::Value>>,
 	#[serde(rename = "operation", skip_serializing_if = "Option::is_none")]
 	pub operation: Option<Box<models::FlowsOperation>>,
 	/// Timestamp in ISO8601 when the flow was created.

@@ -16,10 +16,10 @@ use serde::{Deserialize, Serialize};
 pub struct CampaignUpdate {
 	/// Ad Labels associated with this campaign
 	#[serde(rename = "adlabels", skip_serializing_if = "Option::is_none")]
-	pub adlabels: Option<Vec<serde_json::Value>>,
+	pub adlabels: Option<Vec<json::Value>>,
 	/// A map of child adset IDs to their respective bid amounts required in the process of toggling campaign from autobid to manual bid
 	#[serde(rename = "adset_bid_amounts", skip_serializing_if = "Option::is_none")]
-	pub adset_bid_amounts: Option<serde_json::Value>,
+	pub adset_bid_amounts: Option<json::Value>,
 	#[serde(rename = "adset_budgets", skip_serializing_if = "Option::is_none")]
 	pub adset_budgets: Option<Box<models::AdsetBudgets>>,
 	/// Bid strategy for this campaign to suit your specific business goals
@@ -101,7 +101,7 @@ pub struct CampaignUpdate {
 	pub status: Option<Status>,
 	/// Upstream events
 	#[serde(rename = "upstream_events", skip_serializing_if = "Option::is_none")]
-	pub upstream_events: Option<serde_json::Value>,
+	pub upstream_events: Option<json::Value>,
 }
 
 impl CampaignUpdate {
@@ -134,7 +134,7 @@ impl CampaignUpdate {
 		}
 	}
 	pub fn to_string(&self) -> String {
-		serde_json::to_string(self).expect("to_string failed")
+		json::to_string(self).expect("to_string failed")
 	}
 }
 /// Bid strategy for this campaign to suit your specific business goals

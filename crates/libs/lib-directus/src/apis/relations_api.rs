@@ -49,7 +49,7 @@ pub trait RelationsApi: Send + Sync {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetRelations200Response, Error<GetRelationsError>>;
@@ -128,10 +128,10 @@ impl RelationsApi for RelationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateRelationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -174,7 +174,7 @@ impl RelationsApi for RelationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteRelationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -240,10 +240,10 @@ impl RelationsApi for RelationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetRelationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -270,7 +270,7 @@ impl RelationsApi for RelationsApiClient {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetRelations200Response, Error<GetRelationsError>> {
@@ -360,10 +360,10 @@ impl RelationsApi for RelationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetRelationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -431,10 +431,10 @@ impl RelationsApi for RelationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateRelationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -451,7 +451,7 @@ impl RelationsApi for RelationsApiClient {
 pub enum CreateRelationError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_relation`]
@@ -460,7 +460,7 @@ pub enum CreateRelationError {
 pub enum DeleteRelationError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_relation`]
@@ -469,7 +469,7 @@ pub enum DeleteRelationError {
 pub enum GetRelationError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_relations`]
@@ -478,7 +478,7 @@ pub enum GetRelationError {
 pub enum GetRelationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_relation`]
@@ -487,5 +487,5 @@ pub enum GetRelationsError {
 pub enum UpdateRelationError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

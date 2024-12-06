@@ -103,10 +103,10 @@ impl FilterApi for FilterApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ContainsImageError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -155,10 +155,10 @@ impl FilterApi for FilterApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ContainsTextError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -207,10 +207,10 @@ impl FilterApi for FilterApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<FileSizeError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -262,10 +262,10 @@ impl FilterApi for FilterApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<PageCountError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -314,10 +314,10 @@ impl FilterApi for FilterApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<PageRotationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -367,10 +367,10 @@ impl FilterApi for FilterApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<PageSizeError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -385,40 +385,40 @@ impl FilterApi for FilterApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ContainsImageError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`contains_text`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum ContainsTextError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`file_size`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileSizeError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`page_count`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PageCountError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`page_rotation`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PageRotationError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`page_size`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PageSizeError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

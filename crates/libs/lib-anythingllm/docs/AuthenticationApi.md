@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## v1_auth_get
 
-> serde_json::Value v1_auth_get()
+> json::Value v1_auth_get()
 
 
 Verify the attached Authentication header contains a valid API token.
@@ -21,7 +21,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

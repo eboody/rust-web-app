@@ -1,5 +1,5 @@
 mod admin;
-mod article;
+pub mod articles;
 mod asset;
 mod collections;
 mod ebooks;
@@ -12,6 +12,6 @@ mod tags;
 
 #[allow(unused)]
 pub use {
-	admin::*, article::*, asset::*, collections::*, ebooks::*, events::Event,
+	admin::*, articles::*, asset::*, collections::*, ebooks::*, events::Event,
 	language::*, macros::*, post::Posts, status::*, tags::*,
 };

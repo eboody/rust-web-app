@@ -52,7 +52,7 @@ pub trait PermissionsApi: Send + Sync {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetPermissions200Response, Error<GetPermissionsError>>;
@@ -78,7 +78,7 @@ pub trait PermissionsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_permissions_request: Option<models::UpdatePermissionsRequest>,
 	) -> Result<models::GetPermissions200Response, Error<UpdatePermissionsError>>;
@@ -130,10 +130,10 @@ impl PermissionsApi for PermissionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreatePermissionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -176,7 +176,7 @@ impl PermissionsApi for PermissionsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeletePermissionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -213,7 +213,7 @@ impl PermissionsApi for PermissionsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeletePermissionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -249,10 +249,10 @@ impl PermissionsApi for PermissionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetMyPermissionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -318,10 +318,10 @@ impl PermissionsApi for PermissionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetPermissionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -348,7 +348,7 @@ impl PermissionsApi for PermissionsApiClient {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetPermissions200Response, Error<GetPermissionsError>> {
@@ -438,10 +438,10 @@ impl PermissionsApi for PermissionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetPermissionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -489,10 +489,10 @@ impl PermissionsApi for PermissionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdatePermissionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -519,7 +519,7 @@ impl PermissionsApi for PermissionsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_permissions_request: Option<models::UpdatePermissionsRequest>,
 	) -> Result<models::GetPermissions200Response, Error<UpdatePermissionsError>> {
@@ -607,10 +607,10 @@ impl PermissionsApi for PermissionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdatePermissionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -627,7 +627,7 @@ impl PermissionsApi for PermissionsApiClient {
 pub enum CreatePermissionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_permission`]
@@ -636,7 +636,7 @@ pub enum CreatePermissionError {
 pub enum DeletePermissionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_permissions`]
@@ -644,7 +644,7 @@ pub enum DeletePermissionError {
 #[serde(untagged)]
 pub enum DeletePermissionsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_my_permissions`]
@@ -653,7 +653,7 @@ pub enum DeletePermissionsError {
 pub enum GetMyPermissionsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_permission`]
@@ -662,7 +662,7 @@ pub enum GetMyPermissionsError {
 pub enum GetPermissionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_permissions`]
@@ -671,7 +671,7 @@ pub enum GetPermissionError {
 pub enum GetPermissionsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_permission`]
@@ -680,7 +680,7 @@ pub enum GetPermissionsError {
 pub enum UpdatePermissionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_permissions`]
@@ -688,5 +688,5 @@ pub enum UpdatePermissionError {
 #[serde(untagged)]
 pub enum UpdatePermissionsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

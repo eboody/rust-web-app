@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 ## v1_workspace_new_post
 
-> serde_json::Value v1_workspace_new_post()
+> json::Value v1_workspace_new_post()
 
 
 Create a new workspace
@@ -30,7 +30,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -46,7 +46,7 @@ This endpoint does not need any parameter.
 
 ## v1_workspace_slug_chat_post
 
-> serde_json::Value v1_workspace_slug_chat_post(slug)
+> json::Value v1_workspace_slug_chat_post(slug)
 
 
 Execute a chat with a workspace
@@ -60,7 +60,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_chats_get
 
-> serde_json::Value v1_workspace_slug_chats_get(slug, api_session_id, limit, order_by)
+> json::Value v1_workspace_slug_chats_get(slug, api_session_id, limit, order_by)
 
 
 Get a workspaces chats regardless of user by its unique slug.
@@ -93,7 +93,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -139,7 +139,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_get
 
-> serde_json::Value v1_workspace_slug_get(slug)
+> json::Value v1_workspace_slug_get(slug)
 
 
 Get a workspace by its unique slug.
@@ -153,7 +153,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -199,7 +199,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_update_embeddings_post
 
-> serde_json::Value v1_workspace_slug_update_embeddings_post(slug)
+> json::Value v1_workspace_slug_update_embeddings_post(slug)
 
 
 Add or remove documents from a workspace by its unique slug.
@@ -213,7 +213,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -229,7 +229,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_update_pin_post
 
-> serde_json::Value v1_workspace_slug_update_pin_post(slug)
+> json::Value v1_workspace_slug_update_pin_post(slug)
 
 
 Add or remove pin from a document in a workspace by its unique slug.
@@ -243,7 +243,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -259,7 +259,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_update_post
 
-> serde_json::Value v1_workspace_slug_update_post(slug)
+> json::Value v1_workspace_slug_update_post(slug)
 
 
 Update workspace settings by its unique slug.
@@ -273,7 +273,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -289,7 +289,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspaces_get
 
-> serde_json::Value v1_workspaces_get()
+> json::Value v1_workspaces_get()
 
 
 List all current workspaces
@@ -300,7 +300,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

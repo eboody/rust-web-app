@@ -24,11 +24,11 @@ Name | Type | Description | Notes
 **description** | Option<**String**> | Description for the file. | [optional]
 **location** | Option<**String**> | Where the file was created. Is automatically populated based on Exif data for images. | [optional]
 **tags** | Option<**Vec<String>**> | Tags for the file. Is automatically populated based on Exif data for images. | [optional]
-**metadata** | Option<[**serde_json::Value**](.md)> | IPTC, Exif, and ICC metadata extracted from file | [optional]
+**metadata** | Option<[**json::Value**](.md)> | IPTC, Exif, and ICC metadata extracted from file | [optional]
 **focal_point_x** | Option<**i32**> |  | [optional]
 **focal_point_y** | Option<**i32**> |  | [optional]
 **tus_id** | Option<**String**> |  | [optional]
-**tus_data** | Option<[**serde_json::Value**](.md)> |  | [optional]
+**tus_data** | Option<[**json::Value**](.md)> |  | [optional]
 **uploaded_on** | Option<**String**> | When the file was last uploaded/replaced. | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

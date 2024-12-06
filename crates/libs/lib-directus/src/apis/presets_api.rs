@@ -50,7 +50,7 @@ pub trait PresetsApi: Send + Sync {
 		offset: Option<i32>,
 		page: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetPresets200Response, Error<GetPresetsError>>;
@@ -77,7 +77,7 @@ pub trait PresetsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_presets_request: Option<models::UpdatePresetsRequest>,
 	) -> Result<models::GetPresets200Response, Error<UpdatePresetsError>>;
@@ -149,10 +149,10 @@ impl PresetsApi for PresetsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreatePresetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -206,7 +206,7 @@ impl PresetsApi for PresetsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeletePresetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -243,7 +243,7 @@ impl PresetsApi for PresetsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeletePresetsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -320,10 +320,10 @@ impl PresetsApi for PresetsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetPresetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -350,7 +350,7 @@ impl PresetsApi for PresetsApiClient {
 		offset: Option<i32>,
 		page: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetPresets200Response, Error<GetPresetsError>> {
@@ -451,10 +451,10 @@ impl PresetsApi for PresetsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetPresetsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -522,10 +522,10 @@ impl PresetsApi for PresetsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdatePresetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -552,7 +552,7 @@ impl PresetsApi for PresetsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_presets_request: Option<models::UpdatePresetsRequest>,
 	) -> Result<models::GetPresets200Response, Error<UpdatePresetsError>> {
@@ -639,10 +639,10 @@ impl PresetsApi for PresetsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdatePresetsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -658,7 +658,7 @@ impl PresetsApi for PresetsApiClient {
 #[serde(untagged)]
 pub enum CreatePresetError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_preset`]
@@ -666,7 +666,7 @@ pub enum CreatePresetError {
 #[serde(untagged)]
 pub enum DeletePresetError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_presets`]
@@ -674,7 +674,7 @@ pub enum DeletePresetError {
 #[serde(untagged)]
 pub enum DeletePresetsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_preset`]
@@ -682,7 +682,7 @@ pub enum DeletePresetsError {
 #[serde(untagged)]
 pub enum GetPresetError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_presets`]
@@ -690,7 +690,7 @@ pub enum GetPresetError {
 #[serde(untagged)]
 pub enum GetPresetsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_preset`]
@@ -698,7 +698,7 @@ pub enum GetPresetsError {
 #[serde(untagged)]
 pub enum UpdatePresetError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_presets`]
@@ -706,5 +706,5 @@ pub enum UpdatePresetError {
 #[serde(untagged)]
 pub enum UpdatePresetsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

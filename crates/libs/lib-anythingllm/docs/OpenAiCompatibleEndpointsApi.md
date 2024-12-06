@@ -67,7 +67,7 @@ This endpoint does not need any parameter.
 
 ## v1_openai_models_get
 
-> serde_json::Value v1_openai_models_get()
+> json::Value v1_openai_models_get()
 
 
 Get all available \"models\" which are workspaces you can use for chatting.
@@ -78,7 +78,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -94,7 +94,7 @@ This endpoint does not need any parameter.
 
 ## v1_openai_vector_stores_get
 
-> serde_json::Value v1_openai_vector_stores_get()
+> json::Value v1_openai_vector_stores_get()
 
 
 List all the vector database collections connected to AnythingLLM. These are essentially workspaces but return their unique vector db identifier - this is the same as the workspace slug.
@@ -105,7 +105,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

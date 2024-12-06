@@ -96,10 +96,10 @@ impl ProjectsApi for ProjectsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateProjectError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -148,10 +148,10 @@ impl ProjectsApi for ProjectsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<DeleteProjectByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -199,10 +199,10 @@ impl ProjectsApi for ProjectsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetEnvironmentByNameError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -248,10 +248,10 @@ impl ProjectsApi for ProjectsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetProjectByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -293,10 +293,10 @@ impl ProjectsApi for ProjectsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ListProjectsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -344,10 +344,10 @@ impl ProjectsApi for ProjectsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateProjectByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -365,7 +365,7 @@ pub enum CreateProjectError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_project_by_uuid`]
@@ -375,7 +375,7 @@ pub enum DeleteProjectByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_environment_by_name`]
@@ -385,7 +385,7 @@ pub enum GetEnvironmentByNameError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_project_by_uuid`]
@@ -395,7 +395,7 @@ pub enum GetProjectByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`list_projects`]
@@ -404,7 +404,7 @@ pub enum GetProjectByUuidError {
 pub enum ListProjectsError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_project_by_uuid`]
@@ -414,5 +414,5 @@ pub enum UpdateProjectByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

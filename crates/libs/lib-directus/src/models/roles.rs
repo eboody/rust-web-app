@@ -51,7 +51,7 @@ pub struct Roles {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub policies: Option<Option<serde_json::Value>>,
+	pub policies: Option<Option<json::Value>>,
 	#[serde(
 		rename = "users",
 		default,

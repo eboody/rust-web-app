@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## v1_embed_embed_uuid_chats_get
 
-> serde_json::Value v1_embed_embed_uuid_chats_get(embed_uuid)
+> json::Value v1_embed_embed_uuid_chats_get(embed_uuid)
 
 
 Get all chats for a specific embed
@@ -26,7 +26,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -42,7 +42,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_embed_embed_uuid_chats_session_uuid_get
 
-> serde_json::Value v1_embed_embed_uuid_chats_session_uuid_get(embed_uuid, session_uuid)
+> json::Value v1_embed_embed_uuid_chats_session_uuid_get(embed_uuid, session_uuid)
 
 
 Get chats for a specific embed and session
@@ -57,7 +57,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_embed_get
 
-> serde_json::Value v1_embed_get()
+> json::Value v1_embed_get()
 
 
 List all active embeds
@@ -84,7 +84,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

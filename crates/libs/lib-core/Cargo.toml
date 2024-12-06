@@ -13,12 +13,12 @@ workspace = true
 
 [dependencies]
 # -- App Libs
-lib-utils = { path = "../../libs/lib-utils"}
-lib-auth = { path = "../../libs/lib-auth"}
+lib-utils = { path = "../../libs/lib-utils" }
+lib-auth = { path = "../../libs/lib-auth" }
 # -- Async
-tokio = { version = "1", features = ["full"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+tokio = { workspace = true }
+serde = { workspace = true }
+json = { workspace = true }
 serde_with = { workspace = true }
 # -- Data
 sqlx = { workspace = true }
@@ -27,9 +27,8 @@ tracing = "0.1"
 uuid = { workspace = true }
 time = { workspace = true }
 derive_more = { workspace = true }
-reqwest = "0.12"
+reqwest = { workspace = true }
 ormlite = { workspace = true }
-bon = "*"
 
 [dev-dependencies]
 serial_test = "3"

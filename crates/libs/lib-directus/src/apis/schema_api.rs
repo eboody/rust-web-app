@@ -75,7 +75,7 @@ impl SchemaApi for SchemaApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<SchemaApplyError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -119,10 +119,10 @@ impl SchemaApi for SchemaApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<SchemaDiffError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -163,10 +163,10 @@ impl SchemaApi for SchemaApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<SchemaSnapshotError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -182,7 +182,7 @@ impl SchemaApi for SchemaApiClient {
 #[serde(untagged)]
 pub enum SchemaApplyError {
 	Status403(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`schema_diff`]
@@ -190,7 +190,7 @@ pub enum SchemaApplyError {
 #[serde(untagged)]
 pub enum SchemaDiffError {
 	Status403(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`schema_snapshot`]
@@ -198,5 +198,5 @@ pub enum SchemaDiffError {
 #[serde(untagged)]
 pub enum SchemaSnapshotError {
 	Status403(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

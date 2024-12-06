@@ -40,7 +40,7 @@ pub trait FoldersApi: Send + Sync {
 		limit: Option<i32>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetFolders200Response, Error<GetFoldersError>>;
@@ -67,7 +67,7 @@ pub trait FoldersApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_folders_request: Option<models::UpdateFoldersRequest>,
 	) -> Result<models::GetFolders200Response, Error<UpdateFoldersError>>;
@@ -139,10 +139,10 @@ impl FoldersApi for FoldersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateFolderError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -185,7 +185,7 @@ impl FoldersApi for FoldersApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteFolderError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -222,7 +222,7 @@ impl FoldersApi for FoldersApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteFoldersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -288,10 +288,10 @@ impl FoldersApi for FoldersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetFolderError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -316,7 +316,7 @@ impl FoldersApi for FoldersApiClient {
 		limit: Option<i32>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetFolders200Response, Error<GetFoldersError>> {
@@ -402,10 +402,10 @@ impl FoldersApi for FoldersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetFoldersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -473,10 +473,10 @@ impl FoldersApi for FoldersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateFolderError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -503,7 +503,7 @@ impl FoldersApi for FoldersApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_folders_request: Option<models::UpdateFoldersRequest>,
 	) -> Result<models::GetFolders200Response, Error<UpdateFoldersError>> {
@@ -590,10 +590,10 @@ impl FoldersApi for FoldersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateFoldersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -610,7 +610,7 @@ impl FoldersApi for FoldersApiClient {
 pub enum CreateFolderError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_folder`]
@@ -619,7 +619,7 @@ pub enum CreateFolderError {
 pub enum DeleteFolderError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_folders`]
@@ -627,7 +627,7 @@ pub enum DeleteFolderError {
 #[serde(untagged)]
 pub enum DeleteFoldersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_folder`]
@@ -636,7 +636,7 @@ pub enum DeleteFoldersError {
 pub enum GetFolderError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_folders`]
@@ -645,7 +645,7 @@ pub enum GetFolderError {
 pub enum GetFoldersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_folder`]
@@ -654,7 +654,7 @@ pub enum GetFoldersError {
 pub enum UpdateFolderError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_folders`]
@@ -662,5 +662,5 @@ pub enum UpdateFolderError {
 #[serde(untagged)]
 pub enum UpdateFoldersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

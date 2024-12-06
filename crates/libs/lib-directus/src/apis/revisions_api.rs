@@ -39,7 +39,7 @@ pub trait RevisionsApi: Send + Sync {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetRevisions200Response, Error<GetRevisionsError>>;
@@ -113,10 +113,10 @@ impl RevisionsApi for RevisionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetRevisionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -143,7 +143,7 @@ impl RevisionsApi for RevisionsApiClient {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetRevisions200Response, Error<GetRevisionsError>> {
@@ -233,10 +233,10 @@ impl RevisionsApi for RevisionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetRevisionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -253,7 +253,7 @@ impl RevisionsApi for RevisionsApiClient {
 pub enum GetRevisionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_revisions`]
@@ -262,5 +262,5 @@ pub enum GetRevisionError {
 pub enum GetRevisionsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

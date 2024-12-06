@@ -52,7 +52,7 @@ pub struct Webhooks {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub headers: Option<Option<serde_json::Value>>,
+	pub headers: Option<Option<json::Value>>,
 	#[serde(
 		rename = "was_active_before_deprecation",
 		skip_serializing_if = "Option::is_none"

@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## v1_document_accepted_file_types_get
 
-> serde_json::Value v1_document_accepted_file_types_get()
+> json::Value v1_document_accepted_file_types_get()
 
 
 Check available filetypes and MIMEs that can be uploaded.
@@ -29,7 +29,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -45,7 +45,7 @@ This endpoint does not need any parameter.
 
 ## v1_document_create_folder_post
 
-> serde_json::Value v1_document_create_folder_post(body)
+> json::Value v1_document_create_folder_post(body)
 
 
 Create a new folder inside the documents storage directory.
@@ -59,7 +59,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -75,7 +75,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_document_doc_name_get
 
-> serde_json::Value v1_document_doc_name_get(doc_name)
+> json::Value v1_document_doc_name_get(doc_name)
 
 
 Get a single document by its unique AnythingLLM document name
@@ -89,7 +89,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -105,7 +105,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_document_metadata_schema_get
 
-> serde_json::Value v1_document_metadata_schema_get()
+> json::Value v1_document_metadata_schema_get()
 
 
 Get the known available metadata schema for when doing a raw-text upload and the acceptable type of value for each key.
@@ -116,7 +116,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -132,7 +132,7 @@ This endpoint does not need any parameter.
 
 ## v1_document_move_files_post
 
-> serde_json::Value v1_document_move_files_post(body)
+> json::Value v1_document_move_files_post(body)
 
 
 Move files within the documents storage directory.
@@ -142,11 +142,11 @@ Move files within the documents storage directory.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | **serde_json::Value** | Array of objects containing source and destination paths of files to move. | [required] |
+**body** | **json::Value** | Array of objects containing source and destination paths of files to move. | [required] |
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -162,7 +162,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_document_raw_text_post
 
-> serde_json::Value v1_document_raw_text_post(body)
+> json::Value v1_document_raw_text_post(body)
 
 
 Upload a file by specifying its raw text content and metadata values without having to upload a file.
@@ -172,11 +172,11 @@ Upload a file by specifying its raw text content and metadata values without hav
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | **serde_json::Value** | Text content and metadata of the file to be saved to the system. Use metadata-schema endpoint to get the possible metadata keys | [required] |
+**body** | **json::Value** | Text content and metadata of the file to be saved to the system. Use metadata-schema endpoint to get the possible metadata keys | [required] |
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -192,7 +192,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_document_upload_link_post
 
-> serde_json::Value v1_document_upload_link_post(body)
+> json::Value v1_document_upload_link_post(body)
 
 
 Upload a valid URL for AnythingLLM to scrape and prepare for embedding.
@@ -202,11 +202,11 @@ Upload a valid URL for AnythingLLM to scrape and prepare for embedding.
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | **serde_json::Value** | Link of web address to be scraped. | [required] |
+**body** | **json::Value** | Link of web address to be scraped. | [required] |
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_document_upload_post
 
-> serde_json::Value v1_document_upload_post(file)
+> json::Value v1_document_upload_post(file)
 
 
 Upload a new file to AnythingLLM to be parsed and prepared for embedding.
@@ -236,7 +236,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -252,7 +252,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_documents_get
 
-> serde_json::Value v1_documents_get()
+> json::Value v1_documents_get()
 
 
 List of all locally-stored documents in instance
@@ -263,7 +263,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

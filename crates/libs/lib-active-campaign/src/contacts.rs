@@ -198,7 +198,7 @@ impl ActiveCampaign {
 	) -> Result<SyncContactResponse, Box<dyn Error>> {
 		let url = format!("{}/api/3/contact/sync", self.api_url);
 
-		let body = &serde_json::to_value(ContactForCreateBody { contact });
+		let body = &json::to_value(ContactForCreateBody { contact });
 		if let Err(e) = &body {
 			dbg!("{}", e);
 			todo!();

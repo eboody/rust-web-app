@@ -27,7 +27,7 @@ pub struct DraftByline {
 
 #[allow(unused)]
 #[derive(Deserialize, Debug)]
-pub struct DraftResponse {
+pub struct Draft {
 	pub id: i64,
 	#[serde(rename = "type")]
 	pub type_: String,

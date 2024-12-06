@@ -105,10 +105,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateServerError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -155,10 +155,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<DeleteServerByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -207,10 +207,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetDomainsByServerUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -259,10 +259,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetResourcesByServerUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -308,10 +308,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetServerByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -353,10 +353,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ListServersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -401,10 +401,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateServerByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -453,10 +453,10 @@ impl ServersApi for ServersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ValidateServerByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -474,7 +474,7 @@ pub enum CreateServerError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_server_by_uuid`]
@@ -484,7 +484,7 @@ pub enum DeleteServerByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_domains_by_server_uuid`]
@@ -493,7 +493,7 @@ pub enum DeleteServerByUuidError {
 pub enum GetDomainsByServerUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_resources_by_server_uuid`]
@@ -502,7 +502,7 @@ pub enum GetDomainsByServerUuidError {
 pub enum GetResourcesByServerUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_server_by_uuid`]
@@ -512,7 +512,7 @@ pub enum GetServerByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`list_servers`]
@@ -521,7 +521,7 @@ pub enum GetServerByUuidError {
 pub enum ListServersError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_server_by_uuid`]
@@ -531,7 +531,7 @@ pub enum UpdateServerByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`validate_server_by_uuid`]
@@ -541,5 +541,5 @@ pub enum ValidateServerByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

@@ -12,7 +12,7 @@ pub struct ResponseContent<T> {
 #[derive(Debug)]
 pub enum Error<T> {
 	Reqwest(reqwest::Error),
-	Serde(serde_json::Error),
+	Serde(json::Error),
 	Io(std::io::Error),
 	ResponseError(ResponseContent<T>),
 }
@@ -48,8 +48,8 @@ impl<T> From<reqwest::Error> for Error<T> {
 	}
 }
 
-impl<T> From<serde_json::Error> for Error<T> {
-	fn from(e: serde_json::Error) -> Self {
+impl<T> From<json::Error> for Error<T> {
+	fn from(e: json::Error) -> Self {
 		Error::Serde(e)
 	}
 }
@@ -66,17 +66,18 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
 
 pub fn parse_deep_object(
 	prefix: &str,
-	value: &serde_json::Value,
+	value: &json::Value,
 ) -> Vec<(String, String)> {
-	if let serde_json::Value::Object(object) = value {
+	if let json::Value::Object(object) = value {
 		let mut params = vec![];
 
 		for (key, value) in object {
 			match value {
-				serde_json::Value::Object(_) => params.append(
-					&mut parse_deep_object(&format!("{}[{}]", prefix, key), value),
-				),
-				serde_json::Value::Array(array) => {
+				json::Value::Object(_) => params.append(&mut parse_deep_object(
+					&format!("{}[{}]", prefix, key),
+					value,
+				)),
+				json::Value::Array(array) => {
 					for (i, value) in array.iter().enumerate() {
 						params.append(&mut parse_deep_object(
 							&format!("{}[{}][{}]", prefix, key, i),
@@ -84,7 +85,7 @@ pub fn parse_deep_object(
 						));
 					}
 				}
-				serde_json::Value::String(s) => {
+				json::Value::String(s) => {
 					params.push((format!("{}[{}]", prefix, key), s.clone()))
 				}
 				_ => {

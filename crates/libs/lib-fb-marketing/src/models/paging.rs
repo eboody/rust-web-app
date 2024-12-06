@@ -23,7 +23,7 @@ pub struct Paging {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub next: Option<Option<serde_json::Value>>,
+	pub next: Option<Option<json::Value>>,
 	/// The Graph API endpoint that will return the previous page of data. If not included, this is the first page of data.
 	#[serde(
 		rename = "previous",
@@ -31,7 +31,7 @@ pub struct Paging {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub previous: Option<Option<serde_json::Value>>,
+	pub previous: Option<Option<json::Value>>,
 }
 
 impl Paging {

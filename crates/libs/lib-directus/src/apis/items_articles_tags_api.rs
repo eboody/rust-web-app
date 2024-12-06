@@ -49,7 +49,7 @@ pub trait ItemsArticlesTagsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesTags200Response,
@@ -81,7 +81,7 @@ pub trait ItemsArticlesTagsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_tags_request: Option<
 			models::CreateItemsArticlesTagsRequest,
@@ -161,10 +161,10 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -203,7 +203,7 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -246,7 +246,7 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -272,7 +272,7 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesTags200Response,
@@ -371,10 +371,10 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -448,10 +448,10 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -478,7 +478,7 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_tags_request: Option<
 			models::CreateItemsArticlesTagsRequest,
@@ -571,10 +571,10 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -650,10 +650,10 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -669,7 +669,7 @@ impl ItemsArticlesTagsApi for ItemsArticlesTagsApiClient {
 #[serde(untagged)]
 pub enum CreateItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles_tags`]
@@ -677,7 +677,7 @@ pub enum CreateItemsArticlesTagsError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles_tags`]
@@ -686,7 +686,7 @@ pub enum DeleteItemsArticlesTagsError {
 pub enum DeleteSingleItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles_tags`]
@@ -694,7 +694,7 @@ pub enum DeleteSingleItemsArticlesTagsError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles_tags`]
@@ -703,14 +703,14 @@ pub enum ReadItemsArticlesTagsError {
 pub enum ReadSingleItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesTagsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles_tags`]
@@ -719,5 +719,5 @@ pub enum UpdateItemsArticlesTagsError {
 pub enum UpdateSingleItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

@@ -19,18 +19,18 @@ use std::sync::Arc;
 pub trait WorkspacesApi: Send + Sync {
 	async fn v1_workspace_new_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1WorkspaceNewPostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceNewPostError>>;
 	async fn v1_workspace_slug_chat_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugChatPostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugChatPostError>>;
 	async fn v1_workspace_slug_chats_get<'slug, 'api_session_id, 'limit, 'order_by>(
 		&self,
 		slug: &'slug str,
 		api_session_id: Option<&'api_session_id str>,
 		limit: Option<i32>,
 		order_by: Option<&'order_by str>,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugChatsGetError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugChatsGetError>>;
 	async fn v1_workspace_slug_delete<'slug>(
 		&self,
 		slug: &'slug str,
@@ -38,7 +38,7 @@ pub trait WorkspacesApi: Send + Sync {
 	async fn v1_workspace_slug_get<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugGetError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugGetError>>;
 	async fn v1_workspace_slug_stream_chat_post<'slug>(
 		&self,
 		slug: &'slug str,
@@ -46,18 +46,18 @@ pub trait WorkspacesApi: Send + Sync {
 	async fn v1_workspace_slug_update_embeddings_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugUpdateEmbeddingsPostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugUpdateEmbeddingsPostError>>;
 	async fn v1_workspace_slug_update_pin_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugUpdatePinPostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugUpdatePinPostError>>;
 	async fn v1_workspace_slug_update_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugUpdatePostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugUpdatePostError>>;
 	async fn v1_workspaces_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1WorkspacesGetError>>;
+	) -> Result<json::Value, Error<V1WorkspacesGetError>>;
 }
 
 pub struct WorkspacesApiClient {
@@ -75,7 +75,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	/// Create a new workspace
 	async fn v1_workspace_new_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1WorkspaceNewPostError>> {
+	) -> Result<json::Value, Error<V1WorkspaceNewPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -104,10 +104,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceNewPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -121,7 +121,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	async fn v1_workspace_slug_chat_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugChatPostError>> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugChatPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -153,10 +153,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugChatPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -178,7 +178,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 		api_session_id: Option<&'api_session_id str>,
 		limit: Option<i32>,
 		order_by: Option<&'order_by str>,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugChatsGetError>> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugChatsGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -222,10 +222,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugChatsGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -274,7 +274,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugDeleteError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -288,7 +288,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	async fn v1_workspace_slug_get<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugGetError>> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -320,10 +320,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -369,10 +369,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugStreamChatPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -386,8 +386,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	async fn v1_workspace_slug_update_embeddings_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugUpdateEmbeddingsPostError>>
-	{
+	) -> Result<json::Value, Error<V1WorkspaceSlugUpdateEmbeddingsPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -419,10 +418,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugUpdateEmbeddingsPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -436,7 +435,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	async fn v1_workspace_slug_update_pin_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugUpdatePinPostError>> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugUpdatePinPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -468,10 +467,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugUpdatePinPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -485,7 +484,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	async fn v1_workspace_slug_update_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugUpdatePostError>> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugUpdatePostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -517,10 +516,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugUpdatePostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -533,7 +532,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 	/// List all current workspaces
 	async fn v1_workspaces_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1WorkspacesGetError>> {
+	) -> Result<json::Value, Error<V1WorkspacesGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -562,10 +561,10 @@ impl WorkspacesApi for WorkspacesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspacesGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -582,7 +581,7 @@ impl WorkspacesApi for WorkspacesApiClient {
 pub enum V1WorkspaceNewPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_chat_post`]
@@ -592,7 +591,7 @@ pub enum V1WorkspaceSlugChatPostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_chats_get`]
@@ -602,7 +601,7 @@ pub enum V1WorkspaceSlugChatsGetError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_delete`]
@@ -612,7 +611,7 @@ pub enum V1WorkspaceSlugDeleteError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_get`]
@@ -621,7 +620,7 @@ pub enum V1WorkspaceSlugDeleteError {
 pub enum V1WorkspaceSlugGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_stream_chat_post`]
@@ -630,7 +629,7 @@ pub enum V1WorkspaceSlugGetError {
 pub enum V1WorkspaceSlugStreamChatPostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_update_embeddings_post`]
@@ -640,7 +639,7 @@ pub enum V1WorkspaceSlugUpdateEmbeddingsPostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_update_pin_post`]
@@ -650,7 +649,7 @@ pub enum V1WorkspaceSlugUpdatePinPostError {
 	Status403(),
 	Status404(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_update_post`]
@@ -660,7 +659,7 @@ pub enum V1WorkspaceSlugUpdatePostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspaces_get`]
@@ -669,5 +668,5 @@ pub enum V1WorkspaceSlugUpdatePostError {
 pub enum V1WorkspacesGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

@@ -3,7 +3,7 @@ pub mod directus;
 mod error;
 mod store;
 
-//pub use structs::*;
+pub use directus::*;
 
 pub use self::error::{Error, Result};
 

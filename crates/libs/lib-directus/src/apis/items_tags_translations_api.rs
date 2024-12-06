@@ -52,7 +52,7 @@ pub trait ItemsTagsTranslationsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsTagsTranslations200Response,
@@ -84,7 +84,7 @@ pub trait ItemsTagsTranslationsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_translations_request: Option<
 			models::CreateItemsTagsTranslationsRequest,
@@ -166,10 +166,10 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -210,7 +210,7 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -253,7 +253,7 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -279,7 +279,7 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsTagsTranslations200Response,
@@ -380,10 +380,10 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -457,10 +457,10 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -487,7 +487,7 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_translations_request: Option<
 			models::CreateItemsTagsTranslationsRequest,
@@ -582,10 +582,10 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -661,10 +661,10 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -680,7 +680,7 @@ impl ItemsTagsTranslationsApi for ItemsTagsTranslationsApiClient {
 #[serde(untagged)]
 pub enum CreateItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_tags_translations`]
@@ -688,7 +688,7 @@ pub enum CreateItemsTagsTranslationsError {
 #[serde(untagged)]
 pub enum DeleteItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_tags_translations`]
@@ -697,7 +697,7 @@ pub enum DeleteItemsTagsTranslationsError {
 pub enum DeleteSingleItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_tags_translations`]
@@ -705,7 +705,7 @@ pub enum DeleteSingleItemsTagsTranslationsError {
 #[serde(untagged)]
 pub enum ReadItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_tags_translations`]
@@ -714,14 +714,14 @@ pub enum ReadItemsTagsTranslationsError {
 pub enum ReadSingleItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_tags_translations`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsTagsTranslationsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_tags_translations`]
@@ -730,5 +730,5 @@ pub enum UpdateItemsTagsTranslationsError {
 pub enum UpdateSingleItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

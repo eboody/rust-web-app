@@ -20,47 +20,44 @@ pub trait AdminApi: Send + Sync {
 	async fn v1_admin_invite_id_delete<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1AdminInviteIdDeleteError>>;
+	) -> Result<json::Value, Error<V1AdminInviteIdDeleteError>>;
 	async fn v1_admin_invite_new_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminInviteNewPostError>>;
+	) -> Result<json::Value, Error<V1AdminInviteNewPostError>>;
 	async fn v1_admin_invites_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminInvitesGetError>>;
+	) -> Result<json::Value, Error<V1AdminInvitesGetError>>;
 	async fn v1_admin_is_multi_user_mode_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminIsMultiUserModeGetError>>;
+	) -> Result<json::Value, Error<V1AdminIsMultiUserModeGetError>>;
 	async fn v1_admin_preferences_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminPreferencesPostError>>;
+	) -> Result<json::Value, Error<V1AdminPreferencesPostError>>;
 	async fn v1_admin_users_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminUsersGetError>>;
+	) -> Result<json::Value, Error<V1AdminUsersGetError>>;
 	async fn v1_admin_users_id_delete<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1AdminUsersIdDeleteError>>;
+	) -> Result<json::Value, Error<V1AdminUsersIdDeleteError>>;
 	async fn v1_admin_users_id_post<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1AdminUsersIdPostError>>;
+	) -> Result<json::Value, Error<V1AdminUsersIdPostError>>;
 	async fn v1_admin_users_new_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminUsersNewPostError>>;
+	) -> Result<json::Value, Error<V1AdminUsersNewPostError>>;
 	async fn v1_admin_workspace_chats_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminWorkspaceChatsPostError>>;
+	) -> Result<json::Value, Error<V1AdminWorkspaceChatsPostError>>;
 	async fn v1_admin_workspaces_workspace_id_update_users_post<'workspace_id>(
 		&self,
 		workspace_id: &'workspace_id str,
-	) -> Result<
-		serde_json::Value,
-		Error<V1AdminWorkspacesWorkspaceIdUpdateUsersPostError>,
-	>;
+	) -> Result<json::Value, Error<V1AdminWorkspacesWorkspaceIdUpdateUsersPostError>>;
 	async fn v1_admin_workspaces_workspace_id_users_get<'workspace_id>(
 		&self,
 		workspace_id: &'workspace_id str,
-	) -> Result<serde_json::Value, Error<V1AdminWorkspacesWorkspaceIdUsersGetError>>;
+	) -> Result<json::Value, Error<V1AdminWorkspacesWorkspaceIdUsersGetError>>;
 }
 
 pub struct AdminApiClient {
@@ -79,7 +76,7 @@ impl AdminApi for AdminApiClient {
 	async fn v1_admin_invite_id_delete<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1AdminInviteIdDeleteError>> {
+	) -> Result<json::Value, Error<V1AdminInviteIdDeleteError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -111,10 +108,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminInviteIdDeleteError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -127,7 +124,7 @@ impl AdminApi for AdminApiClient {
 	/// Create a new invite code for someone to use to register with instance. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_invite_new_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminInviteNewPostError>> {
+	) -> Result<json::Value, Error<V1AdminInviteNewPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -156,10 +153,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminInviteNewPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -172,7 +169,7 @@ impl AdminApi for AdminApiClient {
 	/// List all existing invitations to instance regardless of status. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_invites_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminInvitesGetError>> {
+	) -> Result<json::Value, Error<V1AdminInvitesGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -201,10 +198,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminInvitesGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -217,7 +214,7 @@ impl AdminApi for AdminApiClient {
 	/// Check to see if the instance is in multi-user-mode first. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_is_multi_user_mode_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminIsMultiUserModeGetError>> {
+	) -> Result<json::Value, Error<V1AdminIsMultiUserModeGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -248,10 +245,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminIsMultiUserModeGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -264,7 +261,7 @@ impl AdminApi for AdminApiClient {
 	/// Update multi-user preferences for instance. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_preferences_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminPreferencesPostError>> {
+	) -> Result<json::Value, Error<V1AdminPreferencesPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -293,10 +290,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminPreferencesPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -309,7 +306,7 @@ impl AdminApi for AdminApiClient {
 	/// Check to see if the instance is in multi-user-mode first. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_users_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminUsersGetError>> {
+	) -> Result<json::Value, Error<V1AdminUsersGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -338,10 +335,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminUsersGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -355,7 +352,7 @@ impl AdminApi for AdminApiClient {
 	async fn v1_admin_users_id_delete<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1AdminUsersIdDeleteError>> {
+	) -> Result<json::Value, Error<V1AdminUsersIdDeleteError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -387,10 +384,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminUsersIdDeleteError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -404,7 +401,7 @@ impl AdminApi for AdminApiClient {
 	async fn v1_admin_users_id_post<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1AdminUsersIdPostError>> {
+	) -> Result<json::Value, Error<V1AdminUsersIdPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -436,10 +433,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminUsersIdPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -452,7 +449,7 @@ impl AdminApi for AdminApiClient {
 	/// Create a new user with username and password. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_users_new_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminUsersNewPostError>> {
+	) -> Result<json::Value, Error<V1AdminUsersNewPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -481,10 +478,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminUsersNewPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -497,7 +494,7 @@ impl AdminApi for AdminApiClient {
 	/// All chats in the system ordered by most recent. Methods are disabled until multi user mode is enabled via the UI.
 	async fn v1_admin_workspace_chats_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1AdminWorkspaceChatsPostError>> {
+	) -> Result<json::Value, Error<V1AdminWorkspaceChatsPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -528,10 +525,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminWorkspaceChatsPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -545,10 +542,8 @@ impl AdminApi for AdminApiClient {
 	async fn v1_admin_workspaces_workspace_id_update_users_post<'workspace_id>(
 		&self,
 		workspace_id: &'workspace_id str,
-	) -> Result<
-		serde_json::Value,
-		Error<V1AdminWorkspacesWorkspaceIdUpdateUsersPostError>,
-	> {
+	) -> Result<json::Value, Error<V1AdminWorkspacesWorkspaceIdUpdateUsersPostError>>
+	{
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -580,11 +575,11 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				V1AdminWorkspacesWorkspaceIdUpdateUsersPostError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -598,8 +593,7 @@ impl AdminApi for AdminApiClient {
 	async fn v1_admin_workspaces_workspace_id_users_get<'workspace_id>(
 		&self,
 		workspace_id: &'workspace_id str,
-	) -> Result<serde_json::Value, Error<V1AdminWorkspacesWorkspaceIdUsersGetError>>
-	{
+	) -> Result<json::Value, Error<V1AdminWorkspacesWorkspaceIdUsersGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -631,10 +625,10 @@ impl AdminApi for AdminApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AdminWorkspacesWorkspaceIdUsersGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -652,7 +646,7 @@ pub enum V1AdminInviteIdDeleteError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_invite_new_post`]
@@ -662,7 +656,7 @@ pub enum V1AdminInviteNewPostError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_invites_get`]
@@ -672,7 +666,7 @@ pub enum V1AdminInvitesGetError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_is_multi_user_mode_get`]
@@ -680,7 +674,7 @@ pub enum V1AdminInvitesGetError {
 #[serde(untagged)]
 pub enum V1AdminIsMultiUserModeGetError {
 	Status403(models::InvalidApiKey),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_preferences_post`]
@@ -690,7 +684,7 @@ pub enum V1AdminPreferencesPostError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_users_get`]
@@ -700,7 +694,7 @@ pub enum V1AdminUsersGetError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_users_id_delete`]
@@ -710,7 +704,7 @@ pub enum V1AdminUsersIdDeleteError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_users_id_post`]
@@ -720,7 +714,7 @@ pub enum V1AdminUsersIdPostError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_users_new_post`]
@@ -731,7 +725,7 @@ pub enum V1AdminUsersNewPostError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_workspace_chats_post`]
@@ -740,7 +734,7 @@ pub enum V1AdminUsersNewPostError {
 pub enum V1AdminWorkspaceChatsPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_workspaces_workspace_id_update_users_post`]
@@ -750,7 +744,7 @@ pub enum V1AdminWorkspacesWorkspaceIdUpdateUsersPostError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_admin_workspaces_workspace_id_users_get`]
@@ -760,5 +754,5 @@ pub enum V1AdminWorkspacesWorkspaceIdUsersGetError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

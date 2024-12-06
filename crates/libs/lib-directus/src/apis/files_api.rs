@@ -38,7 +38,7 @@ pub trait FilesApi: Send + Sync {
 		limit: Option<i32>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetFiles200Response, Error<GetFilesError>>;
@@ -55,7 +55,7 @@ pub trait FilesApi: Send + Sync {
 	>(
 		&self,
 		id: &'id str,
-		file: Option<models::serde_json::Value>,
+		file: Option<models::json::Value>,
 		fields: Option<Vec<String>>,
 		meta: Option<&'meta str>,
 		title: Option<&'title str>,
@@ -80,7 +80,7 @@ pub trait FilesApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_files_request: Option<models::UpdateFilesRequest>,
 	) -> Result<models::GetFiles200Response, Error<UpdateFilesError>>;
@@ -126,10 +126,10 @@ impl FilesApi for FilesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateFileError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -172,7 +172,7 @@ impl FilesApi for FilesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteFileError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -209,7 +209,7 @@ impl FilesApi for FilesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteFilesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -275,10 +275,10 @@ impl FilesApi for FilesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetFileError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -295,7 +295,7 @@ impl FilesApi for FilesApiClient {
 		limit: Option<i32>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetFiles200Response, Error<GetFilesError>> {
@@ -381,10 +381,10 @@ impl FilesApi for FilesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetFilesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -408,7 +408,7 @@ impl FilesApi for FilesApiClient {
 	>(
 		&self,
 		id: &'id str,
-		file: Option<models::serde_json::Value>,
+		file: Option<models::json::Value>,
 		fields: Option<Vec<String>>,
 		meta: Option<&'meta str>,
 		title: Option<&'title str>,
@@ -504,10 +504,10 @@ impl FilesApi for FilesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateFileError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -534,7 +534,7 @@ impl FilesApi for FilesApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_files_request: Option<models::UpdateFilesRequest>,
 	) -> Result<models::GetFiles200Response, Error<UpdateFilesError>> {
@@ -621,10 +621,10 @@ impl FilesApi for FilesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateFilesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -640,7 +640,7 @@ impl FilesApi for FilesApiClient {
 #[serde(untagged)]
 pub enum CreateFileError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_file`]
@@ -648,7 +648,7 @@ pub enum CreateFileError {
 #[serde(untagged)]
 pub enum DeleteFileError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_files`]
@@ -656,7 +656,7 @@ pub enum DeleteFileError {
 #[serde(untagged)]
 pub enum DeleteFilesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_file`]
@@ -664,7 +664,7 @@ pub enum DeleteFilesError {
 #[serde(untagged)]
 pub enum GetFileError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_files`]
@@ -672,7 +672,7 @@ pub enum GetFileError {
 #[serde(untagged)]
 pub enum GetFilesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_file`]
@@ -680,7 +680,7 @@ pub enum GetFilesError {
 #[serde(untagged)]
 pub enum UpdateFileError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_files`]
@@ -688,5 +688,5 @@ pub enum UpdateFileError {
 #[serde(untagged)]
 pub enum UpdateFilesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

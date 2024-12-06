@@ -21,7 +21,7 @@ Method | HTTP request | Description
 
 ## v1_admin_invite_id_delete
 
-> serde_json::Value v1_admin_invite_id_delete(id)
+> json::Value v1_admin_invite_id_delete(id)
 
 
 Deactivates (soft-delete) invite by id. Methods are disabled until multi user mode is enabled via the UI.
@@ -35,7 +35,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -51,7 +51,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_admin_invite_new_post
 
-> serde_json::Value v1_admin_invite_new_post()
+> json::Value v1_admin_invite_new_post()
 
 
 Create a new invite code for someone to use to register with instance. Methods are disabled until multi user mode is enabled via the UI.
@@ -62,7 +62,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -78,7 +78,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_invites_get
 
-> serde_json::Value v1_admin_invites_get()
+> json::Value v1_admin_invites_get()
 
 
 List all existing invitations to instance regardless of status. Methods are disabled until multi user mode is enabled via the UI.
@@ -89,7 +89,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -105,7 +105,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_is_multi_user_mode_get
 
-> serde_json::Value v1_admin_is_multi_user_mode_get()
+> json::Value v1_admin_is_multi_user_mode_get()
 
 
 Check to see if the instance is in multi-user-mode first. Methods are disabled until multi user mode is enabled via the UI.
@@ -116,7 +116,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -132,7 +132,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_preferences_post
 
-> serde_json::Value v1_admin_preferences_post()
+> json::Value v1_admin_preferences_post()
 
 
 Update multi-user preferences for instance. Methods are disabled until multi user mode is enabled via the UI.
@@ -143,7 +143,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -159,7 +159,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_users_get
 
-> serde_json::Value v1_admin_users_get()
+> json::Value v1_admin_users_get()
 
 
 Check to see if the instance is in multi-user-mode first. Methods are disabled until multi user mode is enabled via the UI.
@@ -170,7 +170,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -186,7 +186,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_users_id_delete
 
-> serde_json::Value v1_admin_users_id_delete(id)
+> json::Value v1_admin_users_id_delete(id)
 
 
 Delete existing user by id. Methods are disabled until multi user mode is enabled via the UI.
@@ -200,7 +200,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -216,7 +216,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_admin_users_id_post
 
-> serde_json::Value v1_admin_users_id_post(id)
+> json::Value v1_admin_users_id_post(id)
 
 
 Update existing user settings. Methods are disabled until multi user mode is enabled via the UI.
@@ -230,7 +230,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -246,7 +246,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_admin_users_new_post
 
-> serde_json::Value v1_admin_users_new_post()
+> json::Value v1_admin_users_new_post()
 
 
 Create a new user with username and password. Methods are disabled until multi user mode is enabled via the UI.
@@ -257,7 +257,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -273,7 +273,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_workspace_chats_post
 
-> serde_json::Value v1_admin_workspace_chats_post()
+> json::Value v1_admin_workspace_chats_post()
 
 
 All chats in the system ordered by most recent. Methods are disabled until multi user mode is enabled via the UI.
@@ -284,7 +284,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -300,7 +300,7 @@ This endpoint does not need any parameter.
 
 ## v1_admin_workspaces_workspace_id_update_users_post
 
-> serde_json::Value v1_admin_workspaces_workspace_id_update_users_post(workspace_id)
+> json::Value v1_admin_workspaces_workspace_id_update_users_post(workspace_id)
 
 
 Overwrite workspace permissions to only be accessible by the given user ids and admins. Methods are disabled until multi user mode is enabled via the UI.
@@ -314,7 +314,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -330,7 +330,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_admin_workspaces_workspace_id_users_get
 
-> serde_json::Value v1_admin_workspaces_workspace_id_users_get(workspace_id)
+> json::Value v1_admin_workspaces_workspace_id_users_get(workspace_id)
 
 
 Retrieve a list of users with permissions to access the specified workspace.
@@ -344,7 +344,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

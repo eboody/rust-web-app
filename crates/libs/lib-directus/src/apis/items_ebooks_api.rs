@@ -43,7 +43,7 @@ pub trait ItemsEbooksApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsEbooks200Response, Error<ReadItemsEbooksError>>;
 	async fn read_single_items_ebooks<'id, 'fields, 'meta, 'version>(
@@ -72,7 +72,7 @@ pub trait ItemsEbooksApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_request: Option<models::CreateItemsEbooksRequest>,
 	) -> Result<models::UpdateItemsEbooks200Response, Error<UpdateItemsEbooksError>>;
@@ -134,10 +134,10 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -176,7 +176,7 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -219,7 +219,7 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -245,7 +245,7 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsEbooks200Response, Error<ReadItemsEbooksError>> {
 		let local_var_configuration = &self.configuration;
@@ -341,10 +341,10 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -418,10 +418,10 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -448,7 +448,7 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_request: Option<models::CreateItemsEbooksRequest>,
 	) -> Result<models::UpdateItemsEbooks200Response, Error<UpdateItemsEbooksError>>
@@ -537,10 +537,10 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -611,10 +611,10 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -630,7 +630,7 @@ impl ItemsEbooksApi for ItemsEbooksApiClient {
 #[serde(untagged)]
 pub enum CreateItemsEbooksError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_ebooks`]
@@ -638,7 +638,7 @@ pub enum CreateItemsEbooksError {
 #[serde(untagged)]
 pub enum DeleteItemsEbooksError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_ebooks`]
@@ -647,7 +647,7 @@ pub enum DeleteItemsEbooksError {
 pub enum DeleteSingleItemsEbooksError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_ebooks`]
@@ -655,7 +655,7 @@ pub enum DeleteSingleItemsEbooksError {
 #[serde(untagged)]
 pub enum ReadItemsEbooksError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_ebooks`]
@@ -664,14 +664,14 @@ pub enum ReadItemsEbooksError {
 pub enum ReadSingleItemsEbooksError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_ebooks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsEbooksError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_ebooks`]
@@ -680,5 +680,5 @@ pub enum UpdateItemsEbooksError {
 pub enum UpdateSingleItemsEbooksError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

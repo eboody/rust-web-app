@@ -48,22 +48,15 @@ pub fn routes(mm: ModelManager) -> Router {
 		.route("/on_file_upload", post(directus::on_file_upload))
 		.route("/substack_export", post(test))
 		.route("/item_update", post(directus::on_item_update))
-		.route(
-			"/check",
-			post(|| async {
-				println!("check");
-				"OK"
-			}),
-		)
+		.route("/check", post(|| async { "OK" }))
 		.with_state(mm)
 }
 
 async fn test(
 	State(mm): State<ModelManager>,
-	Json(trigger): Json<directus::trigger::Request>,
+	Json(trigger): Json<directus::trigger::Body>,
 ) -> Result<String> {
 	let article_id = trigger
-		.body
 		.keys
 		.first()
 		.ok_or_else(|| Error::NoKeyInTrigger(trigger.clone()))?;

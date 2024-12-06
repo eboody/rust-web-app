@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**adlabels** | Option<[**Vec<serde_json::Value>**](serde_json::Value.md)> | Ad Labels associated with this campaign | [optional]
-**adset_bid_amounts** | Option<[**serde_json::Value**](.md)> | A map of child adset IDs to their respective bid amounts required in the process of toggling campaign from autobid to manual bid | [optional]
+**adlabels** | Option<[**Vec<json::Value>**](json::Value.md)> | Ad Labels associated with this campaign | [optional]
+**adset_bid_amounts** | Option<[**json::Value**](.md)> | A map of child adset IDs to their respective bid amounts required in the process of toggling campaign from autobid to manual bid | [optional]
 **adset_budgets** | Option<[**models::AdsetBudgets**](AdsetBudgets.md)> |  | [optional]
 **bid_strategy** | Option<**String**> | Bid strategy for this campaign to suit your specific business goals | [optional]
 **budget_rebalance_flag** | Option<**bool**> | Whether to automatically rebalance budgets daily for all the adsets under this campaign | [optional]
@@ -26,7 +26,7 @@ Name | Type | Description | Notes
 **start_time** | Option<**String**> | Start time | [optional]
 **stop_time** | Option<**String**> | Stop time | [optional]
 **status** | Option<**String**> | Only ACTIVE and PAUSED are valid during creation. Other statuses can be used for update | [optional]
-**upstream_events** | Option<[**serde_json::Value**](.md)> | Upstream events | [optional]
+**upstream_events** | Option<[**json::Value**](.md)> | Upstream events | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -17,13 +17,11 @@ use std::sync::Arc;
 
 #[async_trait]
 pub trait UserManagementApi: Send + Sync {
-	async fn v1_users_get(
-		&self,
-	) -> Result<serde_json::Value, Error<V1UsersGetError>>;
+	async fn v1_users_get(&self) -> Result<json::Value, Error<V1UsersGetError>>;
 	async fn v1_users_id_issue_auth_token_get<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1UsersIdIssueAuthTokenGetError>>;
+	) -> Result<json::Value, Error<V1UsersIdIssueAuthTokenGetError>>;
 }
 
 pub struct UserManagementApiClient {
@@ -39,9 +37,7 @@ impl UserManagementApiClient {
 #[async_trait]
 impl UserManagementApi for UserManagementApiClient {
 	/// List all users
-	async fn v1_users_get(
-		&self,
-	) -> Result<serde_json::Value, Error<V1UsersGetError>> {
+	async fn v1_users_get(&self) -> Result<json::Value, Error<V1UsersGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -70,10 +66,10 @@ impl UserManagementApi for UserManagementApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1UsersGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -87,7 +83,7 @@ impl UserManagementApi for UserManagementApiClient {
 	async fn v1_users_id_issue_auth_token_get<'id>(
 		&self,
 		id: &'id str,
-	) -> Result<serde_json::Value, Error<V1UsersIdIssueAuthTokenGetError>> {
+	) -> Result<json::Value, Error<V1UsersIdIssueAuthTokenGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -119,10 +115,10 @@ impl UserManagementApi for UserManagementApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1UsersIdIssueAuthTokenGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -140,7 +136,7 @@ pub enum V1UsersGetError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_users_id_issue_auth_token_get`]
@@ -151,5 +147,5 @@ pub enum V1UsersIdIssueAuthTokenGetError {
 	Status403(models::InvalidApiKey),
 	Status404(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

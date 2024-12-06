@@ -58,7 +58,7 @@ pub trait VersionsApi: Send + Sync {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::GetContentVersions200Response, Error<GetContentVersionsError>>;
 	async fn promote_content_version<'id, 'promote_content_version_request>(
@@ -67,12 +67,12 @@ pub trait VersionsApi: Send + Sync {
 		promote_content_version_request: Option<
 			models::PromoteContentVersionRequest,
 		>,
-	) -> Result<serde_json::Value, Error<PromoteContentVersionError>>;
+	) -> Result<json::Value, Error<PromoteContentVersionError>>;
 	async fn save_content_version<'id, 'body>(
 		&self,
 		id: &'id str,
-		body: Option<serde_json::Value>,
-	) -> Result<serde_json::Value, Error<SaveContentVersionError>>;
+		body: Option<json::Value>,
+	) -> Result<json::Value, Error<SaveContentVersionError>>;
 	async fn update_content_version<'id, 'fields, 'meta, 'versions>(
 		&self,
 		id: &'id str,
@@ -99,7 +99,7 @@ pub trait VersionsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_content_versions_request: Option<
 			models::UpdateContentVersionsRequest,
@@ -152,10 +152,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CompareContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -222,10 +222,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -268,7 +268,7 @@ impl VersionsApi for VersionsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -307,7 +307,7 @@ impl VersionsApi for VersionsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteContentVersionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -374,10 +374,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -403,7 +403,7 @@ impl VersionsApi for VersionsApiClient {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::GetContentVersions200Response, Error<GetContentVersionsError>>
 	{
@@ -489,10 +489,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetContentVersionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -509,7 +509,7 @@ impl VersionsApi for VersionsApiClient {
 		promote_content_version_request: Option<
 			models::PromoteContentVersionRequest,
 		>,
-	) -> Result<serde_json::Value, Error<PromoteContentVersionError>> {
+	) -> Result<json::Value, Error<PromoteContentVersionError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -537,10 +537,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<PromoteContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -554,8 +554,8 @@ impl VersionsApi for VersionsApiClient {
 	async fn save_content_version<'id, 'body>(
 		&self,
 		id: &'id str,
-		body: Option<serde_json::Value>,
-	) -> Result<serde_json::Value, Error<SaveContentVersionError>> {
+		body: Option<json::Value>,
+	) -> Result<json::Value, Error<SaveContentVersionError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -582,10 +582,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<SaveContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -656,10 +656,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateContentVersionError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -686,7 +686,7 @@ impl VersionsApi for VersionsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_content_versions_request: Option<
 			models::UpdateContentVersionsRequest,
@@ -779,10 +779,10 @@ impl VersionsApi for VersionsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateContentVersionsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -799,7 +799,7 @@ impl VersionsApi for VersionsApiClient {
 pub enum CompareContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_content_version`]
@@ -808,7 +808,7 @@ pub enum CompareContentVersionError {
 pub enum CreateContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_content_version`]
@@ -817,7 +817,7 @@ pub enum CreateContentVersionError {
 pub enum DeleteContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_content_versions`]
@@ -825,7 +825,7 @@ pub enum DeleteContentVersionError {
 #[serde(untagged)]
 pub enum DeleteContentVersionsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_content_version`]
@@ -834,7 +834,7 @@ pub enum DeleteContentVersionsError {
 pub enum GetContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_content_versions`]
@@ -843,7 +843,7 @@ pub enum GetContentVersionError {
 pub enum GetContentVersionsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`promote_content_version`]
@@ -852,7 +852,7 @@ pub enum GetContentVersionsError {
 pub enum PromoteContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`save_content_version`]
@@ -861,7 +861,7 @@ pub enum PromoteContentVersionError {
 pub enum SaveContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_content_version`]
@@ -870,7 +870,7 @@ pub enum SaveContentVersionError {
 pub enum UpdateContentVersionError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_content_versions`]
@@ -878,5 +878,5 @@ pub enum UpdateContentVersionError {
 #[serde(untagged)]
 pub enum UpdateContentVersionsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

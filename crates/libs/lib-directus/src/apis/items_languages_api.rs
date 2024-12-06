@@ -47,7 +47,7 @@ pub trait ItemsLanguagesApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsLanguages200Response, Error<ReadItemsLanguagesError>>;
 	async fn read_single_items_languages<'id, 'fields, 'meta, 'version>(
@@ -76,7 +76,7 @@ pub trait ItemsLanguagesApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_languages_request: Option<models::CreateItemsLanguagesRequest>,
 	) -> Result<
@@ -144,10 +144,10 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -186,7 +186,7 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -229,7 +229,7 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -255,7 +255,7 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsLanguages200Response, Error<ReadItemsLanguagesError>>
 	{
@@ -352,10 +352,10 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -429,10 +429,10 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -459,7 +459,7 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_languages_request: Option<models::CreateItemsLanguagesRequest>,
 	) -> Result<
@@ -550,10 +550,10 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -624,10 +624,10 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -643,7 +643,7 @@ impl ItemsLanguagesApi for ItemsLanguagesApiClient {
 #[serde(untagged)]
 pub enum CreateItemsLanguagesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_languages`]
@@ -651,7 +651,7 @@ pub enum CreateItemsLanguagesError {
 #[serde(untagged)]
 pub enum DeleteItemsLanguagesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_languages`]
@@ -660,7 +660,7 @@ pub enum DeleteItemsLanguagesError {
 pub enum DeleteSingleItemsLanguagesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_languages`]
@@ -668,7 +668,7 @@ pub enum DeleteSingleItemsLanguagesError {
 #[serde(untagged)]
 pub enum ReadItemsLanguagesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_languages`]
@@ -677,14 +677,14 @@ pub enum ReadItemsLanguagesError {
 pub enum ReadSingleItemsLanguagesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_languages`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsLanguagesError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_languages`]
@@ -693,5 +693,5 @@ pub enum UpdateItemsLanguagesError {
 pub enum UpdateSingleItemsLanguagesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

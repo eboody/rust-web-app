@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **r#type** | Option<**String**> | Type of operation. One of `log`, `mail`, `notification`, `create`, `read`, `request`, `sleep`, `transform`, `trigger`, `condition`, or any type of custom operation extensions. | [optional]
 **position_x** | Option<**i32**> | Position of the operation on the X axis within the flow workspace. | [optional]
 **position_y** | Option<**i32**> | Position of the operation on the Y axis within the flow workspace. | [optional]
-**options** | Option<[**serde_json::Value**](.md)> | Options depending on the type of the operation. | [optional]
+**options** | Option<[**json::Value**](.md)> | Options depending on the type of the operation. | [optional]
 **resolve** | Option<[**models::OperationsResolve**](Operations_resolve.md)> |  | [optional]
 **reject** | Option<[**models::OperationsReject**](Operations_reject.md)> |  | [optional]
 **flow** | Option<[**models::OperationsFlow**](Operations_flow.md)> |  | [optional]

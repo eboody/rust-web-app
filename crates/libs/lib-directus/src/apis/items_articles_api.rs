@@ -47,7 +47,7 @@ pub trait ItemsArticlesApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsArticles200Response, Error<ReadItemsArticlesError>>;
 	async fn read_single_items_articles<'id, 'fields, 'meta, 'version>(
@@ -76,7 +76,7 @@ pub trait ItemsArticlesApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_request: Option<models::CreateItemsArticlesRequest>,
 	) -> Result<
@@ -144,10 +144,10 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -186,7 +186,7 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -229,7 +229,7 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -255,7 +255,7 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsArticles200Response, Error<ReadItemsArticlesError>>
 	{
@@ -352,10 +352,10 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -429,10 +429,10 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -459,7 +459,7 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_request: Option<models::CreateItemsArticlesRequest>,
 	) -> Result<
@@ -550,10 +550,10 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -624,10 +624,10 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -643,7 +643,7 @@ impl ItemsArticlesApi for ItemsArticlesApiClient {
 #[serde(untagged)]
 pub enum CreateItemsArticlesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles`]
@@ -651,7 +651,7 @@ pub enum CreateItemsArticlesError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles`]
@@ -660,7 +660,7 @@ pub enum DeleteItemsArticlesError {
 pub enum DeleteSingleItemsArticlesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles`]
@@ -668,7 +668,7 @@ pub enum DeleteSingleItemsArticlesError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles`]
@@ -677,14 +677,14 @@ pub enum ReadItemsArticlesError {
 pub enum ReadSingleItemsArticlesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles`]
@@ -693,5 +693,5 @@ pub enum UpdateItemsArticlesError {
 pub enum UpdateSingleItemsArticlesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

@@ -3,7 +3,7 @@
 pub type Result<T> = core::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>; // For examples.
 
-use serde_json::{json, Value};
+use json::{json, Value};
 
 #[tokio::main]
 async fn main() -> Result<()> {

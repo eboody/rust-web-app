@@ -1,5 +1,5 @@
 use crate::prelude::*;
-use serde_json::json;
+use json::json;
 
 pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
 	use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
@@ -36,7 +36,7 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
 		.await?;
 
 	// Parse and return the response
-	let response_body: serde_json::Value = response.json().await?;
+	let response_body: json::Value = response.json().await?;
 	if let Some(reply) = response_body["choices"][0]["message"]["content"].as_str() {
 		Ok(reply.to_string())
 	} else {

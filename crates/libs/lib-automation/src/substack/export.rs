@@ -10,7 +10,7 @@ use super::{
 };
 use crate::{
 	prelude::*,
-	substack::drafts::{DraftByline, DraftRequest, DraftResponse},
+	substack::drafts::{Draft, DraftByline, DraftRequest},
 };
 
 pub async fn export_draft(mm: &ModelManager, article_id: Uuid) -> Result<()> {
@@ -46,7 +46,7 @@ pub async fn export_draft(mm: &ModelManager, article_id: Uuid) -> Result<()> {
 
 	let payload = DraftRequest {
 		audience: "everyone".to_string(),
-		draft_body: serde_json::to_string(&doc).unwrap(),
+		draft_body: json::to_string(&doc).unwrap(),
 		draft_bylines: vec![DraftByline {
 			id: 292604153,
 			is_guest: false,
@@ -75,7 +75,7 @@ pub async fn export_draft(mm: &ModelManager, article_id: Uuid) -> Result<()> {
 		.send()
 		.await?;
 
-	let draft_response = response.json::<DraftResponse>().await?;
+	let draft_response = response.json::<Draft>().await?;
 
 	let substack_status = ArticlesSubstackStatus {
 		id: Uuid::new_v4(),

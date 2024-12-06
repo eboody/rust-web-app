@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **collection** | **String** | Unique name of the collection. | 
-**fields** | [**Vec<serde_json::Value>**](serde_json::Value.md) | The fields contained in this collection. See the fields reference for more information. Each individual field requires field, type, and interface to be provided. | 
+**fields** | [**Vec<json::Value>**](json::Value.md) | The fields contained in this collection. See the fields reference for more information. Each individual field requires field, type, and interface to be provided. | 
 **icon** | Option<**String**> | Name of a Google Material Design Icon that's assigned to this collection. | [optional]
 **note** | Option<**String**> | A note describing the collection. | [optional]
 **display_template** | Option<**String**> | Text representation of how items from this collection are shown across the system. | [optional]

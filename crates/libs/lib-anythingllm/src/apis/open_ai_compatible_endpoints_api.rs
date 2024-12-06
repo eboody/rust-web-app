@@ -25,10 +25,10 @@ pub trait OpenAiCompatibleEndpointsApi: Send + Sync {
 	) -> Result<(), Error<V1OpenaiEmbeddingsPostError>>;
 	async fn v1_openai_models_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1OpenaiModelsGetError>>;
+	) -> Result<json::Value, Error<V1OpenaiModelsGetError>>;
 	async fn v1_openai_vector_stores_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1OpenaiVectorStoresGetError>>;
+	) -> Result<json::Value, Error<V1OpenaiVectorStoresGetError>>;
 }
 
 pub struct OpenAiCompatibleEndpointsApiClient {
@@ -80,7 +80,7 @@ impl OpenAiCompatibleEndpointsApi for OpenAiCompatibleEndpointsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<V1OpenaiChatCompletionsPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -125,7 +125,7 @@ impl OpenAiCompatibleEndpointsApi for OpenAiCompatibleEndpointsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<V1OpenaiEmbeddingsPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -138,7 +138,7 @@ impl OpenAiCompatibleEndpointsApi for OpenAiCompatibleEndpointsApiClient {
 	/// Get all available \"models\" which are workspaces you can use for chatting.
 	async fn v1_openai_models_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1OpenaiModelsGetError>> {
+	) -> Result<json::Value, Error<V1OpenaiModelsGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -167,10 +167,10 @@ impl OpenAiCompatibleEndpointsApi for OpenAiCompatibleEndpointsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1OpenaiModelsGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -183,7 +183,7 @@ impl OpenAiCompatibleEndpointsApi for OpenAiCompatibleEndpointsApiClient {
 	/// List all the vector database collections connected to AnythingLLM. These are essentially workspaces but return their unique vector db identifier - this is the same as the workspace slug.
 	async fn v1_openai_vector_stores_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1OpenaiVectorStoresGetError>> {
+	) -> Result<json::Value, Error<V1OpenaiVectorStoresGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -214,10 +214,10 @@ impl OpenAiCompatibleEndpointsApi for OpenAiCompatibleEndpointsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1OpenaiVectorStoresGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -236,7 +236,7 @@ pub enum V1OpenaiChatCompletionsPostError {
 	Status401(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_openai_embeddings_post`]
@@ -245,7 +245,7 @@ pub enum V1OpenaiChatCompletionsPostError {
 pub enum V1OpenaiEmbeddingsPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_openai_models_get`]
@@ -254,7 +254,7 @@ pub enum V1OpenaiEmbeddingsPostError {
 pub enum V1OpenaiModelsGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_openai_vector_stores_get`]
@@ -263,5 +263,5 @@ pub enum V1OpenaiModelsGetError {
 pub enum V1OpenaiVectorStoresGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

@@ -50,7 +50,7 @@ pub trait RolesApi: Send + Sync {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetRoles200Response, Error<GetRolesError>>;
@@ -77,7 +77,7 @@ pub trait RolesApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_roles_request: Option<models::UpdateRolesRequest>,
 	) -> Result<models::GetRoles200Response, Error<UpdateRolesError>>;
@@ -149,10 +149,10 @@ impl RolesApi for RolesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateRoleError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -195,7 +195,7 @@ impl RolesApi for RolesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteRoleError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -232,7 +232,7 @@ impl RolesApi for RolesApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteRolesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -298,10 +298,10 @@ impl RolesApi for RolesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetRoleError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -328,7 +328,7 @@ impl RolesApi for RolesApiClient {
 		offset: Option<i32>,
 		meta: Option<&'meta str>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		page: Option<i32>,
 	) -> Result<models::GetRoles200Response, Error<GetRolesError>> {
@@ -418,10 +418,10 @@ impl RolesApi for RolesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetRolesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -489,10 +489,10 @@ impl RolesApi for RolesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateRoleError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -519,7 +519,7 @@ impl RolesApi for RolesApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_roles_request: Option<models::UpdateRolesRequest>,
 	) -> Result<models::GetRoles200Response, Error<UpdateRolesError>> {
@@ -606,10 +606,10 @@ impl RolesApi for RolesApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateRolesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -626,7 +626,7 @@ impl RolesApi for RolesApiClient {
 pub enum CreateRoleError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_role`]
@@ -635,7 +635,7 @@ pub enum CreateRoleError {
 pub enum DeleteRoleError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_roles`]
@@ -643,7 +643,7 @@ pub enum DeleteRoleError {
 #[serde(untagged)]
 pub enum DeleteRolesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_role`]
@@ -652,7 +652,7 @@ pub enum DeleteRolesError {
 pub enum GetRoleError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_roles`]
@@ -661,7 +661,7 @@ pub enum GetRoleError {
 pub enum GetRolesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_role`]
@@ -670,7 +670,7 @@ pub enum GetRolesError {
 pub enum UpdateRoleError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_roles`]
@@ -678,5 +678,5 @@ pub enum UpdateRoleError {
 #[serde(untagged)]
 pub enum UpdateRolesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

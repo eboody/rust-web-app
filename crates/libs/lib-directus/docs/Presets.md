@@ -11,10 +11,10 @@ Name | Type | Description | Notes
 **collection** | Option<[**models::PresetsCollection**](Presets_collection.md)> |  | [optional]
 **search** | Option<**String**> | Search query. | [optional]
 **layout** | Option<**String**> | Key of the layout that is used. | [optional]
-**layout_query** | Option<[**serde_json::Value**](.md)> | Layout query that's saved per layout type. Controls what data is fetched on load. These follow the same format as the JS SDK parameters. | [optional]
-**layout_options** | Option<[**serde_json::Value**](.md)> | Options of the views. The properties in here are controlled by the layout. | [optional]
+**layout_query** | Option<[**json::Value**](.md)> | Layout query that's saved per layout type. Controls what data is fetched on load. These follow the same format as the JS SDK parameters. | [optional]
+**layout_options** | Option<[**json::Value**](.md)> | Options of the views. The properties in here are controlled by the layout. | [optional]
 **refresh_interval** | Option<**i32**> |  | [optional]
-**filter** | Option<[**serde_json::Value**](.md)> |  | [optional]
+**filter** | Option<[**json::Value**](.md)> |  | [optional]
 **icon** | Option<**String**> |  | [optional]
 **color** | Option<**String**> |  | [optional]
 

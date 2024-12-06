@@ -26,7 +26,7 @@ pub trait SettingsApi: Send + Sync {
 	) -> Result<models::GetSettings200Response, Error<GetSettingsError>>;
 	async fn update_setting<'body>(
 		&self,
-		body: Option<serde_json::Value>,
+		body: Option<json::Value>,
 	) -> Result<models::GetSettings200Response, Error<UpdateSettingError>>;
 }
 
@@ -88,10 +88,10 @@ impl SettingsApi for SettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetSettingsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -104,7 +104,7 @@ impl SettingsApi for SettingsApiClient {
 	/// Update the settings
 	async fn update_setting<'body>(
 		&self,
-		body: Option<serde_json::Value>,
+		body: Option<json::Value>,
 	) -> Result<models::GetSettings200Response, Error<UpdateSettingError>> {
 		let local_var_configuration = &self.configuration;
 
@@ -129,10 +129,10 @@ impl SettingsApi for SettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSettingError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -149,7 +149,7 @@ impl SettingsApi for SettingsApiClient {
 pub enum GetSettingsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_setting`]
@@ -158,5 +158,5 @@ pub enum GetSettingsError {
 pub enum UpdateSettingError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

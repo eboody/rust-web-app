@@ -46,7 +46,7 @@ pub struct CreateFieldRequestMeta {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub options: Option<Option<serde_json::Value>>,
+	pub options: Option<Option<json::Value>>,
 	/// What display is used in the admin app to display the value for this field.
 	#[serde(
 		rename = "display",
@@ -62,7 +62,7 @@ pub struct CreateFieldRequestMeta {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub display_options: Option<Option<serde_json::Value>>,
+	pub display_options: Option<Option<json::Value>>,
 	/// If the field can be altered by the end user. Directus system fields have this value set to `true`.
 	#[serde(rename = "locked", skip_serializing_if = "Option::is_none")]
 	pub locked: Option<bool>,
@@ -103,7 +103,7 @@ pub struct CreateFieldRequestMeta {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub translation: Option<Option<serde_json::Value>>,
+	pub translation: Option<Option<json::Value>>,
 	/// A user provided note for the field. Will be rendered alongside the interface on the edit page.
 	#[serde(
 		rename = "note",

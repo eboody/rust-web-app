@@ -8,7 +8,7 @@ pub type Result<T> = core::result::Result<T, Error>;
 #[derive(Debug, From, Display, Serialize)]
 pub enum Error {
 	#[from]
-	SerdeJson(#[serde_as(as = "DisplayFromStr")] serde_json::Error),
+	SerdeJson(#[serde_as(as = "DisplayFromStr")] json::Error),
 
 	#[from]
 	Io(#[serde_as(as = "DisplayFromStr")] std::io::Error),

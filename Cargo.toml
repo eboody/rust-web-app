@@ -28,7 +28,7 @@ members = [
     # "crates/libs/lib-coolify",
     # "crates/libs/lib-anythingllm", 
     "crates/libs/lib-automation", 
-    "crates/tools/posts-to-articles", 
+    "crates/tools/posts-to-articles", "crates/libs/lib-web", 
 ]
 
 [workspace.dependencies]
@@ -47,7 +47,7 @@ urlencode = "1"
 
 serde_with = { version = "3", features = ["time_0_3"] }
 serde = { version = "1", features = ["derive"] }
-serde_json = "1"
+json = { package = "serde_json", version = "1" }
 url_serde = { version = "0.2" }
 serde_urlencoded = { version = "0.7" }
 

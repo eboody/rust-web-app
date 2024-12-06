@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ServerInfo200Response {
 	#[serde(rename = "data", skip_serializing_if = "Option::is_none")]
-	pub data: Option<serde_json::Value>,
+	pub data: Option<json::Value>,
 }
 
 impl ServerInfo200Response {

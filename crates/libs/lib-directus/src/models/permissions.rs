@@ -29,7 +29,7 @@ pub struct Permissions {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub permissions: Option<Option<serde_json::Value>>,
+	pub permissions: Option<Option<json::Value>>,
 	/// JSON structure containing the validation checks for this permission.
 	#[serde(
 		rename = "validation",
@@ -37,7 +37,7 @@ pub struct Permissions {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub validation: Option<Option<serde_json::Value>>,
+	pub validation: Option<Option<json::Value>>,
 	/// JSON structure containing the preset value for created/updated items.
 	#[serde(
 		rename = "presets",
@@ -45,7 +45,7 @@ pub struct Permissions {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub presets: Option<Option<serde_json::Value>>,
+	pub presets: Option<Option<json::Value>>,
 	/// CSV of fields that the user is allowed to interact with.
 	#[serde(
 		rename = "fields",
@@ -60,7 +60,7 @@ pub struct Permissions {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub policy: Option<Option<serde_json::Value>>,
+	pub policy: Option<Option<json::Value>>,
 }
 
 impl Permissions {

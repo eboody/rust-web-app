@@ -1,4 +1,6 @@
+use derive_more::derive::Display;
 use ormlite::model::{Join, JoinMeta};
+use serde::{Deserialize, Serialize};
 use time::{Date, OffsetDateTime};
 use uuid::Uuid;
 
@@ -24,7 +26,7 @@ pub struct Articles {
 	pub slug: Option<String>,
 	pub substack_status: Option<Uuid>,
 	//#[ormlite(join_column = "substack_status")]
-	//pub substack_status: Join<ArticlesSubstackStatus>,
+	//pub substack_statuses: Join<ArticlesSubstackStatus>,
 }
 
 #[derive(Debug, ormlite::Model)]
@@ -67,4 +69,10 @@ pub struct ArticlesSubstackStatus {
 pub enum ArticleStatus {
 	Draft,
 	Published,
+}
+
+#[derive(Debug, Deserialize, Display, Serialize, Clone)]
+pub enum Event {
+	#[serde(rename = "articles.items.update")]
+	Update,
 }

@@ -44,11 +44,11 @@ pub struct UpdateFileRequest {
 	pub tags: Option<Option<Vec<String>>>,
 	/// File contents.
 	#[serde(rename = "file", deserialize_with = "Option::deserialize")]
-	pub file: Option<serde_json::Value>,
+	pub file: Option<json::Value>,
 }
 
 impl UpdateFileRequest {
-	pub fn new(file: Option<serde_json::Value>) -> UpdateFileRequest {
+	pub fn new(file: Option<json::Value>) -> UpdateFileRequest {
 		UpdateFileRequest {
 			title: None,
 			filename_download: None,

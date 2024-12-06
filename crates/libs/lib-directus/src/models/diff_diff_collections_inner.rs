@@ -16,7 +16,7 @@ pub struct DiffDiffCollectionsInner {
 	#[serde(rename = "collection", skip_serializing_if = "Option::is_none")]
 	pub collection: Option<String>,
 	#[serde(rename = "diff", skip_serializing_if = "Option::is_none")]
-	pub diff: Option<Vec<serde_json::Value>>,
+	pub diff: Option<Vec<json::Value>>,
 }
 
 impl DiffDiffCollectionsInner {

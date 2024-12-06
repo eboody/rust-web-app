@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 pub struct ListSummary {
 	/// Analytics summary for all objects
 	#[serde(rename = "insights", skip_serializing_if = "Option::is_none")]
-	pub insights: Option<serde_json::Value>,
+	pub insights: Option<json::Value>,
 	/// Total number of objects
 	#[serde(rename = "total_count", skip_serializing_if = "Option::is_none")]
 	pub total_count: Option<i32>,

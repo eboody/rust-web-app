@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **status** | Option<**String**> | Current status of the flow. | [optional][default to Active]
 **trigger** | Option<**String**> | Type of trigger for the flow. One of `hook`, `webhook`, `operation`, `schedule`, `manual`. | [optional]
 **accountability** | Option<**String**> | The permission used during the flow. One of `$public`, `$trigger`, `$full`, or UUID of a role. | [optional]
-**options** | Option<[**serde_json::Value**](.md)> | Options of the selected trigger for the flow. | [optional]
+**options** | Option<[**json::Value**](.md)> | Options of the selected trigger for the flow. | [optional]
 **operation** | Option<[**models::FlowsOperation**](Flows_operation.md)> |  | [optional]
 **date_created** | Option<**String**> | Timestamp in ISO8601 when the flow was created. | [optional]
 **user_created** | Option<[**models::FlowsUserCreated**](Flows_user_created.md)> |  | [optional]

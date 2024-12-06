@@ -55,14 +55,14 @@ pub fn get_content_from_file<T: AsRef<Path>>(
 	file_path: T,
 ) -> std::result::Result<Node, Box<dyn std::error::Error>> {
 	let content = fs::read_to_string(file_path)?;
-	let document: Node = serde_json::from_str(&content)?;
+	let document: Node = json::from_str(&content)?;
 	Ok(document)
 }
 
 pub fn get_content_from_string(
 	content: &str,
 ) -> std::result::Result<Node, Box<dyn std::error::Error>> {
-	let document: Node = serde_json::from_str(content)?;
+	let document: Node = json::from_str(content)?;
 	Ok(document)
 }
 
@@ -103,7 +103,7 @@ pub fn md_to_prosemirror(md: &str) -> Result<Document> {
 
 	let (prosemirror_string, _, _) = UTF_8.decode(&prosemirror_output.stdout);
 
-	let doc: Document = serde_json::from_str(&prosemirror_string)?;
+	let doc: Document = json::from_str(&prosemirror_string)?;
 	Ok(doc)
 }
 

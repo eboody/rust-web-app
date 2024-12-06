@@ -35,7 +35,7 @@ pub struct CreateWebhookRequest {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub actions: Option<Option<serde_json::Value>>,
+	pub actions: Option<Option<json::Value>>,
 	/// The collections that triggers this webhook.
 	#[serde(
 		rename = "system-collections",
@@ -43,7 +43,7 @@ pub struct CreateWebhookRequest {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub system_collections: Option<Option<serde_json::Value>>,
+	pub system_collections: Option<Option<json::Value>>,
 }
 
 impl CreateWebhookRequest {

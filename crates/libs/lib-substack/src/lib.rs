@@ -58,14 +58,14 @@ pub fn get_content_from_file<T: AsRef<Path>>(
 	file_path: T,
 ) -> std::result::Result<Content, Box<dyn std::error::Error>> {
 	let content = fs::read_to_string(file_path)?;
-	let document: Content = serde_json::from_str(&content)?;
+	let document: Content = json::from_str(&content)?;
 	Ok(document)
 }
 
 pub fn get_content_from_string(
 	content: &str,
 ) -> std::result::Result<Content, Box<dyn std::error::Error>> {
-	let document: Content = serde_json::from_str(content)?;
+	let document: Content = json::from_str(content)?;
 	Ok(document)
 }
 
@@ -112,7 +112,7 @@ pub async fn export_to_substack(mm: &ModelManager, article_id: Uuid) -> Result<(
 
 	let payload = DraftRequest {
 		audience: "everyone".to_string(),
-		draft_body: serde_json::to_string(&doc).unwrap(),
+		draft_body: json::to_string(&doc).unwrap(),
 		draft_bylines: vec![DraftByline {
 			id: 292604153,
 			is_guest: false,
@@ -174,7 +174,7 @@ pub fn md_to_prosemirror(md: &str) -> Result<Document> {
 
 	let (prosemirror_string, _, _) = UTF_8.decode(&prosemirror_output.stdout);
 
-	let doc: Document = serde_json::from_str(&prosemirror_string)?;
+	let doc: Document = json::from_str(&prosemirror_string)?;
 	Ok(doc)
 }
 
@@ -193,7 +193,7 @@ pub fn md_to_prosemirror(md: &str) -> Result<Document> {
 //
 //	let payload = DraftRequest {
 //		audience: "everyone".to_string(),
-//		draft_body: serde_json::to_string(&doc).unwrap(),
+//		draft_body: json::to_string(&doc).unwrap(),
 //		draft_bylines: vec![DraftByline {
 //			id: 292604153,
 //			is_guest: false,

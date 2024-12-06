@@ -15,7 +15,7 @@ use tracing::debug;
 pub type Result<T> = core::result::Result<T, Error>;
 
 #[serde_as]
-#[derive(Debug, Serialize, From, strum_macros::AsRefStr)]
+#[derive(Debug, Serialize, From)]
 #[serde(tag = "type", content = "data")]
 pub enum Error {
 	// -- Modules
@@ -28,7 +28,7 @@ pub enum Error {
 
 	// -- External Modules
 	#[from]
-	SerdeJson(#[serde_as(as = "DisplayFromStr")] serde_json::Error),
+	SerdeJson(#[serde_as(as = "DisplayFromStr")] json::Error),
 }
 
 // region:    --- From rpc-router::Error
@@ -86,7 +86,7 @@ impl Error {
 	}
 }
 
-#[derive(Debug, Serialize, strum_macros::AsRefStr)]
+#[derive(Debug, Serialize)]
 #[serde(tag = "message", content = "detail")]
 #[allow(non_camel_case_types)]
 #[allow(unused)]

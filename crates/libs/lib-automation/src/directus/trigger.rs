@@ -1,26 +1,18 @@
-use lib_core::model::directus::{Collection, Event, Status};
+use json::Value;
+use lib_core::model::{articles, directus::Collection};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
 use uuid::Uuid;
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Request {
-	pub path: Option<String>,
-	pub query: Option<HashMap<String, String>>, // Adjust as necessary if query params have complex types
-	pub body: Body,
-	pub method: String,
-	pub headers: HashMap<String, String>,
+#[derive(Debug, Serialize, Clone, Deserialize)]
+#[serde(untagged)]
+pub enum Event {
+	Article(articles::Event),
 }
 
-#[derive(Debug, Serialize, Deserialize, Clone)]
+#[derive(Serialize, Clone, Deserialize, Debug)]
 pub struct Body {
+	pub event: Event,
 	pub collection: Collection,
 	pub keys: Vec<Uuid>,
-	pub event: Option<Event>,
-	pub payload: Option<Payload>,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct Payload {
-	pub status: Option<Status>,
+	pub payload: Value,
 }

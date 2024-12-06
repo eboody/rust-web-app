@@ -217,7 +217,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsArticles200Response, Error<ReadItemsArticlesError>>;
 	async fn read_items_articles_directus_users<
@@ -235,7 +235,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesDirectusUsers200Response,
@@ -256,7 +256,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesTags200Response,
@@ -277,7 +277,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesTranslations200Response,
@@ -298,7 +298,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsEbooks200Response, Error<ReadItemsEbooksError>>;
 	async fn read_items_ebooks_directus_users<
@@ -316,7 +316,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsEbooksDirectusUsers200Response,
@@ -337,7 +337,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsEbooksTags200Response,
@@ -358,7 +358,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsEbooksTranslations200Response,
@@ -379,7 +379,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsLanguages200Response, Error<ReadItemsLanguagesError>>;
 	async fn read_items_tags<
@@ -397,7 +397,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsTags200Response, Error<ReadItemsTagsError>>;
 	async fn read_items_tags_translations<
@@ -415,7 +415,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsTagsTranslations200Response,
@@ -552,7 +552,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_request: Option<models::CreateItemsArticlesRequest>,
 	) -> Result<
@@ -575,7 +575,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_directus_users_request: Option<
 			models::CreateItemsArticlesDirectusUsersRequest,
@@ -600,7 +600,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_tags_request: Option<
 			models::CreateItemsArticlesTagsRequest,
@@ -625,7 +625,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_translations_request: Option<
 			models::CreateItemsArticlesTranslationsRequest,
@@ -650,7 +650,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_request: Option<models::CreateItemsEbooksRequest>,
 	) -> Result<models::UpdateItemsEbooks200Response, Error<UpdateItemsEbooksError>>;
@@ -670,7 +670,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_directus_users_request: Option<
 			models::CreateItemsEbooksDirectusUsersRequest,
@@ -695,7 +695,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_tags_request: Option<
 			models::CreateItemsEbooksTagsRequest,
@@ -720,7 +720,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_translations_request: Option<
 			models::CreateItemsEbooksTranslationsRequest,
@@ -745,7 +745,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_languages_request: Option<models::CreateItemsLanguagesRequest>,
 	) -> Result<
@@ -768,7 +768,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_request: Option<models::CreateItemsTagsRequest>,
 	) -> Result<models::UpdateItemsTags200Response, Error<UpdateItemsTagsError>>;
@@ -788,7 +788,7 @@ pub trait ItemsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_translations_request: Option<
 			models::CreateItemsTagsTranslationsRequest,
@@ -993,10 +993,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1050,10 +1050,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1105,10 +1105,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1162,10 +1162,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1210,10 +1210,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1267,10 +1267,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1319,10 +1319,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1376,10 +1376,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1426,10 +1426,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1473,10 +1473,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1530,10 +1530,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1572,7 +1572,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1613,7 +1613,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1652,7 +1652,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1693,7 +1693,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1732,7 +1732,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1773,7 +1773,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1812,7 +1812,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1853,7 +1853,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1892,7 +1892,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1929,7 +1929,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1970,7 +1970,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2013,7 +2013,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2057,7 +2057,7 @@ impl ItemsApi for ItemsApiClient {
 		} else {
 			let local_var_entity: Option<
 				DeleteSingleItemsArticlesDirectusUsersError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2100,7 +2100,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2144,7 +2144,7 @@ impl ItemsApi for ItemsApiClient {
 		} else {
 			let local_var_entity: Option<
 				DeleteSingleItemsArticlesTranslationsError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2187,7 +2187,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2230,7 +2230,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2273,7 +2273,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2316,7 +2316,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2359,7 +2359,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2402,7 +2402,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2445,7 +2445,7 @@ impl ItemsApi for ItemsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2471,7 +2471,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsArticles200Response, Error<ReadItemsArticlesError>>
 	{
@@ -2568,10 +2568,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2597,7 +2597,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesDirectusUsers200Response,
@@ -2698,10 +2698,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2727,7 +2727,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesTags200Response,
@@ -2826,10 +2826,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2855,7 +2855,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesTranslations200Response,
@@ -2956,10 +2956,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -2985,7 +2985,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsEbooks200Response, Error<ReadItemsEbooksError>> {
 		let local_var_configuration = &self.configuration;
@@ -3081,10 +3081,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3110,7 +3110,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsEbooksDirectusUsers200Response,
@@ -3211,10 +3211,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3240,7 +3240,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsEbooksTags200Response,
@@ -3339,10 +3339,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3368,7 +3368,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsEbooksTranslations200Response,
@@ -3469,10 +3469,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3498,7 +3498,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsLanguages200Response, Error<ReadItemsLanguagesError>>
 	{
@@ -3595,10 +3595,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3624,7 +3624,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsTags200Response, Error<ReadItemsTagsError>> {
 		let local_var_configuration = &self.configuration;
@@ -3720,10 +3720,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3749,7 +3749,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsTagsTranslations200Response,
@@ -3850,10 +3850,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -3927,10 +3927,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4009,10 +4009,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4086,10 +4086,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4168,10 +4168,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4245,10 +4245,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4327,10 +4327,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4404,10 +4404,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4481,10 +4481,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4558,10 +4558,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4635,10 +4635,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4712,10 +4712,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4742,7 +4742,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_request: Option<models::CreateItemsArticlesRequest>,
 	) -> Result<
@@ -4833,10 +4833,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4863,7 +4863,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_directus_users_request: Option<
 			models::CreateItemsArticlesDirectusUsersRequest,
@@ -4958,10 +4958,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -4988,7 +4988,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_tags_request: Option<
 			models::CreateItemsArticlesTagsRequest,
@@ -5081,10 +5081,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5111,7 +5111,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_translations_request: Option<
 			models::CreateItemsArticlesTranslationsRequest,
@@ -5206,10 +5206,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5236,7 +5236,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_request: Option<models::CreateItemsEbooksRequest>,
 	) -> Result<models::UpdateItemsEbooks200Response, Error<UpdateItemsEbooksError>>
@@ -5325,10 +5325,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5355,7 +5355,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_directus_users_request: Option<
 			models::CreateItemsEbooksDirectusUsersRequest,
@@ -5450,10 +5450,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5480,7 +5480,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_tags_request: Option<
 			models::CreateItemsEbooksTagsRequest,
@@ -5573,10 +5573,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5603,7 +5603,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_ebooks_translations_request: Option<
 			models::CreateItemsEbooksTranslationsRequest,
@@ -5698,10 +5698,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5728,7 +5728,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_languages_request: Option<models::CreateItemsLanguagesRequest>,
 	) -> Result<
@@ -5819,10 +5819,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5849,7 +5849,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_request: Option<models::CreateItemsTagsRequest>,
 	) -> Result<models::UpdateItemsTags200Response, Error<UpdateItemsTagsError>> {
@@ -5937,10 +5937,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -5967,7 +5967,7 @@ impl ItemsApi for ItemsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_translations_request: Option<
 			models::CreateItemsTagsTranslationsRequest,
@@ -6062,10 +6062,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6136,10 +6136,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsArticlesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6216,11 +6216,11 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				UpdateSingleItemsArticlesDirectusUsersError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6296,10 +6296,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsArticlesTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6376,11 +6376,11 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				UpdateSingleItemsArticlesTranslationsError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6451,10 +6451,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsEbooksError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6531,10 +6531,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsEbooksDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6610,10 +6610,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsEbooksTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6690,10 +6690,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsEbooksTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6764,10 +6764,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsLanguagesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6838,10 +6838,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6917,10 +6917,10 @@ impl ItemsApi for ItemsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsTagsTranslationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -6936,7 +6936,7 @@ impl ItemsApi for ItemsApiClient {
 #[serde(untagged)]
 pub enum CreateItemsArticlesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_articles_directus_users`]
@@ -6944,7 +6944,7 @@ pub enum CreateItemsArticlesError {
 #[serde(untagged)]
 pub enum CreateItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_articles_tags`]
@@ -6952,7 +6952,7 @@ pub enum CreateItemsArticlesDirectusUsersError {
 #[serde(untagged)]
 pub enum CreateItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_articles_translations`]
@@ -6960,7 +6960,7 @@ pub enum CreateItemsArticlesTagsError {
 #[serde(untagged)]
 pub enum CreateItemsArticlesTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_ebooks`]
@@ -6968,7 +6968,7 @@ pub enum CreateItemsArticlesTranslationsError {
 #[serde(untagged)]
 pub enum CreateItemsEbooksError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_ebooks_directus_users`]
@@ -6976,7 +6976,7 @@ pub enum CreateItemsEbooksError {
 #[serde(untagged)]
 pub enum CreateItemsEbooksDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_ebooks_tags`]
@@ -6984,7 +6984,7 @@ pub enum CreateItemsEbooksDirectusUsersError {
 #[serde(untagged)]
 pub enum CreateItemsEbooksTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_ebooks_translations`]
@@ -6992,7 +6992,7 @@ pub enum CreateItemsEbooksTagsError {
 #[serde(untagged)]
 pub enum CreateItemsEbooksTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_languages`]
@@ -7000,7 +7000,7 @@ pub enum CreateItemsEbooksTranslationsError {
 #[serde(untagged)]
 pub enum CreateItemsLanguagesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_tags`]
@@ -7008,7 +7008,7 @@ pub enum CreateItemsLanguagesError {
 #[serde(untagged)]
 pub enum CreateItemsTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_items_tags_translations`]
@@ -7016,7 +7016,7 @@ pub enum CreateItemsTagsError {
 #[serde(untagged)]
 pub enum CreateItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles`]
@@ -7024,7 +7024,7 @@ pub enum CreateItemsTagsTranslationsError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles_directus_users`]
@@ -7032,7 +7032,7 @@ pub enum DeleteItemsArticlesError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles_tags`]
@@ -7040,7 +7040,7 @@ pub enum DeleteItemsArticlesDirectusUsersError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles_translations`]
@@ -7048,7 +7048,7 @@ pub enum DeleteItemsArticlesTagsError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_ebooks`]
@@ -7056,7 +7056,7 @@ pub enum DeleteItemsArticlesTranslationsError {
 #[serde(untagged)]
 pub enum DeleteItemsEbooksError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_ebooks_directus_users`]
@@ -7064,7 +7064,7 @@ pub enum DeleteItemsEbooksError {
 #[serde(untagged)]
 pub enum DeleteItemsEbooksDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_ebooks_tags`]
@@ -7072,7 +7072,7 @@ pub enum DeleteItemsEbooksDirectusUsersError {
 #[serde(untagged)]
 pub enum DeleteItemsEbooksTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_ebooks_translations`]
@@ -7080,7 +7080,7 @@ pub enum DeleteItemsEbooksTagsError {
 #[serde(untagged)]
 pub enum DeleteItemsEbooksTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_languages`]
@@ -7088,7 +7088,7 @@ pub enum DeleteItemsEbooksTranslationsError {
 #[serde(untagged)]
 pub enum DeleteItemsLanguagesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_tags`]
@@ -7096,7 +7096,7 @@ pub enum DeleteItemsLanguagesError {
 #[serde(untagged)]
 pub enum DeleteItemsTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_tags_translations`]
@@ -7104,7 +7104,7 @@ pub enum DeleteItemsTagsError {
 #[serde(untagged)]
 pub enum DeleteItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles`]
@@ -7113,7 +7113,7 @@ pub enum DeleteItemsTagsTranslationsError {
 pub enum DeleteSingleItemsArticlesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles_directus_users`]
@@ -7122,7 +7122,7 @@ pub enum DeleteSingleItemsArticlesError {
 pub enum DeleteSingleItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles_tags`]
@@ -7131,7 +7131,7 @@ pub enum DeleteSingleItemsArticlesDirectusUsersError {
 pub enum DeleteSingleItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles_translations`]
@@ -7140,7 +7140,7 @@ pub enum DeleteSingleItemsArticlesTagsError {
 pub enum DeleteSingleItemsArticlesTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_ebooks`]
@@ -7149,7 +7149,7 @@ pub enum DeleteSingleItemsArticlesTranslationsError {
 pub enum DeleteSingleItemsEbooksError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_ebooks_directus_users`]
@@ -7158,7 +7158,7 @@ pub enum DeleteSingleItemsEbooksError {
 pub enum DeleteSingleItemsEbooksDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_ebooks_tags`]
@@ -7167,7 +7167,7 @@ pub enum DeleteSingleItemsEbooksDirectusUsersError {
 pub enum DeleteSingleItemsEbooksTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_ebooks_translations`]
@@ -7176,7 +7176,7 @@ pub enum DeleteSingleItemsEbooksTagsError {
 pub enum DeleteSingleItemsEbooksTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_languages`]
@@ -7185,7 +7185,7 @@ pub enum DeleteSingleItemsEbooksTranslationsError {
 pub enum DeleteSingleItemsLanguagesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_tags`]
@@ -7194,7 +7194,7 @@ pub enum DeleteSingleItemsLanguagesError {
 pub enum DeleteSingleItemsTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_tags_translations`]
@@ -7203,7 +7203,7 @@ pub enum DeleteSingleItemsTagsError {
 pub enum DeleteSingleItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles`]
@@ -7211,7 +7211,7 @@ pub enum DeleteSingleItemsTagsTranslationsError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles_directus_users`]
@@ -7219,7 +7219,7 @@ pub enum ReadItemsArticlesError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles_tags`]
@@ -7227,7 +7227,7 @@ pub enum ReadItemsArticlesDirectusUsersError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles_translations`]
@@ -7235,7 +7235,7 @@ pub enum ReadItemsArticlesTagsError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_ebooks`]
@@ -7243,7 +7243,7 @@ pub enum ReadItemsArticlesTranslationsError {
 #[serde(untagged)]
 pub enum ReadItemsEbooksError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_ebooks_directus_users`]
@@ -7251,7 +7251,7 @@ pub enum ReadItemsEbooksError {
 #[serde(untagged)]
 pub enum ReadItemsEbooksDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_ebooks_tags`]
@@ -7259,7 +7259,7 @@ pub enum ReadItemsEbooksDirectusUsersError {
 #[serde(untagged)]
 pub enum ReadItemsEbooksTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_ebooks_translations`]
@@ -7267,7 +7267,7 @@ pub enum ReadItemsEbooksTagsError {
 #[serde(untagged)]
 pub enum ReadItemsEbooksTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_languages`]
@@ -7275,7 +7275,7 @@ pub enum ReadItemsEbooksTranslationsError {
 #[serde(untagged)]
 pub enum ReadItemsLanguagesError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_tags`]
@@ -7283,7 +7283,7 @@ pub enum ReadItemsLanguagesError {
 #[serde(untagged)]
 pub enum ReadItemsTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_tags_translations`]
@@ -7291,7 +7291,7 @@ pub enum ReadItemsTagsError {
 #[serde(untagged)]
 pub enum ReadItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles`]
@@ -7300,7 +7300,7 @@ pub enum ReadItemsTagsTranslationsError {
 pub enum ReadSingleItemsArticlesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles_directus_users`]
@@ -7309,7 +7309,7 @@ pub enum ReadSingleItemsArticlesError {
 pub enum ReadSingleItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles_tags`]
@@ -7318,7 +7318,7 @@ pub enum ReadSingleItemsArticlesDirectusUsersError {
 pub enum ReadSingleItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles_translations`]
@@ -7327,7 +7327,7 @@ pub enum ReadSingleItemsArticlesTagsError {
 pub enum ReadSingleItemsArticlesTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_ebooks`]
@@ -7336,7 +7336,7 @@ pub enum ReadSingleItemsArticlesTranslationsError {
 pub enum ReadSingleItemsEbooksError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_ebooks_directus_users`]
@@ -7345,7 +7345,7 @@ pub enum ReadSingleItemsEbooksError {
 pub enum ReadSingleItemsEbooksDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_ebooks_tags`]
@@ -7354,7 +7354,7 @@ pub enum ReadSingleItemsEbooksDirectusUsersError {
 pub enum ReadSingleItemsEbooksTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_ebooks_translations`]
@@ -7363,7 +7363,7 @@ pub enum ReadSingleItemsEbooksTagsError {
 pub enum ReadSingleItemsEbooksTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_languages`]
@@ -7372,7 +7372,7 @@ pub enum ReadSingleItemsEbooksTranslationsError {
 pub enum ReadSingleItemsLanguagesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_tags`]
@@ -7381,7 +7381,7 @@ pub enum ReadSingleItemsLanguagesError {
 pub enum ReadSingleItemsTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_tags_translations`]
@@ -7390,84 +7390,84 @@ pub enum ReadSingleItemsTagsError {
 pub enum ReadSingleItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles_directus_users`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesDirectusUsersError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesTagsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles_translations`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesTranslationsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_ebooks`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsEbooksError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_ebooks_directus_users`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsEbooksDirectusUsersError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_ebooks_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsEbooksTagsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_ebooks_translations`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsEbooksTranslationsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_languages`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsLanguagesError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsTagsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_tags_translations`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsTagsTranslationsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles`]
@@ -7476,7 +7476,7 @@ pub enum UpdateItemsTagsTranslationsError {
 pub enum UpdateSingleItemsArticlesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles_directus_users`]
@@ -7485,7 +7485,7 @@ pub enum UpdateSingleItemsArticlesError {
 pub enum UpdateSingleItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles_tags`]
@@ -7494,7 +7494,7 @@ pub enum UpdateSingleItemsArticlesDirectusUsersError {
 pub enum UpdateSingleItemsArticlesTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles_translations`]
@@ -7503,7 +7503,7 @@ pub enum UpdateSingleItemsArticlesTagsError {
 pub enum UpdateSingleItemsArticlesTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_ebooks`]
@@ -7512,7 +7512,7 @@ pub enum UpdateSingleItemsArticlesTranslationsError {
 pub enum UpdateSingleItemsEbooksError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_ebooks_directus_users`]
@@ -7521,7 +7521,7 @@ pub enum UpdateSingleItemsEbooksError {
 pub enum UpdateSingleItemsEbooksDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_ebooks_tags`]
@@ -7530,7 +7530,7 @@ pub enum UpdateSingleItemsEbooksDirectusUsersError {
 pub enum UpdateSingleItemsEbooksTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_ebooks_translations`]
@@ -7539,7 +7539,7 @@ pub enum UpdateSingleItemsEbooksTagsError {
 pub enum UpdateSingleItemsEbooksTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_languages`]
@@ -7548,7 +7548,7 @@ pub enum UpdateSingleItemsEbooksTranslationsError {
 pub enum UpdateSingleItemsLanguagesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_tags`]
@@ -7557,7 +7557,7 @@ pub enum UpdateSingleItemsLanguagesError {
 pub enum UpdateSingleItemsTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_tags_translations`]
@@ -7566,5 +7566,5 @@ pub enum UpdateSingleItemsTagsError {
 pub enum UpdateSingleItemsTagsTranslationsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

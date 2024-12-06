@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 pub struct AdUpdate {
 	/// Ad labels associated with this ad
 	#[serde(rename = "adlabels", skip_serializing_if = "Option::is_none")]
-	pub adlabels: Option<Vec<serde_json::Value>>,
+	pub adlabels: Option<Vec<json::Value>>,
 	/// The ID of the audience
 	#[serde(rename = "audience_id", skip_serializing_if = "Option::is_none")]
 	pub audience_id: Option<String>,
@@ -28,7 +28,7 @@ pub struct AdUpdate {
 	pub conversion_domain: Option<String>,
 	/// This field is required for create. The ID or creative spec of the ad creative to be used by this ad.
 	#[serde(rename = "creative")]
-	pub creative: serde_json::Value,
+	pub creative: json::Value,
 	/// The sequence of the ad within the same campaign
 	#[serde(rename = "display_sequence", skip_serializing_if = "Option::is_none")]
 	pub display_sequence: Option<i32>,
@@ -57,12 +57,12 @@ pub struct AdUpdate {
 	pub status: Option<Status>,
 	/// With Tracking Specs, you log actions taken by people on your ad.
 	#[serde(rename = "tracking_specs", skip_serializing_if = "Option::is_none")]
-	pub tracking_specs: Option<serde_json::Value>,
+	pub tracking_specs: Option<json::Value>,
 }
 
 impl AdUpdate {
 	/// Ad update properties
-	pub fn new(creative: serde_json::Value) -> AdUpdate {
+	pub fn new(creative: json::Value) -> AdUpdate {
 		AdUpdate {
 			adlabels: None,
 			audience_id: None,
@@ -81,7 +81,7 @@ impl AdUpdate {
 	}
 
 	pub fn to_string(&self) -> String {
-		serde_json::to_string(self).unwrap()
+		json::to_string(self).unwrap()
 	}
 }
 /// An execution setting

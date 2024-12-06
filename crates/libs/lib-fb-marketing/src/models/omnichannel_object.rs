@@ -16,13 +16,13 @@ use serde::{Deserialize, Serialize};
 pub struct OmnichannelObject {
 	/// App objects
 	#[serde(rename = "app", skip_serializing_if = "Option::is_none")]
-	pub app: Option<Vec<serde_json::Value>>,
+	pub app: Option<Vec<json::Value>>,
 	/// Pixel objects
 	#[serde(rename = "pixel", skip_serializing_if = "Option::is_none")]
-	pub pixel: Option<Vec<serde_json::Value>>,
+	pub pixel: Option<Vec<json::Value>>,
 	/// Onsite objects
 	#[serde(rename = "onsite", skip_serializing_if = "Option::is_none")]
-	pub onsite: Option<Vec<serde_json::Value>>,
+	pub onsite: Option<Vec<json::Value>>,
 }
 
 impl OmnichannelObject {

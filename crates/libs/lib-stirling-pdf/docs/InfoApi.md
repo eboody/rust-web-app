@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 ## get_all_endpoint_loads
 
-> serde_json::Value get_all_endpoint_loads()
+> json::Value get_all_endpoint_loads()
 GET requests count for all endpoints
 
 This endpoint returns the count of GET requests for each endpoint.
@@ -30,7 +30,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -46,7 +46,7 @@ No authorization required
 
 ## get_all_post_requests
 
-> serde_json::Value get_all_post_requests()
+> json::Value get_all_post_requests()
 POST requests count for all endpoints
 
 This endpoint returns the count of POST requests for each endpoint.
@@ -57,7 +57,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -73,7 +73,7 @@ No authorization required
 
 ## get_all_unique_endpoint_loads
 
-> serde_json::Value get_all_unique_endpoint_loads()
+> json::Value get_all_unique_endpoint_loads()
 Unique users count for GET requests for all endpoints
 
 This endpoint returns the count of unique users for GET requests for each endpoint.
@@ -84,7 +84,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -100,7 +100,7 @@ No authorization required
 
 ## get_all_unique_post_requests
 
-> serde_json::Value get_all_unique_post_requests()
+> json::Value get_all_unique_post_requests()
 Unique users count for POST requests for all endpoints
 
 This endpoint returns the count of unique users for POST requests for each endpoint.
@@ -111,7 +111,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -127,7 +127,7 @@ No authorization required
 
 ## get_page_loads
 
-> serde_json::Value get_page_loads(endpoint)
+> json::Value get_page_loads(endpoint)
 GET request count
 
 This endpoint returns the total count of GET requests for a specific endpoint or all endpoints.
@@ -141,7 +141,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -157,7 +157,7 @@ No authorization required
 
 ## get_status
 
-> serde_json::Value get_status()
+> json::Value get_status()
 Application status and version
 
 This endpoint returns the status of the application and its version number.
@@ -168,7 +168,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -184,7 +184,7 @@ No authorization required
 
 ## get_total_requests
 
-> serde_json::Value get_total_requests(endpoint)
+> json::Value get_total_requests(endpoint)
 POST request count
 
 This endpoint returns the total count of POST requests for a specific endpoint or all endpoints.
@@ -198,7 +198,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -214,7 +214,7 @@ No authorization required
 
 ## get_unique_page_loads
 
-> serde_json::Value get_unique_page_loads(endpoint)
+> json::Value get_unique_page_loads(endpoint)
 Unique users count for GET requests
 
 This endpoint returns the count of unique users for GET requests for a specific endpoint or all endpoints.
@@ -228,7 +228,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -244,7 +244,7 @@ No authorization required
 
 ## get_unique_total_requests
 
-> serde_json::Value get_unique_total_requests(endpoint)
+> json::Value get_unique_total_requests(endpoint)
 Unique users count for POST requests
 
 This endpoint returns the count of unique users for POST requests for a specific endpoint or all endpoints.
@@ -258,7 +258,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -274,7 +274,7 @@ No authorization required
 
 ## get_uptime
 
-> serde_json::Value get_uptime()
+> json::Value get_uptime()
 
 
 ### Parameters
@@ -283,7 +283,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

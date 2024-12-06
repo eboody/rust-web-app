@@ -52,7 +52,7 @@ pub trait ItemsArticlesDirectusUsersApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesDirectusUsers200Response,
@@ -89,7 +89,7 @@ pub trait ItemsArticlesDirectusUsersApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_directus_users_request: Option<
 			models::CreateItemsArticlesDirectusUsersRequest,
@@ -171,10 +171,10 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -215,7 +215,7 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -259,7 +259,7 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 		} else {
 			let local_var_entity: Option<
 				DeleteSingleItemsArticlesDirectusUsersError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -285,7 +285,7 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<
 		models::ReadItemsArticlesDirectusUsers200Response,
@@ -386,10 +386,10 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -468,10 +468,10 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -498,7 +498,7 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_articles_directus_users_request: Option<
 			models::CreateItemsArticlesDirectusUsersRequest,
@@ -593,10 +593,10 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsArticlesDirectusUsersError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -673,11 +673,11 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				UpdateSingleItemsArticlesDirectusUsersError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -693,7 +693,7 @@ impl ItemsArticlesDirectusUsersApi for ItemsArticlesDirectusUsersApiClient {
 #[serde(untagged)]
 pub enum CreateItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_articles_directus_users`]
@@ -701,7 +701,7 @@ pub enum CreateItemsArticlesDirectusUsersError {
 #[serde(untagged)]
 pub enum DeleteItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_articles_directus_users`]
@@ -710,7 +710,7 @@ pub enum DeleteItemsArticlesDirectusUsersError {
 pub enum DeleteSingleItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_articles_directus_users`]
@@ -718,7 +718,7 @@ pub enum DeleteSingleItemsArticlesDirectusUsersError {
 #[serde(untagged)]
 pub enum ReadItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_articles_directus_users`]
@@ -727,14 +727,14 @@ pub enum ReadItemsArticlesDirectusUsersError {
 pub enum ReadSingleItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_articles_directus_users`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsArticlesDirectusUsersError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_articles_directus_users`]
@@ -743,5 +743,5 @@ pub enum UpdateItemsArticlesDirectusUsersError {
 pub enum UpdateSingleItemsArticlesDirectusUsersError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

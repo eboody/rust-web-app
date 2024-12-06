@@ -42,7 +42,7 @@ This endpoint does not need any parameter.
 
 ## v1_system_export_chats_get
 
-> serde_json::Value v1_system_export_chats_get(r#type)
+> json::Value v1_system_export_chats_get(r#type)
 
 
 Export all of the chats from the system in a known format. Output depends on the type sent. Will be send with the correct header for the output.
@@ -56,7 +56,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -72,7 +72,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_system_get
 
-> serde_json::Value v1_system_get()
+> json::Value v1_system_get()
 
 
 Get all current system settings that are defined.
@@ -83,7 +83,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -99,7 +99,7 @@ This endpoint does not need any parameter.
 
 ## v1_system_remove_documents_delete
 
-> serde_json::Value v1_system_remove_documents_delete(v1_system_remove_documents_delete_request)
+> json::Value v1_system_remove_documents_delete(v1_system_remove_documents_delete_request)
 
 
 Permanently remove documents from the system.
@@ -113,7 +113,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -129,7 +129,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_system_update_env_post
 
-> serde_json::Value v1_system_update_env_post()
+> json::Value v1_system_update_env_post()
 
 
 Update a system setting or preference.
@@ -140,7 +140,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -156,7 +156,7 @@ This endpoint does not need any parameter.
 
 ## v1_system_vector_count_get
 
-> serde_json::Value v1_system_vector_count_get()
+> json::Value v1_system_vector_count_get()
 
 
 Number of all vectors in connected vector database
@@ -167,7 +167,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

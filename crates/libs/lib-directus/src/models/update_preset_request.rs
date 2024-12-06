@@ -38,7 +38,7 @@ pub struct UpdatePresetRequest {
 	pub view_options: Option<String>,
 	/// Key value pair of language-translation. Can be used to translate the bookmark title in multiple languages.
 	#[serde(rename = "translation", skip_serializing_if = "Option::is_none")]
-	pub translation: Option<serde_json::Value>,
+	pub translation: Option<json::Value>,
 }
 
 impl UpdatePresetRequest {

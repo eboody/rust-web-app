@@ -41,7 +41,7 @@ pub struct Fields {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub options: Option<Option<serde_json::Value>>,
+	pub options: Option<Option<json::Value>>,
 	#[serde(
 		rename = "display",
 		default,
@@ -55,7 +55,7 @@ pub struct Fields {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub display_options: Option<Option<serde_json::Value>>,
+	pub display_options: Option<Option<json::Value>>,
 	#[serde(rename = "readonly", skip_serializing_if = "Option::is_none")]
 	pub readonly: Option<bool>,
 	#[serde(rename = "hidden", skip_serializing_if = "Option::is_none")]
@@ -80,7 +80,7 @@ pub struct Fields {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub translations: Option<Option<serde_json::Value>>,
+	pub translations: Option<Option<json::Value>>,
 	#[serde(
 		rename = "note",
 		default,
@@ -94,7 +94,7 @@ pub struct Fields {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub conditions: Option<Option<serde_json::Value>>,
+	pub conditions: Option<Option<json::Value>>,
 	#[serde(
 		rename = "required",
 		default,
@@ -115,7 +115,7 @@ pub struct Fields {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub validation: Option<Option<serde_json::Value>>,
+	pub validation: Option<Option<json::Value>>,
 	#[serde(
 		rename = "validation_message",
 		default,

@@ -63,7 +63,7 @@ Name | Type | Description | Notes
 **docker_compose_raw** | Option<**String**> | The Docker Compose raw content. | [optional]
 **docker_compose_custom_start_command** | Option<**String**> | The Docker Compose custom start command. | [optional]
 **docker_compose_custom_build_command** | Option<**String**> | The Docker Compose custom build command. | [optional]
-**docker_compose_domains** | Option<[**Vec<serde_json::Value>**](serde_json::Value.md)> | The Docker Compose domains. | [optional]
+**docker_compose_domains** | Option<[**Vec<json::Value>**](json::Value.md)> | The Docker Compose domains. | [optional]
 **watch_paths** | Option<**String**> | The watch paths. | [optional]
 **use_build_server** | Option<**bool**> | Use build server. | [optional]
 

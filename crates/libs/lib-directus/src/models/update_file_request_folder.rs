@@ -31,7 +31,7 @@ impl UpdateFileRequestFolder {
 		match self {
 			Self::String(s) => s,
 			Self::Folders(f) => {
-				serde_json::to_string(&f).expect("Failed to serialize Folders")
+				json::to_string(&f).expect("Failed to serialize Folders")
 			}
 		}
 	}

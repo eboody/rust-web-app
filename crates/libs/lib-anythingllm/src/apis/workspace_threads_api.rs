@@ -20,17 +20,17 @@ pub trait WorkspaceThreadsApi: Send + Sync {
 	async fn v1_workspace_slug_thread_new_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugThreadNewPostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadNewPostError>>;
 	async fn v1_workspace_slug_thread_thread_slug_chat_post<'slug, 'thread_slug>(
 		&self,
 		slug: &'slug str,
 		thread_slug: &'thread_slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatPostError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatPostError>>;
 	async fn v1_workspace_slug_thread_thread_slug_chats_get<'slug, 'thread_slug>(
 		&self,
 		slug: &'slug str,
 		thread_slug: &'thread_slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatsGetError>>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatsGetError>>;
 	async fn v1_workspace_slug_thread_thread_slug_delete<'slug, 'thread_slug>(
 		&self,
 		slug: &'slug str,
@@ -48,10 +48,7 @@ pub trait WorkspaceThreadsApi: Send + Sync {
 		&self,
 		slug: &'slug str,
 		thread_slug: &'thread_slug str,
-	) -> Result<
-		serde_json::Value,
-		Error<V1WorkspaceSlugThreadThreadSlugUpdatePostError>,
-	>;
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadThreadSlugUpdatePostError>>;
 }
 
 pub struct WorkspaceThreadsApiClient {
@@ -70,7 +67,7 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 	async fn v1_workspace_slug_thread_new_post<'slug>(
 		&self,
 		slug: &'slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugThreadNewPostError>> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadNewPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -102,10 +99,10 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1WorkspaceSlugThreadNewPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -120,8 +117,7 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 		&self,
 		slug: &'slug str,
 		thread_slug: &'thread_slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatPostError>>
-	{
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -154,11 +150,11 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				V1WorkspaceSlugThreadThreadSlugChatPostError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -173,8 +169,7 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 		&self,
 		slug: &'slug str,
 		thread_slug: &'thread_slug str,
-	) -> Result<serde_json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatsGetError>>
-	{
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadThreadSlugChatsGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -207,11 +202,11 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				V1WorkspaceSlugThreadThreadSlugChatsGetError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -263,7 +258,7 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 		} else {
 			let local_var_entity: Option<
 				V1WorkspaceSlugThreadThreadSlugDeleteError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -315,11 +310,11 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				V1WorkspaceSlugThreadThreadSlugStreamChatPostError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -337,10 +332,8 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 		&self,
 		slug: &'slug str,
 		thread_slug: &'thread_slug str,
-	) -> Result<
-		serde_json::Value,
-		Error<V1WorkspaceSlugThreadThreadSlugUpdatePostError>,
-	> {
+	) -> Result<json::Value, Error<V1WorkspaceSlugThreadThreadSlugUpdatePostError>>
+	{
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -373,11 +366,11 @@ impl WorkspaceThreadsApi for WorkspaceThreadsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<
 				V1WorkspaceSlugThreadThreadSlugUpdatePostError,
-			> = serde_json::from_str(&local_var_content).ok();
+			> = json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -395,7 +388,7 @@ pub enum V1WorkspaceSlugThreadNewPostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_thread_thread_slug_chat_post`]
@@ -405,7 +398,7 @@ pub enum V1WorkspaceSlugThreadThreadSlugChatPostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_thread_thread_slug_chats_get`]
@@ -415,7 +408,7 @@ pub enum V1WorkspaceSlugThreadThreadSlugChatsGetError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_thread_thread_slug_delete`]
@@ -425,7 +418,7 @@ pub enum V1WorkspaceSlugThreadThreadSlugDeleteError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_thread_thread_slug_stream_chat_post`]
@@ -434,7 +427,7 @@ pub enum V1WorkspaceSlugThreadThreadSlugDeleteError {
 pub enum V1WorkspaceSlugThreadThreadSlugStreamChatPostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_workspace_slug_thread_thread_slug_update_post`]
@@ -444,5 +437,5 @@ pub enum V1WorkspaceSlugThreadThreadSlugUpdatePostError {
 	Status400(),
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

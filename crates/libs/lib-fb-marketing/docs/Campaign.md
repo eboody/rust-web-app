@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**adlabels** | Option<[**Vec<serde_json::Value>**](serde_json::Value.md)> | Ad Labels associated with this campaign | [optional]
+**adlabels** | Option<[**Vec<json::Value>**](json::Value.md)> | Ad Labels associated with this campaign | [optional]
 **buying_type** | Option<**String**> | This field will help Facebook make optimizations to delivery, pricing, and limits. All ad sets in this campaign must match the buying type.  Possible values are   - AUCTION (default)   - RESERVED (for reach and frequency ads)  | [optional]
 **bid_strategy** | Option<**String**> | Bid strategy for this campaign to suit your specific business goals | [optional]
 **campaign_optimization_type** | Option<**String**> | Campaign optimization type | [optional]
@@ -25,7 +25,7 @@ Name | Type | Description | Notes
 **stop_time** | Option<**String**> | Stop time | [optional]
 **status** | Option<**String**> | Only ACTIVE and PAUSED are valid during creation. Other statuses can be used for update | [optional]
 **topline_id** | Option<[**models::CampaignToplineId**](Campaign_topline_id.md)> |  | [optional]
-**upstream_events** | Option<[**serde_json::Value**](.md)> | Upstream events | [optional]
+**upstream_events** | Option<[**json::Value**](.md)> | Upstream events | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

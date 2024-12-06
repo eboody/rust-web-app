@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
 use uuid::Uuid;
 
-pub type Json = serde_json::Value;
+pub type Json = json::Value;
 
 #[derive(Debug, ormlite::Model)]
 pub struct SqlxMigrations {

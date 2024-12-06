@@ -56,7 +56,7 @@ pub struct Versions {
 	pub user_updated: Option<Box<models::VersionsUserUpdated>>,
 	/// The current changes compared to the main version of the item.
 	#[serde(rename = "delta", skip_serializing_if = "Option::is_none")]
-	pub delta: Option<serde_json::Value>,
+	pub delta: Option<json::Value>,
 }
 
 impl Versions {

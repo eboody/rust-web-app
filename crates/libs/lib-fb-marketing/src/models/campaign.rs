@@ -16,7 +16,7 @@ use serde::{Deserialize, Serialize};
 pub struct Campaign {
 	/// Ad Labels associated with this campaign
 	#[serde(rename = "adlabels", skip_serializing_if = "Option::is_none")]
-	pub adlabels: Option<Vec<serde_json::Value>>,
+	pub adlabels: Option<Vec<json::Value>>,
 	/// This field will help Facebook make optimizations to delivery, pricing, and limits. All ad sets in this campaign must match the buying type.  Possible values are   - AUCTION (default)   - RESERVED (for reach and frequency ads)
 	#[serde(rename = "buying_type", skip_serializing_if = "Option::is_none")]
 	pub buying_type: Option<BuyingType>,
@@ -91,7 +91,7 @@ pub struct Campaign {
 	pub topline_id: Option<Box<models::CampaignToplineId>>,
 	/// Upstream events
 	#[serde(rename = "upstream_events", skip_serializing_if = "Option::is_none")]
-	pub upstream_events: Option<serde_json::Value>,
+	pub upstream_events: Option<json::Value>,
 }
 
 impl Campaign {
@@ -123,7 +123,7 @@ impl Campaign {
 		}
 	}
 	pub fn to_string(&self) -> String {
-		serde_json::to_string(self).expect("to_string failed")
+		json::to_string(self).expect("to_string failed")
 	}
 }
 /// This field will help Facebook make optimizations to delivery, pricing, and limits. All ad sets in this campaign must match the buying type.  Possible values are   - AUCTION (default)   - RESERVED (for reach and frequency ads)

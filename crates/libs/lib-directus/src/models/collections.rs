@@ -47,7 +47,7 @@ pub struct Collections {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub translations: Option<Option<serde_json::Value>>,
+	pub translations: Option<Option<json::Value>>,
 	#[serde(
 		rename = "archive_field",
 		default,
@@ -98,7 +98,7 @@ pub struct Collections {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub item_duplication_fields: Option<Option<serde_json::Value>>,
+	pub item_duplication_fields: Option<Option<json::Value>>,
 	#[serde(
 		rename = "sort",
 		default,

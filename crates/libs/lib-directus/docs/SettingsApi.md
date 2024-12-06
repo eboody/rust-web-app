@@ -54,7 +54,7 @@ Update the settings
 
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
-**body** | Option<**serde_json::Value**> |  |  |
+**body** | Option<**json::Value**> |  |  |
 
 ### Return type
 

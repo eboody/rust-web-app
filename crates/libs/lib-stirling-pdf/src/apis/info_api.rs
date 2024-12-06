@@ -19,34 +19,34 @@ use std::sync::Arc;
 pub trait InfoApi: Send + Sync {
 	async fn get_all_endpoint_loads(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllEndpointLoadsError>>;
+	) -> Result<json::Value, Error<GetAllEndpointLoadsError>>;
 	async fn get_all_post_requests(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllPostRequestsError>>;
+	) -> Result<json::Value, Error<GetAllPostRequestsError>>;
 	async fn get_all_unique_endpoint_loads(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllUniqueEndpointLoadsError>>;
+	) -> Result<json::Value, Error<GetAllUniqueEndpointLoadsError>>;
 	async fn get_all_unique_post_requests(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllUniquePostRequestsError>>;
+	) -> Result<json::Value, Error<GetAllUniquePostRequestsError>>;
 	async fn get_page_loads<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetPageLoadsError>>;
-	async fn get_status(&self) -> Result<serde_json::Value, Error<GetStatusError>>;
+	) -> Result<json::Value, Error<GetPageLoadsError>>;
+	async fn get_status(&self) -> Result<json::Value, Error<GetStatusError>>;
 	async fn get_total_requests<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetTotalRequestsError>>;
+	) -> Result<json::Value, Error<GetTotalRequestsError>>;
 	async fn get_unique_page_loads<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetUniquePageLoadsError>>;
+	) -> Result<json::Value, Error<GetUniquePageLoadsError>>;
 	async fn get_unique_total_requests<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetUniqueTotalRequestsError>>;
-	async fn get_uptime(&self) -> Result<serde_json::Value, Error<GetUptimeError>>;
+	) -> Result<json::Value, Error<GetUniqueTotalRequestsError>>;
+	async fn get_uptime(&self) -> Result<json::Value, Error<GetUptimeError>>;
 }
 
 pub struct InfoApiClient {
@@ -64,7 +64,7 @@ impl InfoApi for InfoApiClient {
 	/// This endpoint returns the count of GET requests for each endpoint.
 	async fn get_all_endpoint_loads(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllEndpointLoadsError>> {
+	) -> Result<json::Value, Error<GetAllEndpointLoadsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -87,10 +87,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetAllEndpointLoadsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -103,7 +103,7 @@ impl InfoApi for InfoApiClient {
 	/// This endpoint returns the count of POST requests for each endpoint.
 	async fn get_all_post_requests(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllPostRequestsError>> {
+	) -> Result<json::Value, Error<GetAllPostRequestsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -128,10 +128,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetAllPostRequestsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -144,7 +144,7 @@ impl InfoApi for InfoApiClient {
 	/// This endpoint returns the count of unique users for GET requests for each endpoint.
 	async fn get_all_unique_endpoint_loads(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllUniqueEndpointLoadsError>> {
+	) -> Result<json::Value, Error<GetAllUniqueEndpointLoadsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -169,10 +169,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetAllUniqueEndpointLoadsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -185,7 +185,7 @@ impl InfoApi for InfoApiClient {
 	/// This endpoint returns the count of unique users for POST requests for each endpoint.
 	async fn get_all_unique_post_requests(
 		&self,
-	) -> Result<serde_json::Value, Error<GetAllUniquePostRequestsError>> {
+	) -> Result<json::Value, Error<GetAllUniquePostRequestsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -210,10 +210,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetAllUniquePostRequestsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -227,7 +227,7 @@ impl InfoApi for InfoApiClient {
 	async fn get_page_loads<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetPageLoadsError>> {
+	) -> Result<json::Value, Error<GetPageLoadsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -254,10 +254,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetPageLoadsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -268,7 +268,7 @@ impl InfoApi for InfoApiClient {
 	}
 
 	/// This endpoint returns the status of the application and its version number.
-	async fn get_status(&self) -> Result<serde_json::Value, Error<GetStatusError>> {
+	async fn get_status(&self) -> Result<json::Value, Error<GetStatusError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -291,10 +291,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetStatusError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -308,7 +308,7 @@ impl InfoApi for InfoApiClient {
 	async fn get_total_requests<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetTotalRequestsError>> {
+	) -> Result<json::Value, Error<GetTotalRequestsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -335,10 +335,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetTotalRequestsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -352,7 +352,7 @@ impl InfoApi for InfoApiClient {
 	async fn get_unique_page_loads<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetUniquePageLoadsError>> {
+	) -> Result<json::Value, Error<GetUniquePageLoadsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -381,10 +381,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetUniquePageLoadsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -398,7 +398,7 @@ impl InfoApi for InfoApiClient {
 	async fn get_unique_total_requests<'endpoint>(
 		&self,
 		endpoint: Option<&'endpoint str>,
-	) -> Result<serde_json::Value, Error<GetUniqueTotalRequestsError>> {
+	) -> Result<json::Value, Error<GetUniqueTotalRequestsError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -427,10 +427,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetUniqueTotalRequestsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -440,7 +440,7 @@ impl InfoApi for InfoApiClient {
 		}
 	}
 
-	async fn get_uptime(&self) -> Result<serde_json::Value, Error<GetUptimeError>> {
+	async fn get_uptime(&self) -> Result<json::Value, Error<GetUptimeError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -463,10 +463,10 @@ impl InfoApi for InfoApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetUptimeError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -481,68 +481,68 @@ impl InfoApi for InfoApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAllEndpointLoadsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_all_post_requests`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAllPostRequestsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_all_unique_endpoint_loads`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAllUniqueEndpointLoadsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_all_unique_post_requests`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetAllUniquePostRequestsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_page_loads`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPageLoadsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_status`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetStatusError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_total_requests`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetTotalRequestsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_unique_page_loads`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUniquePageLoadsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_unique_total_requests`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUniqueTotalRequestsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_uptime`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUptimeError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

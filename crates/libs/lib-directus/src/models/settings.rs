@@ -116,7 +116,7 @@ pub struct Settings {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub basemaps: Option<Option<serde_json::Value>>,
+	pub basemaps: Option<Option<json::Value>>,
 	#[serde(
 		rename = "mapbox_key",
 		default,
@@ -130,7 +130,7 @@ pub struct Settings {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub module_bar: Option<Option<serde_json::Value>>,
+	pub module_bar: Option<Option<json::Value>>,
 	#[serde(
 		rename = "project_descriptor",
 		default,
@@ -146,7 +146,7 @@ pub struct Settings {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub custom_aspect_ratios: Option<Option<serde_json::Value>>,
+	pub custom_aspect_ratios: Option<Option<json::Value>>,
 	#[serde(
 		rename = "public_favicon",
 		default,
@@ -169,7 +169,7 @@ pub struct Settings {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub theme_light_overrides: Option<Option<serde_json::Value>>,
+	pub theme_light_overrides: Option<Option<json::Value>>,
 	#[serde(
 		rename = "default_theme_dark",
 		default,
@@ -183,7 +183,7 @@ pub struct Settings {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub theme_dark_overrides: Option<Option<serde_json::Value>>,
+	pub theme_dark_overrides: Option<Option<json::Value>>,
 	#[serde(
 		rename = "report_error_url",
 		default,
@@ -232,7 +232,7 @@ pub struct Settings {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub public_registration_email_filter: Option<Option<serde_json::Value>>,
+	pub public_registration_email_filter: Option<Option<json::Value>>,
 }
 
 impl Settings {

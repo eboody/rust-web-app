@@ -62,7 +62,7 @@ pub struct PromotedObject {
 	pub omnichannel_object: Option<Box<models::OmnichannelObject>>,
 	/// Post conversions
 	#[serde(rename = "post_conversions", skip_serializing_if = "Option::is_none")]
-	pub post_conversions: Option<Vec<Vec<serde_json::Value>>>,
+	pub post_conversions: Option<Vec<Vec<json::Value>>>,
 }
 
 impl PromotedObject {

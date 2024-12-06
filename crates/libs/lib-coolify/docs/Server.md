@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **ip** | Option<**String**> | The IP address. | [optional]
 **user** | Option<**String**> | The user. | [optional]
 **port** | Option<**i32**> | The port number. | [optional]
-**proxy** | Option<[**serde_json::Value**](.md)> | The proxy configuration. | [optional]
+**proxy** | Option<[**json::Value**](.md)> | The proxy configuration. | [optional]
 **proxy_type** | Option<**String**> | The proxy type. | [optional]
 **high_disk_usage_notification_sent** | Option<**bool**> | The flag to indicate if the high disk usage notification has been sent. | [optional]
 **unreachable_notification_sent** | Option<**bool**> | The flag to indicate if the unreachable notification has been sent. | [optional]

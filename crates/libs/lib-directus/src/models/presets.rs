@@ -58,7 +58,7 @@ pub struct Presets {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub layout_query: Option<Option<serde_json::Value>>,
+	pub layout_query: Option<Option<json::Value>>,
 	/// Options of the views. The properties in here are controlled by the layout.
 	#[serde(
 		rename = "layout_options",
@@ -66,7 +66,7 @@ pub struct Presets {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub layout_options: Option<Option<serde_json::Value>>,
+	pub layout_options: Option<Option<json::Value>>,
 	#[serde(
 		rename = "refresh_interval",
 		default,
@@ -80,7 +80,7 @@ pub struct Presets {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub filter: Option<Option<serde_json::Value>>,
+	pub filter: Option<Option<json::Value>>,
 	#[serde(
 		rename = "icon",
 		default,

@@ -122,7 +122,7 @@ pub struct Users {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub auth_data: Option<Option<serde_json::Value>>,
+	pub auth_data: Option<Option<json::Value>>,
 	#[serde(
 		rename = "email_notifications",
 		default,
@@ -157,21 +157,21 @@ pub struct Users {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub theme_light_overrides: Option<Option<serde_json::Value>>,
+	pub theme_light_overrides: Option<Option<json::Value>>,
 	#[serde(
 		rename = "theme_dark_overrides",
 		default,
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub theme_dark_overrides: Option<Option<serde_json::Value>>,
+	pub theme_dark_overrides: Option<Option<json::Value>>,
 	#[serde(
 		rename = "policies",
 		default,
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub policies: Option<Option<serde_json::Value>>,
+	pub policies: Option<Option<json::Value>>,
 }
 
 impl Users {

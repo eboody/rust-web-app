@@ -30,10 +30,10 @@ pub struct Revisions {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub data: Option<Option<serde_json::Value>>,
+	pub data: Option<Option<json::Value>>,
 	/// Changes between the previous and the current revision.
 	#[serde(rename = "delta", skip_serializing_if = "Option::is_none")]
-	pub delta: Option<serde_json::Value>,
+	pub delta: Option<json::Value>,
 	/// If the current item was updated relationally, this is the id of the parent revision record
 	#[serde(
 		rename = "parent",

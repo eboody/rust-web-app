@@ -1,5 +1,6 @@
 use crate::{anythingllm, prelude::*};
 use axum::{body::Bytes, http::HeaderValue};
+use json::json;
 use lib_anythingllm::{
 	apis::urlencode,
 	models::{ChatResponse, LocalFile},
@@ -12,7 +13,6 @@ use lib_core::model::{
 	ModelManager,
 };
 use reqwest::multipart;
-use serde_json::json;
 
 #[allow(unused)]
 pub async fn on_ebook_upload(

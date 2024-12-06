@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 pub struct UpdatePermissionRequest {
 	/// What collection this permission applies to.
 	#[serde(rename = "collection", skip_serializing_if = "Option::is_none")]
-	pub collection: Option<serde_json::Value>,
+	pub collection: Option<json::Value>,
 	/// If the user can post comments. `full`.
 	#[serde(rename = "comment", skip_serializing_if = "Option::is_none")]
 	pub comment: Option<Comment>,
@@ -36,16 +36,16 @@ pub struct UpdatePermissionRequest {
 		rename = "read_field_blacklist",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub read_field_blacklist: Option<serde_json::Value>,
+	pub read_field_blacklist: Option<json::Value>,
 	/// Unique identifier of the role this permission applies to.
 	#[serde(rename = "role", skip_serializing_if = "Option::is_none")]
-	pub role: Option<serde_json::Value>,
+	pub role: Option<json::Value>,
 	/// What status this permission applies to.
 	#[serde(rename = "status", skip_serializing_if = "Option::is_none")]
-	pub status: Option<serde_json::Value>,
+	pub status: Option<json::Value>,
 	/// Explicitly denies specific statuses to be used.
 	#[serde(rename = "status_blacklist", skip_serializing_if = "Option::is_none")]
-	pub status_blacklist: Option<serde_json::Value>,
+	pub status_blacklist: Option<json::Value>,
 	/// If the user can update items.
 	#[serde(rename = "update", skip_serializing_if = "Option::is_none")]
 	pub update: Option<Update>,
@@ -54,7 +54,7 @@ pub struct UpdatePermissionRequest {
 		rename = "write_field_blacklist",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub write_field_blacklist: Option<serde_json::Value>,
+	pub write_field_blacklist: Option<json::Value>,
 }
 
 impl UpdatePermissionRequest {

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## v1_users_get
 
-> serde_json::Value v1_users_get()
+> json::Value v1_users_get()
 
 
 List all users
@@ -22,7 +22,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -38,7 +38,7 @@ This endpoint does not need any parameter.
 
 ## v1_users_id_issue_auth_token_get
 
-> serde_json::Value v1_users_id_issue_auth_token_get(id)
+> json::Value v1_users_id_issue_auth_token_get(id)
 
 
 Issue a temporary auth token for a user
@@ -52,7 +52,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

@@ -20,15 +20,13 @@ pub trait EmbedApi: Send + Sync {
 	async fn v1_embed_embed_uuid_chats_get<'embed_uuid>(
 		&self,
 		embed_uuid: &'embed_uuid str,
-	) -> Result<serde_json::Value, Error<V1EmbedEmbedUuidChatsGetError>>;
+	) -> Result<json::Value, Error<V1EmbedEmbedUuidChatsGetError>>;
 	async fn v1_embed_embed_uuid_chats_session_uuid_get<'embed_uuid, 'session_uuid>(
 		&self,
 		embed_uuid: &'embed_uuid str,
 		session_uuid: &'session_uuid str,
-	) -> Result<serde_json::Value, Error<V1EmbedEmbedUuidChatsSessionUuidGetError>>;
-	async fn v1_embed_get(
-		&self,
-	) -> Result<serde_json::Value, Error<V1EmbedGetError>>;
+	) -> Result<json::Value, Error<V1EmbedEmbedUuidChatsSessionUuidGetError>>;
+	async fn v1_embed_get(&self) -> Result<json::Value, Error<V1EmbedGetError>>;
 }
 
 pub struct EmbedApiClient {
@@ -47,7 +45,7 @@ impl EmbedApi for EmbedApiClient {
 	async fn v1_embed_embed_uuid_chats_get<'embed_uuid>(
 		&self,
 		embed_uuid: &'embed_uuid str,
-	) -> Result<serde_json::Value, Error<V1EmbedEmbedUuidChatsGetError>> {
+	) -> Result<json::Value, Error<V1EmbedEmbedUuidChatsGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -79,10 +77,10 @@ impl EmbedApi for EmbedApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1EmbedEmbedUuidChatsGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -100,8 +98,7 @@ impl EmbedApi for EmbedApiClient {
 		&self,
 		embed_uuid: &'embed_uuid str,
 		session_uuid: &'session_uuid str,
-	) -> Result<serde_json::Value, Error<V1EmbedEmbedUuidChatsSessionUuidGetError>>
-	{
+	) -> Result<json::Value, Error<V1EmbedEmbedUuidChatsSessionUuidGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -134,10 +131,10 @@ impl EmbedApi for EmbedApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1EmbedEmbedUuidChatsSessionUuidGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -148,9 +145,7 @@ impl EmbedApi for EmbedApiClient {
 	}
 
 	/// List all active embeds
-	async fn v1_embed_get(
-		&self,
-	) -> Result<serde_json::Value, Error<V1EmbedGetError>> {
+	async fn v1_embed_get(&self) -> Result<json::Value, Error<V1EmbedGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -179,10 +174,10 @@ impl EmbedApi for EmbedApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1EmbedGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -200,7 +195,7 @@ pub enum V1EmbedEmbedUuidChatsGetError {
 	Status403(models::InvalidApiKey),
 	Status404(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_embed_embed_uuid_chats_session_uuid_get`]
@@ -210,7 +205,7 @@ pub enum V1EmbedEmbedUuidChatsSessionUuidGetError {
 	Status403(models::InvalidApiKey),
 	Status404(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_embed_get`]
@@ -219,5 +214,5 @@ pub enum V1EmbedEmbedUuidChatsSessionUuidGetError {
 pub enum V1EmbedGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

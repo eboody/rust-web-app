@@ -18,7 +18,7 @@ pub struct CreateCollectionRequest {
 	pub collection: String,
 	/// The fields contained in this collection. See the fields reference for more information. Each individual field requires field, type, and interface to be provided.
 	#[serde(rename = "fields")]
-	pub fields: Vec<serde_json::Value>,
+	pub fields: Vec<json::Value>,
 	/// Name of a Google Material Design Icon that's assigned to this collection.
 	#[serde(
 		rename = "icon",
@@ -105,7 +105,7 @@ pub struct CreateCollectionRequest {
 impl CreateCollectionRequest {
 	pub fn new(
 		collection: String,
-		fields: Vec<serde_json::Value>,
+		fields: Vec<json::Value>,
 	) -> CreateCollectionRequest {
 		CreateCollectionRequest {
 			collection,

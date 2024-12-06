@@ -17,7 +17,7 @@ use std::sync::Arc;
 
 #[async_trait]
 pub trait AuthenticationApi: Send + Sync {
-	async fn v1_auth_get(&self) -> Result<serde_json::Value, Error<V1AuthGetError>>;
+	async fn v1_auth_get(&self) -> Result<json::Value, Error<V1AuthGetError>>;
 }
 
 pub struct AuthenticationApiClient {
@@ -33,7 +33,7 @@ impl AuthenticationApiClient {
 #[async_trait]
 impl AuthenticationApi for AuthenticationApiClient {
 	/// Verify the attached Authentication header contains a valid API token.
-	async fn v1_auth_get(&self) -> Result<serde_json::Value, Error<V1AuthGetError>> {
+	async fn v1_auth_get(&self) -> Result<json::Value, Error<V1AuthGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -62,10 +62,10 @@ impl AuthenticationApi for AuthenticationApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1AuthGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -81,5 +81,5 @@ impl AuthenticationApi for AuthenticationApiClient {
 #[serde(untagged)]
 pub enum V1AuthGetError {
 	Status403(models::InvalidApiKey),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

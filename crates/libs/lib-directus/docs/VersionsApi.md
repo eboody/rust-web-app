@@ -185,7 +185,7 @@ Name | Type | Description  | Required | Notes
 **offset** | Option<**i32**> | How many items to skip when fetching data. |  |
 **meta** | Option<**String**> | What metadata to return in the response. |  |
 **sort** | Option<[**Vec<String>**](String.md)> | How to sort the returned items. `sort` is a CSV of fields used to sort the fetched items. Sorting defaults to ascending (ASC) order but a minus sign (` - `) can be used to reverse this to descending (DESC) order. Fields are prioritized by their order in the CSV. You can also use a ` ? ` to sort randomly.  |  |
-**filter** | Option<[**serde_json::Value**](.md)> | Select items in collection by given conditions. |  |
+**filter** | Option<[**json::Value**](.md)> | Select items in collection by given conditions. |  |
 **search** | Option<**String**> | Filter by items that contain the given search query in one of their fields. |  |
 
 ### Return type
@@ -206,7 +206,7 @@ No authorization required
 
 ## promote_content_version
 
-> serde_json::Value promote_content_version(id, promote_content_version_request)
+> json::Value promote_content_version(id, promote_content_version_request)
 Promote a Content Version
 
 Pass the current hash of the main version of the item (obtained from the `compare` endpoint) along with an optional array of field names of which the values are to be promoted (by default, all fields are selected).
@@ -221,7 +221,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -237,7 +237,7 @@ No authorization required
 
 ## save_content_version
 
-> serde_json::Value save_content_version(id, body)
+> json::Value save_content_version(id, body)
 Save to a Content Version
 
 Save item changes to an existing Content Version.
@@ -248,11 +248,11 @@ Save item changes to an existing Content Version.
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **id** | **String** | Unique identifier for the object. | [required] |
-**body** | Option<**serde_json::Value**> |  |  |
+**body** | Option<**json::Value**> |  |  |
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -316,7 +316,7 @@ Name | Type | Description  | Required | Notes
 **meta** | Option<**String**> | What metadata to return in the response. |  |
 **offset** | Option<**i32**> | How many items to skip when fetching data. |  |
 **sort** | Option<[**Vec<String>**](String.md)> | How to sort the returned items. `sort` is a CSV of fields used to sort the fetched items. Sorting defaults to ascending (ASC) order but a minus sign (` - `) can be used to reverse this to descending (DESC) order. Fields are prioritized by their order in the CSV. You can also use a ` ? ` to sort randomly.  |  |
-**filter** | Option<[**serde_json::Value**](.md)> | Select items in collection by given conditions. |  |
+**filter** | Option<[**json::Value**](.md)> | Select items in collection by given conditions. |  |
 **search** | Option<**String**> | Filter by items that contain the given search query in one of their fields. |  |
 **update_content_versions_request** | Option<[**UpdateContentVersionsRequest**](UpdateContentVersionsRequest.md)> |  |  |
 

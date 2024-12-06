@@ -12,9 +12,10 @@ lib-substack = { path = "../lib-substack" }
 tokio = { workspace = true }
 serde = { workspace = true }
 serde_with = { workspace = true }
-serde_json = { workspace = true }
+json = { workspace = true }
 derive_more = { workspace = true }
 reqwest = { workspace = true, features = ["multipart"] }
+sqlx = { workspace = true }
 url = { workspace = true }
 ormlite = { workspace = true }
 uuid = { workspace = true }
@@ -23,6 +24,7 @@ encoding_rs = "0.8"
 htmd = "0.1"
 regex = "1"
 if_chain = "1"
+tracing = "0.1"
 
 [lints]
 workspace = true

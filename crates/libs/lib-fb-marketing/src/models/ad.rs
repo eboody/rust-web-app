@@ -16,13 +16,13 @@ use serde::{Deserialize, Serialize};
 pub struct Ad {
 	/// Ad labels associated with this ad
 	#[serde(rename = "adlabels", skip_serializing_if = "Option::is_none")]
-	pub adlabels: Option<Vec<serde_json::Value>>,
+	pub adlabels: Option<Vec<json::Value>>,
 	/// The ID of the ad set, required on creation
 	#[serde(rename = "adset_id", skip_serializing_if = "Option::is_none")]
 	pub adset_id: Option<i32>,
 	/// The ad set spec for this ad. When the spec is provided, adset_id field is not required.
 	#[serde(rename = "adset_spec", skip_serializing_if = "Option::is_none")]
-	pub adset_spec: Option<serde_json::Value>,
+	pub adset_spec: Option<json::Value>,
 	/// The ID of the ad set, required on creation
 	#[serde(rename = "audience_id", skip_serializing_if = "Option::is_none")]
 	pub audience_id: Option<String>,
@@ -34,7 +34,7 @@ pub struct Ad {
 	pub conversion_domain: Option<String>,
 	/// This field is required for create. The ID or creative spec of the ad creative to be used by this ad.
 	#[serde(rename = "creative")]
-	pub creative: serde_json::Value,
+	pub creative: json::Value,
 	/// The format of the date.
 	#[serde(rename = "date_format", skip_serializing_if = "Option::is_none")]
 	pub date_format: Option<String>,
@@ -71,24 +71,24 @@ pub struct Ad {
 	pub status: Option<Status>,
 	/// With Tracking Specs, you log actions taken by people on your ad.
 	#[serde(rename = "tracking_specs", skip_serializing_if = "Option::is_none")]
-	pub tracking_specs: Option<serde_json::Value>,
+	pub tracking_specs: Option<json::Value>,
 }
 
 impl From<Ad> for String {
 	fn from(val: Ad) -> Self {
-		serde_json::to_string(&val).unwrap()
+		json::to_string(&val).unwrap()
 	}
 }
 
 impl Ad {
 	pub fn to_string(&self) -> String {
-		serde_json::to_string(&self).unwrap()
+		json::to_string(&self).unwrap()
 	}
 }
 
 impl Ad {
 	/// Ad properties
-	pub fn new(creative: serde_json::Value, name: String) -> Ad {
+	pub fn new(creative: json::Value, name: String) -> Ad {
 		Ad {
 			adlabels: None,
 			adset_id: None,

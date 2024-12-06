@@ -32,7 +32,7 @@ pub trait ActivityApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<serde_json::Value>,
+		filter: Option<json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::GetActivities200Response, Error<GetActivitiesError>>;
 	async fn get_activity<'id, 'fields, 'meta>(
@@ -71,7 +71,7 @@ impl ActivityApi for ActivityApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<serde_json::Value>,
+		filter: Option<json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::GetActivities200Response, Error<GetActivitiesError>> {
 		let local_var_configuration = &self.configuration;
@@ -156,10 +156,10 @@ impl ActivityApi for ActivityApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetActivitiesError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -225,10 +225,10 @@ impl ActivityApi for ActivityApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetActivityError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -245,7 +245,7 @@ impl ActivityApi for ActivityApiClient {
 pub enum GetActivitiesError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_activity`]
@@ -254,5 +254,5 @@ pub enum GetActivitiesError {
 pub enum GetActivityError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

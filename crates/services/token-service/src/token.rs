@@ -41,7 +41,7 @@ impl TokenClient {
 	}
 
 	pub async fn fetch_token(&self) -> Result<String, reqwest::Error> {
-		let credentials = serde_json::json!({
+		let credentials = json::json!({
 			"email": self.email,
 			"password": self.password,
 		});

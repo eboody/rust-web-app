@@ -17,7 +17,7 @@ pub struct Query {
 	#[serde(rename = "fields", skip_serializing_if = "Option::is_none")]
 	pub fields: Option<Vec<String>>,
 	#[serde(rename = "filter", skip_serializing_if = "Option::is_none")]
-	pub filter: Option<serde_json::Value>,
+	pub filter: Option<json::Value>,
 	/// Filter by items that contain the given search query in one of their fields.
 	#[serde(rename = "search", skip_serializing_if = "Option::is_none")]
 	pub search: Option<String>,
@@ -35,7 +35,7 @@ pub struct Query {
 	pub page: Option<f64>,
 	/// Deep allows you to set any of the other query parameters on a nested relational dataset.
 	#[serde(rename = "deep", skip_serializing_if = "Option::is_none")]
-	pub deep: Option<serde_json::Value>,
+	pub deep: Option<json::Value>,
 }
 
 impl Query {

@@ -10,8 +10,8 @@ keywords = ["serde", "json", "deserialization", "debug", "error-handling"]
 categories = ["development-tools::debugging"]
 
 [dependencies]
-serde = "1.0"
-serde_json = "1.0"
+serde = { workspace = true }
+json = { workspace = true }
 colored = "2"
 
 [lints]

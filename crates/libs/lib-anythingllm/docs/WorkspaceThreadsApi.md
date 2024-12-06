@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 ## v1_workspace_slug_thread_new_post
 
-> serde_json::Value v1_workspace_slug_thread_new_post(slug)
+> json::Value v1_workspace_slug_thread_new_post(slug)
 
 
 Create a new workspace thread
@@ -29,7 +29,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -45,7 +45,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_thread_thread_slug_chat_post
 
-> serde_json::Value v1_workspace_slug_thread_thread_slug_chat_post(slug, thread_slug)
+> json::Value v1_workspace_slug_thread_thread_slug_chat_post(slug, thread_slug)
 
 
 Chat with a workspace thread
@@ -60,7 +60,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_thread_thread_slug_chats_get
 
-> serde_json::Value v1_workspace_slug_thread_thread_slug_chats_get(slug, thread_slug)
+> json::Value v1_workspace_slug_thread_thread_slug_chats_get(slug, thread_slug)
 
 
 Get chats for a workspace thread
@@ -91,7 +91,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 
@@ -169,7 +169,7 @@ Name | Type | Description  | Required | Notes
 
 ## v1_workspace_slug_thread_thread_slug_update_post
 
-> serde_json::Value v1_workspace_slug_thread_thread_slug_update_post(slug, thread_slug)
+> json::Value v1_workspace_slug_thread_thread_slug_update_post(slug, thread_slug)
 
 
 Update thread name by its unique slug.
@@ -184,7 +184,7 @@ Name | Type | Description  | Required | Notes
 
 ### Return type
 
-[**serde_json::Value**](serde_json::Value.md)
+[**json::Value**](json::Value.md)
 
 ### Authorization
 

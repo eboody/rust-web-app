@@ -1,6 +1,6 @@
 use colored::*;
+use json::Value;
 use serde::{de::DeserializeOwned, Deserialize};
-use serde_json::Value;
 use std::any::type_name;
 
 #[derive(Debug)]
@@ -23,8 +23,8 @@ where
 		use serde::de::Error;
 		print_usage_warning::<T>();
 		let json = Value::deserialize(deserializer)?;
-		let json_string = serde_json::to_string(&json).map_err(D::Error::custom)?;
-		let first_pass_result = serde_json::from_str::<T>(&json_string);
+		let json_string = json::to_string(&json).map_err(D::Error::custom)?;
+		let first_pass_result = json::from_str::<T>(&json_string);
 		if let Err(first_pass_error) = first_pass_result {
 			println!(
 				"{} {}",
@@ -60,7 +60,7 @@ where
 			return Err(D::Error::custom(first_pass_error.to_string()));
 		}
 		print_usage_warning::<T>();
-		match serde_json::from_value::<T>(json) {
+		match json::from_value::<T>(json) {
 			Ok(value) => Ok(DebugDeserialize(value)),
 			Err(err) => Err(D::Error::custom(err.to_string())),
 		}

@@ -7,19 +7,19 @@ edition = "2021"
 lib-core = { path = "../../libs/lib-core" }
 js_macro = { path = "../../libs/js_macro" }
 derive_more = { workspace = true }
-axum = "0.7"
 serde = { workspace = true }
-serde_json = {workspace = true}
-reqwest = "0.12"
+json = { workspace = true }
+reqwest = { workspace = true }
+ormlite = { workspace = true }
+uuid = { workspace = true }
+
+axum = "0.7"
 maud = { version = "0.26.0", features = ["axum"] }
 
 tower-http = { version = "0.6", features = ["cors", "fs"] }
-ormlite = { workspace = true }
-uuid = { workspace = true }
 
 convert_case = "0.6"
 
 
 [lints]
 workspace = true
-

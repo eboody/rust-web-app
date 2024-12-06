@@ -42,7 +42,7 @@ pub trait ItemsTagsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsTags200Response, Error<ReadItemsTagsError>>;
 	async fn read_single_items_tags<'id, 'fields, 'meta, 'version>(
@@ -71,7 +71,7 @@ pub trait ItemsTagsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_request: Option<models::CreateItemsTagsRequest>,
 	) -> Result<models::UpdateItemsTags200Response, Error<UpdateItemsTagsError>>;
@@ -133,10 +133,10 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -173,7 +173,7 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -216,7 +216,7 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteSingleItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -242,7 +242,7 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 	) -> Result<models::ReadItemsTags200Response, Error<ReadItemsTagsError>> {
 		let local_var_configuration = &self.configuration;
@@ -338,10 +338,10 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -415,10 +415,10 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ReadSingleItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -445,7 +445,7 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		create_items_tags_request: Option<models::CreateItemsTagsRequest>,
 	) -> Result<models::UpdateItemsTags200Response, Error<UpdateItemsTagsError>> {
@@ -533,10 +533,10 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -607,10 +607,10 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateSingleItemsTagsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -626,7 +626,7 @@ impl ItemsTagsApi for ItemsTagsApiClient {
 #[serde(untagged)]
 pub enum CreateItemsTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_items_tags`]
@@ -634,7 +634,7 @@ pub enum CreateItemsTagsError {
 #[serde(untagged)]
 pub enum DeleteItemsTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_single_items_tags`]
@@ -643,7 +643,7 @@ pub enum DeleteItemsTagsError {
 pub enum DeleteSingleItemsTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_items_tags`]
@@ -651,7 +651,7 @@ pub enum DeleteSingleItemsTagsError {
 #[serde(untagged)]
 pub enum ReadItemsTagsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`read_single_items_tags`]
@@ -660,14 +660,14 @@ pub enum ReadItemsTagsError {
 pub enum ReadSingleItemsTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_items_tags`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateItemsTagsError {
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_single_items_tags`]
@@ -676,5 +676,5 @@ pub enum UpdateItemsTagsError {
 pub enum UpdateSingleItemsTagsError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

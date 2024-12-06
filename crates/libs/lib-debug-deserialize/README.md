@@ -30,10 +30,10 @@ struct MyStruct {
 }
 
 // Wrap your type with DebugDeserialize for debugging
-let result: Result<JsonDebugDeserialize<MyStruct>, _> = serde_json::from_str(&json_string);
+let result: Result<JsonDebugDeserialize<MyStruct>, _> = json::from_str(&json_string);
 
 // When you're done debugging, remove the DebugDeserialize wrapper
-let result: Result<MyStruct, _> = serde_json::from_str(&json_string);
+let result: Result<MyStruct, _> = json::from_str(&json_string);
 ```
 
 ## Example output:

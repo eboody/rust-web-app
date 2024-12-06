@@ -20,7 +20,7 @@ pub struct DiffDiffRelationsInner {
 	#[serde(rename = "related_collection", skip_serializing_if = "Option::is_none")]
 	pub related_collection: Option<String>,
 	#[serde(rename = "diff", skip_serializing_if = "Option::is_none")]
-	pub diff: Option<Vec<serde_json::Value>>,
+	pub diff: Option<Vec<json::Value>>,
 }
 
 impl DiffDiffRelationsInner {

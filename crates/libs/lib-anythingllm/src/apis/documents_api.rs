@@ -19,37 +19,37 @@ use std::sync::Arc;
 pub trait DocumentsApi: Send + Sync {
 	async fn v1_document_accepted_file_types_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1DocumentAcceptedFileTypesGetError>>;
+	) -> Result<json::Value, Error<V1DocumentAcceptedFileTypesGetError>>;
 	async fn v1_document_create_folder_post<'body>(
 		&self,
 		body: &'body str,
-	) -> Result<serde_json::Value, Error<V1DocumentCreateFolderPostError>>;
+	) -> Result<json::Value, Error<V1DocumentCreateFolderPostError>>;
 	async fn v1_document_doc_name_get<'doc_name>(
 		&self,
 		doc_name: &'doc_name str,
-	) -> Result<serde_json::Value, Error<V1DocumentDocNameGetError>>;
+	) -> Result<json::Value, Error<V1DocumentDocNameGetError>>;
 	async fn v1_document_metadata_schema_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1DocumentMetadataSchemaGetError>>;
+	) -> Result<json::Value, Error<V1DocumentMetadataSchemaGetError>>;
 	async fn v1_document_move_files_post<'body>(
 		&self,
-		body: serde_json::Value,
-	) -> Result<serde_json::Value, Error<V1DocumentMoveFilesPostError>>;
+		body: json::Value,
+	) -> Result<json::Value, Error<V1DocumentMoveFilesPostError>>;
 	async fn v1_document_raw_text_post<'body>(
 		&self,
-		body: serde_json::Value,
-	) -> Result<serde_json::Value, Error<V1DocumentRawTextPostError>>;
+		body: json::Value,
+	) -> Result<json::Value, Error<V1DocumentRawTextPostError>>;
 	async fn v1_document_upload_link_post<'body>(
 		&self,
-		body: serde_json::Value,
-	) -> Result<serde_json::Value, Error<V1DocumentUploadLinkPostError>>;
+		body: json::Value,
+	) -> Result<json::Value, Error<V1DocumentUploadLinkPostError>>;
 	async fn v1_document_upload_post<'file>(
 		&self,
 		file: Option<std::path::PathBuf>,
-	) -> Result<serde_json::Value, Error<V1DocumentUploadPostError>>;
+	) -> Result<json::Value, Error<V1DocumentUploadPostError>>;
 	async fn v1_documents_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1DocumentsGetError>>;
+	) -> Result<json::Value, Error<V1DocumentsGetError>>;
 }
 
 pub struct DocumentsApiClient {
@@ -67,7 +67,7 @@ impl DocumentsApi for DocumentsApiClient {
 	/// Check available filetypes and MIMEs that can be uploaded.
 	async fn v1_document_accepted_file_types_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1DocumentAcceptedFileTypesGetError>> {
+	) -> Result<json::Value, Error<V1DocumentAcceptedFileTypesGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -98,10 +98,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentAcceptedFileTypesGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -115,7 +115,7 @@ impl DocumentsApi for DocumentsApiClient {
 	async fn v1_document_create_folder_post<'body>(
 		&self,
 		body: &'body str,
-	) -> Result<serde_json::Value, Error<V1DocumentCreateFolderPostError>> {
+	) -> Result<json::Value, Error<V1DocumentCreateFolderPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -147,10 +147,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentCreateFolderPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -164,7 +164,7 @@ impl DocumentsApi for DocumentsApiClient {
 	async fn v1_document_doc_name_get<'doc_name>(
 		&self,
 		doc_name: &'doc_name str,
-	) -> Result<serde_json::Value, Error<V1DocumentDocNameGetError>> {
+	) -> Result<json::Value, Error<V1DocumentDocNameGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -196,10 +196,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentDocNameGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -212,7 +212,7 @@ impl DocumentsApi for DocumentsApiClient {
 	/// Get the known available metadata schema for when doing a raw-text upload and the acceptable type of value for each key.
 	async fn v1_document_metadata_schema_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1DocumentMetadataSchemaGetError>> {
+	) -> Result<json::Value, Error<V1DocumentMetadataSchemaGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -243,10 +243,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentMetadataSchemaGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -259,8 +259,8 @@ impl DocumentsApi for DocumentsApiClient {
 	/// Move files within the documents storage directory.
 	async fn v1_document_move_files_post<'body>(
 		&self,
-		body: serde_json::Value,
-	) -> Result<serde_json::Value, Error<V1DocumentMoveFilesPostError>> {
+		body: json::Value,
+	) -> Result<json::Value, Error<V1DocumentMoveFilesPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -292,10 +292,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentMoveFilesPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -308,8 +308,8 @@ impl DocumentsApi for DocumentsApiClient {
 	/// Upload a file by specifying its raw text content and metadata values without having to upload a file.
 	async fn v1_document_raw_text_post<'body>(
 		&self,
-		body: serde_json::Value,
-	) -> Result<serde_json::Value, Error<V1DocumentRawTextPostError>> {
+		body: json::Value,
+	) -> Result<json::Value, Error<V1DocumentRawTextPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -339,10 +339,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentRawTextPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -355,8 +355,8 @@ impl DocumentsApi for DocumentsApiClient {
 	/// Upload a valid URL for AnythingLLM to scrape and prepare for embedding.
 	async fn v1_document_upload_link_post<'body>(
 		&self,
-		body: serde_json::Value,
-	) -> Result<serde_json::Value, Error<V1DocumentUploadLinkPostError>> {
+		body: json::Value,
+	) -> Result<json::Value, Error<V1DocumentUploadLinkPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -388,10 +388,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentUploadLinkPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -405,7 +405,7 @@ impl DocumentsApi for DocumentsApiClient {
 	async fn v1_document_upload_post<'file>(
 		&self,
 		file: Option<std::path::PathBuf>,
-	) -> Result<serde_json::Value, Error<V1DocumentUploadPostError>> {
+	) -> Result<json::Value, Error<V1DocumentUploadPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -437,10 +437,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentUploadPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -453,7 +453,7 @@ impl DocumentsApi for DocumentsApiClient {
 	/// List of all locally-stored documents in instance
 	async fn v1_documents_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1DocumentsGetError>> {
+	) -> Result<json::Value, Error<V1DocumentsGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -482,10 +482,10 @@ impl DocumentsApi for DocumentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1DocumentsGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -503,7 +503,7 @@ pub enum V1DocumentAcceptedFileTypesGetError {
 	Status403(models::InvalidApiKey),
 	Status404(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_create_folder_post`]
@@ -512,7 +512,7 @@ pub enum V1DocumentAcceptedFileTypesGetError {
 pub enum V1DocumentCreateFolderPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_doc_name_get`]
@@ -522,7 +522,7 @@ pub enum V1DocumentDocNameGetError {
 	Status403(models::InvalidApiKey),
 	Status404(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_metadata_schema_get`]
@@ -531,7 +531,7 @@ pub enum V1DocumentDocNameGetError {
 pub enum V1DocumentMetadataSchemaGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_move_files_post`]
@@ -540,7 +540,7 @@ pub enum V1DocumentMetadataSchemaGetError {
 pub enum V1DocumentMoveFilesPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_raw_text_post`]
@@ -550,7 +550,7 @@ pub enum V1DocumentRawTextPostError {
 	Status403(models::InvalidApiKey),
 	Status422(),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_upload_link_post`]
@@ -559,7 +559,7 @@ pub enum V1DocumentRawTextPostError {
 pub enum V1DocumentUploadLinkPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_document_upload_post`]
@@ -568,7 +568,7 @@ pub enum V1DocumentUploadLinkPostError {
 pub enum V1DocumentUploadPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_documents_get`]
@@ -577,5 +577,5 @@ pub enum V1DocumentUploadPostError {
 pub enum V1DocumentsGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

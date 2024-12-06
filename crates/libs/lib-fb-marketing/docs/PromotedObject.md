@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 **fundraiser_campaign_id** | Option<[**models::PromotedObjectFundraiserCampaignId**](PromotedObject_fundraiser_campaign_id.md)> |  | [optional]
 **custom_event_str** | Option<**String**> | The event from an App Event of a mobile app, not in the standard event list. | [optional]
 **omnichannel_object** | Option<[**models::OmnichannelObject**](OmnichannelObject.md)> |  | [optional]
-**post_conversions** | Option<[**Vec<Vec<serde_json::Value>>**](Vec.md)> | Post conversions | [optional]
+**post_conversions** | Option<[**Vec<Vec<json::Value>>**](Vec.md)> | Post conversions | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

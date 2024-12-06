@@ -7,3 +7,5 @@ pub mod prelude;
 mod routes;
 pub mod substack;
 pub use routes::*;
+
+pub use error::Error;

@@ -32,6 +32,6 @@ impl TimeRange {
 	}
 
 	pub fn to_string(&self) -> String {
-		serde_json::to_string(self).unwrap()
+		json::to_string(self).unwrap()
 	}
 }

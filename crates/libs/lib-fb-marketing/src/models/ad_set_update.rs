@@ -19,7 +19,7 @@ pub struct AdSetUpdate {
 	pub account_id: Option<String>,
 	/// Specifies list of labels to be associated with this object. This field is optional
 	#[serde(rename = "adlabels", skip_serializing_if = "Option::is_none")]
-	pub adlabels: Option<Vec<serde_json::Value>>,
+	pub adlabels: Option<Vec<json::Value>>,
 	/// Ad set schedule, representing a delivery schedule for a single day
 	#[serde(rename = "adset_schedule", skip_serializing_if = "Option::is_none")]
 	pub adset_schedule: Option<Vec<models::AdSetSchedule>>,
@@ -129,7 +129,7 @@ pub struct AdSetUpdate {
 	pub status: Option<Status>,
 	/// An ad set's targeting structure. \"countries\" is required.
 	#[serde(rename = "targeting", skip_serializing_if = "Option::is_none")]
-	pub targeting: Option<serde_json::Value>,
+	pub targeting: Option<json::Value>,
 	/// Specify ad creative that displays at custom date ranges in a campaign as an array. A list of Adgroup IDs
 	#[serde(
 		rename = "time_based_ad_rotation_id_blocks",
@@ -198,7 +198,7 @@ impl AdSetUpdate {
 		}
 	}
 	pub fn to_string(&self) -> String {
-		serde_json::to_string(self).expect("to_string failed")
+		json::to_string(self).expect("to_string failed")
 	}
 }
 /// Bid strategy for this campaign to suit your specific business goals

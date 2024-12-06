@@ -1,11 +1,11 @@
-use serde_json::Value;
+use json::Value;
 
 pub struct Assets {
 	pub main_js: String,
 	pub main_css: String,
 }
 pub fn get_js_and_css_files() -> Assets {
-	let manifest: Value = serde_json::from_str(
+	let manifest: Value = json::from_str(
 		&std::fs::read_to_string(
 			"crates/sites/site_1/src/web-folder/.vite/manifest.json",
 		)

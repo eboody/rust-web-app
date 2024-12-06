@@ -219,7 +219,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<CreateDockercomposeApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -271,7 +271,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<CreateDockerfileApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -323,7 +323,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<CreateDockerimageApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -378,10 +378,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateEnvByApplicationUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -433,7 +433,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<CreatePrivateDeployKeyApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -485,7 +485,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<CreatePrivateGithubAppApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -533,7 +533,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<CreatePublicApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -608,10 +608,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<DeleteApplicationByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -662,10 +662,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<DeleteEnvByApplicationUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -720,10 +720,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ExecuteCommandApplicationError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -769,10 +769,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetApplicationByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -814,10 +814,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ListApplicationsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -866,10 +866,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<ListEnvsByApplicationUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -918,10 +918,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<RestartApplicationByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -980,10 +980,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<StartApplicationByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1032,10 +1032,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<StopApplicationByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1084,10 +1084,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateApplicationByUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1142,10 +1142,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateEnvByApplicationUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1200,10 +1200,10 @@ impl ApplicationsApi for ApplicationsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateEnvsByApplicationUuidError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -1220,7 +1220,7 @@ impl ApplicationsApi for ApplicationsApiClient {
 pub enum CreateDockercomposeApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_dockerfile_application`]
@@ -1229,7 +1229,7 @@ pub enum CreateDockercomposeApplicationError {
 pub enum CreateDockerfileApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_dockerimage_application`]
@@ -1238,7 +1238,7 @@ pub enum CreateDockerfileApplicationError {
 pub enum CreateDockerimageApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_env_by_application_uuid`]
@@ -1248,7 +1248,7 @@ pub enum CreateEnvByApplicationUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_private_deploy_key_application`]
@@ -1257,7 +1257,7 @@ pub enum CreateEnvByApplicationUuidError {
 pub enum CreatePrivateDeployKeyApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_private_github_app_application`]
@@ -1266,7 +1266,7 @@ pub enum CreatePrivateDeployKeyApplicationError {
 pub enum CreatePrivateGithubAppApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_public_application`]
@@ -1275,7 +1275,7 @@ pub enum CreatePrivateGithubAppApplicationError {
 pub enum CreatePublicApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_application_by_uuid`]
@@ -1285,7 +1285,7 @@ pub enum DeleteApplicationByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_env_by_application_uuid`]
@@ -1295,7 +1295,7 @@ pub enum DeleteEnvByApplicationUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`execute_command_application`]
@@ -1305,7 +1305,7 @@ pub enum ExecuteCommandApplicationError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_application_by_uuid`]
@@ -1315,7 +1315,7 @@ pub enum GetApplicationByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`list_applications`]
@@ -1324,7 +1324,7 @@ pub enum GetApplicationByUuidError {
 pub enum ListApplicationsError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`list_envs_by_application_uuid`]
@@ -1334,7 +1334,7 @@ pub enum ListEnvsByApplicationUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`restart_application_by_uuid`]
@@ -1344,7 +1344,7 @@ pub enum RestartApplicationByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`start_application_by_uuid`]
@@ -1354,7 +1354,7 @@ pub enum StartApplicationByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`stop_application_by_uuid`]
@@ -1364,7 +1364,7 @@ pub enum StopApplicationByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_application_by_uuid`]
@@ -1374,7 +1374,7 @@ pub enum UpdateApplicationByUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_env_by_application_uuid`]
@@ -1384,7 +1384,7 @@ pub enum UpdateEnvByApplicationUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_envs_by_application_uuid`]
@@ -1394,5 +1394,5 @@ pub enum UpdateEnvsByApplicationUuidError {
 	Status401(models::InlineObject1),
 	Status400(models::InlineObject),
 	Status404(models::InlineObject2),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

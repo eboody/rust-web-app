@@ -70,9 +70,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<CreateEnvByServiceUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<CreateEnvByServiceUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -102,9 +102,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<CreateServiceError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<CreateServiceError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -133,9 +133,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<DeleteEnvByServiceUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<DeleteEnvByServiceUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -176,9 +176,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<DeleteServiceByUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<DeleteServiceByUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -207,9 +207,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<GetServiceByUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<GetServiceByUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -238,9 +238,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<ListEnvsByServiceUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<ListEnvsByServiceUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -269,9 +269,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<ListServicesError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<ListServicesError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -300,9 +300,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<RestartServiceByUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<RestartServiceByUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -331,9 +331,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<StartServiceByUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<StartServiceByUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -362,9 +362,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<StopServiceByUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<StopServiceByUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -394,9 +394,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<UpdateEnvByServiceUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<UpdateEnvByServiceUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -426,9 +426,9 @@ impl ServicesApi for ServicesApiClient {
         let local_var_content = local_var_resp.text().await?;
 
         if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
-            serde_json::from_str(&local_var_content).map_err(Error::from)
+            json::from_str(&local_var_content).map_err(Error::from)
         } else {
-            let local_var_entity: Option<UpdateEnvsByServiceUuidError> = serde_json::from_str(&local_var_content).ok();
+            let local_var_entity: Option<UpdateEnvsByServiceUuidError> = json::from_str(&local_var_content).ok();
             let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
             Err(Error::ResponseError(local_var_error))
         }
@@ -443,7 +443,7 @@ pub enum CreateEnvByServiceUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`create_service`]
@@ -452,7 +452,7 @@ pub enum CreateEnvByServiceUuidError {
 pub enum CreateServiceError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_env_by_service_uuid`]
@@ -462,7 +462,7 @@ pub enum DeleteEnvByServiceUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_service_by_uuid`]
@@ -472,7 +472,7 @@ pub enum DeleteServiceByUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_service_by_uuid`]
@@ -482,7 +482,7 @@ pub enum GetServiceByUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`list_envs_by_service_uuid`]
@@ -492,7 +492,7 @@ pub enum ListEnvsByServiceUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`list_services`]
@@ -501,7 +501,7 @@ pub enum ListEnvsByServiceUuidError {
 pub enum ListServicesError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`restart_service_by_uuid`]
@@ -511,7 +511,7 @@ pub enum RestartServiceByUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`start_service_by_uuid`]
@@ -521,7 +521,7 @@ pub enum StartServiceByUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`stop_service_by_uuid`]
@@ -531,7 +531,7 @@ pub enum StopServiceByUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_env_by_service_uuid`]
@@ -541,7 +541,7 @@ pub enum UpdateEnvByServiceUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_envs_by_service_uuid`]
@@ -551,6 +551,6 @@ pub enum UpdateEnvsByServiceUuidError {
     Status401(models::InlineObject1),
     Status400(models::InlineObject),
     Status404(models::InlineObject2),
-    UnknownValue(serde_json::Value),
+    UnknownValue(json::Value),
 }
 

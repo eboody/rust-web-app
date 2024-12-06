@@ -38,7 +38,7 @@ pub struct Operations {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub options: Option<Option<serde_json::Value>>,
+	pub options: Option<Option<json::Value>>,
 	#[serde(rename = "resolve", skip_serializing_if = "Option::is_none")]
 	pub resolve: Option<Box<models::OperationsResolve>>,
 	#[serde(rename = "reject", skip_serializing_if = "Option::is_none")]

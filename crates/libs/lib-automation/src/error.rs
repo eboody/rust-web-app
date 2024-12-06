@@ -26,12 +26,15 @@ pub enum Error {
 	#[from]
 	Ormlite(#[serde_as(as = "DisplayFromStr")] ormlite::Error),
 
-	SerdeJson(#[serde_as(as = "DisplayFromStr")] serde_json::Error),
+	#[from]
+	Sqlx(#[serde_as(as = "DisplayFromStr")] sqlx::Error),
+
+	SerdeJson(#[serde_as(as = "DisplayFromStr")] json::Error),
 
 	#[from]
 	LibSubstack(lib_substack::Error),
 
-	NoKeyInTrigger(directus::trigger::Request),
+	NoKeyInTrigger(directus::trigger::Body),
 
 	#[from]
 	Uuid(#[serde_as(as = "DisplayFromStr")] uuid::Error),
@@ -47,6 +50,8 @@ pub enum Error {
 impl IntoResponse for Error {
 	fn into_response(self) -> Response {
 		let mut response = StatusCode::INTERNAL_SERVER_ERROR.into_response();
+
+		println!("->> {:<12} - error: {:#?}", "INTO_RES", self);
 
 		response.extensions_mut().insert(Arc::new(self));
 
@@ -65,8 +70,8 @@ impl core::fmt::Display for Error {
 
 impl std::error::Error for Error {}
 
-impl From<serde_json::Error> for Error {
-	fn from(e: serde_json::Error) -> Self {
+impl From<json::Error> for Error {
+	fn from(e: json::Error) -> Self {
 		Error::SerdeJson(e)
 	}
 }

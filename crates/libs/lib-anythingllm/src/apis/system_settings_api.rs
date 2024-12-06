@@ -23,22 +23,20 @@ pub trait SystemSettingsApi: Send + Sync {
 	async fn v1_system_export_chats_get<'type_>(
 		&self,
 		r#type: Option<&'type_ str>,
-	) -> Result<serde_json::Value, Error<V1SystemExportChatsGetError>>;
-	async fn v1_system_get(
-		&self,
-	) -> Result<serde_json::Value, Error<V1SystemGetError>>;
+	) -> Result<json::Value, Error<V1SystemExportChatsGetError>>;
+	async fn v1_system_get(&self) -> Result<json::Value, Error<V1SystemGetError>>;
 	async fn v1_system_remove_documents_delete<
 		'v1_system_remove_documents_delete_request,
 	>(
 		&self,
 		v1_system_remove_documents_delete_request: models::V1SystemRemoveDocumentsDeleteRequest,
-	) -> Result<serde_json::Value, Error<V1SystemRemoveDocumentsDeleteError>>;
+	) -> Result<json::Value, Error<V1SystemRemoveDocumentsDeleteError>>;
 	async fn v1_system_update_env_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1SystemUpdateEnvPostError>>;
+	) -> Result<json::Value, Error<V1SystemUpdateEnvPostError>>;
 	async fn v1_system_vector_count_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1SystemVectorCountGetError>>;
+	) -> Result<json::Value, Error<V1SystemVectorCountGetError>>;
 }
 
 pub struct SystemSettingsApiClient {
@@ -88,7 +86,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<V1SystemEnvDumpGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -102,7 +100,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 	async fn v1_system_export_chats_get<'type_>(
 		&self,
 		r#type: Option<&'type_ str>,
-	) -> Result<serde_json::Value, Error<V1SystemExportChatsGetError>> {
+	) -> Result<json::Value, Error<V1SystemExportChatsGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -137,10 +135,10 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1SystemExportChatsGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -151,9 +149,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 	}
 
 	/// Get all current system settings that are defined.
-	async fn v1_system_get(
-		&self,
-	) -> Result<serde_json::Value, Error<V1SystemGetError>> {
+	async fn v1_system_get(&self) -> Result<json::Value, Error<V1SystemGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -182,10 +178,10 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1SystemGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -201,7 +197,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 	>(
 		&self,
 		v1_system_remove_documents_delete_request: models::V1SystemRemoveDocumentsDeleteRequest,
-	) -> Result<serde_json::Value, Error<V1SystemRemoveDocumentsDeleteError>> {
+	) -> Result<json::Value, Error<V1SystemRemoveDocumentsDeleteError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -234,10 +230,10 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1SystemRemoveDocumentsDeleteError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -250,7 +246,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 	/// Update a system setting or preference.
 	async fn v1_system_update_env_post(
 		&self,
-	) -> Result<serde_json::Value, Error<V1SystemUpdateEnvPostError>> {
+	) -> Result<json::Value, Error<V1SystemUpdateEnvPostError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -279,10 +275,10 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1SystemUpdateEnvPostError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -295,7 +291,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 	/// Number of all vectors in connected vector database
 	async fn v1_system_vector_count_get(
 		&self,
-	) -> Result<serde_json::Value, Error<V1SystemVectorCountGetError>> {
+	) -> Result<json::Value, Error<V1SystemVectorCountGetError>> {
 		let local_var_configuration = &self.configuration;
 
 		let local_var_client = &local_var_configuration.client;
@@ -326,10 +322,10 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<V1SystemVectorCountGetError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -346,7 +342,7 @@ impl SystemSettingsApi for SystemSettingsApiClient {
 pub enum V1SystemEnvDumpGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_system_export_chats_get`]
@@ -355,7 +351,7 @@ pub enum V1SystemEnvDumpGetError {
 pub enum V1SystemExportChatsGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_system_get`]
@@ -364,7 +360,7 @@ pub enum V1SystemExportChatsGetError {
 pub enum V1SystemGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_system_remove_documents_delete`]
@@ -373,7 +369,7 @@ pub enum V1SystemGetError {
 pub enum V1SystemRemoveDocumentsDeleteError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_system_update_env_post`]
@@ -382,7 +378,7 @@ pub enum V1SystemRemoveDocumentsDeleteError {
 pub enum V1SystemUpdateEnvPostError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_system_vector_count_get`]
@@ -391,5 +387,5 @@ pub enum V1SystemUpdateEnvPostError {
 pub enum V1SystemVectorCountGetError {
 	Status403(models::InvalidApiKey),
 	Status500(),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }

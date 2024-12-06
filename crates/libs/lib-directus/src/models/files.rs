@@ -126,7 +126,7 @@ pub struct Files {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub metadata: Option<Option<serde_json::Value>>,
+	pub metadata: Option<Option<json::Value>>,
 	#[serde(
 		rename = "focal_point_x",
 		default,
@@ -154,7 +154,7 @@ pub struct Files {
 		with = "::serde_with::rust::double_option",
 		skip_serializing_if = "Option::is_none"
 	)]
-	pub tus_data: Option<Option<serde_json::Value>>,
+	pub tus_data: Option<Option<json::Value>>,
 	/// When the file was last uploaded/replaced.
 	#[serde(rename = "uploaded_on", skip_serializing_if = "Option::is_none")]
 	pub uploaded_on: Option<String>,

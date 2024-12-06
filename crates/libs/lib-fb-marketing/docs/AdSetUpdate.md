@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **account_id** | Option<**String**> | Ad Account ID | [optional]
-**adlabels** | Option<[**Vec<serde_json::Value>**](serde_json::Value.md)> | Specifies list of labels to be associated with this object. This field is optional | [optional]
+**adlabels** | Option<[**Vec<json::Value>**](json::Value.md)> | Specifies list of labels to be associated with this object. This field is optional | [optional]
 **adset_schedule** | Option<[**Vec<models::AdSetSchedule>**](AdSetSchedule.md)> | Ad set schedule, representing a delivery schedule for a single day | [optional]
 **attribution_spec** | Option<[**Vec<models::AttributionSpec>**](AttributionSpec.md)> | Array of attribution specs | [optional]
 **bid_amount** | Option<**i32**> | Bid cap or target cost for this ad set. The bid cap used in a lowest cost bid strategy is defined as the maximum bid you want to pay for a result based on your optimization_goal. | [optional]
@@ -36,7 +36,7 @@ Name | Type | Description | Notes
 **promoted_object** | Option<[**models::PromotedObject**](PromotedObject.md)> |  | [optional]
 **start_time** | Option<**String**> | The start time of the set | [optional]
 **status** | Option<**String**> | Only ACTIVE and PAUSED are valid during creation. Other statuses can be used for update | [optional]
-**targeting** | Option<[**serde_json::Value**](.md)> | An ad set's targeting structure. \"countries\" is required. | [optional]
+**targeting** | Option<[**json::Value**](.md)> | An ad set's targeting structure. \"countries\" is required. | [optional]
 **time_based_ad_rotation_id_blocks** | Option<[**Vec<Vec<i32>>**](Vec.md)> | Specify ad creative that displays at custom date ranges in a campaign as an array. A list of Adgroup IDs | [optional]
 **time_based_ad_rotation_intervals** | Option<**Vec<i32>**> | Date range when specific ad creative displays during a campaign. Provide date ranges in an array of UNIX timestamps where each timestamp represents the start time for each date range. | [optional]
 **time_start** | Option<**String**> | Time start | [optional]

@@ -50,7 +50,7 @@ pub trait CommentsApi: Send + Sync {
 		offset: Option<i32>,
 		page: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetComments200Response, Error<GetCommentsError>>;
@@ -77,7 +77,7 @@ pub trait CommentsApi: Send + Sync {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_comments_request: Option<models::UpdateCommentsRequest>,
 	) -> Result<models::GetComments200Response, Error<UpdateCommentsError>>;
@@ -149,10 +149,10 @@ impl CommentsApi for CommentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<CreateCommentError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -206,7 +206,7 @@ impl CommentsApi for CommentsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteCommentError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -243,7 +243,7 @@ impl CommentsApi for CommentsApiClient {
 			Ok(())
 		} else {
 			let local_var_entity: Option<DeleteCommentsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -320,10 +320,10 @@ impl CommentsApi for CommentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetCommentError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -350,7 +350,7 @@ impl CommentsApi for CommentsApiClient {
 		offset: Option<i32>,
 		page: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		meta: Option<&'meta str>,
 	) -> Result<models::GetComments200Response, Error<GetCommentsError>> {
@@ -451,10 +451,10 @@ impl CommentsApi for CommentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<GetCommentsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -522,10 +522,10 @@ impl CommentsApi for CommentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateCommentError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -552,7 +552,7 @@ impl CommentsApi for CommentsApiClient {
 		meta: Option<&'meta str>,
 		offset: Option<i32>,
 		sort: Option<Vec<String>>,
-		filter: Option<models::serde_json::Value>,
+		filter: Option<models::json::Value>,
 		search: Option<&'search str>,
 		update_comments_request: Option<models::UpdateCommentsRequest>,
 	) -> Result<models::GetComments200Response, Error<UpdateCommentsError>> {
@@ -639,10 +639,10 @@ impl CommentsApi for CommentsApiClient {
 
 		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
 		{
-			serde_json::from_str(&local_var_content).map_err(Error::from)
+			json::from_str(&local_var_content).map_err(Error::from)
 		} else {
 			let local_var_entity: Option<UpdateCommentsError> =
-				serde_json::from_str(&local_var_content).ok();
+				json::from_str(&local_var_content).ok();
 			let local_var_error = ResponseContent {
 				status: local_var_status,
 				content: local_var_content,
@@ -658,7 +658,7 @@ impl CommentsApi for CommentsApiClient {
 #[serde(untagged)]
 pub enum CreateCommentError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_comment`]
@@ -666,7 +666,7 @@ pub enum CreateCommentError {
 #[serde(untagged)]
 pub enum DeleteCommentError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`delete_comments`]
@@ -674,7 +674,7 @@ pub enum DeleteCommentError {
 #[serde(untagged)]
 pub enum DeleteCommentsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_comment`]
@@ -682,7 +682,7 @@ pub enum DeleteCommentsError {
 #[serde(untagged)]
 pub enum GetCommentError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`get_comments`]
@@ -690,7 +690,7 @@ pub enum GetCommentError {
 #[serde(untagged)]
 pub enum GetCommentsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_comment`]
@@ -699,7 +699,7 @@ pub enum GetCommentsError {
 pub enum UpdateCommentError {
 	Status401(models::GetAsset404Response),
 	Status404(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`update_comments`]
@@ -707,5 +707,5 @@ pub enum UpdateCommentError {
 #[serde(untagged)]
 pub enum UpdateCommentsError {
 	Status401(models::GetAsset404Response),
-	UnknownValue(serde_json::Value),
+	UnknownValue(json::Value),
 }
