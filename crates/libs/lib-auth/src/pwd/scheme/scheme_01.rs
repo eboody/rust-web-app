@@ -1,7 +1,7 @@
 use super::{Error, Result};
 use crate::{
 	auth_config,
-	pwd::{scheme::Scheme, ContentToHash},
+	pwd::{ContentToHash, scheme::Scheme},
 };
 use hmac::{Hmac, Mac};
 use lib_utils::b64::b64u_encode;

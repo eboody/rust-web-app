@@ -7,7 +7,7 @@ use derive_more::From;
 use lib_auth::{pwd, token};
 use lib_core::model;
 use serde::Serialize;
-use serde_with::{serde_as, DisplayFromStr};
+use serde_with::{DisplayFromStr, serde_as};
 use std::sync::Arc;
 use tracing::debug;
 
@@ -72,10 +72,12 @@ impl Error {
 
 		match self {
 			// -- Model
-			Model(model::Error::EntityNotFound { entity, id }) => (
-				StatusCode::BAD_REQUEST,
-				ClientError::ENTITY_NOT_FOUND { entity, id: *id },
-			),
+			Model(model::Error::EntityNotFound { entity, id }) => {
+				(StatusCode::BAD_REQUEST, ClientError::ENTITY_NOT_FOUND {
+					entity,
+					id: *id,
+				})
+			}
 
 			// -- Fallback.
 			_ => (

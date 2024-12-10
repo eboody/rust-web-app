@@ -1,8 +1,8 @@
 use crate::prelude::*;
 use json::json;
 
-pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
-	use reqwest::header::{HeaderMap, HeaderValue, AUTHORIZATION};
+pub async fn chat(reqwest: &reqwest::Client, message: String) -> Result<String> {
+	use reqwest::header::{AUTHORIZATION, HeaderMap, HeaderValue};
 
 	// Define the OpenAI API endpoint and your API key
 	let openai_api_url = "https://api.openai.com/v1/chat/completions";
@@ -27,8 +27,7 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
 	.to_string();
 
 	// Make the request
-	let response = mm
-		.reqwest()
+	let response = reqwest
 		.post(openai_api_url)
 		.body(body)
 		.headers(headers)

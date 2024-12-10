@@ -1,18 +1,19 @@
 use std::sync::Arc;
+use url::Url;
+use uuid::Uuid;
 
 use axum::response::{IntoResponse, Response};
 use derive_more::From;
 use lib_core::model::directus::UploadFilePayload;
 use reqwest::StatusCode;
 use serde::Serialize;
-use serde_with::{serde_as, DisplayFromStr};
+use serde_with::{DisplayFromStr, serde_as};
+use tracing::error;
 
 use crate::directus;
 
 pub type Result<T> = core::result::Result<T, Error>;
 pub type BoxResult<T> = core::result::Result<T, Box<Error>>;
-
-use crate::substack;
 
 #[serde_as]
 #[derive(Debug, From, Serialize)]
@@ -23,6 +24,7 @@ pub enum Error {
 	WrongFormat(String),
 	#[from]
 	Request(#[serde_as(as = "DisplayFromStr")] reqwest::Error),
+
 	#[from]
 	Ormlite(#[serde_as(as = "DisplayFromStr")] ormlite::Error),
 
@@ -32,9 +34,13 @@ pub enum Error {
 	SerdeJson(#[serde_as(as = "DisplayFromStr")] json::Error),
 
 	#[from]
-	LibSubstack(lib_substack::Error),
+	Substack(lib_substack::Error),
 
 	NoKeyInTrigger(directus::trigger::Body),
+
+	NoTitleInArticle(Uuid),
+	NoContentInArticle(Uuid),
+	NoSlugInArticle(Uuid),
 
 	#[from]
 	Uuid(#[serde_as(as = "DisplayFromStr")] uuid::Error),
@@ -44,14 +50,22 @@ pub enum Error {
 	UnknownFolderContentType(UploadFilePayload),
 
 	#[from]
-	Substack(substack::Error),
+	Url(#[serde_as(as = "DisplayFromStr")] url::ParseError),
+
+	NoLastPathSegment(String),
+	NoPathSegments(String),
+	NoFileExtension(String),
+
+	FailedToUploadImage(Url),
+
+	#[from]
+	Regex(#[serde_as(as = "DisplayFromStr")] regex::Error),
 }
 
 impl IntoResponse for Error {
 	fn into_response(self) -> Response {
 		let mut response = StatusCode::INTERNAL_SERVER_ERROR.into_response();
-
-		println!("->> {:<12} - error: {:#?}", "INTO_RES", self);
+		error!("->> {:<12} - self: {:#?}", file!(), self);
 
 		response.extensions_mut().insert(Arc::new(self));
 

@@ -1,19 +1,25 @@
 [package]
 name = "lib-substack"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 lib-core = { path = "../lib-core" }
+lib-utils = { path = "../lib-utils" }
+time = { workspace = true }
 serde = { workspace = true }
 json = { workspace = true }
 serde_with = { workspace = true }
 derive_more = { workspace = true }
 ormlite = { workspace = true }
+reqwest = { workspace = true }
+url = { workspace = true }
+tracing = { workspace = true }
+
 regex = "1"
 encoding_rs = "0.8"
 htmd = "0.1"
-reqwest = { workspace = true }
+
 
 [lints]
 workspace = true

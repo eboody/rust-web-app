@@ -1,7 +1,7 @@
 [package]
 name = "lib-core"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [lib]
 doctest = false
@@ -24,11 +24,12 @@ serde_with = { workspace = true }
 sqlx = { workspace = true }
 tracing = "0.1"
 # -- Others
-uuid = { workspace = true }
 time = { workspace = true }
 derive_more = { workspace = true }
 reqwest = { workspace = true }
 ormlite = { workspace = true }
+
+uuid = { workspace = true }
 
 [dev-dependencies]
 serial_test = "3"

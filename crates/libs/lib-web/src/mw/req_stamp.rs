@@ -3,7 +3,7 @@ use axum::{
 	async_trait,
 	body::Body,
 	extract::FromRequestParts,
-	http::{request::Parts, Request},
+	http::{Request, request::Parts},
 	middleware::Next,
 	response::Response,
 };

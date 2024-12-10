@@ -1,40 +1,40 @@
-use derive_more::derive::Display;
-use ormlite::model::{Join, JoinMeta};
-use serde::{Deserialize, Serialize};
-use time::{Date, OffsetDateTime};
-use uuid::Uuid;
+use crate::prelude::*;
+use directus::{Status, admin::Users};
 
 #[derive(Debug, ormlite::Model)]
 pub struct Articles {
 	#[ormlite(primary_key)]
 	pub id: Uuid,
-	pub status: String,
+	pub status: Status,
 	pub sort: Option<i32>,
 	pub user_created: Option<Uuid>,
 	pub date_created: Option<OffsetDateTime>,
 	pub user_updated: Option<Uuid>,
 	pub date_updated: Option<OffsetDateTime>,
 	pub featured_image: Option<Uuid>,
-	pub author: Uuid,
+	pub tags: Option<json::Value>,
+	pub author_id: Uuid,
+	#[ormlite(join_column = "author_id")]
+	pub author: Join<Users>,
 	pub date_published: Option<Date>,
-	pub content: Option<String>,
-	pub title: Option<String>,
-	pub sub_title: Option<String>,
-	pub summary: Option<String>,
-	pub descriptor: Option<String>,
-	pub endnotes: Option<String>,
+	pub issue: Option<Uuid>,
+	pub is_evergreen: bool,
 	pub slug: Option<String>,
+	pub body: Option<String>,
+	pub endnotes: Option<String>,
+	pub descriptor: Option<String>,
+	pub summary: Option<String>,
+	pub title: Option<String>,
+	pub subtitle: Option<String>,
 	pub substack_status: Option<Uuid>,
-	//#[ormlite(join_column = "substack_status")]
-	//pub substack_statuses: Join<ArticlesSubstackStatus>,
+	pub section: Option<Uuid>,
+	pub audience: substack::Audience,
 }
 
-#[derive(Debug, ormlite::Model)]
-pub struct ArticlesTags {
-	#[ormlite(primary_key)]
-	pub id: i32,
-	pub articles_id: i32,
-	pub tags_id: i32,
+impl AsRef<Articles> for Articles {
+	fn as_ref(&self) -> &Articles {
+		self
+	}
 }
 
 #[derive(Debug, ormlite::Model)]
@@ -54,21 +54,53 @@ pub struct ArticlesTranslations {
 }
 
 #[derive(Debug, ormlite::Model)]
+pub struct ArticlesFiles {
+	#[ormlite(primary_key)]
+	pub id: i32,
+	pub articles_id: Uuid,
+	pub directus_files_id: Uuid,
+	pub caption: Option<String>,
+	pub figure: Option<String>,
+	pub url: Option<String>,
+}
+
+#[derive(Debug, ormlite::Model)]
 #[ormlite(table = "articles_substack_status")]
 pub struct ArticlesSubstackStatus {
 	pub id: Uuid,
 	pub articles_id: Uuid,
 	pub substack_id: i64,
-	pub status: ArticleStatus,
+	pub status: SubsctackArticleStatus,
 	pub sort: Option<i32>,
 	pub date_updated: OffsetDateTime,
 	pub message: Option<String>,
 }
 
 #[derive(Debug, ormlite::Enum)]
-pub enum ArticleStatus {
+pub enum SubsctackArticleStatus {
 	Draft,
 	Published,
+}
+
+#[derive(Debug, Deserialize, Serialize)]
+pub struct ArticlesUpdate {
+	pub status: Option<Status>,
+	pub sort: Option<i32>,
+	pub user_created: Option<Uuid>,
+	pub date_created: Option<OffsetDateTime>,
+	pub user_updated: Option<Uuid>,
+	pub date_updated: Option<OffsetDateTime>,
+	pub featured_image: Option<Uuid>,
+	pub author: Option<Uuid>,
+	pub date_published: Option<Date>,
+	pub content: Option<String>,
+	pub title: Option<String>,
+	pub subtitle: Option<String>,
+	pub summary: Option<String>,
+	pub descriptor: Option<String>,
+	pub endnotes: Option<String>,
+	pub slug: Option<String>,
+	pub substack_status: Option<Uuid>,
 }
 
 #[derive(Debug, Deserialize, Display, Serialize, Clone)]

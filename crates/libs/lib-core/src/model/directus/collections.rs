@@ -5,5 +5,7 @@ use serde::{Deserialize, Serialize};
 pub enum Collection {
 	Articles,
 	Ebooks,
-	Tags,
+	Sections,
+	Issues,
+	Languages,
 }

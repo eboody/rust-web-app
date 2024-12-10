@@ -1,5 +1,7 @@
-use ormlite::model::{Join, JoinMeta};
-use uuid::Uuid;
+use ormlite::{
+	model::{Join, JoinMeta},
+	types::Uuid,
+};
 
 #[derive(Debug, ormlite::Model)]
 pub struct Ebooks {

@@ -3,7 +3,7 @@
 pub(in crate::model) mod dbx;
 
 use crate::core_config;
-use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+use sqlx::{Pool, Postgres, postgres::PgPoolOptions};
 
 // endregion: --- Modules
 

@@ -1,8 +1,8 @@
+use json::Value;
 use serde::{Deserialize, Serialize};
 use time::OffsetDateTime;
-use uuid::Uuid;
-
 pub type Json = json::Value;
+use ormlite::types::Uuid;
 
 #[derive(Debug, ormlite::Model)]
 pub struct SqlxMigrations {
@@ -155,7 +155,7 @@ pub struct Files {
 	pub embed: Option<String>,
 	pub description: Option<String>,
 	pub location: Option<String>,
-	pub tags: Option<String>,
+	pub tags: Option<Json>,
 	pub metadata: Option<Json>,
 	pub focal_point_x: Option<i32>,
 	pub focal_point_y: Option<i32>,
@@ -425,7 +425,7 @@ pub struct Translations {
 	pub value: String,
 }
 
-#[derive(Clone, Debug, ormlite::Model)]
+#[derive(Debug, ormlite::Model)]
 #[ormlite(table = "directus_users")]
 pub struct Users {
 	#[ormlite(primary_key)]
@@ -437,7 +437,7 @@ pub struct Users {
 	pub location: Option<String>,
 	pub title: Option<String>,
 	pub description: Option<String>,
-	pub tags: Option<Json>,
+	//pub tags: Option<Json>,
 	pub avatar: Option<Uuid>,
 	pub language: Option<String>,
 	pub tfa_secret: Option<String>,
@@ -448,13 +448,13 @@ pub struct Users {
 	pub last_page: Option<String>,
 	pub provider: String,
 	pub external_identifier: Option<String>,
-	pub auth_data: Option<Json>,
+	//pub auth_data: Option<Json>,
 	pub email_notifications: Option<bool>,
 	pub appearance: Option<String>,
 	pub theme_dark: Option<String>,
 	pub theme_light: Option<String>,
-	pub theme_light_overrides: Option<Json>,
-	pub theme_dark_overrides: Option<Json>,
+	//pub theme_light_overrides: Option<Json>,
+	//pub theme_dark_overrides: Option<Json>,
 }
 
 #[derive(Debug, ormlite::Model)]

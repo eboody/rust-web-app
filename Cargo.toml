@@ -4,44 +4,53 @@ unsafe_code = "forbid"
 [workspace]
 resolver = "2"
 members = [
-    # -- Application Libraries
-    "crates/libs/lib-utils",
-    "crates/libs/lib-core",
-    "crates/libs/lib-debug-deserialize",
-    # "crates/libs/lib-substack",
-    "crates/libs/js_macro", 
+  # -- Application Libraries
+  "crates/libs/lib-utils",
+  "crates/libs/lib-core",
+  "crates/libs/lib-substack",
 
-    # -- Application Services
-    "crates/services/web-server",
-    # "crates/services/token-service",
+  # -- Application Services
+  "crates/services/web-server",
+  # "crates/services/token-service",
 
-    # -- Tools
-    # "crates/tools/gen-key",
+  # -- Tools
+  # "crates/tools/gen-key",
 
-    # -- Sites
-    "crates/sites/site_1", 
+  # -- Sites
+  "crates/sites/site_1",
 
-    # -- SDKs
-    # "crates/libs/lib-stirling-pdf",
-    # "crates/libs/lib-directus",
-    # "crates/libs/lib-fb-marketing",
-    # "crates/libs/lib-coolify",
-    # "crates/libs/lib-anythingllm", 
-    "crates/libs/lib-automation", 
-    "crates/tools/posts-to-articles", "crates/libs/lib-web", 
+  # -- SDKs
+  "crates/libs/lib-automation",
+  "crates/tools/posts-to-articles",
+  "crates/libs/lib-web",
 ]
 
 [workspace.dependencies]
 tokio = { version = "1", features = ["full"] }
 
-sqlx = { version = "0.8", features = ["postgres", "runtime-tokio", "uuid", "macros"] }
-ormlite = { path = "/home/eran/code/ormlite/ormlite" , features = ["json", "postgres", "time", "uuid"] }
+sqlx = { version = "0.8", features = [
+  "postgres",
+  "runtime-tokio",
+  "uuid",
+  "macros",
+] }
+ormlite = { path = "/home/eran/code/ormlite/ormlite", features = [
+  "json",
+  "postgres",
+  "time",
+  "uuid",
+] }
 
 url = { version = "2", features = ["serde"] }
 uuid = { version = "1", features = ["fast-rng", "serde", "v4"] }
-time = { version = "0.3", features = ["formatting", "parsing", "serde"] }
+time = { version = "0.3.37", features = [
+  "formatting",
+  "parsing",
+  "serde",
+  "serde-well-known",
+] }
 
-reqwest = { version = "0.12", features = ["json"] }
+reqwest = { version = "0.12", features = ["json", "multipart"] }
 derive_more = { version = "1.0.0", features = ["display", "from"] }
 urlencode = "1"
 
@@ -51,11 +60,14 @@ json = { package = "serde_json", version = "1" }
 url_serde = { version = "0.2" }
 serde_urlencoded = { version = "0.7" }
 
+tracing = { version = "0.1", features = ["log"] }
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
 [workspace.metadata.scripts]
 w = "cargo run-script bundle & cargo run-script watch"
 bundle = "rm ./crates/sites/site_1/src/web-folder/assets/index* & cargo run-script bundle-site-1"
-watch = "pkill web-server & cargo watch -q -c -w crates/services/web-server/src/ -w crates/libs/ -w Cargo.toml -w .cargo/ -w crates/sites/ -x \"run -p web-server\""
+watch = "cargo watch -q -c -w crates/ -w Cargo.toml -w .cargo/ --ignore target/ -x \"run -p web-server\""
 bundle-site-1 = "rm -rf crates/sites/site_1/src/web-folder/js && npm --prefix crates/sites/site_1/src/vite-alpine run build"
 devdb = "docker run --rm --name pg -p 5432:5432 -e POSTGRES_PASSWORD=welcome postgres:16"
-merge_directus='pg2rs --postgres_crate ormlite --connection-string $(grep DIRECTUS_DB .cargo/config.toml | sed -E "s/.*DIRECTUS_DB=\"?([^\"]+)\"?.*/\1/") --schema public --output_file crates/libs/lib-core/src/model/directus_structs.rs'
+gen_models = 'pg2rs --postgres_crate ormlite --connection-string $(grep DIRECTUS_DB .cargo/config.toml | sed -E "s/.*DIRECTUS_DB\s*?=\s*?\"?([^\"]+)\"?.*/\1/") --schema public --output_file crates/libs/lib-core/src/model/directus_structs.rs'
 fmt = "cargo +nightly fmt"

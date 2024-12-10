@@ -2,8 +2,7 @@ mod acs;
 pub mod directus;
 mod error;
 mod store;
-
-pub use directus::*;
+pub mod substack;
 
 pub use self::error::{Error, Result};
 

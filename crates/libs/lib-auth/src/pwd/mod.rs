@@ -22,7 +22,7 @@ mod scheme;
 pub use self::error::{Error, Result};
 pub use scheme::SchemeStatus;
 
-use crate::pwd::scheme::{get_scheme, Scheme, DEFAULT_SCHEME};
+use crate::pwd::scheme::{DEFAULT_SCHEME, Scheme, get_scheme};
 use lazy_regex::regex_captures;
 use std::str::FromStr;
 use uuid::Uuid;

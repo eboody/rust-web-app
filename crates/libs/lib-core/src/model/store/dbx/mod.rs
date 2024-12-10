@@ -6,9 +6,9 @@ pub use error::{Error, Result};
 
 use crate::model::store::Db;
 use sqlx::{
+	FromRow, IntoArguments, Pool, Postgres, Transaction,
 	postgres::any::AnyConnectionBackend,
 	query::{Query, QueryAs},
-	FromRow, IntoArguments, Pool, Postgres, Transaction,
 };
 use std::{
 	ops::{Deref, DerefMut},

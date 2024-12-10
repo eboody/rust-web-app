@@ -1,6 +1,6 @@
 use crate::{pages::*, prelude::*};
 
-use axum::{routing::get, Router};
+use axum::{Router, routing::get};
 use layouts::{App, Base};
 use lib_core::model::ModelManager;
 use maud::Markup;

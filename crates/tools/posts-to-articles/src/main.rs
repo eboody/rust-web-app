@@ -1,8 +1,9 @@
-use lib_core::model::directus::{Articles, Posts, Users};
+#![allow(unused_variables)]
+use lib_core::model::directus::{Posts, Users};
 use ormlite::{
 	model::{Model, ModelBuilder},
 	postgres::PgPool,
-	types::{time::OffsetDateTime, Uuid},
+	types::Uuid,
 };
 
 #[tokio::main]
@@ -75,7 +76,7 @@ async fn create_article(
 	let users = Users::select().fetch_all(&orm).await.unwrap();
 
 	let author = if let Some(user) = users
-		.iter()
+		.into_iter()
 		.filter(|u| u.first_name.is_some() && u.last_name.is_some())
 		.find(|u| {
 			let split = post.author.split(" ").collect::<Vec<&str>>();
@@ -84,7 +85,7 @@ async fn create_article(
 			u.first_name.as_ref().unwrap() == first_name
 				&& u.last_name.as_ref().unwrap() == &last_name
 		}) {
-		user.clone()
+		user
 	} else {
 		dbg!("User does not exist");
 		println!("Author: {}", post.author);
@@ -102,27 +103,27 @@ async fn create_article(
 			.await?
 	};
 
-	let new_article = Articles::builder()
-		.id(Uuid::new_v4())
-		.status("draft".to_string())
-		.sort(Some(0))
-		.user_created(None)
-		.date_created(Some(OffsetDateTime::now_utc()))
-		.user_updated(None)
-		.date_updated(Some(OffsetDateTime::now_utc()))
-		.featured_image(None)
-		.date_published(Some(post.date.date()))
-		.content(Some(content))
-		.title(Some(title))
-		.endnotes(Some(endnotes))
-		.summary(None)
-		.descriptor(post.descriptor)
-		.slug(Some(post.slug))
-		.author(author.id)
-		.insert(&orm)
-		.await?;
+	//let new_article = Articles::builder()
+	//	.id(Uuid::new_v4())
+	//	.status(Status::Draft)
+	//	.sort(Some(0))
+	//	.user_created(None)
+	//	.date_created(Some(OffsetDateTime::now_utc()))
+	//	.user_updated(None)
+	//	.date_updated(Some(OffsetDateTime::now_utc()))
+	//	.featured_image(None)
+	//	.date_published(Some(post.date.date()))
+	//	.content(Some(content))
+	//	.title(Some(title))
+	//	.endnotes(Some(endnotes))
+	//	.summary(None)
+	//	.descriptor(post.descriptor)
+	//	.slug(Some(post.slug))
+	//	.author(author.id)
+	//	.insert(&orm)
+	//	.await?;
 
-	dbg!("new_article: {}", &new_article);
+	//dbg!("new_article: {}", &new_article);
 
 	Ok(())
 }

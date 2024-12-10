@@ -1,10 +1,11 @@
 use crate::{Error, Result};
 use axum::http::{Method, Uri};
-use json::{json, Value};
+use json::{Value, json};
 use lib_automation::prelude::Uuid;
 use serde::Serialize;
 use serde_with::skip_serializing_none;
 use std::time::{SystemTime, UNIX_EPOCH};
+use tracing::info;
 
 pub async fn log_request(
 	uuid: Uuid,
@@ -34,7 +35,7 @@ pub async fn log_request(
 		error_data,
 	};
 
-	println!("   ->> log_request: \n{}", json!(log_line));
+	info!("   ->> log_request: \n{}", json!(log_line));
 
 	// TODO - Send to cloud-watch.
 
@@ -54,4 +55,3 @@ struct RequestLogLine {
 	error_type: Option<String>,
 	error_data: Option<Value>,
 }
-

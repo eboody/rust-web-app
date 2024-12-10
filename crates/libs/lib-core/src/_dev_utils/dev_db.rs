@@ -1,5 +1,5 @@
 use crate::{ctx::Ctx, model::ModelManager};
-use sqlx::{postgres::PgPoolOptions, Pool, Postgres};
+use sqlx::{Pool, Postgres, postgres::PgPoolOptions};
 use std::{
 	fs,
 	path::{Path, PathBuf},

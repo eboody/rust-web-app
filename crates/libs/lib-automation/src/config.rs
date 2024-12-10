@@ -2,6 +2,7 @@ use axum::http::{HeaderMap, HeaderValue};
 use lib_utils::envs::get_env;
 use reqwest::header::AUTHORIZATION;
 use std::sync::OnceLock;
+use uuid::Uuid;
 
 pub fn config() -> &'static AutomationConfig {
 	static INSTANCE: OnceLock<AutomationConfig> = OnceLock::new();
@@ -25,7 +26,8 @@ pub struct AutomationConfig {
 	pub ANYTHING_HEADERS_JSON: HeaderMap,
 	pub ANYTHINGLLM_KEY: String,
 	pub OPENAI_API_KEY: String,
-	pub SUBSTACK_API_URL: String,
+
+	pub ARTICLES_IMAGES_FOLDER_ID: Uuid,
 }
 
 impl AutomationConfig {
@@ -68,7 +70,10 @@ impl AutomationConfig {
 			ANYTHING_HEADERS_JSON: anything_headers_json,
 			ANYTHINGLLM_KEY: get_env("ANYTHINGLLM_KEY")?,
 			OPENAI_API_KEY: get_env("OPENAI_API_KEY")?,
-			SUBSTACK_API_URL: get_env("SUBSTACK_API_URL")?,
+			ARTICLES_IMAGES_FOLDER_ID: Uuid::parse_str(&get_env(
+				"ARTICLES_IMAGES_FOLDER_ID",
+			)?)
+			.unwrap(),
 		})
 	}
 }

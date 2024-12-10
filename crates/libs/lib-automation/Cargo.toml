@@ -1,7 +1,7 @@
 [package]
 name = "lib-automation"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
 lib-utils = { path = "../lib-utils" }
@@ -10,21 +10,19 @@ lib-core = { path = "../lib-core" }
 lib-substack = { path = "../lib-substack" }
 
 tokio = { workspace = true }
+
 serde = { workspace = true }
 serde_with = { workspace = true }
 json = { workspace = true }
 derive_more = { workspace = true }
 reqwest = { workspace = true, features = ["multipart"] }
 sqlx = { workspace = true }
-url = { workspace = true }
 ormlite = { workspace = true }
 uuid = { workspace = true }
+url = { workspace = true }
+tracing = { workspace = true }
 axum = "*"
-encoding_rs = "0.8"
-htmd = "0.1"
-regex = "1"
-if_chain = "1"
-tracing = "0.1"
+regex = "1.11.1"
 
 [lints]
 workspace = true

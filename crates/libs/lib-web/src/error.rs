@@ -2,10 +2,10 @@ use axum::{
 	http::StatusCode,
 	response::{IntoResponse, Response},
 };
-use derive_more::{derive::Display, From};
+use derive_more::{From, derive::Display};
 use lib_core::model;
 use serde::Serialize;
-use serde_with::{serde_as, DisplayFromStr};
+use serde_with::{DisplayFromStr, serde_as};
 use std::sync::Arc;
 use tracing::debug;
 
@@ -52,10 +52,12 @@ impl Error {
 
 		match self {
 			// -- Model
-			Model(model::Error::EntityNotFound { entity, id }) => (
-				StatusCode::BAD_REQUEST,
-				ClientError::ENTITY_NOT_FOUND { entity, id: *id },
-			),
+			Model(model::Error::EntityNotFound { entity, id }) => {
+				(StatusCode::BAD_REQUEST, ClientError::ENTITY_NOT_FOUND {
+					entity,
+					id: *id,
+				})
+			}
 
 			// -- Fallback.
 			_ => (

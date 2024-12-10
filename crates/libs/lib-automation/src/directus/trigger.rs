@@ -1,12 +1,12 @@
 use json::Value;
-use lib_core::model::{articles, directus::Collection};
+use lib_core::model::directus::{Collection, articles};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(Debug, Serialize, Clone, Deserialize)]
 #[serde(untagged)]
 pub enum Event {
-	Article(articles::Event),
+	Articles(articles::Event),
 }
 
 #[derive(Serialize, Clone, Deserialize, Debug)]
