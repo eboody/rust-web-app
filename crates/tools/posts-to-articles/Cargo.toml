@@ -4,11 +4,16 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+tracing = { workspace = true }
 ormlite = { workspace = true }
 lib-core = { path = "../../libs/lib-core" }
+lib-substack = { path = "../../libs/lib-substack" }
+lib-automation = { path = "../../libs/lib-automation" }
 tokio = { workspace = true }
 htmd = "0.1"
 regex = "1"
+tracing-subscriber = { workspace = true }
+async-recursion = "1"
 
 [lints]
 workspace = true

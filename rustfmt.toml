@@ -1,7 +1,8 @@
 # rustfmt doc - https://rust-lang.github.io/rustfmt/
 unstable_features = true
 
-hard_tabs = true
+hard_tabs = false
+tab_spaces = 2
 edition = "2024"
 
 # For recording

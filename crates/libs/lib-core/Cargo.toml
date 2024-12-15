@@ -30,6 +30,7 @@ reqwest = { workspace = true }
 ormlite = { workspace = true }
 
 uuid = { workspace = true }
+mime = "0.3"
 
 [dev-dependencies]
 serial_test = "3"

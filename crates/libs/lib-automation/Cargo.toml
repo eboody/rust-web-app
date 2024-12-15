@@ -23,6 +23,7 @@ url = { workspace = true }
 tracing = { workspace = true }
 axum = "*"
 regex = "1.11.1"
+mime = "0.3"
 
 [lints]
 workspace = true

@@ -2,7 +2,8 @@ use ormlite::Model;
 use time::PrimitiveDateTime;
 
 #[derive(Debug, Model)]
-pub struct Posts {
+#[ormlite(table = "wp_posts")]
+pub struct WpPosts {
 	#[ormlite(primary_key)]
 	pub wp_id: i64,
 	pub title: String,

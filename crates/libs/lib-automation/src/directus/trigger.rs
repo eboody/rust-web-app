@@ -9,10 +9,16 @@ pub enum Event {
 	Articles(articles::Event),
 }
 
+#[derive(Debug, Serialize, Clone, Deserialize)]
+pub struct Request {
+	pub body: Body,
+	pub headers: Value,
+}
+
 #[derive(Serialize, Clone, Deserialize, Debug)]
 pub struct Body {
-	pub event: Event,
+	pub event: Option<Event>,
 	pub collection: Collection,
 	pub keys: Vec<Uuid>,
-	pub payload: Value,
+	pub payload: Option<Value>,
 }

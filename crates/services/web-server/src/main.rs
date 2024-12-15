@@ -5,9 +5,10 @@ mod web;
 
 pub use self::error::{Error, Result};
 use axum::{
+	body::{Body, Bytes, to_bytes},
 	extract::Request,
 	http::{Method, StatusCode, Uri},
-	middleware::Next,
+	middleware::{self, Next},
 };
 
 use axum::{
@@ -49,6 +50,7 @@ async fn main() -> Result<()> {
 		.layer(axum::middleware::map_response(main_response_mapper))
 		.layer(CookieManagerLayer::new())
 		//.layer(axum::middleware::from_fn(log_rejections))
+		.layer(middleware::from_fn(log_request_body))
 		.layer(get_cors_layer());
 
 	let listener = TcpListener::bind("0.0.0.0:3000").await.unwrap();
@@ -88,6 +90,7 @@ async fn main_response_mapper(
 		.unwrap_or(res)
 }
 
+#[allow(dead_code)]
 async fn log_rejections(req: Request, next: Next) -> Response {
 	let url = req.uri().to_string();
 	let method = req.method().clone();
@@ -105,4 +108,36 @@ async fn log_rejections(req: Request, next: Next) -> Response {
 	}
 
 	response
+}
+
+async fn log_request_body(
+	mut req: Request,
+	next: Next,
+) -> impl axum::response::IntoResponse
+where
+{
+	// Extract and buffer the body
+	let (parts, body) = req.into_parts();
+	let body_bytes = to_bytes(body, 1024 * 1024)
+		.await
+		.unwrap_or_else(|_| Bytes::new());
+
+	let body_string = std::str::from_utf8(&body_bytes)
+		.map(|s| s.to_string())
+		.expect("Failed to convert body bytes to string");
+
+	let body_json = json::from_str::<json::Value>(&body_string);
+
+	if let Ok(body_json) = body_json {
+		tracing::info!("Request Body: {:#?}", body_json.get("body"));
+	}
+
+	// Log the body
+	//tracing::info!("Request Body: {:#?}", body_json);
+
+	// Rebuild the request with the buffered body
+	req = Request::from_parts(parts, Body::from(body_bytes.clone()));
+
+	// Continue processing the request
+	next.run(req).await
 }
