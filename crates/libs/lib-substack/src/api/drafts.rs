@@ -278,10 +278,10 @@ pub struct Response {
 //}
 
 impl Response {
-  pub fn into_substack_draft(self, article_id: Uuid) -> directus::SubstackDraft {
+  pub fn into_substack_draft(self, articles_id: Uuid) -> directus::SubstackDraft {
     directus::SubstackDraft {
       id: Uuid::new_v4(),
-      article_id,
+      articles_id,
       substack_draft_id: self.id,
       substack_uuid: self.uuid,
       draft_title: self.draft_title,

@@ -25,7 +25,6 @@ pub fn routes(mm: ModelManager) -> Router {
   //	let res = on_item_update(State(mm_clone), Json(fake_payload)).await;
   //	debug!("->> {:<12} - res: {:#?}", file!(), res);
   //});
-  //
 
   tokio::spawn(async move {
     let mm = mm_clone;
@@ -42,13 +41,36 @@ pub fn routes(mm: ModelManager) -> Router {
 
     let res = tasks::create_substack_draft(&mm, article.id).await;
 
-    //if let Ok(draft) = res {
-    //  tokio::time::sleep(std::time::Duration::from_secs(5)).await;
-    //
-    //  tasks::delete_substack_draft(&mm, article.id, draft.substack_draft_id)
-    //    .await
-    //    .unwrap();
-    //}
+    if let Ok(draft) = res {
+      tokio::time::sleep(std::time::Duration::from_secs(5)).await;
+
+      let related_articles = lib_core::model::directus::RelatedArticles::select()
+        .where_("articles_id = ?")
+        .bind(article.id)
+        .fetch_all(mm.orm())
+        .await
+        .unwrap();
+
+      for related_article in related_articles {
+        let related_draft = lib_core::model::directus::SubstackDraft::select()
+          .where_("articles_id = ?")
+          .bind(related_article.related_articles_id)
+          .fetch_one(mm.orm())
+          .await
+          .unwrap();
+
+        tasks::delete_substack_draft(
+          &mm,
+          draft.articles_id,
+          related_draft.substack_draft_id,
+        )
+        .await
+        .expect("Failed to delete related draft");
+      }
+      tasks::delete_substack_draft(&mm, article.id, draft.substack_draft_id)
+        .await
+        .unwrap();
+    }
 
     //
     //if article.tags.is_none() {

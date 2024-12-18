@@ -13,7 +13,7 @@ pub async fn create_substack_draft(
   article_id: Uuid,
 ) -> Result<directus::SubstackDraft> {
   let substack_draft = directus::SubstackDraft::select()
-    .where_("article_id = ?")
+    .where_("articles_id = ?")
     .bind(article_id)
     .fetch_one(mm.orm())
     .await;
@@ -88,7 +88,7 @@ pub async fn delete_substack_draft(
   );
 
   directus::SubstackDraft::select()
-    .where_("article_id = ?")
+    .where_("articles_id = ?")
     .bind(article_id)
     .fetch_one(mm.orm())
     .await?

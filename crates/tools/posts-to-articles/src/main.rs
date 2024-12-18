@@ -193,7 +193,7 @@ impl<'a> ArticleMigrator<'a> {
 
     let article = Articles::builder()
       .id(Uuid::new_v4())
-      .status(Status::Draft)
+      .status(Status::Archived)
       .sort(Some(0))
       .date_created(Some(OffsetDateTime::now_utc()))
       .date_updated(Some(OffsetDateTime::now_utc()))

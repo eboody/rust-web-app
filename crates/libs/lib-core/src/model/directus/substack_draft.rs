@@ -5,7 +5,7 @@ use crate::prelude::*;
 pub struct SubstackDraft {
   // Primary fields
   pub id: Uuid,
-  pub article_id: Uuid,
+  pub articles_id: Uuid,
 
   // Fields from API response
   pub substack_draft_id: i64,
