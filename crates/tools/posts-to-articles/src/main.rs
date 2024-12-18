@@ -3,7 +3,7 @@ use lib_automation::directus::tasks;
 use lib_core::{
   model::{
     ModelManager,
-    directus::{Articles, ArticlesArticles, Status, Users, WpPosts},
+    directus::{Articles, RelatedArticles, Status, Users, WpPosts},
   },
   prelude::OffsetDateTime,
 };
@@ -33,6 +33,14 @@ struct ArticleMigrator<'a> {
   processed_slugs: HashSet<String>,
 }
 
+fn take_first_n(n: usize, input: &str) -> String {
+  if input.chars().count() <= n {
+    input.to_string()
+  } else {
+    input.chars().take(n).collect()
+  }
+}
+
 impl<'a> ArticleMigrator<'a> {
   fn new(mm: &'a ModelManager) -> Self {
     Self {
@@ -42,10 +50,18 @@ impl<'a> ArticleMigrator<'a> {
   }
 
   async fn migrate_all_posts(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-    let posts = WpPosts::select().fetch_all(self.mm.orm()).await?;
+    let posts = WpPosts::select()
+      .where_("endnotes IS NOT NULL")
+      .where_("endnotes != ''")
+      .where_("author != 'Yaron Brook'")
+      .where_("content LIKE '%https://theobjectivestandard.com%/202%'")
+      .where_("content NOT LIKE '%https://theobjectivestandard.com%uploads%'")
+      .fetch_all(self.mm.orm())
+      .await?;
 
     for post in posts {
-      let is_article = tasks::is_article(self.mm, &post.content).await?;
+      let is_article =
+        tasks::is_article(self.mm, &take_first_n(1500, &post.content)).await?;
       if !is_article {
         tracing::warn!("Skipping non-article post: {:?}", post.title);
         continue;
@@ -54,6 +70,7 @@ impl<'a> ArticleMigrator<'a> {
       if let Err(e) = self.process_post(post).await {
         warn!("Failed to process post: {:?}", e);
       }
+      std::process::exit(0);
     }
 
     Ok(())
@@ -86,7 +103,11 @@ impl<'a> ArticleMigrator<'a> {
       self.processed_slugs.insert(post.slug.clone());
 
       // Process related articles
-      let related_slugs = self.extract_related_slugs(&post.content);
+      let related_slugs = self.extract_related_slugs(&format!(
+        "{}\n{}",
+        post.content,
+        post.endnotes.unwrap_or_default()
+      ));
       for slug in related_slugs {
         if let Some(related_post) = self.get_wp_post_by_slug(&slug).await? {
           let related_article = self.process_post(related_post).await?;
@@ -106,7 +127,7 @@ impl<'a> ArticleMigrator<'a> {
     related_article: &Articles,
   ) -> Result<(), Box<dyn std::error::Error>> {
     // Check if relationship already exists
-    let existing = ArticlesArticles::select()
+    let existing = RelatedArticles::select()
       .where_("articles_id = ? AND related_articles_id = ?")
       .bind(article.id)
       .bind(related_article.id)
@@ -115,7 +136,7 @@ impl<'a> ArticleMigrator<'a> {
 
     if existing.is_none() {
       // Only create if it doesn't exist
-      ArticlesArticles::builder()
+      RelatedArticles::builder()
         .articles_id(article.id)
         .related_articles_id(related_article.id)
         .insert(self.mm.orm())
@@ -164,6 +185,12 @@ impl<'a> ArticleMigrator<'a> {
     let author = self.get_or_create_author(&post.author).await?;
     let (content, endnotes) = self.process_content(post)?;
 
+    let title = Some(
+      htmd::convert(&post.title)?
+        .replace("_", "")
+        .replace(r#"*"#, ""),
+    );
+
     let article = Articles::builder()
       .id(Uuid::new_v4())
       .status(Status::Draft)
@@ -172,7 +199,7 @@ impl<'a> ArticleMigrator<'a> {
       .date_updated(Some(OffsetDateTime::now_utc()))
       .date_published(Some(post.date.date()))
       .body(Some(content))
-      .title(Some(htmd::convert(&post.title)?))
+      .title(title)
       .endnotes(Some(endnotes))
       .descriptor(post.descriptor.clone())
       .slug(Some(post.slug.clone()))
@@ -272,6 +299,7 @@ impl<'a> ArticleMigrator<'a> {
     let endnotes = convert_to_footnotes(endnotes);
     let endnotes = format_footnote_references(&endnotes);
     let endnotes = remove_related_section(&endnotes);
+    let endnotes = clean_formatting(&endnotes);
 
     Ok(endnotes)
   }
@@ -303,8 +331,9 @@ fn convert_to_footnotes(content: &str) -> String {
 }
 
 fn format_footnote_references(content: &str) -> String {
-  let re = Regex::new(r"\s+\[(\d+)\]\(#_?(ftn|end|edn)(ref)?-?\d+\)\.?\s*").unwrap();
-  re.replace_all(content, "\n\n[^$1] ").to_string()
+  let re =
+    Regex::new(r"\s+\[(\d+)\]\(#_?([a-zA-Z]{2,3})(ref)?-?\d+\)\.?\s*").unwrap();
+  re.replace_all(content, "\n\n[$1](#_$2$1) ").to_string()
 }
 
 fn remove_related_section(content: &str) -> String {

@@ -1,8 +1,6 @@
 use axum::extract::{Json, State};
-use lib_core::model::directus::{
-  Articles, ArticlesSubstackStatus, ArticlesUpdate, SubsctackArticleStatus, articles,
-};
-use lib_substack::draft;
+use lib_core::model::directus::{Articles, PartialArticles, articles};
+use lib_substack::drafts;
 
 use crate::{directus::trigger, prelude::*};
 
@@ -29,7 +27,7 @@ pub async fn on_article_event(
   match event {
     articles::Event::Update => {
       if let Some(payload) = trigger.clone().payload {
-        let payload = json::from_value::<ArticlesUpdate>(payload)?;
+        let payload = json::from_value::<PartialArticles>(payload)?;
         debug!("->> {:<12} - payload: {:#?}", file!(), payload);
       }
 
@@ -85,9 +83,9 @@ pub async fn on_articles_publish(
       .fetch_one(mm.orm())
       .await?;
 
-    let substack_draft_response = draft::Request {
-      audience: draft::Audience::Everyone,
-      r#type: draft::Type::Newsletter,
+    let substack_draft_response = drafts::Request {
+      audience: drafts::Audience::Everyone,
+      type_: drafts::Type::Newsletter,
       draft_body: article.as_ref().try_into()?,
       draft_title: article.title.clone().unwrap_or_default(),
       draft_subtitle: article.subtitle.clone().unwrap_or_default(),
@@ -96,31 +94,31 @@ pub async fn on_articles_publish(
     .post(mm.reqwest())
     .await?;
 
-    let mut internal_ss_status = ArticlesSubstackStatus::select()
-      .where_("articles_id = ?")
-      .bind(article_id)
-      .fetch_one(mm.orm())
-      .await
-      .ok();
+    //let mut internal_ss_status = ArticlesSubstackStatus::select()
+    //  .where_("articles_id = ?")
+    //  .bind(article_id)
+    //  .fetch_one(mm.orm())
+    //  .await
+    //  .ok();
 
-    if internal_ss_status.is_none() {
-      internal_ss_status = ArticlesSubstackStatus {
-        id: Uuid::new_v4(),
-        articles_id: article_id,
-        substack_id: substack_draft_response.id,
-        status: SubsctackArticleStatus::Draft,
-        sort: None,
-        date_updated: OffsetDateTime::now_utc(),
-        message: "Successfully exported to substack".to_owned().into(),
-      }
-      .insert(mm.orm())
-      .await
-      .ok();
-    }
+    //if internal_ss_status.is_none() {
+    //  internal_ss_status = ArticlesSubstackStatus {
+    //    id: Uuid::new_v4(),
+    //    articles_id: article_id,
+    //    substack_id: substack_draft_response.id,
+    //    status: SubsctackArticleStatus::Draft,
+    //    sort: None,
+    //    date_updated: OffsetDateTime::now_utc(),
+    //    message: "Successfully exported to substack".to_owned().into(),
+    //  }
+    //  .insert(mm.orm())
+    //  .await
+    //  .ok();
+    //}
 
     article
       .update_partial()
-      .substack_status(internal_ss_status.map(|s| s.id))
+      //.substack_status(internal_ss_status.map(|s| s.id))
       .date_updated(Some(OffsetDateTime::now_utc()))
       .update(mm.orm())
       .await?;

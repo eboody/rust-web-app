@@ -21,10 +21,11 @@ async fn construct_message(mm: &ModelManager, text: &str) -> Result<String> {
     .collect::<Vec<_>>();
 
   let message = [
-    "You are to return either true or false if this is an article.",
+    "You're going to get a *portion* of a post.",
+    "Using just this portion of a post, you are to return either true or false if the whole post is likey to be an article or opinion piece.",
     "Ask yourself:",
     "Would this be something evergreen that I would post on substack as an article or is it a tweet or an administrative post?",
-    "Would this article be something that fits into one of these sections?",
+    "Would this article or opinion piece be something that fits into one of these sections?",
     &sections.join(", "),
     "You are to exclusively output JUST true or false and nothing else.",
     "Article Text:",

@@ -45,6 +45,7 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
     .collect::<Vec<_>>();
 
   for (index, url) in image_urls_that_arent_in_captions.into_iter().enumerate() {
+    let index = index + 1;
     let article_image_file: Result<ArticlesFiles> =
       process_image_url(mm, article, &url, title, slug, index, None).await;
 
@@ -54,6 +55,8 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
   }
 
   for (index, caption) in captions.into_iter().enumerate() {
+    let index = index + 1;
+    tracing::debug!("->> {:<12} - caption:\n{:#?}", file!(), caption);
     let url: Url;
 
     if let Some(href_url) = &caption.href {
@@ -70,17 +73,11 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
     replace_caption(
       mm,
       article,
-      caption.figure.as_deref(),
+      Some(caption.figure.clone().unwrap_or(index.to_string()).as_str()),
       caption.text.as_deref(),
       &url,
     )
     .await?;
-
-    debug!(
-      "->> {:<12} - article_image_file: {:#?}",
-      file!(),
-      article_image_file
-    );
 
     if let Err(e) = article_image_file {
       error!("Failed to process image {}: {:?}", url, e);
@@ -269,6 +266,9 @@ async fn replace_caption(
   caption_text: Option<&str>,
   url: &Url,
 ) -> Result<()> {
+  tracing::debug!("->> {:<12} - article:\n{:#?}", file!(), article);
+  tracing::debug!("->> {:<12} - figure:\n{:#?}", file!(), figure);
+  tracing::debug!("->> {:<12} - caption_text:\n{:#?}", file!(), caption_text);
   let article = Articles::select()
     .where_("id = ?")
     .bind(article.id)

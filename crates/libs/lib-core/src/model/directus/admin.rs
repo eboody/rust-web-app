@@ -424,7 +424,7 @@ pub struct Translations {
   pub value: String,
 }
 
-#[derive(Debug, ormlite::Model, Clone)]
+#[derive(Debug, ormlite::Model, Clone, Default)]
 #[ormlite(table = "directus_users")]
 pub struct Users {
   #[ormlite(primary_key)]

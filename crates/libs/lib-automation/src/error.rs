@@ -22,11 +22,12 @@ pub enum Error {
   Io(#[serde_as(as = "DisplayFromStr")] std::io::Error),
   MissingEnv(&'static str),
   WrongFormat(String),
+
   #[from]
   Request(#[serde_as(as = "DisplayFromStr")] reqwest::Error),
 
   #[from]
-  Ormlite(#[serde_as(as = "DisplayFromStr")] ormlite::Error),
+  Ormlite(#[serde_as(as = "DisplayFromStr")] ormlite::CoreError),
 
   #[from]
   Sqlx(#[serde_as(as = "DisplayFromStr")] sqlx::Error),
