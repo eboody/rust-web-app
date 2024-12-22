@@ -14,6 +14,9 @@ htmd = "0.1"
 regex = "1"
 tracing-subscriber = { workspace = true }
 async-recursion = "1"
+json = { workspace = true }
+serde = { workspace = true }
+rayon = "1"
 
 [lints]
 workspace = true

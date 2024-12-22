@@ -123,7 +123,7 @@ impl Request {
 
         Some(section)
       })
-      .unwrap()
+      .expect("Failed to fetch section")
       .await;
 
     let request = Self {

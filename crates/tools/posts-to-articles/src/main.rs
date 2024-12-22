@@ -3,14 +3,15 @@ use lib_automation::directus::tasks;
 use lib_core::{
   model::{
     ModelManager,
-    directus::{Articles, RelatedArticles, Status, Users, WpPosts},
+    directus::{Articles, Issues, RelatedArticles, Status, Users, WpPosts},
   },
-  prelude::OffsetDateTime,
+  prelude::{Deserialize, OffsetDateTime},
 };
 use ormlite::{
   model::{Model, ModelBuilder},
   types::Uuid,
 };
+use rayon::iter::{IntoParallelRefIterator, IntoParallelRefMutIterator};
 use regex::Regex;
 use std::collections::HashSet;
 use tracing::{info, warn};
@@ -51,26 +52,55 @@ impl<'a> ArticleMigrator<'a> {
 
   async fn migrate_all_posts(&mut self) -> Result<(), Box<dyn std::error::Error>> {
     let posts = WpPosts::select()
-      .where_("endnotes IS NOT NULL")
-      .where_("endnotes != ''")
-      .where_("author != 'Yaron Brook'")
-      .where_("content LIKE '%https://theobjectivestandard.com%/202%'")
-      .where_("content NOT LIKE '%https://theobjectivestandard.com%uploads%'")
+      //.where_("endnotes IS NOT NULL")
+      //.where_("endnotes != ''")
+      //.where_("author != 'Yaron Brook'")
+      //.where_("content LIKE '%https://theobjectivestandard.com%/202%'")
+      //.where_("content NOT LIKE '%https://theobjectivestandard.com%uploads%'")
       .fetch_all(self.mm.orm())
       .await?;
 
     for post in posts {
+      let issue_string = get_issue(post.title.clone());
+      let mut issue: Option<Issues> = None;
+      if let Some(issue_string) = issue_string {
+        let split_string = issue_string.split(" ").collect::<Vec<&str>>();
+        let season = split_string[0].to_owned().to_lowercase();
+        let year = split_string[1].to_owned();
+
+        let existing_issue = Issues::select()
+          .where_("season = ? AND year = ?")
+          .bind(season.clone())
+          .bind(year.clone())
+          .fetch_one(self.mm.orm())
+          .await;
+
+        if let Ok(existing_issue) = existing_issue {
+          issue = Some(existing_issue);
+        } else {
+          issue = Some(
+            Issues::builder()
+              .id(Uuid::new_v4())
+              .season(season.clone())
+              .year(year.clone())
+              .insert(self.mm.orm())
+              .await?,
+          );
+        }
+      }
+
       let is_article =
         tasks::is_article(self.mm, &take_first_n(1500, &post.content)).await?;
+
       if !is_article {
         tracing::warn!("Skipping non-article post: {:?}", post.title);
         continue;
       }
 
-      if let Err(e) = self.process_post(post).await {
+      if let Err(e) = self.process_post(post, issue).await {
         warn!("Failed to process post: {:?}", e);
       }
-      std::process::exit(0);
+      //std::process::exit(0);
     }
 
     Ok(())
@@ -80,13 +110,14 @@ impl<'a> ArticleMigrator<'a> {
   async fn process_post(
     &mut self,
     post: WpPosts,
+    issue: Option<Issues>,
   ) -> Result<Articles, Box<dyn std::error::Error>> {
     // Get or create the article
     let article =
       if let Ok(existing_article) = self.get_existing_article(&post.slug).await {
         existing_article
       } else {
-        let new_article = self.create_article(&post).await?;
+        let new_article = self.create_article(&post, issue.clone()).await?;
         tasks::add_tags(self.mm, &new_article).await?;
         tracing::info!("Added tags");
         tasks::add_subtitle(self.mm, &new_article).await?;
@@ -110,7 +141,8 @@ impl<'a> ArticleMigrator<'a> {
       ));
       for slug in related_slugs {
         if let Some(related_post) = self.get_wp_post_by_slug(&slug).await? {
-          let related_article = self.process_post(related_post).await?;
+          let related_article =
+            self.process_post(related_post, issue.clone()).await?;
           self
             .create_article_relationship(&article, &related_article)
             .await?;
@@ -181,6 +213,7 @@ impl<'a> ArticleMigrator<'a> {
   async fn create_article(
     &self,
     post: &WpPosts,
+    issue: Option<Issues>,
   ) -> Result<Articles, Box<dyn std::error::Error>> {
     let author = self.get_or_create_author(&post.author).await?;
     let (content, endnotes) = self.process_content(post)?;
@@ -204,6 +237,7 @@ impl<'a> ArticleMigrator<'a> {
       .descriptor(post.descriptor.clone())
       .slug(Some(post.slug.clone()))
       .author_id(author.id)
+      .issue(issue.map(|i| i.id))
       .insert(self.mm.orm())
       .await?;
 
@@ -368,4 +402,26 @@ fn clean_formatting(content: &str) -> String {
     .replace_all(&content, "*$1*");
 
   content.to_string()
+}
+
+#[derive(Deserialize, Debug)]
+struct Issue {
+  issue_title: String,
+  article_titles: Vec<String>,
+}
+
+fn get_issue(post_title: String) -> Option<String> {
+  let module_dir =
+    std::env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR not set");
+  let json_data = std::fs::read_to_string(module_dir + "/src/issues.json")
+    .expect("Unable to read file");
+  let issues: Vec<Issue> = json::from_str(&json_data).unwrap();
+
+  for issue in issues {
+    if issue.article_titles.contains(&post_title) {
+      return Some(issue.issue_title);
+    }
+  }
+
+  None
 }

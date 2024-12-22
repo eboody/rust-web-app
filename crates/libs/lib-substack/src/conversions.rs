@@ -104,6 +104,7 @@ pub fn md_to_prosemirror(md: &str) -> Result<Document> {
   let doc: Document = json::from_str(&prosemirror_string)?;
   Ok(doc)
 }
+const FOOTNOTE_REGEX: &str = r"#_?([a-zA-Z]{2,3})(note|ref)?-?(\d+)";
 
 pub fn transform_to_substack_format(node: &mut Node) {
   if let NodeType::Text = node.type_ {
@@ -113,8 +114,7 @@ pub fn transform_to_substack_format(node: &mut Node) {
       {
         if let Some(attrs) = &link_mark.attrs {
           if let Some(href) = &attrs.href {
-            let re =
-              regex::Regex::new(r"#_?([a-zA-Z]{2,3})(note|ref)?-?(\d+)").unwrap();
+            let re = regex::Regex::new(FOOTNOTE_REGEX).unwrap();
             if let Some(captures) = re.captures(href) {
               if let Some(number) = captures.get(3) {
                 //replace node with a footnote anchor node
@@ -243,9 +243,7 @@ fn is_citation_paragraph(node: &Node) -> bool {
     && let Some(first_mark) = marks.first()
     && let Some(attrs) = &first_mark.attrs
     && let Some(href) = &attrs.href
-    && let Some(captures) = regex::Regex::new(r"#_?(end|foot|edn)(note|ref)?-?(\d+)")
-      .unwrap()
-      .captures(href)
+    && let Some(captures) = regex::Regex::new(FOOTNOTE_REGEX).unwrap().captures(href)
   {
     true
   } else {
