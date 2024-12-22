@@ -163,8 +163,6 @@ async fn process_image_url(
   let article_image_with_same_info = ArticlesFiles::select()
     .where_("url = ?")
     .bind(url.to_string())
-    .where_("articles_id = ?")
-    .bind(article.id)
     .fetch_one(mm.orm())
     .await;
 
@@ -182,9 +180,11 @@ async fn process_image_url(
   let path_segments = url
     .path_segments()
     .ok_or(Error::NoPathSegments(url.to_string()))?;
+
   let file_name = path_segments
     .last()
     .ok_or(Error::NoLastPathSegment(url.to_string()))?;
+
   let file_extension = file_name
     .split('.')
     .last()
@@ -193,6 +193,8 @@ async fn process_image_url(
   let image_bytes = reqwest::get(url.clone()).await?.bytes().await?;
 
   let new_file_name = format!("{} {}", title, iteration_of_article_image);
+
+  let file_name_clone = file_name.to_owned();
 
   let directus_upload_form = multipart::Form::new()
     .part("title", multipart::Part::text(new_file_name))
@@ -203,10 +205,7 @@ async fn process_image_url(
     .part(
       "file",
       multipart::Part::stream(image_bytes)
-        .file_name(format!(
-          "{}-{}.{}",
-          slug, iteration_of_article_image, file_extension
-        ))
+        .file_name(file_name_clone)
         .mime_str("image/jpeg")?,
     );
 

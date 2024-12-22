@@ -29,48 +29,56 @@ pub fn routes(mm: ModelManager) -> Router {
   tokio::spawn(async move {
     let mm = mm_clone;
 
-    tasks::sync_sections(&mm).await.unwrap();
-
-    let article = Articles::select()
-      .where_("articles.id = ?")
-      .bind(Uuid::from_str("ed403190-6c5d-4e34-8dae-774f098ced61").unwrap())
-      .join(Articles::author())
-      .fetch_one(mm.orm())
-      .await
-      .unwrap();
-
-    let res = tasks::create_substack_draft(&mm, article.id).await;
-
-    if let Ok(draft) = res {
-      tokio::time::sleep(std::time::Duration::from_secs(5)).await;
-
-      let related_articles = lib_core::model::directus::RelatedArticles::select()
-        .where_("articles_id = ?")
-        .bind(article.id)
-        .fetch_all(mm.orm())
-        .await
-        .unwrap();
-
-      for related_article in related_articles {
-        let related_draft = lib_core::model::directus::SubstackDraft::select()
-          .where_("articles_id = ?")
-          .bind(related_article.related_articles_id)
-          .fetch_one(mm.orm())
-          .await
-          .unwrap();
-
-        tasks::delete_substack_draft(
-          &mm,
-          draft.articles_id,
-          related_draft.substack_draft_id,
-        )
-        .await
-        .expect("Failed to delete related draft");
-      }
-      tasks::delete_substack_draft(&mm, article.id, draft.substack_draft_id)
-        .await
-        .unwrap();
-    }
+    //tasks::sync_sections(&mm).await.unwrap();
+    //
+    //let article = Articles::select()
+    //  .where_("articles.id = ?")
+    //  .bind(Uuid::from_str("ed403190-6c5d-4e34-8dae-774f098ced61").unwrap())
+    //  .join(Articles::author())
+    //  .fetch_one(mm.orm())
+    //  .await
+    //  .unwrap();
+    //
+    //let res = tasks::create_substack_draft(&mm, article.id).await;
+    //
+    //if let Ok(draft) = res {
+    //  tokio::time::sleep(std::time::Duration::from_secs(10)).await;
+    //
+    //  let related_articles = lib_core::model::directus::RelatedArticles::select()
+    //    .where_("articles_id = ?")
+    //    .bind(article.id)
+    //    .fetch_all(mm.orm())
+    //    .await
+    //    .expect("Failed to fetch related articles");
+    //
+    //  for related_article in related_articles {
+    //    let article = lib_core::model::directus::Articles::select()
+    //      .where_("id = ?")
+    //      .bind(related_article.related_articles_id)
+    //      .fetch_one(mm.orm())
+    //      .await
+    //      .unwrap();
+    //
+    //    let related_draft = lib_core::model::directus::SubstackDraft::select()
+    //      .where_("articles_id = ?")
+    //      .bind(article.id)
+    //      .fetch_one(mm.orm())
+    //      .await
+    //      .expect("Failed to fetch related draft");
+    //
+    //    tasks::delete_substack_draft(
+    //      &mm,
+    //      article.id,
+    //      related_draft.substack_draft_id,
+    //    )
+    //    .await
+    //    .expect("Failed to delete related draft");
+    //  }
+    //
+    //  tasks::delete_substack_draft(&mm, article.id, draft.substack_draft_id)
+    //    .await
+    //    .unwrap();
+    //}
 
     //
     //if article.tags.is_none() {
