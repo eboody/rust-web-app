@@ -5,7 +5,7 @@ use model::directus::Articles;
 pub async fn add_subtitle(mm: &ModelManager, article: &Articles) -> Result<()> {
   let message = construct_message(article)?;
 
-  let generated_subtitle = openai::chat(mm.reqwest(), message).await?;
+  let generated_subtitle = openai::chat(mm, message).await?;
 
   article
     .update_partial()

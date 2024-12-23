@@ -27,7 +27,8 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
     .where_("slug = ?")
     .bind(slug)
     .fetch_one(mm.orm())
-    .await?;
+    .await
+    .expect("Failed to fetch wppost");
 
   let captions = parse_captions(&post.content)?;
   let image_urls = parse_images(&post.content)?;
@@ -60,9 +61,9 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
     let url: Url;
 
     if let Some(href_url) = &caption.href {
-      url = Url::parse(href_url)?;
+      url = parse_url(href_url)?;
     } else if let Some(img_url) = &caption.img {
-      url = Url::parse(img_url)?;
+      url = parse_url(img_url)?;
     } else {
       continue;
     }
@@ -87,25 +88,18 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
   Ok(())
 }
 
-fn parse_images(content: &str) -> Result<Vec<Option<Result<Url>>>> {
-  let caption_regex = Regex::new(
-    r#"(?x)
-<img.*
-src="(?P<url>.*?)"
-.*>"#,
-  )
-  .unwrap();
+fn parse_url(raw_url: &str) -> Result<Url> {
+  let base = Url::parse("https://theobjectivestandard.com")?;
+  Ok(Url::parse(raw_url).or_else(|_| base.join(raw_url))?)
+}
 
+fn parse_images(content: &str) -> Result<Vec<Option<Result<Url>>>> {
+  let caption_regex = Regex::new(r#"(?x)<img.*src="(?P<url>.*?)".*>"#).unwrap();
   Ok(
     caption_regex
       .captures_iter(content)
-      .map(|cap| {
-        let href = cap
-          .name("url")
-          .map(|m| Url::parse(m.as_str()).map_err(|e| e.into()));
-        href
-      })
-      .collect::<Vec<_>>(),
+      .map(|cap| cap.name("url").map(|m| parse_url(m.as_str())))
+      .collect(),
   )
 }
 
@@ -156,10 +150,15 @@ async fn process_image_url(
   article: &Articles,
   url: &Url,
   title: &str,
-  slug: &str,
+  _slug: &str,
   index: usize,
   caption: Option<&Caption>,
 ) -> Result<ArticlesFiles> {
+  let url = if url.has_host() {
+    url.clone()
+  } else {
+    parse_url(url.as_str())?
+  };
   let article_image_with_same_info = ArticlesFiles::select()
     .where_("url = ?")
     .bind(url.to_string())
@@ -185,77 +184,97 @@ async fn process_image_url(
     .last()
     .ok_or(Error::NoLastPathSegment(url.to_string()))?;
 
-  let file_extension = file_name
-    .split('.')
-    .last()
-    .ok_or(Error::NoFileExtension(file_name.to_string()))?;
-
-  let image_bytes = reqwest::get(url.clone()).await?.bytes().await?;
-
-  let new_file_name = format!("{} {}", title, iteration_of_article_image);
-
-  let file_name_clone = file_name.to_owned();
-
-  let directus_upload_form = multipart::Form::new()
-    .part("title", multipart::Part::text(new_file_name))
-    .part(
-      "folder",
-      multipart::Part::text(config().ARTICLES_IMAGES_FOLDER_ID.to_string()),
-    )
-    .part(
-      "file",
-      multipart::Part::stream(image_bytes)
-        .file_name(file_name_clone)
-        .mime_str("image/jpeg")?,
-    );
-
-  let image_file = mm
-    .reqwest()
-    .post("https://directus.eman.network/files")
-    .headers(config().DIRECTUS_HEADERS.clone())
-    .multipart(directus_upload_form)
-    .send()
-    .await
-    .map_err(|_| Error::FailedToUploadImage(url.clone()))?
-    .json::<ResponseDataWrapper<directus::api::Files>>()
-    .await?
-    .data;
-
-  directus::Files::select()
-    .where_("id = ?")
-    .bind(image_file.id)
+  if let Ok(existing_file) = directus::Files::select()
+    .where_("filename_download = ?")
+    .bind(file_name)
     .fetch_one(mm.orm())
-    .await?
-    .update_partial()
-    .description(caption.as_ref().and_then(|c| c.text.clone()))
-    .tags(article.tags.clone().map(|t| t.to_string()))
-    .update(mm.orm())
-    .await?;
+    .await
+  {
+    Ok(
+      ArticlesFiles::builder()
+        .directus_files_id(existing_file.id)
+        .articles_id(article.id)
+        .caption(caption.and_then(|c| c.text.clone()))
+        .figure(Some(iteration_of_article_image))
+        .url(Some(url.to_string()))
+        .insert(mm.orm())
+        .await
+        .expect("Failed to insert article file"),
+    )
+  } else {
+    //let file_extension = file_name
+    //  .split('.')
+    //  .last()
+    //  .ok_or(Error::NoFileExtension(file_name.to_string()))?;
 
-  let res = ArticlesFiles::builder()
-    .directus_files_id(image_file.id)
-    .articles_id(article.id)
-    .caption(caption.and_then(|c| c.text.clone()))
-    .figure(Some(iteration_of_article_image))
-    .url(Some(url.to_string()))
-    .insert(mm.orm())
-    .await;
+    let image_bytes = reqwest::get(url.clone()).await?.bytes().await?;
 
-  let article_files_item_failed_to_insert = res.is_err();
+    let new_file_name = format!("{} {}", title, iteration_of_article_image);
 
-  if article_files_item_failed_to_insert {
-    error!("Failed to insert image file: {:?}", res);
-    mm.reqwest()
-      .delete(format!(
-        "https://directus.eman.network/files/{}",
-        image_file.id
-      ))
+    let file_name_clone = file_name.to_owned();
+
+    let directus_upload_form = multipart::Form::new()
+      .part("title", multipart::Part::text(new_file_name))
+      .part(
+        "folder",
+        multipart::Part::text(config().ARTICLES_IMAGES_FOLDER_ID.to_string()),
+      )
+      .part(
+        "file",
+        multipart::Part::stream(image_bytes)
+          .file_name(file_name_clone)
+          .mime_str("image/jpeg")?,
+      );
+
+    let image_file = mm
+      .reqwest()
+      .post("https://directus.eman.network/files")
       .headers(config().DIRECTUS_HEADERS.clone())
+      .multipart(directus_upload_form)
       .send()
-      .await?;
-  }
+      .await
+      .map_err(|_| Error::FailedToUploadImage(url.clone()))?
+      .json::<ResponseDataWrapper<directus::api::Files>>()
+      .await
+      .expect("Failed to parse response")
+      .data;
 
-  Ok(res?)
+    directus::Files::select()
+      .where_("id = ?")
+      .bind(image_file.id)
+      .fetch_one(mm.orm())
+      .await?
+      .update_partial()
+      .description(caption.as_ref().and_then(|c| c.text.clone()))
+      .tags(article.tags.clone().map(|t| t.to_string()))
+      .update(mm.orm())
+      .await
+      .expect("Failed to update file");
+
+    let res = ArticlesFiles::builder()
+      .directus_files_id(image_file.id)
+      .articles_id(article.id)
+      .caption(caption.and_then(|c| c.text.clone()))
+      .figure(Some(iteration_of_article_image))
+      .url(Some(url.to_string()))
+      .insert(mm.orm())
+      .await;
+
+    let article_files_item_failed_to_insert = res.is_err();
+
+    if article_files_item_failed_to_insert {
+      error!("Failed to insert image file: {:?}", res);
+      mm.reqwest()
+        .delete(format!(
+          "https://directus.eman.network/files/{}",
+          image_file.id
+        ))
+        .headers(config().DIRECTUS_HEADERS.clone())
+        .send()
+        .await?;
+    }
+    Ok(res?)
+  }
 }
 
 async fn replace_caption(

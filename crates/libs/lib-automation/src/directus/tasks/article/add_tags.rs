@@ -5,7 +5,7 @@ use model::directus::Articles;
 pub async fn add_tags(mm: &ModelManager, article: &Articles) -> Result<()> {
   let message = construct_message(mm, article).await?;
 
-  let tags = openai::chat(mm.reqwest(), message)
+  let tags = openai::chat(mm, message)
     .await?
     .split(',')
     .map(|tag| tag.trim().to_owned())

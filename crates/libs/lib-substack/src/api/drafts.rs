@@ -111,6 +111,7 @@ impl Request {
       }
     }
 
+    tracing::debug!("->> {:<12} - section:\n{:#?}", file!(), article);
     let section = article
       .section
       .map(|section_id| async move {

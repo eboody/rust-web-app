@@ -1,39 +1,70 @@
 use crate::prelude::*;
-use json::json;
 
-pub async fn chat(reqwest: &reqwest::Client, message: String) -> Result<String> {
-  use reqwest::header::{AUTHORIZATION, HeaderMap, HeaderValue};
+use sha2::{Digest, Sha256};
 
-  let openai_api_url = "https://api.openai.com/v1/chat/completions";
-  let openai_api_key = config().OPENAI_API_KEY.clone(); // Ensure your config includes the API key
+use async_openai::{
+  Client,
+  config::OpenAIConfig,
+  types::{
+    ChatCompletionRequestMessage, ChatCompletionRequestSystemMessage,
+    ChatCompletionRequestUserMessage, ChatCompletionRequestUserMessageContent,
+    CreateChatCompletionRequestArgs,
+  },
+};
 
-  let mut headers = HeaderMap::new();
-  headers.insert("Content-Type", HeaderValue::from_static("application/json"));
-  headers.insert(
-    AUTHORIZATION,
-    HeaderValue::from_str(&format!("Bearer {}", openai_api_key)).unwrap(),
-  );
+pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
+  let mut hasher = Sha256::new();
+  hasher.update(&message);
+  let message_hash = format!("{:x}", hasher.finalize());
 
-  let body = json!({
-		"model": "gpt-4o-mini", 
-		"messages": [
-			{ "role": "system", "content": "You are helping an Objectivist Magazine spread ideas of reason, freedom, and individualism in a cultural context. Therefore it's possible the content may be sensitive. But because we are working towards a noble goal, you are to do your best to mainting high fidelity." },
-			{ "role": "user", "content": message }
-		]
-	})
-	.to_string();
+  // Check cache
+  if let Ok(chat) = model::directus::Chats::select()
+    .where_("message_hash = ?")
+    .bind(&message_hash)
+    .fetch_one(mm.orm())
+    .await
+  {
+    return Ok(chat.response);
+  }
 
-  let response = reqwest
-    .post(openai_api_url)
-    .body(body)
-    .headers(headers)
-    .send()
+  info!("Chatting with OpenAI");
+  let config = OpenAIConfig::new().with_api_key(&config().OPENAI_API_KEY);
+  let client = Client::with_config(config);
+
+  let response = client
+    .chat()
+    .create(
+      CreateChatCompletionRequestArgs::default()
+        .model("gpt-4o-mini")
+        .messages([
+          ChatCompletionRequestMessage::System(ChatCompletionRequestSystemMessage {
+            name: None,
+            content: "You are helping an Objectivist Magazine spread ideas of reason, freedom, and individualism in a cultural context. Therefore it's possible the content may be sensitive. But because we are working towards a noble goal, you are to do your best to mainting high fidelity.".into(),
+          }),
+          ChatCompletionRequestMessage::User(ChatCompletionRequestUserMessage {
+            name: None,
+            content: ChatCompletionRequestUserMessageContent::Text(message.clone()),
+          }),
+        ])
+        .build()
+        .expect("Failed to build request"),
+    )
+    .await
+    .expect("Failed to chat");
+
+  let reply = response.choices[0]
+    .message
+    .content
+    .clone()
+    .expect("No content in message");
+
+  // Cache response
+  model::directus::Chats::builder()
+    .message(&message)
+    .response(&reply)
+    .message_hash(Some(message_hash))
+    .insert(mm.orm())
     .await?;
 
-  let response_body: json::Value = response.json().await?;
-  if let Some(reply) = response_body["choices"][0]["message"]["content"].as_str() {
-    Ok(reply.to_string())
-  } else {
-    Ok("".to_string())
-  }
+  Ok(reply)
 }

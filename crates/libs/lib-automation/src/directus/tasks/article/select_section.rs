@@ -9,27 +9,39 @@ pub async fn select_section(mm: &ModelManager, article: &Articles) -> Result<()>
     .into_iter()
     .map(|s| s.display_string)
     .collect::<Vec<_>>();
+
   sections.push("Unknown".to_string());
 
   let message = construct_message(article, sections)?;
 
-  let selected_section_string = openai::chat(mm.reqwest(), message).await?;
+  let selected_section_string = openai::chat(mm, message).await?;
+
+  //debug!("Got selected section string: {}", selected_section_string);
 
   if selected_section_string == "Unknown" {
     return Ok(());
   }
 
+  //println!("selected_section_string: {:#?}", selected_section_string);
   let selected_section = Sections::select()
     .where_("display_string = ?")
     .bind(&selected_section_string)
     .fetch_one(mm.orm())
-    .await?;
+    .await
+    .unwrap_or_else(|_| {
+      panic!("Failed to fetch section: {}", selected_section_string)
+    });
+
+  //debug!("Got selected section: {:?}", selected_section);
 
   article
     .update_partial()
     .section(Some(selected_section.id))
     .update(mm.orm())
-    .await?;
+    .await
+    .expect("Failed to update article with section");
+
+  //debug!("Updated article with section");
 
   Ok(())
 }
@@ -50,10 +62,10 @@ fn construct_message(article: &Articles, sections: Vec<String>) -> Result<String
   let sections = sections.join(", ");
 
   let message = [
-    "You are to categorize this article into a section.",
-    "The only valid response is one of these:",
+    "You are to categorize this article into a section. No markdown, just plain text. DO NOT RETURN AN EMPTY STRING!",
+    "The ONLY valid response is EXACTLY one of these:[",
     &sections,
-    "Tagging Article:",
+    "]\n\nTagging Article:",
     title_line,
     content_line,
   ];

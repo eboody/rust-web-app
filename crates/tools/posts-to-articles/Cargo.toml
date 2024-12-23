@@ -16,7 +16,7 @@ tracing-subscriber = { workspace = true }
 async-recursion = "1"
 json = { workspace = true }
 serde = { workspace = true }
-rayon = "1"
+sqlmo = "0.22"
 
 [lints]
 workspace = true

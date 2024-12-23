@@ -11,12 +11,11 @@ use ormlite::{
   model::{Model, ModelBuilder},
   types::Uuid,
 };
-use rayon::iter::{IntoParallelRefIterator, IntoParallelRefMutIterator};
 use regex::Regex;
+use sqlmo::query::Direction;
 use std::collections::HashSet;
 use tracing::{info, warn};
 
-// Main entry point
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
   setup_logging()?;
@@ -51,18 +50,45 @@ impl<'a> ArticleMigrator<'a> {
   }
 
   async fn migrate_all_posts(&mut self) -> Result<(), Box<dyn std::error::Error>> {
+    //let chats_without_hashes = Chats::select()
+    //  .where_("message_hash IS NULL")
+    //  .fetch_all(self.mm.orm())
+    //  .await?;
+    //println!("chats_without_hashes: {:#?}", chats_without_hashes.len());
+    //
+    //for chat in chats_without_hashes {
+    //  println!("added hash to chat");
+    //  let mut hasher = Sha256::new();
+    //  hasher.update(&chat.message);
+    //  let message_hash = format!("{:x}", hasher.finalize());
+    //
+    //  chat
+    //    .update_partial()
+    //    .message_hash(Some(message_hash))
+    //    .update(self.mm.orm())
+    //    .await?;
+    //}
+
     let posts = WpPosts::select()
       //.where_("endnotes IS NOT NULL")
       //.where_("endnotes != ''")
       //.where_("author != 'Yaron Brook'")
       //.where_("content LIKE '%https://theobjectivestandard.com%/202%'")
       //.where_("content NOT LIKE '%https://theobjectivestandard.com%uploads%'")
+      .order_by("date", Direction::Desc)
       .fetch_all(self.mm.orm())
       .await?;
 
     for post in posts {
+      if let Ok(_existing_article) = self.get_existing_article(&post.slug).await {
+        info!("Skipping existing article: {:?}", post.title);
+        continue;
+      }
+
       let issue_string = get_issue(post.title.clone());
+
       let mut issue: Option<Issues> = None;
+
       if let Some(issue_string) = issue_string {
         let split_string = issue_string.split(" ").collect::<Vec<&str>>();
         let season = split_string[0].to_owned().to_lowercase();
@@ -112,19 +138,27 @@ impl<'a> ArticleMigrator<'a> {
     post: WpPosts,
     issue: Option<Issues>,
   ) -> Result<Articles, Box<dyn std::error::Error>> {
-    // Get or create the article
+    // get or create the article
     let article =
       if let Ok(existing_article) = self.get_existing_article(&post.slug).await {
         existing_article
       } else {
         let new_article = self.create_article(&post, issue.clone()).await?;
-        tasks::add_tags(self.mm, &new_article).await?;
+        tasks::add_tags(self.mm, &new_article)
+          .await
+          .expect("Failed to add tags");
         tracing::info!("Added tags");
-        tasks::add_subtitle(self.mm, &new_article).await?;
+        tasks::add_subtitle(self.mm, &new_article)
+          .await
+          .expect("Failed to add subtitle");
         tracing::info!("Added subtitle");
-        tasks::select_section(self.mm, &new_article).await?;
+        tasks::select_section(self.mm, &new_article)
+          .await
+          .expect("Failed to select section");
         tracing::info!("Selected section");
-        tasks::handle_images(self.mm, &new_article).await?;
+        tasks::handle_images(self.mm, &new_article)
+          .await
+          .expect("Failed to handle images");
         tracing::info!("Handled images");
         new_article
       };
@@ -140,12 +174,17 @@ impl<'a> ArticleMigrator<'a> {
         post.endnotes.unwrap_or_default()
       ));
       for slug in related_slugs {
-        if let Some(related_post) = self.get_wp_post_by_slug(&slug).await? {
+        if let Some(related_post) = self
+          .get_wp_post_by_slug(&slug)
+          .await
+          .expect("Failed to fetch related post")
+        {
           let related_article =
             self.process_post(related_post, issue.clone()).await?;
           self
             .create_article_relationship(&article, &related_article)
-            .await?;
+            .await
+            .expect("Failed to create relationship");
         }
       }
     }
@@ -306,7 +345,6 @@ impl<'a> ArticleMigrator<'a> {
       .collect()
   }
 
-  // Helper methods for content processing
   fn clean_html_content(
     &self,
     content: &str,
@@ -339,7 +377,6 @@ impl<'a> ArticleMigrator<'a> {
   }
 }
 
-// Utility functions
 fn setup_logging() -> Result<(), Box<dyn std::error::Error>> {
   if tracing_subscriber::fmt()
     .without_time()
