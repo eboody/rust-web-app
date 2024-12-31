@@ -1,5 +1,7 @@
-mod document;
-mod response;
+pub mod document;
+pub mod response;
 
-pub use document::Document;
-pub use response::Response;
+pub use self::{
+    document::*,
+    response::*,
+};

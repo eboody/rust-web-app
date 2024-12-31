@@ -9,7 +9,7 @@ lib-utils = { path = "../../libs/lib-utils" }
 lib-auth = { path = "../../libs/lib-auth" }
 lib-core = { path = "../../libs/lib-core" }
 lib-automation = { path = "../../libs/lib-automation" }
-lib-web = { path = "../../libs/lib-web" }
+# lib-web = { path = "../../libs/lib-web" }
 
 # -- Async
 tokio = { workspace = true }
@@ -19,7 +19,6 @@ serde_with = { workspace = true }
 derive_more = { workspace = true }
 
 axum = { version = "0.7", features = ["macros"] }
-hyper = "1"
 tower-http = { version = "0.6", features = ["cors", "fs", "trace"] }
 tower-cookies = "0.10"
 tracing = { workspace = true }

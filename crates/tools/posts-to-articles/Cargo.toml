@@ -7,7 +7,6 @@ edition = "2024"
 tracing = { workspace = true }
 ormlite = { workspace = true }
 lib-core = { path = "../../libs/lib-core" }
-lib-substack = { path = "../../libs/lib-substack" }
 lib-automation = { path = "../../libs/lib-automation" }
 tokio = { workspace = true }
 htmd = "0.1"
@@ -15,7 +14,7 @@ regex = "1"
 tracing-subscriber = { workspace = true }
 async-recursion = "1"
 json = { workspace = true }
-serde = { workspace = true }
+# serde = { workspace = true }
 sqlmo = "0.22"
 
 [lints]

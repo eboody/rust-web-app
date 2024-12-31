@@ -14,3 +14,6 @@ bon = { version = "*", optional = true }
 
 [features]
 bon = ["dep:bon"]
+
+[package.metadata.cargo-machete]
+ignored = ["bon"]

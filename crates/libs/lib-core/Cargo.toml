@@ -29,7 +29,6 @@ derive_more = { workspace = true }
 reqwest = { workspace = true }
 ormlite = { workspace = true }
 uuid = { workspace = true }
-mime = "0.3"
 partially = { version = "0.2", features = ["derive"] }
 
 [dev-dependencies]

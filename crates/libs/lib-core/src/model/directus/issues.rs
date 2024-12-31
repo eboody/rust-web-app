@@ -1,5 +1,3 @@
-use directus::Status;
-
 use crate::prelude::*;
 
 #[derive(Clone, Debug, ormlite::Model)]

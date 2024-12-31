@@ -61,6 +61,10 @@ pub enum Error {
 
   #[from]
   Regex(#[serde_as(as = "DisplayFromStr")] regex::Error),
+
+  #[from]
+  OpenAi(#[serde_as(as = "DisplayFromStr")] async_openai::error::OpenAIError),
+  ChatNoContent,
 }
 
 impl IntoResponse for Error {

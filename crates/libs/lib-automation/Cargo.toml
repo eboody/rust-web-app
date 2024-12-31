@@ -23,14 +23,13 @@ url = { workspace = true }
 tracing = { workspace = true }
 axum = "*"
 regex = "1.11.1"
-mime = "0.3"
 futures = "0.3"
-moddef = "0.2"
-sqlmo = "0.22"
 sha2 = "0.10"
 async-openai = "0.26"
-
 async-recursion = "1"
+
+[build-dependencies]
+barexp = "1"
 
 [lints]
 workspace = true

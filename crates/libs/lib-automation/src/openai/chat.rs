@@ -17,7 +17,7 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
   hasher.update(&message);
   let message_hash = format!("{:x}", hasher.finalize());
 
-  // Check cache
+  //ccheck cache
   if let Ok(chat) = model::directus::Chats::select()
     .where_("message_hash = ?")
     .bind(&message_hash)
@@ -27,7 +27,6 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
     return Ok(chat.response);
   }
 
-  info!("Chatting with OpenAI");
   let config = OpenAIConfig::new().with_api_key(&config().OPENAI_API_KEY);
   let client = Client::with_config(config);
 

@@ -1,6 +1,7 @@
-moddef::moddef!(
-  flat(pub) mod {
-    article,
-    sync_sections,
-  },
-);
+pub mod article;
+pub mod sync_sections;
+
+pub use self::{
+    article::*,
+    sync_sections::*,
+};

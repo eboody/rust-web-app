@@ -15,7 +15,6 @@ ormlite = { workspace = true }
 reqwest = { workspace = true }
 url = { workspace = true }
 tracing = { workspace = true }
-sqlx = { workspace = true }
 mime = "0.3"
 
 regex = "1"

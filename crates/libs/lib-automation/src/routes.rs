@@ -27,7 +27,7 @@ pub fn routes(mm: ModelManager) -> Router {
   //});
 
   tokio::spawn(async move {
-    let mm = mm_clone;
+    let _mm = mm_clone;
 
     //tasks::sync_sections(&mm).await.unwrap();
     //
