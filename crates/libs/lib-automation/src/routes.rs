@@ -4,7 +4,7 @@ use std::str::FromStr;
 use crate::prelude::*;
 use axum::{Json, Router, extract::State, routing::post};
 use directus::{
-  on_item_update, tasks,
+  tasks,
   trigger::{self, Event},
 };
 use json::json;
@@ -102,7 +102,7 @@ pub fn routes(mm: ModelManager) -> Router {
   Router::new()
     .route("/substack_export", post(test))
     //.route("/on_file_upload", post(directus::on_file_upload))
-    .route("/item_update", post(directus::on_item_update))
+    .route("/item_update", post(directus::events::on_item_update))
     .route("/check", post(|| async { "OK" }))
     .with_state(mm)
 }

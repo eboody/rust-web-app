@@ -15,6 +15,7 @@ use regex::Regex;
 use sqlmo::query::Direction;
 use std::collections::HashSet;
 use tracing::{info, warn};
+use tracing_subscriber::EnvFilter;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -75,13 +76,13 @@ impl<'a> ArticleMigrator<'a> {
       //.where_("author != 'Yaron Brook'")
       //.where_("content LIKE '%https://theobjectivestandard.com%/202%'")
       //.where_("content NOT LIKE '%https://theobjectivestandard.com%uploads%'")
+      .where_("title = 'John Singer Sargent and the Art of Elegance'")
       .order_by("date", Direction::Desc)
       .fetch_all(self.mm.orm())
       .await?;
 
     for post in posts {
       if let Ok(_existing_article) = self.get_existing_article(&post.slug).await {
-        info!("Skipping existing article: {:?}", post.title);
         continue;
       }
 
@@ -381,6 +382,7 @@ fn setup_logging() -> Result<(), Box<dyn std::error::Error>> {
   if tracing_subscriber::fmt()
     .without_time()
     .with_target(false)
+    .with_env_filter(EnvFilter::from_default_env())
     .try_init()
     .is_err()
   {

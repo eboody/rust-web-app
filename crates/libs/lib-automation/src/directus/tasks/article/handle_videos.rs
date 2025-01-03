@@ -212,7 +212,7 @@ async fn process_video_url(
     .multipart(directus_upload_form)
     .send()
     .await
-    .map_err(|_| Error::FailedToUploadImage(url.clone()))?
+    .map_err(|_| Error::FailedToUploadImage(url.clone().to_string()))?
     .json::<ResponseDataWrapper<directus::api::Files>>()
     .await?
     .data;

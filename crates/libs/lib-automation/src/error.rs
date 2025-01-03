@@ -57,7 +57,8 @@ pub enum Error {
   NoPathSegments(String),
   NoFileExtension(String),
 
-  FailedToUploadImage(Url),
+  FailedToUploadImage(String),
+  ArticleImageAlreadyExisted(String),
 
   #[from]
   Regex(#[serde_as(as = "DisplayFromStr")] regex::Error),

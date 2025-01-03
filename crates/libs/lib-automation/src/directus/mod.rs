@@ -1,9 +1,5 @@
-pub mod tasks;
 pub mod events;
+pub mod tasks;
 pub mod trigger;
 
-pub use self::{
-    tasks::*,
-    events::*,
-    trigger::*,
-};
+pub use self::trigger::*;

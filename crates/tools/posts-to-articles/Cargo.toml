@@ -14,7 +14,8 @@ regex = "1"
 tracing-subscriber = { workspace = true }
 async-recursion = "1"
 json = { workspace = true }
-# serde = { workspace = true }
+serde = { workspace = true }
+sqlx = { workspace = true }
 sqlmo = "0.22"
 
 [lints]
