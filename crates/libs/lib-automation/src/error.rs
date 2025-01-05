@@ -1,5 +1,4 @@
-use std::sync::Arc;
-use url::Url;
+use std::{string::FromUtf8Error, sync::Arc};
 use uuid::Uuid;
 
 use axum::response::{IntoResponse, Response};
@@ -56,6 +55,7 @@ pub enum Error {
   NoLastPathSegment(String),
   NoPathSegments(String),
   NoFileExtension(String),
+  NoUrlInCaption,
 
   FailedToUploadImage(String),
   ArticleImageAlreadyExisted(String),
@@ -66,6 +66,9 @@ pub enum Error {
   #[from]
   OpenAi(#[serde_as(as = "DisplayFromStr")] async_openai::error::OpenAIError),
   ChatNoContent,
+
+  #[from]
+  UrlEncoding(#[serde_as(as = "DisplayFromStr")] FromUtf8Error),
 }
 
 impl IntoResponse for Error {

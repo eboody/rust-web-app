@@ -22,6 +22,7 @@ uuid = { workspace = true }
 url = { workspace = true }
 tracing = { workspace = true }
 axum = "*"
+urlencoding = "2"
 regex = "1.11.1"
 futures = "0.3"
 sha2 = "0.10"

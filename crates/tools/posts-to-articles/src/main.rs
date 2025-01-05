@@ -76,7 +76,6 @@ impl<'a> ArticleMigrator<'a> {
       //.where_("author != 'Yaron Brook'")
       //.where_("content LIKE '%https://theobjectivestandard.com%/202%'")
       //.where_("content NOT LIKE '%https://theobjectivestandard.com%uploads%'")
-      .where_("title = 'John Singer Sargent and the Art of Elegance'")
       .order_by("date", Direction::Desc)
       .fetch_all(self.mm.orm())
       .await?;
