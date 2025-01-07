@@ -10,27 +10,26 @@ const { addListNodes } = require("prosemirror-schema-list");
 
 // Extend the basic schema to include list nodes
 const schema = new Schema({
-  nodes: addListNodes(basicSchema.spec.nodes, "paragraph block*", "block").update("image", {
-    inline: true,
-    group: "inline",
-    draggable: true,
-    attrs: {
-      src: {},
-      alt: { default: null },
-      title: { default: null },
-    },
-    parseDOM: [
-      {
+  nodes: addListNodes(basicSchema.spec.nodes, "paragraph block*", "block")
+    .update("image", {
+      inline: true,
+      group: "inline",
+      draggable: true,
+      attrs: {
+        src: { default: null },  // Make src optional just like other attrs
+        alt: { default: null },
+        title: { default: null },
+      },
+      parseDOM: [{
         tag: "img[src]",
         getAttrs: (dom) => ({
           src: dom.getAttribute("src"),
           alt: dom.getAttribute("alt"),
           title: dom.getAttribute("title"),
         }),
-      },
-    ],
-    toDOM: (node) => ["img", node.attrs],
-  }),
+      }],
+      toDOM: (node) => ["img", node.attrs],
+    }),
   marks: basicSchema.spec.marks,
 });
 
@@ -54,8 +53,8 @@ const mdParser = new MarkdownParser(schema, markdownIt(), {
     node: "image",
     getAttrs: (tok) => ({
       src: tok.attrGet("src"),
-      alt: tok.attrGet("alt") || null,
-      title: tok.attrGet("title") || null,
+      alt: tok.attrGet("alt"),
+      title: tok.attrGet("title"),
     }),
   },
 });

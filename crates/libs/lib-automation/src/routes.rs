@@ -117,7 +117,7 @@ async fn test(
     return Err(Error::NoKeyInTrigger(trigger.clone()));
   };
 
-  tasks::create_substack_draft(&mm, *article_id).await?;
+  tasks::substack::drafts::create(&mm, *article_id).await?;
 
   Ok("OK".to_owned())
 }

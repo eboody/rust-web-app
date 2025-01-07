@@ -91,17 +91,30 @@ pub fn extract_heading(document: &mut Node) -> Option<String> {
 pub fn md_to_prosemirror(md: &str) -> Result<Document> {
   let prosemirror_output = Command::new("./scripts/to-prosemirror/mdtp.js")
     .arg(md)
-    .output();
+    .output()
+    .expect("Failed to run mdtp.js");
 
-  let prosemirror_output = prosemirror_output?;
+  // Print debug output
+  if !prosemirror_output.stderr.is_empty() {
+    //eprintln!(
+    //  "Debug output: {}",
+    //  String::from_utf8_lossy(&prosemirror_output.stderr)
+    //);
+  }
 
   if !prosemirror_output.status.success() {
+    //eprintln!(
+    //  "Process failed with output: {}",
+    //  String::from_utf8_lossy(&prosemirror_output.stdout)
+    //);
     return Err(Error::ProseMirrorFailed);
   }
 
-  let (prosemirror_string, _, _) = UTF_8.decode(&prosemirror_output.stdout);
+  let prosemirror_string = String::from_utf8_lossy(&prosemirror_output.stdout);
+  //eprintln!("ProseMirror JSON output: {}", prosemirror_string);
 
-  let doc: Document = json::from_str(&prosemirror_string)?;
+  let doc: Document =
+    json::from_str(&prosemirror_string).expect("Failed to parse ProseMirror JSON");
   Ok(doc)
 }
 const FOOTNOTE_REGEX: &str = r"#_?([a-zA-Z]{2,3})(note|ref)?-?(\d+)";

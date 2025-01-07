@@ -64,8 +64,9 @@ tracing = { version = "0.1", features = ["log"] }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [workspace.metadata.scripts]
-w = "cargo run-script bundle & bacon"
+w = "cargo run-script bundle & cargo run-script watch"
 bundle = "rm ./crates/sites/site_1/src/web-folder/assets/index* & cargo run-script bundle-site-1"
+watch = "cargo watch -q -c -w crates/ -w Cargo.toml -w .cargo/ --ignore target/ -x \"run -p web-server\""
 bundle-site-1 = "rm -rf crates/sites/site_1/src/web-folder/js && npm --prefix crates/sites/site_1/src/vite-alpine run build"
 devdb = "docker run --rm --name pg -p 5432:5432 -e POSTGRES_PASSWORD=welcome postgres:16"
 gen_models = 'pg2rs --postgres_crate ormlite --connection-string $(grep DIRECTUS_DB .cargo/config.toml | sed -E "s/.*DIRECTUS_DB\s*?=\s*?\"?([^\"]+)\"?.*/\1/") --schema public --output_file crates/libs/lib-core/src/model/directus_structs.rs'

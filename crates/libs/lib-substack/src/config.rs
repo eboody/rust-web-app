@@ -15,6 +15,7 @@ pub struct SubstackConfig {
   pub HEADERS: HeaderMap,
   pub API_URL: String,
   pub PUBLICATION_ID: i64,
+  pub DIRECTUS_URL: String,
 }
 
 impl SubstackConfig {
@@ -41,6 +42,7 @@ impl SubstackConfig {
         .unwrap()
         .parse::<i64>()
         .unwrap(),
+      DIRECTUS_URL: std::env::var("DIRECTUS_URL").expect("DIRECTUS_URL not found"),
     })
   }
 }

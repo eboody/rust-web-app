@@ -97,7 +97,9 @@ impl Request {
     let content = re.replace_all(content, "").to_string();
 
     // Process content and endnotes
-    let doc = md_to_prosemirror(&content)?;
+    let doc = md_to_prosemirror(&content)
+      .expect("Failed to convert markdown to prosemirror");
+    tracing::debug!("->> {:<12} - doc:\n{:#?}", module_path!(), doc);
     let mut doc: prose_mirror::Node = doc.into();
     transform_to_substack_format(&mut doc);
 
@@ -129,7 +131,10 @@ impl Request {
 
     let request = Self {
       audience: Audience::Everyone,
-      draft_body: Body(json::to_string(&doc)?),
+      draft_body: Body(json::to_string(&doc)?.replace(
+        "/assets/",
+        format!("{}/assets/", &config().DIRECTUS_URL).as_str(),
+      )),
       draft_title: article.title.clone().ok_or_else(|| Error::NoArticleTitle)?,
       draft_subtitle: article.subtitle.clone().unwrap_or_default(),
       draft_bylines: vec![ByLine {

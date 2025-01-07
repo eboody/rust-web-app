@@ -6,9 +6,11 @@ use tracing::{info, warn};
 
 use async_recursion::async_recursion;
 
+const BYLINE_ID: i64 = 292604153;
+
 /// Export an article to Substack as a draft
 #[async_recursion]
-pub async fn create_substack_draft(
+pub async fn create(
   mm: &ModelManager,
   article_id: Uuid,
 ) -> Result<directus::SubstackDraft> {
@@ -37,13 +39,13 @@ pub async fn create_substack_draft(
     .await
   {
     for linked_article in linked_articles {
-      create_substack_draft(mm, linked_article.related_articles_id).await?;
+      create(mm, linked_article.related_articles_id).await?;
     }
   }
 
   // Export to Substack
   let draft_response =
-    drafts::Request::export_from_article(mm, &article, 292604153).await?;
+    drafts::Request::export_from_article(mm, &article, BYLINE_ID).await?;
 
   info!(
     "Exported Substack draft {} for article {}",
@@ -119,7 +121,7 @@ pub async fn update_substack_draft(
   drafts::Request::delete(mm.reqwest(), draft_id).await?;
 
   // Create new draft with updated content
-  let response = create_substack_draft(mm, article_id).await?;
+  let response = create(mm, article_id).await?;
 
   info!(
     "Updated Substack draft {} for article {} (new draft ID: {})",

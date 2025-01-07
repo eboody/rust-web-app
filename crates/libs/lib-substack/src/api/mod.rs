@@ -1,6 +1,5 @@
 moddef::moddef!(
   flat(pub) mod {
-    image,
     publication,
     publication_user,
     resource,

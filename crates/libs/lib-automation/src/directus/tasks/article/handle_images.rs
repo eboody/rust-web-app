@@ -8,7 +8,7 @@ use tracing::warn;
 
 use crate::prelude::*;
 
-use tracing::{debug, error};
+use tracing::error;
 
 struct ImageProcessor<'a> {
   mm: &'a ModelManager,
@@ -20,9 +20,9 @@ struct ImageProcessor<'a> {
 }
 
 impl ImageProcessor<'_> {
-  async fn process(&self) -> Result<ArticlesFiles> {
+  async fn process(&mut self) -> Result<ArticlesFiles> {
     let url = self.normalize_url()?;
-    debug!("Processing image at url: {}", url);
+    //debug!("Processing image at url: {}", url);
 
     self.check_for_existing_article_image(&url).await?;
 
@@ -88,7 +88,7 @@ impl ImageProcessor<'_> {
     )
   }
 
-  async fn upload_and_create_new_file(&self) -> Result<ArticlesFiles> {
+  async fn upload_and_create_new_file(&mut self) -> Result<ArticlesFiles> {
     let image_file = self.upload_file().await?;
 
     self.update_file_metadata(&image_file).await?;
@@ -103,8 +103,20 @@ impl ImageProcessor<'_> {
     }
   }
 
-  async fn upload_file(&self) -> Result<directus::api::Files> {
-    let image_bytes = reqwest::get(self.url.clone()).await?.bytes().await?;
+  async fn upload_file(&mut self) -> Result<directus::api::Files> {
+    let url = get_commons_url(self.url.clone())
+      .await?
+      .expect("Failed to get commons url");
+
+    let url = Url::parse(urlencoding::decode(url.as_str())?.to_string().as_str())?;
+
+    let response = reqwest::Client::new()
+      .get(url.clone())
+      .header("User-Agent", "Mozilla/5.0 (compatible; MyBot/1.0)")
+      .send()
+      .await?;
+
+    let image_bytes = response.bytes().await?;
     let form = self.create_upload_form(image_bytes)?;
 
     self
@@ -115,7 +127,7 @@ impl ImageProcessor<'_> {
       .multipart(form)
       .send()
       .await
-      .map_err(|_| Error::FailedToUploadImage(self.url.to_string()))?
+      .map_err(|_| Error::FailedToUploadImage(url.to_string()))?
       .json::<ResponseDataWrapper<directus::api::Files>>()
       .await
       .map(|wrapper| wrapper.data)
@@ -188,7 +200,7 @@ async fn process_image_url(
   index: usize,
   caption: Option<&Caption>,
 ) -> Result<ArticlesFiles> {
-  let processor = ImageProcessor {
+  let mut processor = ImageProcessor {
     mm,
     article,
     url: url.clone(),
@@ -240,6 +252,7 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
         .any(|caption| caption.img.as_deref() == Some(url.as_str()))
     })
     .collect::<Vec<_>>();
+
   let mut index = 1;
 
   for caption in captions.into_iter() {
@@ -257,23 +270,28 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
     let article_image_file: Result<ArticlesFiles> =
       process_image_url(mm, article, &url, title, slug, index, Some(&caption)).await;
 
+    let Ok(article_image_file) = article_image_file else {
+      let e = article_image_file.unwrap_err();
+
+      if e.to_string().contains("ArticleImageAlreadyExisted") {
+        warn!("Article image already existed: {:?}", e);
+      } else {
+        error!("Failed to process image {}: {:?}", url, e);
+      }
+
+      continue;
+    };
+
     replace_caption(
       mm,
       article,
       Some(caption.figure.clone().unwrap_or(index.to_string()).as_str()),
       caption.text.as_deref(),
       &url,
+      article_image_file.directus_files_id,
     )
     .await?;
 
-    if let Err(e) = article_image_file {
-      if e.to_string().contains("ArticleImageAlreadyExisted") {
-        warn!("Article image already existed: {:?}", e);
-        continue;
-      }
-      error!("Failed to process image {}: {:?}", url, e);
-      continue;
-    }
     index += 1;
   }
 
@@ -289,6 +307,8 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
       error!("Failed to process image {}: {:?}", url, e);
       continue;
     }
+    let article_image_file = article_image_file?;
+    replace_img_tag(mm, article, &url, article_image_file.directus_files_id).await?;
     index += 1;
   }
 
@@ -312,11 +332,18 @@ fn parse_images(content: &str) -> Result<Vec<Option<Result<Url>>>> {
 }
 
 static IMG_REGEX: LazyLock<Regex> = LazyLock::new(|| {
-  Regex::new(r#"(?x)<img.*src=".*?".*>"#).expect("Invalid regex pattern")
+  Regex::new(r#"(?x)\[caption.*?](<img.*src=".*?".*>).*?\[/caption]"#)
+    .expect("Invalid regex pattern")
 });
 
 fn replace_img_blocks(content: String) -> String {
-  IMG_REGEX.replace_all(&content, "").to_string()
+  let mut interim_content: String = String::from(&content);
+  IMG_REGEX.captures_iter(&content).for_each(|cap| {
+    tracing::debug!("->> {:<12} - cap:\n{:#?}", module_path!(), cap);
+    let img = cap.get(1).unwrap().as_str();
+    interim_content = content.replace(img, "");
+  });
+  interim_content
 }
 
 fn parse_captions(content: &str) -> Result<Vec<Caption>> {
@@ -335,18 +362,30 @@ src="(?P<img>.*?)".*?
   )
   .unwrap();
 
+  let wiki_caption_regex = Regex::new(r#"<a\s+href="(?P<href>http[s]?://commons\.wikimedia\.org/wiki/File:.*?)".*?>(?P<caption>.*?)</a>"#).unwrap();
+
   let captions = caption_regex
     .captures_iter(content)
     .map(|cap| {
-      let href = cap.name("href").map(|m| m.as_str());
+      let mut href = cap.name("href").map(|m| m.as_str());
       let img = cap.name("img").map(|m| m.as_str());
       let figure = cap.name("figure").map(|m| m.as_str());
-      let caption = cap.name("caption").map(|m| m.as_str());
+      let mut caption_text = None;
+
+      if let Some(c) = cap.name("caption") {
+        if let Some(wiki_cap) = wiki_caption_regex.captures(c.as_str()) {
+          href = wiki_cap.name("href").map(|h| h.as_str());
+          caption_text = wiki_cap.name("caption").map(|c| c.as_str());
+        } else {
+          caption_text = Some(c.as_str());
+        }
+      }
+
       Caption {
         href: href.map(|s| s.to_string()),
         img: img.map(|s| s.to_string()),
         figure: figure.map(|s| s.to_string()),
-        text: caption.map(|s| s.to_string()),
+        text: caption_text.map(|s| s.to_string()),
       }
     })
     .collect::<Vec<_>>();
@@ -496,41 +535,113 @@ struct Caption {
 //  }
 //}
 
+pub async fn get_commons_url(url: Url) -> Result<Option<Url>> {
+  // Check if wikimedia File: url
+  if !url.path().contains("/wiki/File:") {
+    return Ok(Some(url));
+  }
+
+  // Get page HTML
+  let client = reqwest::Client::new();
+  let response = client.get(url).send().await?.text().await?;
+
+  // Extract commons URL using regex
+  let re = Regex::new(
+    r#"<a href="(https://upload\.wikimedia\.org/wikipedia/commons/[^"]+)"[^>]+class="internal""#,
+  )?;
+
+  Ok(
+    re.captures(&response)
+      .and_then(|caps| caps.get(1))
+      .map(|m| m.as_str().to_string())
+      .map(|s| Url::parse(&s).expect("Failed to parse URL")),
+  )
+}
+
 async fn replace_caption(
   mm: &ModelManager,
   article: &Articles,
-  figure: Option<&str>,
+  _figure: Option<&str>,
   caption_text: Option<&str>,
   url: &Url,
+  image_id: Uuid,
 ) -> Result<()> {
-  //tracing::debug!("->> {:<12} - article:\n{:#?}", file!(), article);
-  //tracing::debug!("->> {:<12} - figure:\n{:#?}", file!(), figure);
-  //tracing::debug!("->> {:<12} - caption_text:\n{:#?}", file!(), caption_text);
-
   let article = Articles::select()
     .where_("id = ?")
     .bind(article.id)
     .fetch_one(mm.orm())
     .await?;
 
-  let regex_str = format!(
-    r#"(?xms)(\\\[caption.*?{}.*?\\\[/caption\\\])"#,
-    regex::escape(url.as_str()),
-  );
+  //tracing::debug!("->> {:<12} - article:\n{:#?}", file!(), article);
+  //tracing::debug!("->> {:<12} - figure:\n{:#?}", file!(), figure);
+  tracing::debug!("->> {:<12} - caption_text:\n{:#?}", file!(), caption_text);
+
+  let regex_str =
+    format!(r#"(?x)(\\\[caption.*?{}.*?\\\[/caption\\\])"#, url.as_str(),);
+
+  tracing::debug!("->> {:<12} - regex_str:\n{:#?}", module_path!(), regex_str);
+
+  let a_tag_regex = Regex::new(r#"(?x)<a.*?>"#).unwrap();
 
   let caption_regex = Regex::new(&regex_str).unwrap();
 
   if let Some(article_body) = &article.body
-    && let Some(figure) = figure
     && let Some(caption_text) = caption_text
   {
+    let caption_text = a_tag_regex.replace(caption_text, "");
     let new_caption = format!(
-      "![Fig. {}: {}]({})",
-      figure,
-      caption_text.replace("<em>", "").replace("</em>", ""),
-      url
+      "![{}](/assets/{})",
+      caption_text
+        .replace("<em>", "")
+        .replace("</em>", "")
+        .replace("</a>", "")
+        .trim(),
+      image_id,
     );
-    let article_body = caption_regex.replace(article_body, new_caption);
+    tracing::debug!(
+      "->> {:<12} - new_caption:\n{:#?}",
+      module_path!(),
+      new_caption
+    );
+
+    let article_body = caption_regex.replace(article_body, new_caption.clone());
+
+    article
+      .update_partial()
+      .body(Some(article_body.to_string()))
+      .update(mm.orm())
+      .await?;
+  }
+
+  Ok(())
+}
+
+async fn replace_img_tag(
+  mm: &ModelManager,
+  article: &Articles,
+  url: &Url,
+  image_id: Uuid,
+) -> Result<()> {
+  let article = Articles::select()
+    .where_("id = ?")
+    .bind(article.id)
+    .fetch_one(mm.orm())
+    .await?;
+
+  let regex_str = format!(r#"(?x)\!\[.*?\]\({}\)"#, url.as_str(),);
+
+  let caption_regex = Regex::new(&regex_str).unwrap();
+
+  if let Some(article_body) = &article.body {
+    let new_caption = format!("![](/assets/{})", image_id,);
+    tracing::debug!(
+      "->> {:<12} - new_caption:\n{:#?}",
+      module_path!(),
+      new_caption
+    );
+
+    let article_body = caption_regex.replace(article_body, new_caption.clone());
+
     article
       .update_partial()
       .body(Some(article_body.to_string()))
