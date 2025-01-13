@@ -13,34 +13,34 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum RolesUsersInner {
-	String(uuid::Uuid),
-	Users(Box<super::Users>),
+  String(uuid::Uuid),
+  Users(Box<super::Users>),
 }
 
 impl Default for RolesUsersInner {
-	fn default() -> Self {
-		Self::String(Default::default())
-	}
+  fn default() -> Self {
+    Self::String(Default::default())
+  }
 }
 /// Status of the user.
 #[derive(
-	Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize,
+  Clone, Copy, Debug, Eq, PartialEq, Ord, PartialOrd, Hash, Serialize, Deserialize,
 )]
 pub enum Status {
-	#[serde(rename = "active")]
-	Active,
-	#[serde(rename = "invited")]
-	Invited,
-	#[serde(rename = "draft")]
-	Draft,
-	#[serde(rename = "suspended")]
-	Suspended,
-	#[serde(rename = "deleted")]
-	Deleted,
+  #[serde(rename = "active")]
+  Active,
+  #[serde(rename = "invited")]
+  Invited,
+  #[serde(rename = "draft")]
+  Draft,
+  #[serde(rename = "suspended")]
+  Suspended,
+  #[serde(rename = "deleted")]
+  Deleted,
 }
 
 impl Default for Status {
-	fn default() -> Status {
-		Self::Active
-	}
+  fn default() -> Status {
+    Self::Active
+  }
 }

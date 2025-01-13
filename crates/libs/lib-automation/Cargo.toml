@@ -10,6 +10,7 @@ lib-core = { path = "../lib-core" }
 lib-substack = { path = "../lib-substack" }
 
 tokio = { workspace = true }
+time = { workspace = true }
 
 serde = { workspace = true }
 serde_with = { workspace = true }
@@ -26,8 +27,9 @@ urlencoding = "2"
 regex = "1.11.1"
 futures = "0.3"
 sha2 = "0.10"
-async-openai = "0.26"
+async-openai = "0.27"
 async-recursion = "1"
+statum = { path = "/home/eran/code/statum/statum", features = ["serde"] }
 
 [build-dependencies]
 barexp = "1"

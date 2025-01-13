@@ -12,17 +12,17 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct UpdateFilesRequest {
-	#[serde(rename = "data", skip_serializing_if = "Option::is_none")]
-	pub data: Option<Box<super::CreateFileRequest>>,
-	#[serde(rename = "keys", skip_serializing_if = "Option::is_none")]
-	pub keys: Option<Vec<String>>,
+  #[serde(rename = "data", skip_serializing_if = "Option::is_none")]
+  pub data: Option<Box<super::CreateFileRequest>>,
+  #[serde(rename = "keys", skip_serializing_if = "Option::is_none")]
+  pub keys: Option<Vec<String>>,
 }
 
 impl UpdateFilesRequest {
-	pub fn new() -> UpdateFilesRequest {
-		UpdateFilesRequest {
-			data: None,
-			keys: None,
-		}
-	}
+  pub fn new() -> UpdateFilesRequest {
+    UpdateFilesRequest {
+      data: None,
+      keys: None,
+    }
+  }
 }

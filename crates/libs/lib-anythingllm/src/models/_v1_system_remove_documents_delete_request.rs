@@ -13,12 +13,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct V1SystemRemoveDocumentsDeleteRequest {
-	#[serde(rename = "names", skip_serializing_if = "Option::is_none")]
-	pub names: Option<Vec<String>>,
+  #[serde(rename = "names", skip_serializing_if = "Option::is_none")]
+  pub names: Option<Vec<String>>,
 }
 
 impl V1SystemRemoveDocumentsDeleteRequest {
-	pub fn new() -> V1SystemRemoveDocumentsDeleteRequest {
-		V1SystemRemoveDocumentsDeleteRequest { names: None }
-	}
+  pub fn new() -> V1SystemRemoveDocumentsDeleteRequest {
+    V1SystemRemoveDocumentsDeleteRequest { names: None }
+  }
 }

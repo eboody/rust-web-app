@@ -12,13 +12,13 @@ pub type Db = Pool<Postgres>;
 
 #[allow(unused)]
 pub async fn new_db_pool() -> sqlx::Result<Db> {
-	// * See NOTE 1) below
-	let max_connections = if cfg!(test) { 1 } else { 5 };
+  // * See NOTE 1) below
+  let max_connections = if cfg!(test) { 1 } else { 5 };
 
-	PgPoolOptions::new()
-		.max_connections(max_connections)
-		.connect(&core_config().DB_URL)
-		.await
+  PgPoolOptions::new()
+    .max_connections(max_connections)
+    .connect(&core_config().DB_URL)
+    .await
 }
 
 // NOTE 1) This is not an ideal situation; however, with sqlx 0.7.1, when executing `cargo test`, some tests that use sqlx fail at a

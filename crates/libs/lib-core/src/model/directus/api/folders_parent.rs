@@ -15,12 +15,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FoldersParent {
-	String(String),
-	Folders(Box<super::Folders>),
+  String(String),
+  Folders(Box<super::Folders>),
 }
 
 impl Default for FoldersParent {
-	fn default() -> Self {
-		Self::String(Default::default())
-	}
+  fn default() -> Self {
+    Self::String(Default::default())
+  }
 }

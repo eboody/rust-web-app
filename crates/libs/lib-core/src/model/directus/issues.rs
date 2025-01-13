@@ -7,4 +7,6 @@ pub struct Issues {
   pub sort: Option<i32>,
   pub year: String,
   pub season: String,
+  pub volume: String,
+  pub number: String,
 }

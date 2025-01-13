@@ -15,12 +15,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UsersAvatar {
-	String(String),
-	Files(Box<super::Files>),
+  String(String),
+  Files(Box<super::Files>),
 }
 
 impl Default for UsersAvatar {
-	fn default() -> Self {
-		Self::String(Default::default())
-	}
+  fn default() -> Self {
+    Self::String(Default::default())
+  }
 }

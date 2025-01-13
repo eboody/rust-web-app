@@ -69,6 +69,9 @@ pub enum Error {
 
   #[from]
   UrlEncoding(#[serde_as(as = "DisplayFromStr")] FromUtf8Error),
+
+  #[from]
+  Statum(#[serde_as(as = "DisplayFromStr")] statum::Error),
 }
 
 impl IntoResponse for Error {

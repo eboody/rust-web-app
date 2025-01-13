@@ -17,135 +17,129 @@ use std::sync::Arc;
 
 #[async_trait]
 pub trait UserManagementApi: Send + Sync {
-	async fn v1_users_get(&self) -> Result<json::Value, Error<V1UsersGetError>>;
-	async fn v1_users_id_issue_auth_token_get<'id>(
-		&self,
-		id: &'id str,
-	) -> Result<json::Value, Error<V1UsersIdIssueAuthTokenGetError>>;
+  async fn v1_users_get(&self) -> Result<json::Value, Error<V1UsersGetError>>;
+  async fn v1_users_id_issue_auth_token_get<'id>(
+    &self,
+    id: &'id str,
+  ) -> Result<json::Value, Error<V1UsersIdIssueAuthTokenGetError>>;
 }
 
 pub struct UserManagementApiClient {
-	configuration: Arc<configuration::Configuration>,
+  configuration: Arc<configuration::Configuration>,
 }
 
 impl UserManagementApiClient {
-	pub fn new(configuration: Arc<configuration::Configuration>) -> Self {
-		Self { configuration }
-	}
+  pub fn new(configuration: Arc<configuration::Configuration>) -> Self {
+    Self { configuration }
+  }
 }
 
 #[async_trait]
 impl UserManagementApi for UserManagementApiClient {
-	/// List all users
-	async fn v1_users_get(&self) -> Result<json::Value, Error<V1UsersGetError>> {
-		let local_var_configuration = &self.configuration;
+  /// List all users
+  async fn v1_users_get(&self) -> Result<json::Value, Error<V1UsersGetError>> {
+    let local_var_configuration = &self.configuration;
 
-		let local_var_client = &local_var_configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-		let local_var_uri_str =
-			format!("{}/v1/users", local_var_configuration.base_path);
-		let mut local_var_req_builder = local_var_client
-			.request(reqwest::Method::GET, local_var_uri_str.as_str());
+    let local_var_uri_str =
+      format!("{}/v1/users", local_var_configuration.base_path);
+    let mut local_var_req_builder =
+      local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-		if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-			local_var_req_builder = local_var_req_builder
-				.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-		}
-		if let Some(ref local_var_token) =
-			local_var_configuration.bearer_access_token
-		{
-			local_var_req_builder =
-				local_var_req_builder.bearer_auth(local_var_token.to_owned());
-		};
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+      local_var_req_builder = local_var_req_builder
+        .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+      local_var_req_builder =
+        local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
 
-		let local_var_req = local_var_req_builder.build()?;
-		let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-		let local_var_status = local_var_resp.status();
-		let local_var_content = local_var_resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
-		{
-			json::from_str(&local_var_content).map_err(Error::from)
-		} else {
-			let local_var_entity: Option<V1UsersGetError> =
-				json::from_str(&local_var_content).ok();
-			let local_var_error = ResponseContent {
-				status: local_var_status,
-				content: local_var_content,
-				entity: local_var_entity,
-			};
-			Err(Error::ResponseError(local_var_error))
-		}
-	}
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+      json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+      let local_var_entity: Option<V1UsersGetError> =
+        json::from_str(&local_var_content).ok();
+      let local_var_error = ResponseContent {
+        status: local_var_status,
+        content: local_var_content,
+        entity: local_var_entity,
+      };
+      Err(Error::ResponseError(local_var_error))
+    }
+  }
 
-	/// Issue a temporary auth token for a user
-	async fn v1_users_id_issue_auth_token_get<'id>(
-		&self,
-		id: &'id str,
-	) -> Result<json::Value, Error<V1UsersIdIssueAuthTokenGetError>> {
-		let local_var_configuration = &self.configuration;
+  /// Issue a temporary auth token for a user
+  async fn v1_users_id_issue_auth_token_get<'id>(
+    &self,
+    id: &'id str,
+  ) -> Result<json::Value, Error<V1UsersIdIssueAuthTokenGetError>> {
+    let local_var_configuration = &self.configuration;
 
-		let local_var_client = &local_var_configuration.client;
+    let local_var_client = &local_var_configuration.client;
 
-		let local_var_uri_str = format!(
-			"{}/v1/users/{id}/issue-auth-token",
-			local_var_configuration.base_path,
-			id = crate::apis::urlencode(id)
-		);
-		let mut local_var_req_builder = local_var_client
-			.request(reqwest::Method::GET, local_var_uri_str.as_str());
+    let local_var_uri_str = format!(
+      "{}/v1/users/{id}/issue-auth-token",
+      local_var_configuration.base_path,
+      id = crate::apis::urlencode(id)
+    );
+    let mut local_var_req_builder =
+      local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
-		if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
-			local_var_req_builder = local_var_req_builder
-				.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
-		}
-		if let Some(ref local_var_token) =
-			local_var_configuration.bearer_access_token
-		{
-			local_var_req_builder =
-				local_var_req_builder.bearer_auth(local_var_token.to_owned());
-		};
+    if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
+      local_var_req_builder = local_var_req_builder
+        .header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
+    }
+    if let Some(ref local_var_token) = local_var_configuration.bearer_access_token {
+      local_var_req_builder =
+        local_var_req_builder.bearer_auth(local_var_token.to_owned());
+    };
 
-		let local_var_req = local_var_req_builder.build()?;
-		let local_var_resp = local_var_client.execute(local_var_req).await?;
+    let local_var_req = local_var_req_builder.build()?;
+    let local_var_resp = local_var_client.execute(local_var_req).await?;
 
-		let local_var_status = local_var_resp.status();
-		let local_var_content = local_var_resp.text().await?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text().await?;
 
-		if !local_var_status.is_client_error() && !local_var_status.is_server_error()
-		{
-			json::from_str(&local_var_content).map_err(Error::from)
-		} else {
-			let local_var_entity: Option<V1UsersIdIssueAuthTokenGetError> =
-				json::from_str(&local_var_content).ok();
-			let local_var_error = ResponseContent {
-				status: local_var_status,
-				content: local_var_content,
-				entity: local_var_entity,
-			};
-			Err(Error::ResponseError(local_var_error))
-		}
-	}
+    if !local_var_status.is_client_error() && !local_var_status.is_server_error() {
+      json::from_str(&local_var_content).map_err(Error::from)
+    } else {
+      let local_var_entity: Option<V1UsersIdIssueAuthTokenGetError> =
+        json::from_str(&local_var_content).ok();
+      let local_var_error = ResponseContent {
+        status: local_var_status,
+        content: local_var_content,
+        entity: local_var_entity,
+      };
+      Err(Error::ResponseError(local_var_error))
+    }
+  }
 }
 
 /// struct for typed errors of method [`v1_users_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum V1UsersGetError {
-	Status401(),
-	Status403(models::InvalidApiKey),
-	Status500(),
-	UnknownValue(json::Value),
+  Status401(),
+  Status403(models::InvalidApiKey),
+  Status500(),
+  UnknownValue(json::Value),
 }
 
 /// struct for typed errors of method [`v1_users_id_issue_auth_token_get`]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum V1UsersIdIssueAuthTokenGetError {
-	Status401(),
-	Status403(models::InvalidApiKey),
-	Status404(),
-	Status500(),
-	UnknownValue(json::Value),
+  Status401(),
+  Status403(models::InvalidApiKey),
+  Status404(),
+  Status500(),
+  UnknownValue(json::Value),
 }

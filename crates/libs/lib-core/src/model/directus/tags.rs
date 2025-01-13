@@ -1,14 +1,16 @@
-#[derive(Debug, ormlite::Model)]
-pub struct Tags {
-	#[ormlite(primary_key)]
-	pub id: i32,
-	pub value: Option<String>,
-}
+use serde::{Deserialize, Serialize};
+use serde_with::{DisplayFromStr, serde_as};
+use uuid::Uuid;
 
-#[derive(Debug, ormlite::Model)]
-pub struct TagsTranslations {
-	#[ormlite(primary_key)]
-	pub id: i32,
-	pub tags_id: Option<i32>,
-	pub languages_code: Option<String>,
+#[serde_as]
+#[derive(Clone, Debug, ormlite::Model, Deserialize, Serialize)]
+#[ormlite(table = "substack_tags")]
+pub struct Tags {
+    #[ormlite(primary_key)]
+    pub id: Uuid,
+    pub name: String,
+    pub slug: String,
+    pub publication_id: i64,
+    #[serde_as(as = "DisplayFromStr")]
+    pub hidden: bool,
 }

@@ -1,5 +1,7 @@
 moddef::moddef!(
   flat(pub) mod {
-    sections
+    sections,
+    post,
+    tag
   },
 );

@@ -15,12 +15,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UsersRole {
-	String(String),
-	Roles(Box<super::Roles>),
+  String(String),
+  Roles(Box<super::Roles>),
 }
 
 impl Default for UsersRole {
-	fn default() -> Self {
-		Self::String(Default::default())
-	}
+  fn default() -> Self {
+    Self::String(Default::default())
+  }
 }

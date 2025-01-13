@@ -12,12 +12,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateFileRequest {
-	#[serde(rename = "data", skip_serializing_if = "Option::is_none")]
-	pub data: Option<String>,
+  #[serde(rename = "data", skip_serializing_if = "Option::is_none")]
+  pub data: Option<String>,
 }
 
 impl CreateFileRequest {
-	pub fn new() -> CreateFileRequest {
-		CreateFileRequest { data: None }
-	}
+  pub fn new() -> CreateFileRequest {
+    CreateFileRequest { data: None }
+  }
 }

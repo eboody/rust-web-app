@@ -22,6 +22,7 @@ pub enum Error {
 
   NoArticleContent,
   NoArticleTitle,
+  FailedToFetchArticle,
 
   #[from]
   Request(#[serde_as(as = "DisplayFromStr")] reqwest::Error),

@@ -13,12 +13,12 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct InvalidApiKey {
-	#[serde(rename = "message", skip_serializing_if = "Option::is_none")]
-	pub message: Option<String>,
+  #[serde(rename = "message", skip_serializing_if = "Option::is_none")]
+  pub message: Option<String>,
 }
 
 impl InvalidApiKey {
-	pub fn new() -> InvalidApiKey {
-		InvalidApiKey { message: None }
-	}
+  pub fn new() -> InvalidApiKey {
+    InvalidApiKey { message: None }
+  }
 }

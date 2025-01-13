@@ -12,27 +12,27 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct Folders {
-	/// Unique identifier for the folder.
-	#[serde(rename = "id", skip_serializing_if = "Option::is_none")]
-	pub id: Option<String>,
-	/// Name of the folder.
-	#[serde(rename = "name", skip_serializing_if = "Option::is_none")]
-	pub name: Option<String>,
-	#[serde(
-		rename = "parent",
-		default,
-		with = "::serde_with::rust::double_option",
-		skip_serializing_if = "Option::is_none"
-	)]
-	pub parent: Option<Option<Box<super::FoldersParent>>>,
+  /// Unique identifier for the folder.
+  #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
+  pub id: Option<String>,
+  /// Name of the folder.
+  #[serde(rename = "name", skip_serializing_if = "Option::is_none")]
+  pub name: Option<String>,
+  #[serde(
+    rename = "parent",
+    default,
+    with = "::serde_with::rust::double_option",
+    skip_serializing_if = "Option::is_none"
+  )]
+  pub parent: Option<Option<Box<super::FoldersParent>>>,
 }
 
 impl Folders {
-	pub fn new() -> Folders {
-		Folders {
-			id: None,
-			name: None,
-			parent: None,
-		}
-	}
+  pub fn new() -> Folders {
+    Folders {
+      id: None,
+      name: None,
+      parent: None,
+    }
+  }
 }

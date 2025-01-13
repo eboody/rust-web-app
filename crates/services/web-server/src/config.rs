@@ -3,26 +3,25 @@ use std::sync::OnceLock;
 
 #[allow(unused)]
 pub fn web_config() -> &'static WebConfig {
-	static INSTANCE: OnceLock<WebConfig> = OnceLock::new();
+  static INSTANCE: OnceLock<WebConfig> = OnceLock::new();
 
-	INSTANCE.get_or_init(|| {
-		WebConfig::load_from_env().unwrap_or_else(|ex| {
-			panic!("FATAL - WHILE LOADING CONF - Cause: {ex:?}")
-		})
-	})
+  INSTANCE.get_or_init(|| {
+    WebConfig::load_from_env()
+      .unwrap_or_else(|ex| panic!("FATAL - WHILE LOADING CONF - Cause: {ex:?}"))
+  })
 }
 
 #[allow(non_snake_case)]
 #[allow(unused)]
 pub struct WebConfig {
-	pub WEB_FOLDER: String,
+  pub WEB_FOLDER: String,
 }
 
 #[allow(unused)]
 impl WebConfig {
-	fn load_from_env() -> lib_utils::envs::Result<WebConfig> {
-		Ok(WebConfig {
-			WEB_FOLDER: get_env("SERVICE_WEB_FOLDER")?,
-		})
-	}
+  fn load_from_env() -> lib_utils::envs::Result<WebConfig> {
+    Ok(WebConfig {
+      WEB_FOLDER: get_env("SERVICE_WEB_FOLDER")?,
+    })
+  }
 }

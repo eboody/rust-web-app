@@ -1,36 +1,39 @@
+use std::sync::OnceLock;
+
 use crate::prelude::*;
 
+use regex::Regex;
 use sha2::{Digest, Sha256};
 
 use async_openai::{
-  Client,
-  config::OpenAIConfig,
-  types::{
-    ChatCompletionRequestMessage, ChatCompletionRequestSystemMessage,
-    ChatCompletionRequestUserMessage, ChatCompletionRequestUserMessageContent,
-    CreateChatCompletionRequestArgs,
-  },
+    Client,
+    config::OpenAIConfig,
+    types::{
+        ChatCompletionRequestMessage, ChatCompletionRequestSystemMessage,
+        ChatCompletionRequestUserMessage, ChatCompletionRequestUserMessageContent,
+        CreateChatCompletionRequestArgs,
+    },
 };
 
 pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
-  let mut hasher = Sha256::new();
-  hasher.update(&message);
-  let message_hash = format!("{:x}", hasher.finalize());
+    let mut hasher = Sha256::new();
+    hasher.update(&message);
+    let message_hash = format!("{:x}", hasher.finalize());
 
-  //ccheck cache
-  if let Ok(chat) = model::directus::Chats::select()
-    .where_("message_hash = ?")
-    .bind(&message_hash)
-    .fetch_one(mm.orm())
-    .await
-  {
-    return Ok(chat.response);
-  }
+    //ccheck cache
+    if let Ok(chat) = model::directus::Chats::select()
+        .where_("message_hash = ?")
+        .bind(&message_hash)
+        .fetch_one(mm.orm())
+        .await
+    {
+        return Ok(chat.response);
+    }
 
-  let config = OpenAIConfig::new().with_api_key(&config().OPENAI_API_KEY);
-  let client = Client::with_config(config);
+    let config = OpenAIConfig::new().with_api_key(&config().OPENAI_API_KEY);
+    let client = Client::with_config(config);
 
-  let response = client
+    let response = client
     .chat()
     .create(
       CreateChatCompletionRequestArgs::default()
@@ -51,19 +54,19 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
     .await
     .expect("Failed to chat");
 
-  let reply = response.choices[0]
-    .message
-    .content
-    .clone()
-    .expect("No content in message");
+    let reply = response.choices[0]
+        .message
+        .content
+        .clone()
+        .expect("No content in message");
 
-  // Cache response
-  model::directus::Chats::builder()
-    .message(&message)
-    .response(&reply)
-    .message_hash(Some(message_hash))
-    .insert(mm.orm())
-    .await?;
+    // Cache response
+    model::directus::Chats::builder()
+        .message(&message)
+        .response(&reply)
+        .message_hash(Some(message_hash))
+        .insert(mm.orm())
+        .await?;
 
-  Ok(reply)
+    Ok(reply)
 }

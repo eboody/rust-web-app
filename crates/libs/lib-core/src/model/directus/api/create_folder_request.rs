@@ -12,16 +12,16 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct CreateFolderRequest {
-	/// Name of the folder.
-	#[serde(rename = "name")]
-	pub name: String,
-	/// Unique identifier of the parent folder. This allows for nested folders.
-	#[serde(rename = "parent", skip_serializing_if = "Option::is_none")]
-	pub parent: Option<i32>,
+  /// Name of the folder.
+  #[serde(rename = "name")]
+  pub name: String,
+  /// Unique identifier of the parent folder. This allows for nested folders.
+  #[serde(rename = "parent", skip_serializing_if = "Option::is_none")]
+  pub parent: Option<i32>,
 }
 
 impl CreateFolderRequest {
-	pub fn new(name: String) -> CreateFolderRequest {
-		CreateFolderRequest { name, parent: None }
-	}
+  pub fn new(name: String) -> CreateFolderRequest {
+    CreateFolderRequest { name, parent: None }
+  }
 }

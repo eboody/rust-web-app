@@ -1,9 +1,5 @@
+pub mod article;
 pub mod ebook;
 pub mod trigger;
-pub mod article;
 
-pub use self::{
-    ebook::*,
-    trigger::*,
-    article::*,
-};
+pub use self::{article::*, ebook::*, trigger::*};

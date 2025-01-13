@@ -1,5 +1,3 @@
 pub mod chat;
 
-pub use self::{
-    chat::*,
-};
+pub use self::chat::*;
