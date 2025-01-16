@@ -1,9 +1,11 @@
 #![allow(unused)]
 use async_recursion::async_recursion;
+use die_exit::die;
 use lib_core::model::directus::{self, Tags, VecString};
 use lib_substack::{drafts, prelude::*};
 use ormlite::types::Uuid;
 use statum::*;
+use tokio::time::sleep;
 use tracing::{info, warn};
 
 const BYLINE_ID: i64 = 292604153;
@@ -24,10 +26,13 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
 
     // Fetch the article
     let article = directus::Articles::select()
-        .where_("id = ?")
+        .where_("articles.id = ?")
         .bind(article_id)
+        .join(directus::Articles::author())
         .fetch_one(mm.orm())
         .await?;
+
+    let byline = super::author::get_byline(mm, &article.author).await;
 
     if let Ok(linked_articles) = directus::RelatedArticles::select()
         .where_("articles_id = ?")
@@ -64,7 +69,9 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
         ) {
             // Case 1: `tag_name` not in `tags_in_substack` and `substack_tag` is an error
             (false, Err(_)) => {
-                tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string()).await?;
+                tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string())
+                    .await
+                    .expect("Failed to create tag case 1");
             }
 
             // Case 2: `tag_name` is in `tags_in_substack` and `substack_tag` is valid
@@ -75,7 +82,9 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
             // Case 3: `tag_name` not in `tags_in_substack`, but `substack_tag` is valid
             (false, Ok(_)) => {
                 substack_tag?.delete(mm.orm()).await?;
-                tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string()).await?;
+                tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string())
+                    .await
+                    .expect("Failed to create tag case 3");
             }
 
             // Case 4: `tag_name` is in `tags_in_substack`, but `substack_tag` is an error
@@ -92,7 +101,10 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
         }
 
         // Use the `tag` after handling all cases
-        tag.add_to_post(mm.reqwest(), draft_response.id).await?;
+        tag.add_to_post(mm.reqwest(), draft_response.id)
+            .await
+            .expect("Failed to add tag to post");
+
         let directus_tag: Tags = tag.into();
         directus_tag
             .insert(mm.orm())
@@ -114,7 +126,7 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
 
     if substack_draft.is_err() {
         warn!("Failed to insert Substack draft into database");
-        delete_substack_draft(mm, article_id, draft_response.id).await?;
+        delete(mm, article_id).await?;
     }
 
     let substack_draft = substack_draft?;
@@ -130,26 +142,22 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
 }
 
 /// Delete a draft from Substack and update article status
-pub async fn delete_substack_draft(
-    mm: &ModelManager,
-    article_id: Uuid,
-    draft_id: i64,
-) -> Result<()> {
-    // Delete from Substack
-    drafts::Request::delete(mm.reqwest(), draft_id).await?;
-
-    info!(
-        "Deleted Substack draft {} for article {}",
-        draft_id, article_id
-    );
-
-    directus::SubstackDraft::select()
+pub async fn delete(mm: &ModelManager, article_id: Uuid) -> Result<()> {
+    let substack_draft = directus::SubstackDraft::select()
         .where_("articles_id = ?")
         .bind(article_id)
         .fetch_one(mm.orm())
-        .await?
-        .delete(mm.orm())
         .await?;
+
+    // Delete from Substack
+    drafts::Request::delete(mm.reqwest(), substack_draft.substack_draft_id).await?;
+
+    info!(
+        "Deleted Substack draft {} for article {}",
+        substack_draft.substack_draft_id, article_id
+    );
+
+    substack_draft.delete(mm.orm()).await?;
 
     // Update article status
     directus::Articles::select()

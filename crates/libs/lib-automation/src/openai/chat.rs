@@ -1,8 +1,5 @@
-use std::sync::OnceLock;
-
 use crate::prelude::*;
 
-use regex::Regex;
 use sha2::{Digest, Sha256};
 
 use async_openai::{

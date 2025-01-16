@@ -1,4 +1,5 @@
 use axum::body::Bytes;
+use lib_utils::retry::*;
 use model::directus::{self, Articles, ArticlesFiles, WpPosts};
 use regex::Regex;
 use reqwest::{Url, multipart};
@@ -154,7 +155,7 @@ impl ImageProcessor<'_> {
             .await?
             .update_partial()
             .description(self.caption.as_ref().and_then(|c| c.text.clone()))
-            .tags(self.article.tags.clone().map(|t| t.to_string()))
+            .tags(self.article.tags.clone())
             .update(self.mm.orm())
             .await?;
 
@@ -169,6 +170,7 @@ impl ImageProcessor<'_> {
                 image_file.id
             ))
             .headers(config().DIRECTUS_HEADERS.clone())
+            .retry()
             .send()
             .await?;
 

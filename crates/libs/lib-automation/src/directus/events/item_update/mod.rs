@@ -5,42 +5,42 @@ use lib_substack::drafts;
 use crate::{directus::trigger, prelude::*};
 
 pub async fn on_item_update(
-  State(mm): State<ModelManager>,
-  Json(trigger): Json<trigger::Body>,
+    State(mm): State<ModelManager>,
+    Json(trigger): Json<trigger::Body>,
 ) -> Result<String> {
-  if let Some(event) = &trigger.event {
-    match event {
-      trigger::Event::Articles(articles_event) => {
-        on_article_event(&mm, &trigger, articles_event).await?;
-      }
+    if let Some(event) = &trigger.event {
+        match event {
+            trigger::Event::Articles(articles_event) => {
+                on_article_event(&mm, &trigger, articles_event).await?;
+            }
+        }
     }
-  }
 
-  Ok("OK".to_owned())
+    Ok("OK".to_owned())
 }
 
 pub async fn on_article_event(
-  _mm: &ModelManager,
-  trigger: &trigger::Body,
-  event: &articles::Event,
+    _mm: &ModelManager,
+    trigger: &trigger::Body,
+    event: &articles::Event,
 ) -> Result<String> {
-  match event {
-    articles::Event::Update => {
-      if let Some(payload) = trigger.clone().payload {
-        let payload = json::from_value::<PartialArticles>(payload)?;
-        debug!("->> {:<12} - payload: {:#?}", file!(), payload);
-      }
+    match event {
+        articles::Event::Update => {
+            if let Some(payload) = trigger.clone().payload {
+                let payload = json::from_value::<PartialArticles>(payload)?;
+                debug!("->> {:<12} - payload: {:#?}", file!(), payload);
+            }
 
-      //if let Some(status) = &payload.status {
-      //	if *status == Status::Published {
-      //		on_articles_publish(&mm, trigger).await?;
-      //	}
-      //}
-      //on_article_update(&mm, trigger).await?;
+            //if let Some(status) = &payload.status {
+            //	if *status == Status::Published {
+            //		on_articles_publish(&mm, trigger).await?;
+            //	}
+            //}
+            //on_article_update(&mm, trigger).await?;
+        }
     }
-  }
 
-  Ok("OK".to_owned())
+    Ok("OK".to_owned())
 }
 
 //pub trait ToSubstack {
@@ -71,58 +71,55 @@ pub async fn on_article_event(
 //}
 
 #[allow(unused)]
-pub async fn on_articles_publish(
-  mm: &ModelManager,
-  trigger: trigger::Body,
-) -> Result<String> {
-  //TODO: verify that the article isn't already on substack
-  for article_id in trigger.keys {
-    let article = Articles::select()
-      .where_("id = ?")
-      .bind(article_id)
-      .fetch_one(mm.orm())
-      .await?;
+pub async fn on_articles_publish(mm: &ModelManager, trigger: trigger::Body) -> Result<String> {
+    //TODO: verify that the article isn't already on substack
+    for article_id in trigger.keys {
+        let article = Articles::select()
+            .where_("id = ?")
+            .bind(article_id)
+            .fetch_one(mm.orm())
+            .await?;
 
-    let substack_draft_response = drafts::Request {
-      audience: drafts::Audience::Everyone,
-      type_: drafts::Type::Newsletter,
-      draft_body: article.as_ref().try_into()?,
-      draft_title: article.title.clone().unwrap_or_default(),
-      draft_subtitle: article.subtitle.clone().unwrap_or_default(),
-      ..Default::default()
+        let substack_draft_response = drafts::Request {
+            audience: drafts::Audience::Everyone,
+            type_: drafts::Type::Newsletter,
+            draft_body: article.as_ref().try_into()?,
+            draft_title: article.title.clone().unwrap_or_default(),
+            draft_subtitle: article.subtitle.clone().unwrap_or_default(),
+            ..Default::default()
+        }
+        .post(mm.reqwest())
+        .await?;
+
+        //let mut internal_ss_status = ArticlesSubstackStatus::select()
+        //  .where_("articles_id = ?")
+        //  .bind(article_id)
+        //  .fetch_one(mm.orm())
+        //  .await
+        //  .ok();
+
+        //if internal_ss_status.is_none() {
+        //  internal_ss_status = ArticlesSubstackStatus {
+        //    id: Uuid::new_v4(),
+        //    articles_id: article_id,
+        //    substack_id: substack_draft_response.id,
+        //    status: SubsctackArticleStatus::Draft,
+        //    sort: None,
+        //    date_updated: OffsetDateTime::now_utc(),
+        //    message: "Successfully exported to substack".to_owned().into(),
+        //  }
+        //  .insert(mm.orm())
+        //  .await
+        //  .ok();
+        //}
+
+        article
+            .update_partial()
+            //.substack_status(internal_ss_status.map(|s| s.id))
+            .date_updated(Some(OffsetDateTime::now_utc()))
+            .update(mm.orm())
+            .await?;
     }
-    .post(mm.reqwest())
-    .await?;
 
-    //let mut internal_ss_status = ArticlesSubstackStatus::select()
-    //  .where_("articles_id = ?")
-    //  .bind(article_id)
-    //  .fetch_one(mm.orm())
-    //  .await
-    //  .ok();
-
-    //if internal_ss_status.is_none() {
-    //  internal_ss_status = ArticlesSubstackStatus {
-    //    id: Uuid::new_v4(),
-    //    articles_id: article_id,
-    //    substack_id: substack_draft_response.id,
-    //    status: SubsctackArticleStatus::Draft,
-    //    sort: None,
-    //    date_updated: OffsetDateTime::now_utc(),
-    //    message: "Successfully exported to substack".to_owned().into(),
-    //  }
-    //  .insert(mm.orm())
-    //  .await
-    //  .ok();
-    //}
-
-    article
-      .update_partial()
-      //.substack_status(internal_ss_status.map(|s| s.id))
-      .date_updated(Some(OffsetDateTime::now_utc()))
-      .update(mm.orm())
-      .await?;
-  }
-
-  Ok("OK".to_owned())
+    Ok("OK".to_owned())
 }

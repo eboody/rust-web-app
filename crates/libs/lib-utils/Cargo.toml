@@ -12,3 +12,5 @@ workspace = true
 [dependencies]
 base64 = "0.22"
 time = { workspace = true }
+tokio-retry = "0.3"
+reqwest = "0.12"

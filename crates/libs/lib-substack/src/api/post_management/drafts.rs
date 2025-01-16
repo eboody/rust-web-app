@@ -1,4 +1,5 @@
 use crate::{Post, prelude::*};
+use lib_utils::retry::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -65,6 +66,7 @@ impl Response {
         Ok(client
             .get(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
             .await?
             .json::<Response>()

@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 lib-core = { path = "../../libs/lib-core" }
+lib-utils = { path = "../../libs/lib-utils" }
 js_macro = { path = "../../libs/js_macro" }
 derive_more = { workspace = true }
 serde = { workspace = true }

@@ -1,9 +1,12 @@
 pub use crate::post::{Audience, ByLine, Type};
 use crate::{
-    md_to_prosemirror, prelude::*, prose_mirror, transform_endnotes_for_substack,
-    transform_to_substack_format,
+    md_to_prosemirror,
+    prelude::*,
+    prose_mirror::{self, Node},
+    transform_endnotes_for_substack, transform_to_substack_format,
 };
 use lib_core::model::directus;
+use lib_utils::retry::*;
 use ormlite::types::Uuid;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
@@ -35,6 +38,7 @@ impl Request {
             .post(url)
             .headers(config().HEADERS.clone())
             .json(self)
+            .retry()
             .send()
             .await?
             .json::<Response>()
@@ -47,6 +51,7 @@ impl Request {
             .put(url)
             .headers(config().HEADERS.clone())
             .json(self)
+            .retry()
             .send()
             .await?
             .json::<Response>()
@@ -58,6 +63,7 @@ impl Request {
         Ok(client
             .get(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
             .await?
             .json::<Response>()
@@ -76,6 +82,30 @@ impl Request {
         }
     }
 
+    fn remove_em_link(content: &mut [Node]) {
+        // Iterate over the nodes in `content`
+        for node in content.iter_mut() {
+            // Check and modify the marks if they exist
+            if let Some(ref mut marks) = node.marks {
+                let contains_link_and_em = marks
+                    .iter()
+                    .any(|m| m.mark_type == prose_mirror::MarkType::Link)
+                    && marks
+                        .iter()
+                        .any(|m| m.mark_type == prose_mirror::MarkType::Em);
+
+                if contains_link_and_em {
+                    marks.retain(|m| m.mark_type != prose_mirror::MarkType::Em);
+                }
+            }
+
+            // Recursively handle nested content
+            if let Some(ref mut nested_content) = node.content {
+                Self::remove_em_link(nested_content);
+            }
+        }
+    }
+
     pub async fn export_from_article(
         mm: &ModelManager,
         article: &directus::Articles,
@@ -91,7 +121,14 @@ impl Request {
         let content = re.replace_all(content, "").to_string();
 
         // Process content and endnotes
-        let doc = md_to_prosemirror(&content).expect("Failed to convert markdown to prosemirror");
+        let mut doc =
+            md_to_prosemirror(&content).expect("Failed to convert markdown to prosemirror");
+
+        // Remove links with emphasis
+        Self::remove_em_link(doc.content.as_mut());
+
+        println!("doc: {:#?}", doc);
+
         tracing::debug!("->> {:<12} - doc:\n{:#?}", module_path!(), doc);
         let mut doc: prose_mirror::Node = doc.into();
         transform_to_substack_format(&mut doc);
@@ -158,10 +195,36 @@ impl Request {
         client
             .delete(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
             .await?;
         Ok(())
     }
+
+    pub async fn publish(client: &reqwest::Client, draft_id: i64) -> Result<()> {
+        let url = Url::parse(&format!(
+            "{}/drafts/{}/publish",
+            &config().API_URL,
+            draft_id
+        ))?;
+
+        let url = url.clone();
+
+        client
+            .post(url)
+            .headers(config().HEADERS.clone())
+            .retry()
+            .send()
+            .await?;
+
+        Ok(())
+    }
+}
+
+#[derive(Serialize, Debug, Default)]
+pub struct PublishArgs {
+    pub send: bool,
+    pub share_automatically: bool,
 }
 
 impl TryFrom<directus::Articles> for Request {

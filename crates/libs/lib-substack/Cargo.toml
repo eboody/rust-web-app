@@ -18,6 +18,9 @@ tracing = { workspace = true }
 sqlx = { workspace = true }
 mime = "0.3"
 base64 = "0.22"
+die-exit = "0.5"
+futures-util = "0.3.31"
+tokio-retry = "0.3"
 
 regex = "1"
 encoding_rs = "0.8"

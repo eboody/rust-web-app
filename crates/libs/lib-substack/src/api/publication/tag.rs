@@ -1,5 +1,7 @@
 use crate::prelude::*;
+use die_exit::die;
 use lib_core::model::directus;
+use lib_utils::retry::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -48,26 +50,53 @@ impl Tag {
     pub async fn create(client: &reqwest::Client, name: String) -> Result<Self> {
         let url = Url::parse(&format!("{}/publication/post-tag", &config().API_URL))?;
 
-        Ok(client
+        // Send the request
+        let response = client
             .post(url)
             .headers(config().HEADERS.clone())
             .json(&json!({ "name": name }))
+            .retry()
             .send()
-            .await?
-            .json::<Tag>()
-            .await?)
+            .await?;
+
+        // Log the response body
+        let body = response.text().await?;
+
+        // Parse the response body into the desired type
+        let result = json::from_str(&body);
+        if let Err(e) = result {
+            tracing::error!("->> {:<12} - create tag error:\n{:#?}", module_path!(), e);
+            tracing::error!(
+                "->> {:<12} - create tag error:\n{:#?}",
+                module_path!(),
+                body
+            );
+            die!("test");
+        }
+        Ok(result?)
     }
 
     pub async fn list(client: &reqwest::Client) -> Result<Vec<Tag>> {
         let url = Url::parse(&format!("{}/publication/post-tag", &config().API_URL))?;
 
-        Ok(client
+        let response = client
             .get(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
-            .await?
-            .json::<Vec<Tag>>()
-            .await?)
+            .await?;
+
+        // Log the response body
+        let body = response.text().await?;
+
+        // Parse the response body into the desired type
+        let result = json::from_str(&body);
+        if let Err(e) = result {
+            tracing::error!("->> {:<12} - list tags error:\n{:#?}", module_path!(), e);
+            die!("test");
+        }
+
+        Ok(result?)
     }
 
     pub async fn get(client: &reqwest::Client, id: Uuid) -> Result<Tag> {
@@ -77,13 +106,24 @@ impl Tag {
             id
         ))?;
 
-        Ok(client
+        let response = client
             .get(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
-            .await?
-            .json::<Tag>()
-            .await?)
+            .await?;
+
+        // Log the response body
+        let body = response.text().await?;
+
+        // Parse the response body into the desired type
+        let result = json::from_str(&body);
+        if let Err(e) = result {
+            tracing::error!("->> {:<12} - get tag error:\n{:#?}", module_path!(), e);
+            die!("test");
+        }
+
+        Ok(result?)
     }
 
     pub async fn add_to_post(
@@ -98,12 +138,27 @@ impl Tag {
             self.id
         ))?;
 
-        Ok(client
+        // Send the request
+        let response = client
             .post(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
-            .await?
-            .json::<TagAssociation>()
-            .await?)
+            .await?;
+
+        // Log the response body
+        let body = response.text().await?;
+
+        // Parse the response body into the desired type
+        let result = json::from_str(&body);
+        if let Err(e) = result {
+            tracing::error!(
+                "->> {:<12} - add tag to post error:\n{:#?}",
+                module_path!(),
+                e
+            );
+            die!("{}", body);
+        }
+        Ok(result?)
     }
 }

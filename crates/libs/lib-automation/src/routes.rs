@@ -40,7 +40,7 @@ pub fn routes(mm: ModelManager) -> Router {
             .await
             .unwrap();
 
-        for article in articles {
+        for _article in articles {
             //directus::tasks::handle_audio(&mm, &article)
             //    .await
             //    .unwrap_or_else(|_| {
@@ -109,24 +109,42 @@ pub fn routes(mm: ModelManager) -> Router {
     });
 
     Router::new()
-        .route("/substack_export", post(test))
+        .route("/draft", post(export_draft).delete(delete_draft))
         //.route("/on_file_upload", post(directus::on_file_upload))
         .route("/item_update", post(directus::events::on_item_update))
         .route("/check", post(|| async { "OK" }))
         .with_state(mm)
 }
 
-async fn test(
+async fn export_draft(
     State(mm): State<ModelManager>,
     Json(trigger): Json<directus::trigger::Request>,
 ) -> Result<String> {
     let trigger = trigger.body;
+
     println!("Exporting article to substack");
+
     let Some(article_id) = trigger.keys.first() else {
         return Err(Error::NoKeyInTrigger(trigger.clone()));
     };
 
     tasks::substack::drafts::create(&mm, *article_id).await?;
+
+    Ok("OK".to_owned())
+}
+async fn delete_draft(
+    State(mm): State<ModelManager>,
+    Json(trigger): Json<directus::trigger::Request>,
+) -> Result<String> {
+    let trigger = trigger.body;
+
+    println!("Exporting article to substack");
+
+    let Some(article_id) = trigger.keys.first() else {
+        return Err(Error::NoKeyInTrigger(trigger.clone()));
+    };
+
+    tasks::substack::drafts::delete(&mm, *article_id).await?;
 
     Ok("OK".to_owned())
 }

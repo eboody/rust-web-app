@@ -14,11 +14,8 @@ use ormlite::{
 use regex::Regex;
 use sqlmo::query::Direction;
 use std::collections::HashSet;
-use std::sync::OnceLock;
 use tracing::{info, warn};
 use tracing_subscriber::EnvFilter;
-
-static ARTICLE_URL_REGEX: OnceLock<Regex> = OnceLock::new();
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -54,7 +51,6 @@ impl<'a> ArticleMigrator<'a> {
     }
 
     async fn migrate_all_posts(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        println!("migrating all posts");
         //let chats_without_hashes = Chats::select()
         //  .where_("message_hash IS NULL")
         //  .fetch_all(self.mm.orm())
@@ -86,14 +82,10 @@ impl<'a> ArticleMigrator<'a> {
             .fetch_all(self.mm.orm())
             .await?;
 
-        println!("posts: {:#?}", posts.len());
-
         for post in posts {
             if let Ok(_existing_article) = self.get_existing_article(&post.slug).await {
-                println!("skipping existing article");
                 continue;
             }
-            println!("->> post:\n{:#?}", post.title);
 
             let issue_string = get_issue(post.title.clone());
 
@@ -144,7 +136,7 @@ impl<'a> ArticleMigrator<'a> {
     #[async_recursion(?Send)]
     async fn process_post(
         &mut self,
-        mut post: WpPosts,
+        post: WpPosts,
         issue: Option<Issues>,
     ) -> Result<Articles, Box<dyn std::error::Error>> {
         // get or create the article
@@ -167,18 +159,6 @@ impl<'a> ArticleMigrator<'a> {
             tasks::handle_images(self.mm, &new_article)
                 .await
                 .expect("Failed to handle images");
-
-            let replaced_url_content = ARTICLE_URL_REGEX.get_or_init(|| {
-              Regex::new(r"https://(?:www\.)?theobjectivestandard.com/(?:(?:(?:issues|special)/\d{4}-[a-z]+/)|(?:\d+|(?:[a-zA-Z|\-]+))/)*(?P<slug>[a-zA-Z|\-]+)[/|)]").unwrap()
-              })
-              .replace_all(&post.content, "/p/$slug/").to_string();
-
-            new_article
-                .update_partial()
-                .body(Some(replaced_url_content))
-                .update(self.mm.orm())
-                .await?;
-
             tracing::info!("Handled images");
             new_article
         };
@@ -343,8 +323,6 @@ impl<'a> ArticleMigrator<'a> {
         let content = self.apply_content_transformations(&content_md)?;
         let endnotes = self.apply_endnotes_transformations(&endnotes_md)?;
 
-        let content = content.replace("_[", "_ [");
-
         Ok((content, endnotes))
     }
 
@@ -425,7 +403,7 @@ fn remove_related_section(content: &str) -> String {
 
 fn remove_social_elements(content: &str) -> String {
     let re = Regex::new(
-        r"(?s)\s*?(_Like this post\?|If you enjoyed this post, consider|\\\[bctt tweet.*?\\\]|\[bctt tweet.*?]).*",
+        r"(?s)\s*?(_Like this post\?|If you enjoyed this post, consider|\\\[bctt tweet.*?\\\]).*",
     )
     .unwrap();
     re.replace_all(content, "").to_string()

@@ -6,4 +6,5 @@
 
 pub mod b64;
 pub mod envs;
+pub mod retry;
 pub mod time;

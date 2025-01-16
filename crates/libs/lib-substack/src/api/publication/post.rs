@@ -1,4 +1,5 @@
 use crate::{Tag, TagAssociation, post, prelude::*};
+use lib_utils::retry::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -137,6 +138,7 @@ impl Post {
             .patch(url)
             .headers(config().HEADERS.clone())
             .json(&json!({ "section_id": section_id }))
+            .retry()
             .send()
             .await?
             .json::<Post>()
@@ -155,6 +157,7 @@ impl Post {
         Ok(client
             .get(url)
             .headers(config().HEADERS.clone())
+            .retry()
             .send()
             .await?
             .json::<Vec<Tag>>()
