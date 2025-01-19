@@ -17,13 +17,26 @@ impl Retryable {
     pub async fn send(self) -> reqwest::Result<Response> {
         let retry_strategy = ExponentialBackoff::from_millis(1000)
             .map(jitter as fn(std::time::Duration) -> std::time::Duration)
-            .take(3);
+            .take(10);
+
         Retry::spawn(retry_strategy, || {
             let builder = self
                 .builder
                 .try_clone()
                 .expect("RequestBuilder not clonable");
-            async move { builder.send().await }
+
+            async move {
+                let res = builder.send().await;
+
+                if let Ok(response) = &res {
+                    if response.status().is_success() {
+                        return Ok(response);
+                    }
+                } else {
+                    println!("Request failed: {:?}", response);
+                    Ok(())
+                }
+            }
         })
         .await
     }

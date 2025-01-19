@@ -13,6 +13,7 @@ use model::directus::VecString;
 
 pub fn routes(mm: ModelManager) -> Router {
     let mm_clone = mm.clone();
+
     //let fake_payload = trigger::Body {
     //	event: Event::Articles(articles::Event::Update),
     //	collection: Collection::Articles,
