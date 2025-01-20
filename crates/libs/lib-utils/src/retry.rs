@@ -25,18 +25,7 @@ impl Retryable {
                 .try_clone()
                 .expect("RequestBuilder not clonable");
 
-            async move {
-                let res = builder.send().await;
-
-                if let Ok(response) = &res {
-                    if response.status().is_success() {
-                        return Ok(response);
-                    }
-                } else {
-                    println!("Request failed: {:?}", response);
-                    Ok(())
-                }
-            }
+            async move { builder.send().await }
         })
         .await
     }

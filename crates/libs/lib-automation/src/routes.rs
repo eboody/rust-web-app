@@ -29,7 +29,7 @@ pub fn routes(mm: ModelManager) -> Router {
     //});
 
     tokio::spawn(async move {
-        let mm = mm_clone;
+        let mm = mm_clone.clone();
 
         //tasks::sync_sections(&mm).await.unwrap();
 
@@ -39,15 +39,21 @@ pub fn routes(mm: ModelManager) -> Router {
             .join(Articles::author())
             .fetch_all(mm.orm())
             .await
-            .unwrap();
+            .unwrap()
+            .into_iter()
+            .filter(|article| article.issue.is_some())
+            .collect::<Vec<_>>();
 
-        for _article in articles {
-            //directus::tasks::handle_audio(&mm, &article)
-            //    .await
-            //    .unwrap_or_else(|_| {
-            //        panic!("Failed to handle audio for article {:#?}", article.title)
-            //    });
-        }
+        tokio::spawn(async move {
+            let mm = mm_clone;
+            for article in articles {
+                let draft = tasks::substack::drafts::create(&mm, article.id)
+                    .await
+                    .expect("Failed to create draft");
+
+                tokio::time::sleep(std::time::Duration::from_secs(20)).await;
+            }
+        });
 
         //let res = tasks::create_substack_draft(&mm, article.id).await;
         //

@@ -106,6 +106,7 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
             .expect("Failed to add tag to post");
 
         let directus_tag: Tags = tag.into();
+
         directus_tag
             .insert(mm.orm())
             .on_conflict(OnConflict::Ignore)
@@ -119,6 +120,7 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
     );
 
     let substack_draft = draft_response
+        .clone()
         .clone()
         .into_substack_draft(article_id)
         .insert(mm.orm())
@@ -137,6 +139,8 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
         .date_updated(Some(OffsetDateTime::now_utc()))
         .update(mm.orm())
         .await?;
+
+    let draft_response: lib_substack::drafts::Response = substack_draft.into();
 
     Ok(substack_draft)
 }
