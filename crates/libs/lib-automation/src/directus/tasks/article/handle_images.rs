@@ -250,7 +250,7 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
         } else if let Some(img_url) = &caption.img {
             url = parse_url(img_url)?;
         } else {
-            tracing::debug!("->> {:<12} - caption:\n{:#?}", module_path!(), caption);
+            //tracing::debug!("->> {:<12} - caption:\n{:#?}", module_path!(), caption);
             continue;
         }
 
@@ -324,7 +324,7 @@ static IMG_REGEX: LazyLock<Regex> = LazyLock::new(|| {
 fn replace_img_blocks(content: String) -> String {
     let mut interim_content: String = String::from(&content);
     IMG_REGEX.captures_iter(&content).for_each(|cap| {
-        tracing::debug!("->> {:<12} - cap:\n{:#?}", module_path!(), cap);
+        //tracing::debug!("->> {:<12} - cap:\n{:#?}", module_path!(), cap);
         let img = cap.get(1).unwrap().as_str();
         interim_content = content.replace(img, "");
     });
@@ -386,140 +386,6 @@ struct Caption {
     text: Option<String>,
 }
 
-//async fn process_image_url(
-//  mm: &ModelManager,
-//  article: &Articles,
-//  url: &Url,
-//  title: &str,
-//  _slug: &str,
-//  index: usize,
-//  caption: Option<&Caption>,
-//) -> Result<ArticlesFiles> {
-//  debug!("index: {}", index);
-//  let url = if url.has_host() {
-//    url.clone()
-//  } else {
-//    parse_url(url.as_str())?
-//  };
-//  debug!("url: {}", url);
-//  let article_image_with_same_info = ArticlesFiles::select()
-//    .where_("url = ?")
-//    .bind(url.to_string())
-//    .fetch_one(mm.orm())
-//    .await;
-//
-//  let articles_image_already_existed = article_image_with_same_info.is_ok();
-//
-//  if articles_image_already_existed {
-//    return Err(Error::ArticleImageAlreadyExisted(url.to_string()));
-//  }
-//
-//  let iteration_of_article_image = index.to_string();
-//
-//  let path_segments = url
-//    .path_segments()
-//    .ok_or(Error::NoPathSegments(url.to_string()))
-//    .expect("Failed to get path segments");
-//
-//  let file_name = path_segments
-//    .last()
-//    .ok_or(Error::NoLastPathSegment(url.to_string()))
-//    .expect("Failed to get last path segment");
-//
-//  if let Ok(existing_file) = directus::Files::select()
-//    .where_("filename_download = ?")
-//    .bind(file_name)
-//    .fetch_one(mm.orm())
-//    .await
-//  {
-//    Ok(
-//      ArticlesFiles::builder()
-//        .directus_files_id(existing_file.id)
-//        .articles_id(article.id)
-//        .caption(caption.and_then(|c| c.text.clone()))
-//        .figure(Some(iteration_of_article_image))
-//        .url(Some(url.to_string()))
-//        .insert(mm.orm())
-//        .await
-//        .expect("Failed to insert article file"),
-//    )
-//  } else {
-//    //let file_extension = file_name
-//    //  .split('.')
-//    //  .last()
-//    //  .ok_or(Error::NoFileExtension(file_name.to_string()))?;
-//
-//    let image_bytes = reqwest::get(url.clone()).await?.bytes().await?;
-//
-//    let new_file_name = format!("{} {}", title, iteration_of_article_image);
-//    debug!("new_file_name: {}", new_file_name);
-//
-//    let file_name_clone = file_name.to_owned();
-//
-//    let directus_upload_form = multipart::Form::new()
-//      .part("title", multipart::Part::text(new_file_name))
-//      .part(
-//        "folder",
-//        multipart::Part::text(config().ARTICLES_IMAGES_FOLDER_ID.to_string()),
-//      )
-//      .part(
-//        "file",
-//        multipart::Part::stream(image_bytes)
-//          .file_name(file_name_clone)
-//          .mime_str("image/jpeg")?,
-//      );
-//
-//    let image_file = mm
-//      .reqwest()
-//      .post("https://directus.eman.network/files")
-//      .headers(config().DIRECTUS_HEADERS.clone())
-//      .multipart(directus_upload_form)
-//      .send()
-//      .await
-//      .map_err(|_| Error::FailedToUploadImage(url.clone().to_string()))?
-//      .json::<ResponseDataWrapper<directus::api::Files>>()
-//      .await
-//      .expect("Failed to parse response")
-//      .data;
-//
-//    directus::Files::select()
-//      .where_("id = ?")
-//      .bind(image_file.id)
-//      .fetch_one(mm.orm())
-//      .await?
-//      .update_partial()
-//      .description(caption.as_ref().and_then(|c| c.text.clone()))
-//      .tags(article.tags.clone().map(|t| t.to_string()))
-//      .update(mm.orm())
-//      .await
-//      .expect("Failed to update file");
-//
-//    let res = ArticlesFiles::builder()
-//      .directus_files_id(image_file.id)
-//      .articles_id(article.id)
-//      .caption(caption.and_then(|c| c.text.clone()))
-//      .figure(Some(iteration_of_article_image))
-//      .url(Some(url.to_string()))
-//      .insert(mm.orm())
-//      .await;
-//
-//    let article_files_item_failed_to_insert = res.is_err();
-//
-//    if article_files_item_failed_to_insert {
-//      error!("Failed to insert image file: {:?}", res);
-//      mm.reqwest()
-//        .delete(format!(
-//          "https://directus.eman.network/files/{}",
-//          image_file.id
-//        ))
-//        .headers(config().DIRECTUS_HEADERS.clone())
-//        .send()
-//        .await?;
-//    }
-//    Ok(res?)
-//  }
-//}
-
 pub async fn get_commons_url(url: Url) -> Result<Option<Url>> {
     // Check if wikimedia File: url
     if !url.path().contains("/wiki/File:") {
@@ -558,11 +424,11 @@ async fn replace_caption(
 
     //tracing::debug!("->> {:<12} - article:\n{:#?}", file!(), article);
     //tracing::debug!("->> {:<12} - figure:\n{:#?}", file!(), figure);
-    tracing::debug!("->> {:<12} - caption_text:\n{:#?}", file!(), caption_text);
+    //tracing::debug!("->> {:<12} - caption_text:\n{:#?}", file!(), caption_text);
 
     let regex_str = format!(r#"(?x)(\\\[caption.*?{}.*?\\\[/caption\\\])"#, url.as_str(),);
 
-    tracing::debug!("->> {:<12} - regex_str:\n{:#?}", module_path!(), regex_str);
+    //tracing::debug!("->> {:<12} - regex_str:\n{:#?}", module_path!(), regex_str);
 
     let a_tag_regex = Regex::new(r#"(?x)<a.*?>"#).unwrap();
 
@@ -581,11 +447,11 @@ async fn replace_caption(
                 .trim(),
             image_id,
         );
-        tracing::debug!(
-            "->> {:<12} - new_caption:\n{:#?}",
-            module_path!(),
-            new_caption
-        );
+        //tracing::debug!(
+        //    "->> {:<12} - new_caption:\n{:#?}",
+        //    module_path!(),
+        //    new_caption
+        //);
 
         let article_body = caption_regex.replace(article_body, new_caption.clone());
 
@@ -617,11 +483,12 @@ async fn replace_img_tag(
 
     if let Some(article_body) = &article.body {
         let new_caption = format!("![](/assets/{})", image_id,);
-        tracing::debug!(
-            "->> {:<12} - new_caption:\n{:#?}",
-            module_path!(),
-            new_caption
-        );
+
+        //tracing::debug!(
+        //    "->> {:<12} - new_caption:\n{:#?}",
+        //    module_path!(),
+        //    new_caption
+        //);
 
         let article_body = caption_regex.replace(article_body, new_caption.clone());
 

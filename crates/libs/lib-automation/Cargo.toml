@@ -31,6 +31,8 @@ async-openai = "0.27"
 async-recursion = "1"
 statum = { path = "/home/eran/code/statum/statum", features = ["serde"] }
 die-exit = "0.5"
+sqlmo = "0.22"
+anyhow = "1"
 
 [build-dependencies]
 barexp = "1"

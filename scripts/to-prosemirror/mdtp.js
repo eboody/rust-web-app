@@ -8,7 +8,7 @@ const markdownIt = require("markdown-it");
 const { schema: basicSchema } = require("prosemirror-schema-basic");
 const { addListNodes } = require("prosemirror-schema-list");
 
-// Extend the basic schema to include list nodes
+// Extend the basic schema to include list nodes and horizontal_rule
 const schema = new Schema({
   nodes: addListNodes(basicSchema.spec.nodes, "paragraph block*", "block")
     .update("image", {
@@ -16,7 +16,7 @@ const schema = new Schema({
       group: "inline",
       draggable: true,
       attrs: {
-        src: { default: null },  // Make src optional just like other attrs
+        src: { default: null }, // Make src optional just like other attrs
         alt: { default: null },
         title: { default: null },
       },
@@ -29,11 +29,16 @@ const schema = new Schema({
         }),
       }],
       toDOM: (node) => ["img", node.attrs],
+    })
+    .update("horizontal_rule", {
+      group: "block",
+      parseDOM: [{ tag: "hr" }],
+      toDOM: () => ["hr"],
     }),
   marks: basicSchema.spec.marks,
 });
 
-// Markdown parser using ProseMirror schema with lists and images
+// Markdown parser using ProseMirror schema with lists, images, and horizontal_rule
 const mdParser = new MarkdownParser(schema, markdownIt(), {
   paragraph: { block: "paragraph" },
   heading: { block: "heading", getAttrs: (tok) => ({ level: +tok.tag.slice(1) }) },
@@ -42,7 +47,7 @@ const mdParser = new MarkdownParser(schema, markdownIt(), {
   ordered_list: { block: "ordered_list", getAttrs: (tok) => ({ order: +tok.attrGet("start") || 1 }) },
   code_block: { block: "code_block" },
   blockquote: { block: "blockquote" },
-  horizontal_rule: { node: "horizontal_rule" },
+  hr: { node: "horizontal_rule" },  // Changed from horizontal_rule to hr
   text: { node: "text" },
   hardbreak: { node: "hard_break" },
   em: { mark: "em" },

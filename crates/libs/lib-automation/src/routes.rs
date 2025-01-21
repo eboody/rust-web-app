@@ -1,5 +1,5 @@
 #![allow(unused_imports)]
-use std::str::FromStr;
+use std::{io::Write, str::FromStr};
 
 use crate::prelude::*;
 use axum::{Json, Router, extract::State, routing::post};
@@ -10,6 +10,7 @@ use directus::{
 use json::json;
 use lib_core::model::directus::{Articles, Collection};
 use model::directus::VecString;
+use sqlmo::query::Direction;
 
 pub fn routes(mm: ModelManager) -> Router {
     let mm_clone = mm.clone();
@@ -37,6 +38,7 @@ pub fn routes(mm: ModelManager) -> Router {
             //.where_("articles.id = ?")
             //.bind(Uuid::from_str("867383a5-fc7e-47dd-b6bf-6302dd726e12").unwrap())
             .join(Articles::author())
+            .order_by("date_published", Direction::Desc)
             .fetch_all(mm.orm())
             .await
             .unwrap()
@@ -47,11 +49,39 @@ pub fn routes(mm: ModelManager) -> Router {
         tokio::spawn(async move {
             let mm = mm_clone;
             for article in articles {
-                let draft = tasks::substack::drafts::create(&mm, article.id)
-                    .await
-                    .expect("Failed to create draft");
+                let substack_draft = tasks::substack::drafts::create(&mm, article.id).await;
 
-                tokio::time::sleep(std::time::Duration::from_secs(20)).await;
+                if let Ok(substack_draft) = substack_draft {
+                    let res = lib_substack::drafts::Request::publish(
+                        mm.reqwest(),
+                        substack_draft.substack_draft_id,
+                        lib_substack::drafts::PublishArgs {
+                            send: false,
+                            share_automatically: false,
+                        },
+                    )
+                    .await;
+
+                    tracing::debug!("->> {:<12} - res:\n{:#?}", module_path!(), res);
+
+                    tokio::time::sleep(std::time::Duration::from_secs(15)).await;
+                } else {
+                    tracing::warn!(
+                        "Failed to publish draft: {:?} {:#?}",
+                        article.id,
+                        article.title
+                    );
+
+                    let mut file = std::fs::OpenOptions::new()
+                        .create(true)
+                        .append(true)
+                        .open("articles.txt")
+                        .unwrap();
+
+                    let article_info = format!("Article: {}\n", article.id);
+
+                    file.write_all(article_info.as_bytes()).unwrap();
+                }
             }
         });
 

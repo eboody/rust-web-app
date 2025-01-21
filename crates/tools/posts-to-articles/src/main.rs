@@ -338,9 +338,10 @@ impl<'a> ArticleMigrator<'a> {
     }
 
     fn clean_html_content(&self, content: &str) -> Result<String, Box<dyn std::error::Error>> {
-        Ok(content.replace("\\r\\n", "<br>").replace("\r\n", "<br>"))
+        Ok(content
+            .replace("\r\n", "<br><br><br><br>")
+            .replace("\n", "<br>"))
     }
-
     fn apply_content_transformations(
         &self,
         content: &str,
@@ -357,6 +358,7 @@ impl<'a> ArticleMigrator<'a> {
         &self,
         endnotes: &str,
     ) -> Result<String, Box<dyn std::error::Error>> {
+        if !endnotes.is_empty() {}
         let endnotes = convert_to_footnotes(endnotes);
         let endnotes = format_footnote_references(&endnotes);
         let endnotes = remove_related_section(&endnotes);
@@ -387,12 +389,12 @@ fn split_author_name(author_name: &str) -> (String, String) {
 }
 
 fn convert_to_footnotes(content: &str) -> String {
-    let re = Regex::new(r"\]\(#_(ftn|end)ref(\d+)\)").unwrap();
+    let re = Regex::new(r"\]\(#_([a-zA-Z]+)ref(\d+)\)").unwrap();
     re.replace_all(content, "](#_$1$2)").to_string()
 }
 
 fn format_footnote_references(content: &str) -> String {
-    let re = Regex::new(r"\s+\[(\d+)\]\(#_?([a-zA-Z]{2,3})(ref)?-?\d+\)\.?\s*").unwrap();
+    let re = Regex::new(r"\s+\[(\d+)\]\(#_?([a-zA-Z]+)(ref)?-?\d+\)\.?\s*").unwrap();
     re.replace_all(content, "\n\n[$1](#_$2$1) ").to_string()
 }
 
@@ -406,7 +408,7 @@ fn remove_social_elements(content: &str) -> String {
         r"(?s)\s*?(_Like this post\?|If you enjoyed this post, consider|\\\[bctt tweet.*?\\\]).*",
     )
     .unwrap();
-    re.replace_all(content, "").to_string()
+    re.replace_all(content, "\n").to_string()
 }
 
 fn clean_formatting(content: &str) -> String {

@@ -8,6 +8,7 @@ use crate::{
 use lib_core::model::directus;
 use lib_utils::retry::*;
 use ormlite::types::Uuid;
+use regex::Regex;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
 use tracing::{debug, info};
@@ -121,16 +122,14 @@ impl Request {
         let content = re.replace_all(content, "").to_string();
 
         // Process content and endnotes
-        let mut doc =
-            md_to_prosemirror(&content).expect("Failed to convert markdown to prosemirror");
+        let mut doc = md_to_prosemirror(&content)?;
 
         // Remove links with emphasis
         Self::remove_em_link(doc.content.as_mut());
 
-        println!("doc: {:#?}", doc);
-
-        tracing::debug!("->> {:<12} - doc:\n{:#?}", module_path!(), doc);
+        //tracing::debug!("->> {:<12} - doc:\n{:#?}", module_path!(), doc);
         let mut doc: prose_mirror::Node = doc.into();
+
         transform_to_substack_format(&mut doc);
 
         if let Some(endnotes) = &article.endnotes {
@@ -143,7 +142,7 @@ impl Request {
             }
         }
 
-        tracing::debug!("->> {:<12} - section:\n{:#?}", file!(), article);
+        //tracing::debug!("->> {:<12} - section:\n{:#?}", file!(), article);
 
         let section = article
             .section
@@ -160,12 +159,26 @@ impl Request {
             .expect("Failed to fetch section")
             .await;
 
+        let body = json::to_string(&doc)?.replace(
+            "/assets/",
+            format!("{}/assets/", &config().DIRECTUS_URL).as_str(),
+        );
+        let body =
+            Regex::new(r"https?://(?:www\.)?theobjectivestandard\.com/(?:[^/\s)]+/)*([^/\s)]+)")
+                .unwrap()
+                .replace_all(&body, "/p/$1");
+
+        //let body = Regex::new(r"\s*?_?Dowload the .*? of this article\._?")
+        //    .unwrap()
+        //    .replace_all(&body, "");
+        //
+        //let body = Regex::new(r"\s*?For the application of these principles.*?\.")
+        //    .unwrap()
+        //    .replace_all(&body, "");
+
         let request = Self {
             audience: Audience::Everyone,
-            draft_body: Body(json::to_string(&doc)?.replace(
-                "/assets/",
-                format!("{}/assets/", &config().DIRECTUS_URL).as_str(),
-            )),
+            draft_body: Body(body.to_string()),
             draft_title: article.title.clone().ok_or_else(|| Error::NoArticleTitle)?,
             draft_subtitle: article.subtitle.clone().unwrap_or_default(),
             draft_bylines: vec![ByLine {
@@ -187,6 +200,7 @@ impl Request {
             "Exporting article to Substack draft: {}",
             request.draft_title
         );
+
         request.post(mm.reqwest()).await
     }
 
@@ -201,7 +215,11 @@ impl Request {
         Ok(())
     }
 
-    pub async fn publish(client: &reqwest::Client, draft_id: i64) -> Result<()> {
+    pub async fn publish(
+        client: &reqwest::Client,
+        draft_id: i64,
+        publish_args: PublishArgs,
+    ) -> Result<()> {
         let url = Url::parse(&format!(
             "{}/drafts/{}/publish",
             &config().API_URL,
@@ -212,6 +230,7 @@ impl Request {
 
         client
             .post(url)
+            .body(json::to_string(&publish_args)?)
             .headers(config().HEADERS.clone())
             .retry()
             .send()
@@ -390,6 +409,63 @@ impl Response {
             should_syndicate_to_other_feed: self.should_syndicate_to_other_feed,
             title: self.title,
             write_comment_permissions: self.write_comment_permissions,
+        }
+    }
+}
+impl From<directus::SubstackDraft> for Response {
+    fn from(draft: directus::SubstackDraft) -> Self {
+        Response {
+            id: draft.substack_draft_id,
+            type_: draft.draft_type.parse().unwrap_or_default(),
+            draft_title: draft.draft_title,
+            draft_subtitle: draft.draft_subtitle.unwrap_or_default(),
+            audience: draft.audience.parse().unwrap_or_default(),
+            section_chosen: draft.section_chosen,
+            publication_id: draft.publication_id,
+            word_count: draft.word_count,
+            draft_body: draft.draft_body,
+            draft_created_at: draft.draft_created_at,
+            draft_updated_at: draft.draft_updated_at,
+            uuid: draft.substack_uuid,
+            cover_image: draft.cover_image,
+            default_comment_sort: draft.default_comment_sort,
+            description: draft.description,
+            draft_podcast_duration: draft.draft_podcast_duration,
+            draft_podcast_preview_upload_id: draft.draft_podcast_preview_upload_id,
+            draft_podcast_upload_id: draft.draft_podcast_upload_id,
+            draft_podcast_url: draft.draft_podcast_url,
+            draft_section_id: draft.draft_section_id,
+            draft_video_upload_id: draft.draft_video_upload_id,
+            draft_voiceover_upload_id: draft.draft_voiceover_upload_id,
+            editor_v2: draft.editor_v2,
+            email_sent_at: draft.email_sent_at,
+            explicit: draft.explicit,
+            free_podcast_duration: draft.free_podcast_duration,
+            free_podcast_url: draft.free_podcast_url,
+            has_dismissed_tk_warning: draft.has_dismissed_tk_warning,
+            hide_from_feed: draft.hide_from_feed,
+            is_metered: draft.is_metered,
+            is_published: draft.is_published,
+            podcast_duration: draft.podcast_duration,
+            podcast_episode_number: draft.podcast_episode_number,
+            podcast_episode_type: draft.podcast_episode_type,
+            podcast_season_number: draft.podcast_season_number,
+            podcast_url: draft.podcast_url,
+            post_date: draft.post_date,
+            search_engine_description: draft.search_engine_description,
+            search_engine_title: draft.search_engine_title,
+            section_id: draft.section_id,
+            should_send_email: draft.should_send_email,
+            should_send_free_preview: draft.should_send_free_preview,
+            show_guest_bios: draft.show_guest_bios,
+            slug: draft.slug,
+            social_title: draft.social_title,
+            subscriber_set_id: draft.subscriber_set_id,
+            subtitle: draft.subtitle,
+            syndicate_to_section_id: draft.syndicate_to_section_id,
+            should_syndicate_to_other_feed: draft.should_syndicate_to_other_feed,
+            title: draft.title,
+            write_comment_permissions: draft.write_comment_permissions,
         }
     }
 }

@@ -31,6 +31,8 @@ pub enum Error {
     UrlParse(#[serde_as(as = "DisplayFromStr")] url::ParseError),
 
     MissingField(String),
+
+    AlreadyVisited,
 }
 
 impl std::error::Error for Error {}
