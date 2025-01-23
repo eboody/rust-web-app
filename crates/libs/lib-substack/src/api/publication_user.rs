@@ -92,9 +92,7 @@ impl PublicationUser {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
-            .await?
-            .json::<Vec<Self>>()
+            .send::<Vec<Self>>()
             .await?)
     }
 

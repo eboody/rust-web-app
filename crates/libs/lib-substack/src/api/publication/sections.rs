@@ -115,17 +115,14 @@ impl Section {
 
     pub async fn create(self, client: &reqwest::Client) -> Result<Section> {
         let url = Url::parse(&format!("{}/publication/sections", &config().API_URL))?;
-        let res = client
+        let body = client
             .post(url)
             .headers(config().HEADERS.clone())
             .json(&self)
             .retry()
-            .send()
+            .send::<SectionWrapper>()
             .await?;
 
-        let body = res.json::<SectionWrapper>().await?;
-        tracing::debug!("->> {:<12} - body:\n{:#?}", file!(), body);
-        //.json::<Section>().await?;
         Ok(body.section)
     }
 
@@ -140,9 +137,7 @@ impl Section {
             .headers(config().HEADERS.clone())
             .json(self)
             .retry()
-            .send()
-            .await?
-            .json::<Section>()
+            .send::<Section>()
             .await?)
     }
 
@@ -157,9 +152,7 @@ impl Section {
             .delete(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
-            .await?
-            .json::<Section>()
+            .send::<Section>()
             .await?)
     }
 
@@ -169,9 +162,7 @@ impl Section {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
-            .await?
-            .json::<Vec<Section>>()
+            .send::<Vec<Section>>()
             .await?)
     }
 

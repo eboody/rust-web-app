@@ -1,3 +1,4 @@
+use crate::Error;
 pub use crate::post::{Audience, ByLine, Type};
 use crate::{
     md_to_prosemirror,
@@ -6,7 +7,7 @@ use crate::{
     transform_endnotes_for_substack, transform_to_substack_format,
 };
 use lib_core::model::directus;
-use lib_utils::retry::*;
+use lib_utils::retry::RetryableRequest;
 use ormlite::types::Uuid;
 use regex::Regex;
 use reqwest::Url;
@@ -30,6 +31,9 @@ pub struct Request {
     pub draft_podcast_url: String,
     pub draft_video_upload_id: Option<String>,
     pub draft_voiceover_upload_id: Option<String>,
+    pub description: Option<String>,
+    pub cover_image: Option<String>,
+    pub social_title: Option<String>,
 }
 
 impl Request {
@@ -40,9 +44,7 @@ impl Request {
             .headers(config().HEADERS.clone())
             .json(self)
             .retry()
-            .send()
-            .await?
-            .json::<Response>()
+            .send::<Response>()
             .await?)
     }
 
@@ -53,9 +55,7 @@ impl Request {
             .headers(config().HEADERS.clone())
             .json(self)
             .retry()
-            .send()
-            .await?
-            .json::<Response>()
+            .send::<Response>()
             .await?)
     }
 
@@ -65,9 +65,7 @@ impl Request {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
-            .await?
-            .json::<Response>()
+            .send::<Response>()
             .await?)
     }
 
@@ -133,7 +131,6 @@ impl Request {
         transform_to_substack_format(&mut doc);
 
         if let Some(endnotes) = &article.endnotes {
-            debug!("->> {:<12} - endnotes: {:#?}", file!(), endnotes);
             let endnotes = md_to_prosemirror(endnotes)?;
             let mut endnotes = transform_endnotes_for_substack(&endnotes.into());
             if let Some(mut c) = doc.content.clone() {
@@ -194,6 +191,9 @@ impl Request {
             draft_podcast_duration: None,
             draft_podcast_preview_upload_id: None,
             draft_voiceover_upload_id: None,
+            cover_image: None,
+            description: None,
+            social_title: None,
         };
 
         info!(
@@ -210,9 +210,13 @@ impl Request {
             .delete(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
+            .send::<()>()
             .await?;
         Ok(())
+    }
+
+    pub async fn add_cover_image(mm: &ModelManager, article: &directus::Articles) -> Result<()> {
+        todo!()
     }
 
     pub async fn publish(
@@ -233,7 +237,7 @@ impl Request {
             .body(json::to_string(&publish_args)?)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
+            .send::<()>()
             .await?;
 
         Ok(())
@@ -327,8 +331,6 @@ pub struct Response {
     pub podcast_episode_type: Option<String>,
     pub podcast_season_number: Option<i32>,
     pub podcast_url: Option<String>,
-    #[serde(with = "time::serde::rfc3339::option")]
-    pub post_date: Option<OffsetDateTime>,
     pub search_engine_description: Option<String>,
     pub search_engine_title: Option<String>,
     pub section_id: Option<String>,
@@ -395,7 +397,6 @@ impl Response {
             podcast_episode_type: self.podcast_episode_type,
             podcast_season_number: self.podcast_season_number,
             podcast_url: self.podcast_url,
-            post_date: self.post_date,
             search_engine_description: self.search_engine_description,
             search_engine_title: self.search_engine_title,
             should_send_email: self.should_send_email,
@@ -451,7 +452,6 @@ impl From<directus::SubstackDraft> for Response {
             podcast_episode_type: draft.podcast_episode_type,
             podcast_season_number: draft.podcast_season_number,
             podcast_url: draft.podcast_url,
-            post_date: draft.post_date,
             search_engine_description: draft.search_engine_description,
             search_engine_title: draft.search_engine_title,
             section_id: draft.section_id,

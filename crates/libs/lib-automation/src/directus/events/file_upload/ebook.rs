@@ -12,7 +12,7 @@ use lib_core::model::{
         Users,
     },
 };
-use lib_utils::retry::*;
+use lib_utils::retry::RetryableRequest;
 use reqwest::multipart;
 
 #[allow(unused)]
@@ -103,7 +103,6 @@ pub async fn _get_file_byes(mm: &ModelManager, d_id: Uuid) -> Result<Bytes> {
         .reqwest()
         .get(format!("{}/assets/{}", config().DIRECTUS_URL, d_id))
         .headers(config().DIRECTUS_HEADERS.clone())
-        .retry()
         .send()
         .await?
         .bytes()
@@ -129,7 +128,6 @@ pub async fn _save_ebook_cover_image(
         .reqwest()
         .post("https://spdf.eman.network/api/v1/general/remove-pages")
         .multipart(form)
-        .retry()
         .send()
         .await?
         .bytes()
@@ -151,7 +149,6 @@ pub async fn _save_ebook_cover_image(
         .reqwest()
         .post("https://spdf.eman.network/api/v1/convert/pdf/img")
         .multipart(form)
-        .retry()
         .send()
         .await?
         .bytes()
@@ -175,9 +172,7 @@ pub async fn _save_ebook_cover_image(
         .headers(config().DIRECTUS_HEADERS.clone())
         .multipart(directus_upload_form)
         .retry()
-        .send()
-        .await?
-        .text()
+        .send::<String>()
         .await?;
 
     Ok(())
@@ -201,7 +196,6 @@ pub async fn _get_first_pages_of_pdf(
         .reqwest()
         .post("https://spdf.eman.network/api/v1/general/remove-pages")
         .multipart(form)
-        .retry()
         .send()
         .await?
         .bytes()
@@ -218,12 +212,8 @@ async fn _embed_ebook_anythingllm(
         .get("https://anything.eman.network/api/v1/documents")
         .headers(config().ANYTHING_HEADERS.clone())
         .retry()
-        .send()
-        .await
-        .map_err(Error::Request)?
-        .text()
-        .await
-        .map_err(Error::Request)?;
+        .send::<String>()
+        .await?;
 
     dbg!("existing_docs: {}", &existing_docs);
 
@@ -249,24 +239,10 @@ async fn _embed_ebook_anythingllm(
         .multipart(form)
         .headers(config().ANYTHING_HEADERS.clone())
         .retry()
-        .send()
-        .await
-        .map_err(Error::Request)?;
+        .send::<anythingllm::Response>()
+        .await?;
 
-    if !upload_res.status().is_success() {
-        let error_body = upload_res
-            .text()
-            .await
-            .unwrap_or_else(|_| "Unknown error".to_string());
-        return Err(Error::WrongFormat(format!(
-            "Failed to upload document. Response: {}",
-            error_body
-        )));
-    }
-
-    let response_data: anythingllm::Response = upload_res.json().await?;
-
-    let from_location = response_data
+    let from_location = upload_res
         .documents
         .first()
         .ok_or_else(|| Error::WrongFormat("No documents returned in upload response".to_owned()))?
@@ -287,7 +263,6 @@ async fn _embed_ebook_anythingllm(
         .post("https://anything.eman.network/api/v1/document/move-files")
         .body(move_body.to_string())
         .headers(config().ANYTHING_HEADERS_JSON.clone())
-        .retry()
         .send()
         .await?;
 
@@ -312,7 +287,6 @@ async fn _embed_ebook_anythingllm(
         .post("https://anything.eman.network/api/v1/workspace/ebooks/update-embeddings")
         .body(update_embeddings_body.to_string())
         .headers(config().ANYTHING_HEADERS_JSON.clone())
-        .retry()
         .send()
         .await?;
     dbg!("update_res: {}", &update_res);
@@ -383,7 +357,6 @@ async fn _generate_metadata<'a>(
         .reqwest()
         .get("https://anything.eman.network/api/v1/documents/{}")
         .headers(config().ANYTHING_HEADERS.clone())
-        .retry()
         .send()
         .await
         .map_err(Error::Request)?
@@ -456,7 +429,6 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
         .post("https://anything.eman.network/api/v1/workspace/articles/chat")
         .body(body)
         .headers(headers)
-        .retry()
         .send()
         .await?
         .json::<ChatResponse>()

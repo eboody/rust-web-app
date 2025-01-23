@@ -20,6 +20,8 @@ tokio = { workspace = true }
 serde = { workspace = true }
 json = { workspace = true }
 serde_with = { workspace = true }
+url = { workspace = true }
+serde_urlencoded = { workspace = true }
 # -- Data
 sqlx = { workspace = true }
 tracing = "0.1"

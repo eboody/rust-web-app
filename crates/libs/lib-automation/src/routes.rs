@@ -1,4 +1,4 @@
-#![allow(unused_imports)]
+#![allow(unused_variables, unused_imports)]
 use std::{io::Write, str::FromStr};
 
 use crate::prelude::*;
@@ -41,10 +41,10 @@ pub fn routes(mm: ModelManager) -> Router {
             .order_by("date_published", Direction::Desc)
             .fetch_all(mm.orm())
             .await
-            .unwrap()
-            .into_iter()
-            .filter(|article| article.issue.is_some())
-            .collect::<Vec<_>>();
+            .unwrap();
+        //.into_iter()
+        //.filter(|article| article.issue.is_some())
+        //.collect::<Vec<_>>();
 
         tokio::spawn(async move {
             let mm = mm_clone;
@@ -63,8 +63,6 @@ pub fn routes(mm: ModelManager) -> Router {
                     .await;
 
                     tracing::debug!("->> {:<12} - res:\n{:#?}", module_path!(), res);
-
-                    tokio::time::sleep(std::time::Duration::from_secs(15)).await;
                 } else {
                     tracing::warn!(
                         "Failed to publish draft: {:?} {:#?}",

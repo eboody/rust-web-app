@@ -5,6 +5,7 @@ moddef::moddef!(
     api,
     conversions,
     error,
+    image,
   },
   pub mod {
     config,

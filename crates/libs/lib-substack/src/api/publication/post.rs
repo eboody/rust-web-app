@@ -139,9 +139,7 @@ impl Post {
             .headers(config().HEADERS.clone())
             .json(&json!({ "section_id": section_id }))
             .retry()
-            .send()
-            .await?
-            .json::<Post>()
+            .send::<Post>()
             .await?)
     }
 
@@ -158,9 +156,7 @@ impl Post {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
-            .await?
-            .json::<Vec<Tag>>()
+            .send::<Vec<Tag>>()
             .await?)
     }
 

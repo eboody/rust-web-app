@@ -1,5 +1,5 @@
 use axum::body::Bytes;
-use lib_utils::retry::*;
+use lib_utils::retry::RetryableRequest;
 use model::directus::{self, Articles, ArticlesFiles, WpPosts};
 use regex::Regex;
 use reqwest::{Url, multipart};
@@ -155,7 +155,6 @@ impl ImageProcessor<'_> {
             .await?
             .update_partial()
             .description(self.caption.as_ref().and_then(|c| c.text.clone()))
-            .tags(self.article.tags.clone())
             .update(self.mm.orm())
             .await?;
 
@@ -171,19 +170,19 @@ impl ImageProcessor<'_> {
             ))
             .headers(config().DIRECTUS_HEADERS.clone())
             .retry()
-            .send()
+            .send::<()>()
             .await?;
 
         Ok(())
     }
 }
 
-async fn process_image_url(
+#[bon::builder]
+pub async fn process_image_url(
     mm: &ModelManager,
     article: &Articles,
     url: &Url,
     title: &str,
-    _slug: &str,
     index: usize,
     caption: Option<&Caption>,
 ) -> Result<ArticlesFiles> {
@@ -254,8 +253,15 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
             continue;
         }
 
-        let article_image_file: Result<ArticlesFiles> =
-            process_image_url(mm, article, &url, title, slug, index, Some(&caption)).await;
+        let article_image_file: Result<ArticlesFiles> = process_image_url()
+            .mm(mm)
+            .article(article)
+            .url(&url)
+            .title(title)
+            .index(index)
+            .caption(&caption)
+            .call()
+            .await;
 
         let Ok(article_image_file) = article_image_file else {
             let e = article_image_file.unwrap_err();
@@ -283,8 +289,14 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
     }
 
     for url in image_urls_that_arent_in_captions.into_iter() {
-        let article_image_file: Result<ArticlesFiles> =
-            process_image_url(mm, article, &url, title, slug, index, None).await;
+        let article_image_file: Result<ArticlesFiles> = process_image_url()
+            .mm(mm)
+            .article(article)
+            .url(&url)
+            .title(title)
+            .index(index)
+            .call()
+            .await;
 
         if let Err(e) = article_image_file {
             if e.to_string().contains("ArticleImageAlreadyExisted") {
@@ -379,7 +391,7 @@ src="(?P<img>.*?)".*?
 }
 
 #[derive(Debug, Clone)]
-struct Caption {
+pub struct Caption {
     href: Option<String>,
     img: Option<String>,
     figure: Option<String>,
@@ -497,6 +509,85 @@ async fn replace_img_tag(
             .body(Some(article_body.to_string()))
             .update(mm.orm())
             .await?;
+    }
+
+    Ok(())
+}
+
+use csv::ReaderBuilder;
+use std::fs::File;
+
+#[allow(dead_code)]
+#[derive(Debug, Deserialize)]
+struct CsvRecord {
+    post_id: String,
+    article_title: String,
+    article_slug: String,
+    featured_image_id: Option<String>,
+    featured_image_url: Option<String>,
+}
+
+pub async fn process_csv_and_update_featured_images(mm: &ModelManager) -> Result<()> {
+    let file = File::open("/home/eran/code/rust-web-app/export.csv")?;
+    let mut reader = ReaderBuilder::new().from_reader(file);
+
+    for record in reader.deserialize::<CsvRecord>() {
+        let record: CsvRecord = match record {
+            Ok(r) => r,
+            Err(e) => {
+                tracing::warn!("Skipping invalid record: {}", e);
+                continue;
+            }
+        };
+
+        if record.featured_image_url == Some("\\N".to_string()) {
+            continue;
+        }
+
+        tracing::debug!("->> {:<12} - record:\n{:#?}", module_path!(), record);
+
+        // Process each row
+        if let Err(e) = process_record(mm, &record).await {
+            tracing::error!(
+                "Failed to process record for slug {}: {:?}",
+                record.article_slug,
+                e
+            );
+        }
+    }
+
+    Ok(())
+}
+
+async fn process_record(mm: &ModelManager, record: &CsvRecord) -> Result<()> {
+    let article = Articles::select()
+        .where_("slug = ?")
+        .bind(&record.article_slug)
+        .fetch_one(mm.orm())
+        .await?;
+
+    if let Some(image_url) = &record.featured_image_url {
+        let url = Url::parse(image_url)?;
+
+        let downloaded_image = process_image_url()
+            .mm(mm)
+            .article(&article)
+            .url(&url)
+            .title(&record.article_title)
+            .index(0)
+            .call()
+            .await?;
+
+        article
+            .update_partial()
+            .featured_image(Some(downloaded_image.directus_files_id))
+            .update(mm.orm())
+            .await?;
+    } else {
+        info!(
+            "No featured image URL for article '{}', skipping.",
+            record.article_slug
+        );
     }
 
     Ok(())

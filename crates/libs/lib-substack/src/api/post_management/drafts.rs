@@ -67,9 +67,7 @@ impl Response {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
-            .await?
-            .json::<Response>()
+            .send::<Response>()
             .await?)
     }
 }

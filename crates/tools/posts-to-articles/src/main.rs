@@ -340,8 +340,9 @@ impl<'a> ArticleMigrator<'a> {
     fn clean_html_content(&self, content: &str) -> Result<String, Box<dyn std::error::Error>> {
         Ok(content
             .replace("\r\n", "<br><br><br><br>")
-            .replace("\n", "<br>"))
+            .replace("\n", "<br><br>"))
     }
+
     fn apply_content_transformations(
         &self,
         content: &str,
@@ -358,7 +359,6 @@ impl<'a> ArticleMigrator<'a> {
         &self,
         endnotes: &str,
     ) -> Result<String, Box<dyn std::error::Error>> {
-        if !endnotes.is_empty() {}
         let endnotes = convert_to_footnotes(endnotes);
         let endnotes = format_footnote_references(&endnotes);
         let endnotes = remove_related_section(&endnotes);
@@ -408,7 +408,7 @@ fn remove_social_elements(content: &str) -> String {
         r"(?s)\s*?(_Like this post\?|If you enjoyed this post, consider|\\\[bctt tweet.*?\\\]).*",
     )
     .unwrap();
-    re.replace_all(content, "\n").to_string()
+    re.replace_all(content, "").to_string()
 }
 
 fn clean_formatting(content: &str) -> String {

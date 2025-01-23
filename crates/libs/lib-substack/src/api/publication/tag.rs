@@ -56,24 +56,10 @@ impl Tag {
             .headers(config().HEADERS.clone())
             .json(&json!({ "name": name }))
             .retry()
-            .send()
+            .send::<Tag>()
             .await?;
 
-        // Log the response body
-        let body = response.text().await?;
-
-        // Parse the response body into the desired type
-        let result = json::from_str(&body);
-        if let Err(e) = result {
-            tracing::error!("->> {:<12} - create tag error:\n{:#?}", module_path!(), e);
-            tracing::error!(
-                "->> {:<12} - create tag error:\n{:#?}",
-                module_path!(),
-                body
-            );
-            die!("test");
-        }
-        Ok(result?)
+        Ok(response)
     }
 
     pub async fn list(client: &reqwest::Client) -> Result<Vec<Tag>> {
@@ -83,20 +69,10 @@ impl Tag {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
+            .send::<Vec<Tag>>()
             .await?;
 
-        // Log the response body
-        let body = response.text().await?;
-
-        // Parse the response body into the desired type
-        let result = json::from_str(&body);
-        if let Err(e) = result {
-            tracing::error!("->> {:<12} - list tags error:\n{:#?}", module_path!(), e);
-            die!("test");
-        }
-
-        Ok(result?)
+        Ok(response)
     }
 
     pub async fn get(client: &reqwest::Client, id: Uuid) -> Result<Tag> {
@@ -110,20 +86,10 @@ impl Tag {
             .get(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
+            .send::<Tag>()
             .await?;
 
-        // Log the response body
-        let body = response.text().await?;
-
-        // Parse the response body into the desired type
-        let result = json::from_str(&body);
-        if let Err(e) = result {
-            tracing::error!("->> {:<12} - get tag error:\n{:#?}", module_path!(), e);
-            die!("test");
-        }
-
-        Ok(result?)
+        Ok(response)
     }
 
     pub async fn add_to_post(
@@ -143,22 +109,9 @@ impl Tag {
             .post(url)
             .headers(config().HEADERS.clone())
             .retry()
-            .send()
+            .send::<TagAssociation>()
             .await?;
 
-        // Log the response body
-        let body = response.text().await?;
-
-        // Parse the response body into the desired type
-        let result = json::from_str(&body);
-        if let Err(e) = result {
-            tracing::error!(
-                "->> {:<12} - add tag to post error:\n{:#?}",
-                module_path!(),
-                e
-            );
-            die!("{}", body);
-        }
-        Ok(result?)
+        Ok(response)
     }
 }

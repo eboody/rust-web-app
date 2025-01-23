@@ -12,5 +12,14 @@ workspace = true
 [dependencies]
 base64 = "0.22"
 time = { workspace = true }
+tokio = { workspace = true }
 tokio-retry = "0.3"
 reqwest = "0.12"
+tracing = "0.1"
+bytes = "1.9"
+tap = "1.0.1"
+json = { package = "serde_json", version = "1" }
+serde = { workspace = true }
+serde_plain = "1"
+derive_more = { workspace = true }
+serde_with = { workspace = true }

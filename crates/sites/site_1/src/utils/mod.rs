@@ -1,4 +1,3 @@
-use lib_utils::retry::*;
 use reqwest::{Client, StatusCode};
 
 use crate::prelude::*;
@@ -21,7 +20,6 @@ pub async fn get_image(Path(image_id): Path<String>) -> Result<Response> {
     let image_response = client
         .get(&cover_image_url)
         .bearer_auth(&token)
-        .retry()
         .send()
         .await
         .map_err(|_| StatusCode::BAD_GATEWAY)?;

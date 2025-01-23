@@ -33,6 +33,9 @@ pub enum Error {
     MissingField(String),
 
     AlreadyVisited,
+
+    #[from]
+    RetryError(lib_utils::retry::Error),
 }
 
 impl std::error::Error for Error {}

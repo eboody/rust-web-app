@@ -6,14 +6,19 @@ use async_recursion::async_recursion;
 use die_exit::die;
 use lib_core::model::directus::{self, Tags, VecString};
 use lib_substack::{drafts, prelude::*};
+use lib_utils::retry::RetryableRequest;
 use statum::*;
+use time::{Time, UtcOffset};
 use tokio::{sync::OnceCell, time::sleep};
 use tracing::{info, warn};
+use url::Url;
 
 const BYLINE_ID: i64 = 292604153;
 use std::collections::HashSet;
 use tokio::sync::Mutex;
 use uuid::Uuid;
+
+use crate::directus::tasks::handle_images;
 
 static RECURSING: LazyLock<Mutex<HashSet<Uuid>>> = LazyLock::new(|| Mutex::new(HashSet::new()));
 
@@ -43,18 +48,11 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
         .fetch_one(mm.orm())
         .await;
 
-    //match substack_draft {
-    //    Ok(draft) => {
-    //        // Draft already exists
-    //        warn!("Draft already exists for article {}", article_id);
-    //        Ok(draft)
-    //    }
-    //    Err(err) => {
-    //        // Handle error or proceed to create a draft
-    //        tracing::error!("Failed to fetch draft: {:?}", err);
-    //        Err(err)
-    //    }
-    //}
+    if let Ok(substack_draft) = substack_draft {
+        // Draft already exists
+        warn!("Draft already exists for article {}", article_id);
+        return Ok(substack_draft);
+    }
 
     // Fetch the article
     let article = directus::Articles::select()
@@ -95,17 +93,15 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
 
             let res: lib_substack::drafts::Response = ss_draft.clone().into();
 
-            //let get_res =
-            //    lib_substack::drafts::Request::get(mm.reqwest(), ss_draft.substack_draft_id).await;
-            //
-            ////tokio::time::sleep(std::time::Duration::from_secs(1)).await;
-            //
-            //if let Ok(get_res) = &get_res {
-            //    if get_res.is_published == Some(true) {
-            //        warn!("Draft already published: {:?}", get_res.title);
-            //        continue;
-            //    }
-            //}
+            let get_res =
+                lib_substack::drafts::Request::get(mm.reqwest(), ss_draft.substack_draft_id).await;
+
+            if let Ok(get_res) = &get_res {
+                if get_res.is_published == Some(true) {
+                    warn!("Draft already published: {:?}", get_res.title);
+                    continue;
+                }
+            }
 
             let pub_res = lib_substack::drafts::Request::publish(
                 mm.reqwest(),
@@ -136,94 +132,108 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
 
                 file.write_all(article_info.as_bytes()).unwrap();
             } else {
-                warn!("Published draft: {:?}", rel_article.title);
-                tokio::time::sleep(std::time::Duration::from_secs(5)).await;
+                info!("Published draft: {:?}", rel_article.title);
             }
         }
     }
 
-    //let tags_in_substack = lib_substack::Tag::list(mm.reqwest()).await?;
+    let mut tags_in_substack = lib_substack::Tag::list(mm.reqwest())
+        .await?
+        .into_iter()
+        .map(|mut t| {
+            t.name = t.name.to_lowercase();
+            t
+        })
+        .collect::<Vec<_>>();
 
     // Export to Substack
     let draft_response =
         lib_substack::drafts::Request::export_from_article(mm, &article, BYLINE_ID).await?;
 
-    //for tag_name in article.tags.as_vec_string() {
-    //    let substack_tag = Tags::select()
-    //        .where_("name = ?")
-    //        .bind(&tag_name)
-    //        .fetch_one(mm.orm())
-    //        .await;
-    //
-    //    let mut tag: lib_substack::Tag;
-    //
-    //    match (
-    //        tags_in_substack
-    //            .iter()
-    //            .map(|t| &t.name)
-    //            .any(|t| t == &tag_name),
-    //        &substack_tag,
-    //    ) {
-    //        // Case 1: `tag_name` not in `tags_in_substack` and `substack_tag` is an error
-    //        (false, Err(_)) => {
-    //            tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string())
-    //                .await
-    //                .expect("Failed to create tag case 1");
-    //        }
-    //
-    //        // Case 2: `tag_name` is in `tags_in_substack` and `substack_tag` is valid
-    //        (true, Ok(substack_tag)) => {
-    //            tag = substack_tag.to_owned().into();
-    //        }
-    //
-    //        // Case 3: `tag_name` not in `tags_in_substack`, but `substack_tag` is valid
-    //        (false, Ok(_)) => {
-    //            substack_tag?.delete(mm.orm()).await?;
-    //            tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string())
-    //                .await
-    //                .expect("Failed to create tag case 3");
-    //        }
-    //
-    //        // Case 4: `tag_name` is in `tags_in_substack`, but `substack_tag` is an error
-    //        (true, Err(_)) => {
-    //            tag = tags_in_substack
-    //                .iter()
-    //                .find(|t| t.name == tag_name)
-    //                .inspect(|&t| {
-    //                    tracing::error!("Tag not found: {:?}", t);
-    //                })
-    //                .expect("Tag not found")
-    //                .clone();
-    //        }
-    //    }
-    //
-    //    // Use the `tag` after handling all cases
-    //    tag.add_to_post(mm.reqwest(), draft_response.id)
-    //        .await
-    //        .expect("Failed to add tag to post");
-    //
-    //    tokio::time::sleep(std::time::Duration::from_secs(3)).await;
-    //
-    //    let directus_tag: Tags = tag.into();
-    //
-    //    directus_tag
-    //        .insert(mm.orm())
-    //        .on_conflict(OnConflict::Ignore)
-    //        .await?;
-    //
-    //    info!("Added tag to post in Substack: {}", tag_name);
-    //}
+    for tag_name in article
+        .tags
+        .as_vec_string()
+        .into_iter()
+        .map(|t| t.to_lowercase())
+    {
+        let substack_tag = Tags::select()
+            .where_("name = ?")
+            .bind(&tag_name)
+            .fetch_one(mm.orm())
+            .await;
+
+        let mut tag: lib_substack::Tag;
+
+        match (
+            tags_in_substack
+                .iter()
+                .map(|t| t.name.to_lowercase())
+                .any(|t| t == tag_name),
+            &substack_tag,
+        ) {
+            // Case 1: `tag_name` not in `tags_in_substack` and `substack_tag` isnt in db
+            (false, Err(_)) => {
+                info!("case1: {}", tag_name);
+                tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string())
+                    .await
+                    .expect("Failed to create tag case 1");
+            }
+
+            // Case 2: `tag_name` is in `tags_in_substack` and `substack_tag` is valid
+            (true, Ok(substack_tag)) => {
+                tag = substack_tag.to_owned().into();
+            }
+
+            // Case 3: `tag_name` not in `tags_in_substack`, but `substack_tag` is in db
+            (false, Ok(_)) => {
+                substack_tag?.delete(mm.orm()).await?;
+
+                info!("case3, {}", tag_name);
+                tag = lib_substack::Tag::create(mm.reqwest(), tag_name.to_string())
+                    .await
+                    .expect("Failed to create tag case 3");
+            }
+
+            // Case 4: `tag_name` is in `tags_in_substack`, but `substack_tag` not in db
+            (true, Err(_)) => {
+                tag = tags_in_substack
+                    .iter()
+                    .find(|t| t.name == tag_name)
+                    .inspect(|&t| {
+                        tracing::info!("Tag not found in db: {:?}", t);
+                    })
+                    .expect("Tag not found")
+                    .clone();
+            }
+        }
+
+        // Use the `tag` after handling all cases
+        info!("Adding tag to post: {}", tag_name);
+        tag.add_to_post(mm.reqwest(), draft_response.id)
+            .await
+            .expect("Failed to add tag to post");
+
+        let directus_tag: Tags = tag.into();
+
+        directus_tag
+            .insert(mm.orm())
+            .on_conflict(OnConflict::do_update_on_pkey("id"))
+            .await?;
+
+        info!("Added tag to post in Substack: {}", tag_name);
+    }
 
     info!(
         "Exported Substack draft {} for article {}",
         &draft_response.id, &article_id
     );
 
+    let draft_response = drafts::Request::get(mm.reqwest(), draft_response.id).await?;
+
     let substack_draft = draft_response
-        .clone()
-        .clone()
         .into_substack_draft(article_id)
         .insert(mm.orm())
+        .on_conflict(OnConflict::do_update_on_pkey("articles_id"))
         .await;
 
     if substack_draft.is_err() {
@@ -231,7 +241,47 @@ pub async fn create(mm: &ModelManager, article_id: Uuid) -> Result<directus::Sub
         delete(mm, article_id).await?;
     }
 
-    let substack_draft = substack_draft?;
+    let mut substack_draft = substack_draft?;
+
+    let cover_image_file = directus::Files::select()
+        .where_("id = ?")
+        .bind(article.featured_image)
+        .fetch_one(mm.orm())
+        .await;
+
+    if let Ok(cover_image_file) = cover_image_file {
+        let substack_cover_image = lib_substack::Image::upload_to_substack(
+            mm,
+            cover_image_file,
+            substack_draft.substack_draft_id,
+        )
+        .await
+        .expect("Failed to upload cover image");
+
+        let url = Url::parse(&format!(
+            "{}/drafts/{}",
+            &config().API_URL,
+            substack_draft.substack_draft_id
+        ))?;
+
+        substack_draft.cover_image = Some(substack_cover_image.url.clone());
+        substack_draft.slug = article.slug.clone();
+
+        let res = mm
+            .reqwest()
+            .put(url)
+            .headers(config().HEADERS.clone())
+            .body(json::to_string(&substack_draft).unwrap())
+            .retry()
+            .send::<lib_substack::drafts::Response>()
+            .await
+            .expect("Failed to parse response");
+
+        info!(
+            "Uploaded cover image for Substack draft {:#?}",
+            substack_draft.draft_title
+        );
+    }
 
     // Update article with export timestamp
     article

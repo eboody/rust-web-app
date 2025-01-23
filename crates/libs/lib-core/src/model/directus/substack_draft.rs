@@ -59,8 +59,6 @@ pub struct SubstackDraft {
     pub podcast_episode_type: Option<String>,
     pub podcast_season_number: Option<i32>,
     pub podcast_url: Option<String>,
-    #[serde(with = "time::serde::rfc3339::option")]
-    pub post_date: Option<OffsetDateTime>,
     pub search_engine_description: Option<String>,
     pub search_engine_title: Option<String>,
     pub should_send_email: Option<bool>,

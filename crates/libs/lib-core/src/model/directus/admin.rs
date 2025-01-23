@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::str::FromStr;
 use time::OffsetDateTime;
 pub type Json = json::Value;
 use ormlite::types::Uuid;
@@ -528,4 +529,17 @@ pub struct UploadFilePayload {
     pub tus_id: Option<String>,
     pub tus_data: Option<Json>,
     pub uploaded_on: Option<String>,
+}
+
+impl TryFrom<Files> for url::Url {
+    type Error = url::ParseError;
+
+    fn try_from(file: Files) -> Result<url::Url, url::ParseError> {
+        let file_uuid = file.id;
+        let base_url = &crate::core_config().DIRECTUS_URL;
+
+        let url = url::Url::from_str(format!("{}/assets/{}", base_url, file_uuid).as_str())?;
+
+        Ok(url)
+    }
 }
