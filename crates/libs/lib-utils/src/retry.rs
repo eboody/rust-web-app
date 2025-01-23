@@ -19,11 +19,13 @@ pub struct Retryable {
 impl Retryable {
     // Retry and deserialize the response into the desired type
     pub async fn send<T: DeserializeOwned + 'static>(self) -> Result<T, Error> {
-        let retry_strategy = ExponentialBackoff::from_millis(1000)
+        let mut attempt = 0;
+
+        let retry_strategy = ExponentialBackoff::from_millis(10)
             .map(jitter as fn(std::time::Duration) -> std::time::Duration)
             .take(10);
 
-        let mut attempt = 0;
+        let mut retry_times = retry_strategy.clone().peekable();
 
         Retry::spawn(retry_strategy, || {
             let builder = self
@@ -32,9 +34,20 @@ impl Retryable {
                 .expect("RequestBuilder not clonable");
 
             attempt += 1;
+
             if attempt > 1 {
-                println!("Retry attempt: {}", attempt);
+                if let Some(next_wait) = retry_times.peek() {
+                    println!(
+                        "Retry attempt: {}. Next retry in: {}ms",
+                        attempt,
+                        next_wait.as_millis()
+                    );
+                } else {
+                    println!("Retry attempt: {}. No more retries.", attempt);
+                }
             }
+
+            let _ = retry_times.advance_by(1);
 
             async move {
                 let res = builder.send().await.map_err(Error::Reqwest)?;
