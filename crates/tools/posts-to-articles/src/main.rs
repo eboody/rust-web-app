@@ -26,6 +26,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut migrator = ArticleMigrator::new(&mm);
     migrator.migrate_all_posts().await?;
 
+    tasks::handle_images::process_csv_and_update_featured_images(&mm)
+        .await
+        .expect("Failed to process csv and update featured images");
+
     Ok(())
 }
 
@@ -83,7 +87,27 @@ impl<'a> ArticleMigrator<'a> {
             .await?;
 
         for post in posts {
-            if let Ok(_existing_article) = self.get_existing_article(&post.slug).await {
+            if let Ok(existing_article) = self.get_existing_article(&post.slug).await {
+                println!(
+                    "\n\n\nUpdating existing article: {:?}",
+                    existing_article.title
+                );
+                println!("processing content");
+                let (content, endnotes) = self.process_content(&post)?;
+
+                println!("updating article");
+                existing_article
+                    .update_partial()
+                    .body(Some(content))
+                    .endnotes(Some(endnotes))
+                    .update(self.mm.orm())
+                    .await?;
+
+                println!("handling images");
+                tasks::handle_images(self.mm, &existing_article)
+                    .await
+                    .expect("Failed to handle images");
+
                 continue;
             }
 
@@ -389,7 +413,7 @@ fn split_author_name(author_name: &str) -> (String, String) {
 }
 
 fn convert_to_footnotes(content: &str) -> String {
-    let re = Regex::new(r"\]\(#_([a-zA-Z]+)ref(\d+)\)").unwrap();
+    let re = Regex::new(r"\]\(#_([a-zA-Z]+)(\d+)\)").unwrap();
     re.replace_all(content, "](#_$1$2)").to_string()
 }
 

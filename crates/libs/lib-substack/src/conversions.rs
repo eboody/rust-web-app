@@ -88,8 +88,16 @@ pub fn extract_heading(document: &mut Node) -> Option<String> {
 }
 
 pub fn md_to_prosemirror(md: &str) -> Result<Document> {
+    use std::fs;
+
+    // Write the Markdown to a temporary file
+    let temp_file_path = "/tmp/mdtp_input.md";
+    fs::write(temp_file_path, md)?;
+
+    // Pass the file path to the script
     let prosemirror_output = Command::new("./scripts/to-prosemirror/mdtp.js")
-        .arg(md)
+        .arg("--file")
+        .arg(temp_file_path)
         .output()
         .expect("Failed to run mdtp.js");
 
@@ -102,22 +110,17 @@ pub fn md_to_prosemirror(md: &str) -> Result<Document> {
     }
 
     if !prosemirror_output.status.success() {
-        eprintln!(
-            "{md}\nProcess failed with output: {}",
-            String::from_utf8_lossy(&prosemirror_output.stdout)
-        );
         return Err(Error::ProseMirrorFailed);
     }
 
     let prosemirror_string = String::from_utf8_lossy(&prosemirror_output.stdout);
-    //eprintln!("ProseMirror JSON output: {}", prosemirror_string);
-
     let doc: Document =
         json::from_str(&prosemirror_string).expect("Failed to parse ProseMirror JSON");
 
     Ok(doc)
 }
-const FOOTNOTE_REGEX: &str = r"#_?([a-zA-Z]{2,3})(note|ref)?-?(\d+)";
+
+const FOOTNOTE_REGEX: &str = r"#_?([a-zA-Z]+)(note|ref)?-?(\d+)";
 
 pub fn transform_to_substack_format(node: &mut Node) {
     if let NodeType::Text = node.type_ {

@@ -92,19 +92,20 @@ function convertMarkdownFileToProseMirror(inputFile, outputDir) {
 
 if (require.main === module) {
   const args = process.argv.slice(2);
+  const fileArgIndex = args.indexOf("--file");
 
-  if (args.length !== 1) {
-    console.error("Usage: mtp.js <markdown_string>");
-    process.exit(1);
-  }
+  if (fileArgIndex !== -1) {
+    const filePath = args[fileArgIndex + 1];
+    if (!filePath) {
+      console.error("Error: No file path provided after --file");
+      process.exit(1);
+    }
 
-  const [markdown] = args;
-
-  try {
+    const markdown = fs.readFileSync(filePath, "utf8");
     const prosemirrorJson = markdownToProseMirror(markdown);
     console.log(JSON.stringify(prosemirrorJson, null, 2));
-  } catch (err) {
-    console.error("Error processing Markdown:", err);
+  } else {
+    console.error("Usage: mdtp.js --file <input_file>");
     process.exit(1);
   }
 }

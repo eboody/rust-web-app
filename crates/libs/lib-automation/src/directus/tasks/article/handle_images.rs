@@ -23,9 +23,12 @@ struct ImageProcessor<'a> {
 impl ImageProcessor<'_> {
     async fn process(&mut self) -> Result<ArticlesFiles> {
         let url = self.normalize_url()?;
-        //debug!("Processing image at url: {}", url);
 
-        self.check_for_existing_article_image(&url).await?;
+        let articles_files = self.check_for_existing_article_image(&url).await;
+
+        if let Ok(articles_files) = articles_files {
+            return Ok(articles_files);
+        }
 
         if let Ok(existing_file) = self.find_existing_file().await {
             return self.create_article_file(existing_file.id).await;
@@ -42,18 +45,12 @@ impl ImageProcessor<'_> {
         }
     }
 
-    async fn check_for_existing_article_image(&self, url: &Url) -> Result<()> {
-        let exists = ArticlesFiles::select()
+    async fn check_for_existing_article_image(&self, url: &Url) -> Result<ArticlesFiles> {
+        Ok(ArticlesFiles::select()
             .where_("url = ?")
             .bind(url.to_string())
             .fetch_one(self.mm.orm())
-            .await
-            .is_ok();
-
-        if exists {
-            return Err(Error::ArticleImageAlreadyExisted(url.to_string()));
-        }
-        Ok(())
+            .await?)
     }
 
     async fn find_existing_file(&self) -> Result<directus::Files> {
@@ -106,8 +103,10 @@ impl ImageProcessor<'_> {
 
         let url = Url::parse(urlencoding::decode(url.as_str())?.to_string().as_str())?;
 
+        println!("downloading image from url: {}", url);
         let response = reqwest::Client::new()
             .get(url.clone())
+            .timeout(std::time::Duration::from_secs(10))
             .header("User-Agent", "Mozilla/5.0 (compatible; MyBot/1.0)")
             .send()
             .await?;
@@ -241,6 +240,7 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
 
     let mut index = 1;
 
+    println!("looping through captions");
     for caption in captions.into_iter() {
         let url: Url;
 
@@ -288,7 +288,9 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
         index += 1;
     }
 
+    println!("looping through image_urls_that_arent_in_captions");
     for url in image_urls_that_arent_in_captions.into_iter() {
+        println!("processing image at url: {}", url);
         let article_image_file: Result<ArticlesFiles> = process_image_url()
             .mm(mm)
             .article(article)
@@ -306,8 +308,12 @@ pub async fn handle_images(mm: &ModelManager, article: &Articles) -> Result<()> 
             error!("Failed to process image {}: {:?}", url, e);
             continue;
         }
+
         let article_image_file = article_image_file?;
+
+        println!("replacing img tag");
         replace_img_tag(mm, article, &url, article_image_file.directus_files_id).await?;
+
         index += 1;
     }
 

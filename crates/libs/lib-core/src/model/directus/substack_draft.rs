@@ -14,12 +14,12 @@ pub struct SubstackDraft {
     pub draft_subtitle: Option<String>,
     pub draft_type: String,
     pub audience: String,
-    pub section_chosen: bool,
+    pub section_chosen: Option<bool>,
     pub publication_id: i64,
     pub word_count: Option<i64>,
     pub draft_body: json::Value,
-    pub draft_created_at: OffsetDateTime,
-    pub draft_updated_at: OffsetDateTime,
+    pub draft_created_at: Option<OffsetDateTime>,
+    pub draft_updated_at: Option<OffsetDateTime>,
 
     // Our additional fields
     pub status: String,

@@ -3,6 +3,7 @@ use std::{io::Write, str::FromStr};
 
 use crate::prelude::*;
 use axum::{Json, Router, extract::State, routing::post};
+use die_exit::die;
 use directus::{
     tasks,
     trigger::{self, Event},
@@ -32,7 +33,7 @@ pub fn routes(mm: ModelManager) -> Router {
     tokio::spawn(async move {
         let mm = mm_clone.clone();
 
-        //tasks::sync_sections(&mm).await.unwrap();
+        tasks::sync_sections(&mm).await.unwrap();
 
         let articles = Articles::select()
             //.where_("articles.id = ?")
@@ -41,46 +42,75 @@ pub fn routes(mm: ModelManager) -> Router {
             .order_by("date_published", Direction::Desc)
             .fetch_all(mm.orm())
             .await
-            .unwrap();
-        //.into_iter()
-        //.filter(|article| article.issue.is_some())
-        //.collect::<Vec<_>>();
+            .unwrap()
+            .into_iter()
+            .filter(|article| article.issue.is_some())
+            .collect::<Vec<_>>();
+
+        println!("ARTICLES: {:#?}", articles.len());
 
         tokio::spawn(async move {
             let mm = mm_clone;
             for article in articles {
-                let substack_draft = tasks::substack::drafts::create(&mm, article.id).await;
-
-                if let Ok(substack_draft) = substack_draft {
-                    let res = lib_substack::drafts::Request::publish(
-                        mm.reqwest(),
-                        substack_draft.substack_draft_id,
-                        lib_substack::drafts::PublishArgs {
-                            send: false,
-                            share_automatically: false,
-                        },
-                    )
+                let substack_draft = model::directus::SubstackDraft::select()
+                    .where_("articles_id = ?")
+                    .bind(article.id)
+                    .fetch_one(mm.orm())
                     .await;
 
-                    tracing::debug!("->> {:<12} - res:\n{:#?}", module_path!(), res);
-                } else {
-                    tracing::warn!(
-                        "Failed to publish draft: {:?} {:#?}",
-                        article.id,
-                        article.title
-                    );
-
-                    let mut file = std::fs::OpenOptions::new()
-                        .create(true)
-                        .append(true)
-                        .open("articles.txt")
-                        .unwrap();
-
-                    let article_info = format!("Article: {}\n", article.id);
-
-                    file.write_all(article_info.as_bytes()).unwrap();
+                if substack_draft.is_ok() {
+                    continue;
                 }
+
+                let res = tasks::substack::drafts::create_iterative()
+                    .model_manager(&mm)
+                    .root_article_id(article.id)
+                    .should_publish(true)
+                    .call()
+                    .await;
+
+                println!("res: {:#?}", res);
+
+                let _ = res.inspect_err(|e| {
+                    println!("ERROR: {:#?}", e);
+                    die!("Failed to create draft");
+                });
+
+                //let substack_draft = model::directus::SubstackDraft::select()
+                //    .where_("articles_id = ?")
+                //    .bind(article.id)
+                //    .fetch_one(mm.orm())
+                //    .await;
+
+                //if let Ok(substack_draft) = substack_draft {
+                //    let res = lib_substack::drafts::Request::publish(
+                //        mm.reqwest(),
+                //        substack_draft.substack_draft_id,
+                //        lib_substack::drafts::PublishArgs {
+                //            send: false,
+                //            share_automatically: false,
+                //        },
+                //    )
+                //    .await;
+                //} else {
+                //    tracing::warn!(
+                //        "Failed to publish draft: {:?} {:#?}",
+                //        article.id,
+                //        article.title
+                //    );
+                //
+                //    let mut file = std::fs::OpenOptions::new()
+                //        .create(true)
+                //        .append(true)
+                //        .open("articles.txt")
+                //        .unwrap();
+                //
+                //    let article_info = format!("Article: {}\n", article.id);
+                //
+                //    file.write_all(article_info.as_bytes()).unwrap();
+                //}
             }
+            println!("DONE WITH SYNC");
         });
 
         //let res = tasks::create_substack_draft(&mm, article.id).await;

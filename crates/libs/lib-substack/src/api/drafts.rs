@@ -34,6 +34,8 @@ pub struct Request {
     pub description: Option<String>,
     pub cover_image: Option<String>,
     pub social_title: Option<String>,
+    //#[serde(with = "time::serde::iso8601::option")]
+    //pub post_date: Option<OffsetDateTime>,
 }
 
 impl Request {
@@ -153,7 +155,12 @@ impl Request {
 
                 Some(section)
             })
-            .expect("Failed to fetch section")
+            .unwrap_or_else(|| {
+                panic!(
+                    "Failed to fetch section {:#?} for article: {:?}",
+                    article.section, article.title
+                )
+            })
             .await;
 
         let body = json::to_string(&doc)?.replace(
@@ -172,12 +179,28 @@ impl Request {
         //let body = Regex::new(r"\s*?For the application of these principles.*?\.")
         //    .unwrap()
         //    .replace_all(&body, "");
+        let article = directus::Articles::select()
+            .where_("articles.id = ?")
+            .bind(article.id)
+            .join(directus::Articles::author())
+            .fetch_one(mm.orm())
+            .await?;
+
+        let subtitle = if let Some(first_name) = &article.author.first_name
+            && let Some(last_name) = &article.author.last_name
+        {
+            Some(format!("By {} {}", first_name, last_name))
+        } else if let Some(subtitle) = article.subtitle {
+            Some(subtitle)
+        } else {
+            Some("".to_string())
+        };
 
         let request = Self {
             audience: Audience::Everyone,
             draft_body: Body(body.to_string()),
             draft_title: article.title.clone().ok_or_else(|| Error::NoArticleTitle)?,
-            draft_subtitle: article.subtitle.clone().unwrap_or_default(),
+            draft_subtitle: subtitle.unwrap_or_default(),
             draft_bylines: vec![ByLine {
                 id: byline_id,
                 is_guest: false,
@@ -194,6 +217,9 @@ impl Request {
             cover_image: None,
             description: None,
             social_title: None,
+            //post_date: article
+            //    .date_published
+            //    .map(|d| d.with_time(Time::MIDNIGHT).assume_utc()),
         };
 
         info!(
@@ -237,7 +263,7 @@ impl Request {
             .body(json::to_string(&publish_args)?)
             .headers(config().HEADERS.clone())
             .retry()
-            .send::<()>()
+            .send::<Response>()
             .await?;
 
         Ok(())
@@ -296,14 +322,13 @@ pub struct Response {
     pub draft_title: String,
     pub draft_subtitle: String,
     pub audience: Audience,
-    pub section_chosen: bool,
     pub publication_id: i64,
     pub word_count: Option<i64>,
     pub draft_body: json::Value,
-    #[serde(with = "time::serde::rfc3339")]
-    pub draft_created_at: OffsetDateTime,
-    #[serde(with = "time::serde::rfc3339")]
-    pub draft_updated_at: OffsetDateTime,
+    #[serde(with = "time::serde::rfc3339::option", default)]
+    pub draft_created_at: Option<OffsetDateTime>,
+    #[serde(with = "time::serde::rfc3339::option", default)]
+    pub draft_updated_at: Option<OffsetDateTime>,
     pub uuid: Uuid,
 
     pub cover_image: Option<String>,
@@ -345,6 +370,7 @@ pub struct Response {
     pub should_syndicate_to_other_feed: Option<bool>,
     pub title: Option<String>,
     pub write_comment_permissions: Option<String>,
+    pub section_chosen: Option<bool>,
 }
 
 impl Response {

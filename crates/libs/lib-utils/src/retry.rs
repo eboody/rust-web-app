@@ -3,7 +3,7 @@ use reqwest::RequestBuilder;
 use serde::{Serialize, de::DeserializeOwned};
 use tokio_retry::{
     Retry,
-    strategy::{ExponentialBackoff, jitter},
+    strategy::{FibonacciBackoff, jitter},
 };
 
 use serde_with::{DisplayFromStr, serde_as};
@@ -21,7 +21,7 @@ impl Retryable {
     pub async fn send<T: DeserializeOwned + 'static>(self) -> Result<T, Error> {
         let mut attempt = 0;
 
-        let retry_strategy = ExponentialBackoff::from_millis(10)
+        let retry_strategy = FibonacciBackoff::from_millis(2000)
             .map(jitter as fn(std::time::Duration) -> std::time::Duration)
             .take(10);
 
@@ -35,6 +35,18 @@ impl Retryable {
 
             attempt += 1;
 
+            // Print URL and method of the request
+            if let Some(request) = builder.try_clone() {
+                let request = request.build().expect("Failed to build request");
+                println!(
+                    "\n\n\n\nMaking request: {:#} {:#}",
+                    request.method(),
+                    request.url().path(),
+                );
+            }
+
+            let _ = retry_times.advance_by(1);
+
             if attempt > 1 {
                 if let Some(next_wait) = retry_times.peek() {
                     println!(
@@ -47,18 +59,18 @@ impl Retryable {
                 }
             }
 
-            let _ = retry_times.advance_by(1);
-
             async move {
-                let res = builder.send().await.map_err(Error::Reqwest)?;
+                let res = builder
+                    .send()
+                    .await
+                    .map_err(Error::Reqwest)
+                    .expect("Failed to send request");
 
-                let body = res.text().await.map_err(Error::Reqwest)?;
-
-                if body.len() < 500 {
-                    println!("body: {:#?}", body);
-                } else {
-                    println!("body: {:#?}", &body[..500]);
-                }
+                let body = res
+                    .text()
+                    .await
+                    .map_err(Error::Reqwest)
+                    .expect("Failed to get body");
 
                 //eprintln!("Retrying request due to status code: {}", status);
                 //return Err(Error::Blah);
@@ -69,8 +81,14 @@ impl Retryable {
                 }
 
                 // Deserialize JSON into the generic type T
-                let result: T = json::from_str(&body).map_err(Error::Serde)?;
-                Ok(result)
+                let result: Result<T, Error> = json::from_str(&body).map_err(Error::Serde);
+
+                if let Err(result) = result {
+                    println!("body: {:#?}", &body);
+                    Err(result)
+                } else {
+                    result
+                }
             }
         })
         .await
