@@ -1,3 +1,5 @@
+use model::ModelManager;
+
 use crate::prelude::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Model)]
@@ -5,7 +7,7 @@ use crate::prelude::*;
 pub struct SubstackDraft {
     // Primary fields
     pub id: Uuid,
-    pub articles_id: Uuid,
+    pub articles_id: Option<Uuid>,
 
     // Fields from API response
     pub substack_draft_id: i64,
@@ -26,7 +28,7 @@ pub struct SubstackDraft {
     pub sync_status: String,
     pub last_sync_error: Option<String>,
     pub last_synced_at: OffsetDateTime,
-    pub section_id: Option<String>,
+    pub section_id: Option<i64>,
 
     // Directus fields
     pub user_created: Option<Uuid>,
@@ -41,7 +43,7 @@ pub struct SubstackDraft {
     pub draft_podcast_preview_upload_id: Option<String>,
     pub draft_podcast_upload_id: Option<String>,
     pub draft_podcast_url: Option<String>,
-    pub draft_section_id: Option<String>,
+    pub draft_section_id: Option<i64>,
     pub draft_video_upload_id: Option<String>,
     pub draft_voiceover_upload_id: Option<String>,
     pub editor_v2: Option<bool>,
@@ -68,8 +70,17 @@ pub struct SubstackDraft {
     pub social_title: Option<String>,
     pub subscriber_set_id: Option<String>,
     pub subtitle: Option<String>,
-    pub syndicate_to_section_id: Option<String>,
+    pub syndicate_to_section_id: Option<i64>,
     pub should_syndicate_to_other_feed: Option<bool>,
     pub title: Option<String>,
     pub write_comment_permissions: Option<String>,
+
+    #[serde(with = "time::serde::iso8601::option")]
+    pub post_date: Option<OffsetDateTime>,
+}
+
+impl SubstackDraft {
+    async fn get_by_article_id(articles_id: Uuid, mm: &ModelManager) -> Result<()> {
+        todo!()
+    }
 }

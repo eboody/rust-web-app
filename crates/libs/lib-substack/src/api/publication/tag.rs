@@ -1,6 +1,5 @@
 use crate::prelude::*;
-use die_exit::die;
-use lib_core::model::directus;
+use lib_core::model;
 use lib_utils::retry::*;
 use serde::{Deserialize, Serialize};
 use url::Url;
@@ -14,7 +13,7 @@ pub struct Tag {
     pub hidden: bool,
 }
 
-impl From<Tag> for directus::Tags {
+impl From<Tag> for model::Tags {
     fn from(tag: Tag) -> Self {
         Self {
             id: tag.id,
@@ -26,8 +25,8 @@ impl From<Tag> for directus::Tags {
     }
 }
 
-impl From<directus::Tags> for Tag {
-    fn from(value: directus::Tags) -> Self {
+impl From<model::Tags> for Tag {
+    fn from(value: model::Tags) -> Self {
         Self {
             id: value.id,
             name: value.name,

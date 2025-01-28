@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-use model::directus::Articles;
+use model::Articles;
 
 pub async fn add_tags(mm: &ModelManager, article: &Articles) -> Result<()> {
     let message = construct_message(mm, article).await?;

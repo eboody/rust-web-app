@@ -1,25 +1,25 @@
 use crate::prelude::*;
-use lib_core::model::directus::{CoverImage, EbooksTranslations};
+use lib_core::model::{CoverImage, EbooksTranslations};
 
 pub struct Cover3D<'a> {
-  pub ebook: &'a EbooksTranslations,
+    pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for Cover3D<'_> {
-  fn render(&self) -> Markup {
-    let ebook = &self.ebook;
-    let title = &ebook.title.as_deref().unwrap_or("Ebook");
+    fn render(&self) -> Markup {
+        let ebook = &self.ebook;
+        let title = &ebook.title.as_deref().unwrap_or("Ebook");
 
-    html! {
-      .book {
-        .inner {
-          img.cover src=(ebook.thumbnail_url(100)) alt=(title);
+        html! {
+          .book {
+            .inner {
+              img.cover src=(ebook.thumbnail_url(100)) alt=(title);
+            }
+            .shadow {}
+          }
+        (css())
         }
-        .shadow {}
-      }
-    (css())
     }
-  }
 }
 
 css! {

@@ -1,5 +1,6 @@
 use crate::prelude::*;
-use directus::{Status, admin::Users};
+use model::Status;
+use model::Users;
 
 #[derive(Debug, ormlite::Model, Serialize, Deserialize, Partial)]
 #[partially(derive(Debug, Deserialize, Serialize))]
@@ -29,7 +30,10 @@ pub struct Articles {
     pub featured_image: Option<Uuid>,
     pub tags: Option<json::Value>,
     pub date_published: Option<Date>,
+
     pub issue: Option<Uuid>,
+    pub substack_draft: Option<Uuid>,
+
     pub section: Option<Uuid>,
     pub audio: Option<Uuid>,
 

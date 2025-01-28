@@ -7,7 +7,7 @@ use lib_anythingllm::{
 };
 use lib_core::model::{
     ModelManager,
-    directus::{
+    {
         Ebooks, EbooksTranslations, EbooksTranslationsBuilder, Files, Folders, UploadFilePayload,
         Users,
     },

@@ -3,7 +3,7 @@ use crate::{openai, prelude::*};
 
 use std::{fs, fs::File, io::Write, path::Path};
 
-use lib_core::model::directus::{ArticlesBuilder, Files, Language, Status, UploadFilePayload};
+use lib_core::model::{ArticlesBuilder, Files, Language, Status, UploadFilePayload};
 
 use lib_substack::convert_docx_to_md;
 use ormlite::{Model, model::ModelBuilder};

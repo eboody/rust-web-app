@@ -1,5 +1,5 @@
 #![allow(unused)]
-use model::directus::{self, Articles, ArticlesFiles, VecString, WpPosts};
+use model::{self, Articles, ArticlesFiles, VecString, WpPosts};
 use regex::Regex;
 use reqwest::{Url, multipart};
 use serde::Deserialize;
@@ -56,7 +56,7 @@ pub async fn handle_videos(mm: &ModelManager, article: &Articles) -> Result<()> 
             process_video_url(mm, article, &url, title, slug, index).await;
 
         if let Ok(article_image_file) = &article_image_file {
-            let file_title = directus::Files::select()
+            let file_title = model::Files::select()
                 .select("title")
                 .where_("id = ?")
                 .bind(article_image_file.directus_files_id)
@@ -213,11 +213,11 @@ async fn process_video_url(
         .send()
         .await
         .map_err(|_| Error::FailedToUploadImage(url.clone().to_string()))?
-        .json::<ResponseDataWrapper<directus::api::Files>>()
+        .json::<ResponseDataWrapper<model::api::Files>>()
         .await?
         .data;
 
-    directus::Files::select()
+    model::Files::select()
         .where_("id = ?")
         .bind(video_file.id)
         .fetch_one(mm.orm())

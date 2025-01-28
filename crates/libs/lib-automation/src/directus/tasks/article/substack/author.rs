@@ -1,10 +1,7 @@
 use crate::prelude::*;
 use lib_substack::{PublicationUser, drafts};
 
-pub async fn get_byline(
-    mm: &ModelManager,
-    user: &model::directus::Users,
-) -> Option<drafts::ByLine> {
+pub async fn get_byline(mm: &ModelManager, user: &model::Users) -> Option<drafts::ByLine> {
     if let Some(first_name) = &user.first_name
         && let Some(last_name) = &user.last_name
     {

@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-use model::directus::{Articles, Sections};
+use model::{Articles, Sections};
 
 pub async fn select_section(mm: &ModelManager, article: &Articles) -> Result<()> {
     let mut sections = Sections::select()

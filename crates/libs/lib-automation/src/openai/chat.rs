@@ -18,7 +18,7 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
     let message_hash = format!("{:x}", hasher.finalize());
 
     //ccheck cache
-    if let Ok(chat) = model::directus::Chats::select()
+    if let Ok(chat) = model::Chats::select()
         .where_("message_hash = ?")
         .bind(&message_hash)
         .fetch_one(mm.orm())
@@ -58,7 +58,7 @@ pub async fn chat(mm: &ModelManager, message: String) -> Result<String> {
         .expect("No content in message");
 
     // Cache response
-    model::directus::Chats::builder()
+    model::Chats::builder()
         .message(&message)
         .response(&reply)
         .message_hash(Some(message_hash))

@@ -1,34 +1,34 @@
 use crate::{pages::ebooks, prelude::*};
-use lib_core::model::directus::EbooksTranslations;
+use lib_core::model::EbooksTranslations;
 
 pub struct Menu {
-  pub ebooks: Vec<EbooksTranslations>,
+    pub ebooks: Vec<EbooksTranslations>,
 }
 
 impl Render for Menu {
-  fn render(&self) -> Markup {
-    html! {
-      .ebooks-container {
-        section {
-          .grid-auto-fit {
-            @for ebook in &self.ebooks {
-              (ebooks::Card { ebook })
+    fn render(&self) -> Markup {
+        html! {
+          .ebooks-container {
+            section {
+              .grid-auto-fit {
+                @for ebook in &self.ebooks {
+                  (ebooks::Card { ebook })
+                }
+              }
             }
           }
+          (css())
         }
-      }
-      (css())
     }
-  }
 }
 
 pub async fn get_menu() -> Result<Markup> {
-  //let ebooks = EbooksTranslationsService::find().await;
-  //
-  //let ebooks = ebooks?;
+    //let ebooks = EbooksTranslationsService::find().await;
+    //
+    //let ebooks = ebooks?;
 
-  //Ok(Menu { ebooks }.render())
-  Ok(html! {})
+    //Ok(Menu { ebooks }.render())
+    Ok(html! {})
 }
 
 css! {

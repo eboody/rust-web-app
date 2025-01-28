@@ -1,9 +1,7 @@
-use std::collections::HashMap;
-
 use crate::prelude::*;
 use base64::{Engine as _, engine::general_purpose};
 use bytes::Bytes;
-use lib_core::model::directus::{self, SubstackDraft};
+use lib_core::model::{self, SubstackDraft};
 use lib_utils::retry::RetryableRequest;
 use url::Url;
 
@@ -28,8 +26,8 @@ pub struct Response {
 }
 
 impl Response {
-    fn to_ss_cover_image(&self, ss_draft_id: Uuid) -> directus::SubstackCoverImage {
-        directus::SubstackCoverImage {
+    fn to_ss_cover_image(&self, ss_draft_id: Uuid) -> model::SubstackCoverImage {
+        model::SubstackCoverImage {
             id: self.id.clone(),
             substack_draft: ss_draft_id,
             url: self.url.clone(),
@@ -44,9 +42,9 @@ impl Response {
 impl Image {
     pub async fn upload_to_substack(
         mm: &ModelManager,
-        image_file: directus::Files,
+        image_file: model::Files,
         draft_ssid: i64,
-    ) -> Result<directus::SubstackCoverImage> {
+    ) -> Result<model::SubstackCoverImage> {
         let image_file_url: Url = image_file.try_into()?;
 
         let download_image_res = mm.reqwest().get(image_file_url).send().await?;

@@ -6,6 +6,7 @@
 #![feature(iter_advance_by)]
 
 pub mod b64;
+pub mod debug_deserialize;
 pub mod envs;
 pub mod retry;
 pub mod time;

@@ -1,6 +1,6 @@
 use axum::body::Bytes;
 use lib_utils::retry::RetryableRequest;
-use model::directus::{self, Articles, ArticlesFiles, WpPosts};
+use model::{self, Articles, ArticlesFiles, WpPosts};
 use regex::Regex;
 use reqwest::{Url, multipart};
 use serde::Deserialize;
@@ -53,9 +53,9 @@ impl ImageProcessor<'_> {
             .await?)
     }
 
-    async fn find_existing_file(&self) -> Result<directus::Files> {
+    async fn find_existing_file(&self) -> Result<model::Files> {
         let filename = self.get_filename()?;
-        Ok(directus::Files::select()
+        Ok(model::Files::select()
             .where_("filename_download = ?")
             .bind(filename)
             .fetch_one(self.mm.orm())
@@ -96,7 +96,7 @@ impl ImageProcessor<'_> {
         }
     }
 
-    async fn upload_file(&mut self) -> Result<directus::api::Files> {
+    async fn upload_file(&mut self) -> Result<model::api::Files> {
         let url = get_commons_url(self.url.clone())
             .await?
             .expect("Failed to get commons url");
@@ -122,7 +122,7 @@ impl ImageProcessor<'_> {
             .send()
             .await
             .map_err(|_| Error::FailedToUploadImage(url.to_string()))?
-            .json::<ResponseDataWrapper<directus::api::Files>>()
+            .json::<ResponseDataWrapper<model::api::Files>>()
             .await
             .map(|wrapper| wrapper.data)
             .map_err(|e| e.into())
@@ -146,8 +146,8 @@ impl ImageProcessor<'_> {
             ))
     }
 
-    async fn update_file_metadata(&self, image_file: &directus::api::Files) -> Result<()> {
-        directus::Files::select()
+    async fn update_file_metadata(&self, image_file: &model::api::Files) -> Result<()> {
+        model::Files::select()
             .where_("id = ?")
             .bind(image_file.id)
             .fetch_one(self.mm.orm())
@@ -160,7 +160,7 @@ impl ImageProcessor<'_> {
         Ok(())
     }
 
-    async fn cleanup_failed_upload(&self, image_file: &directus::api::Files) -> Result<()> {
+    async fn cleanup_failed_upload(&self, image_file: &model::api::Files) -> Result<()> {
         self.mm
             .reqwest()
             .delete(format!(

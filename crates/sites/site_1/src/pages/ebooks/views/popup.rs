@@ -1,46 +1,46 @@
 use crate::{pages::ebooks, prelude::*};
-use lib_core::model::directus::{EbooksTranslations, Language};
+use lib_core::model::{EbooksTranslations, Language};
 
 pub struct Popup<'a> {
-  pub ebook: &'a EbooksTranslations,
+    pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for Popup<'_> {
-  fn render(&self) -> Markup {
-    view::Popup {
-      content: content_markup(self.ebook),
+    fn render(&self) -> Markup {
+        view::Popup {
+            content: content_markup(self.ebook),
+        }
+        .render()
     }
-    .render()
-  }
 }
 
 fn content_markup(ebook: &EbooksTranslations) -> Markup {
-  html! {
-    .popup-container ebook_id=(ebook.id) {
-        .hook { "Free Ebook" }
-          .title { (&ebook.title.as_deref().unwrap_or("")) }
-          .descriptor { (&ebook.descriptor.as_deref().unwrap_or("")) }
-        (ebooks::PopupSignupForm { ebook })
-        .book{
-          (ebooks::Cover3D { ebook })
+    html! {
+      .popup-container ebook_id=(ebook.id) {
+          .hook { "Free Ebook" }
+            .title { (&ebook.title.as_deref().unwrap_or("")) }
+            .descriptor { (&ebook.descriptor.as_deref().unwrap_or("")) }
+          (ebooks::PopupSignupForm { ebook })
+          .book{
+            (ebooks::Cover3D { ebook })
+          }
         }
-      }
-    (css())
-    (js())
-  }
+      (css())
+      (js())
+    }
 }
 
 pub async fn get_popup(State(mm): State<ModelManager>) -> Result<Markup> {
-  let ebook = EbooksTranslations::select()
-    .where_("languages_code = ?")
-    .bind(Language::English.to_string())
-    .where_("status = ?")
-    .bind("published")
-    .join(EbooksTranslations::ebook())
-    .fetch_one(mm.orm())
-    .await?;
+    let ebook = EbooksTranslations::select()
+        .where_("languages_code = ?")
+        .bind(Language::English.to_string())
+        .where_("status = ?")
+        .bind("published")
+        .join(EbooksTranslations::ebook())
+        .fetch_one(mm.orm())
+        .await?;
 
-  Ok(self::Popup { ebook: &ebook }.render())
+    Ok(self::Popup { ebook: &ebook }.render())
 }
 
 js! {

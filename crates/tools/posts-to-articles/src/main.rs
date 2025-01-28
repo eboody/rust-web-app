@@ -1,10 +1,7 @@
 use async_recursion::async_recursion;
 use lib_automation::directus::tasks;
 use lib_core::{
-    model::{
-        ModelManager,
-        directus::{Articles, Issues, RelatedArticles, Status, Users, WpPosts},
-    },
+    model::{Articles, Issues, ModelManager, RelatedArticles, Status, Users, WpPosts},
     prelude::{Deserialize, OffsetDateTime},
 };
 use ormlite::{

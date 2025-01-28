@@ -6,13 +6,12 @@ use crate::{
     prose_mirror::{self, Node},
     transform_endnotes_for_substack, transform_to_substack_format,
 };
-use lib_core::model::directus;
 use lib_utils::retry::RetryableRequest;
 use ormlite::types::Uuid;
 use regex::Regex;
 use reqwest::Url;
 use serde::{Deserialize, Serialize};
-use tracing::{debug, info};
+use tracing::info;
 
 #[derive(Serialize, Debug, Default)]
 pub struct Request {
@@ -34,8 +33,9 @@ pub struct Request {
     pub description: Option<String>,
     pub cover_image: Option<String>,
     pub social_title: Option<String>,
-    //#[serde(with = "time::serde::iso8601::option")]
-    //pub post_date: Option<OffsetDateTime>,
+
+    #[serde(with = "time::serde::rfc3339::option")]
+    pub post_date: Option<OffsetDateTime>,
 }
 
 impl Request {
@@ -50,8 +50,8 @@ impl Request {
             .await?)
     }
 
-    pub async fn put(&self, client: &reqwest::Client) -> Result<Response> {
-        let url = Url::parse(&format!("{}/drafts", &config().API_URL))?;
+    pub async fn put(&self, client: &reqwest::Client, draft_id: i64) -> Result<Response> {
+        let url = Url::parse(&format!("{}/drafts/{}", &config().API_URL, draft_id))?;
         Ok(client
             .put(url)
             .headers(config().HEADERS.clone())
@@ -109,7 +109,7 @@ impl Request {
 
     pub async fn export_from_article(
         mm: &ModelManager,
-        article: &directus::Articles,
+        article: &model::Articles,
         byline_id: i64,
     ) -> Result<Response> {
         let content = article
@@ -146,7 +146,7 @@ impl Request {
         let section = article
             .section
             .map(|section_id| async move {
-                let section = directus::Sections::select()
+                let section = model::Sections::select()
                     .where_("id = ?")
                     .bind(section_id)
                     .fetch_one(mm.orm())
@@ -167,6 +167,7 @@ impl Request {
             "/assets/",
             format!("{}/assets/", &config().DIRECTUS_URL).as_str(),
         );
+
         let body =
             Regex::new(r"https?://(?:www\.)?theobjectivestandard\.com/(?:[^/\s)]+/)*([^/\s)]+)")
                 .unwrap()
@@ -179,10 +180,10 @@ impl Request {
         //let body = Regex::new(r"\s*?For the application of these principles.*?\.")
         //    .unwrap()
         //    .replace_all(&body, "");
-        let article = directus::Articles::select()
+        let article = model::Articles::select()
             .where_("articles.id = ?")
             .bind(article.id)
-            .join(directus::Articles::author())
+            .join(model::Articles::author())
             .fetch_one(mm.orm())
             .await?;
 
@@ -217,9 +218,9 @@ impl Request {
             cover_image: None,
             description: None,
             social_title: None,
-            //post_date: article
-            //    .date_published
-            //    .map(|d| d.with_time(Time::MIDNIGHT).assume_utc()),
+            post_date: article
+                .date_published
+                .map(|d| d.with_time(Time::MIDNIGHT).assume_utc()),
         };
 
         info!(
@@ -239,10 +240,6 @@ impl Request {
             .send::<()>()
             .await?;
         Ok(())
-    }
-
-    pub async fn add_cover_image(mm: &ModelManager, article: &directus::Articles) -> Result<()> {
-        todo!()
     }
 
     pub async fn publish(
@@ -276,9 +273,9 @@ pub struct PublishArgs {
     pub share_automatically: bool,
 }
 
-impl TryFrom<directus::Articles> for Request {
+impl TryFrom<model::Articles> for Request {
     type Error = crate::Error;
-    fn try_from(article: directus::Articles) -> std::result::Result<Self, Self::Error> {
+    fn try_from(article: model::Articles) -> std::result::Result<Self, Self::Error> {
         Ok(Self {
             audience: Audience::Everyone,
             type_: Type::Newsletter,
@@ -294,15 +291,33 @@ impl TryFrom<directus::Articles> for Request {
 #[serde(transparent)]
 pub struct Body(pub String);
 
-impl TryFrom<&directus::Articles> for Body {
+impl TryFrom<&model::Articles> for Body {
     type Error = crate::Error;
-    fn try_from(article: &directus::Articles) -> Result<Self> {
+    fn try_from(article: &model::Articles) -> Result<Self> {
         if let Some(content) = &article.body {
             let doc = md_to_prosemirror(content)?;
             let mut doc: prose_mirror::Node = doc.into();
             transform_to_substack_format(&mut doc);
             if let Some(endnotes) = &article.endnotes {
-                debug!("->> {:<12} - endnotes: {:#?}", file!(), endnotes);
+                let endnotes = md_to_prosemirror(endnotes)?;
+                let mut endnotes = transform_endnotes_for_substack(&endnotes.into());
+                doc.content.as_mut().unwrap().append(&mut endnotes);
+            }
+            Ok(Body(json::to_string(&doc)?))
+        } else {
+            Err(Error::NoArticleContent)
+        }
+    }
+}
+
+impl TryFrom<model::Articles> for Body {
+    type Error = crate::Error;
+    fn try_from(article: model::Articles) -> Result<Self> {
+        if let Some(content) = &article.body {
+            let doc = md_to_prosemirror(content)?;
+            let mut doc: prose_mirror::Node = doc.into();
+            transform_to_substack_format(&mut doc);
+            if let Some(endnotes) = &article.endnotes {
                 let endnotes = md_to_prosemirror(endnotes)?;
                 let mut endnotes = transform_endnotes_for_substack(&endnotes.into());
                 doc.content.as_mut().unwrap().append(&mut endnotes);
@@ -324,7 +339,7 @@ pub struct Response {
     pub audience: Audience,
     pub publication_id: i64,
     pub word_count: Option<i64>,
-    pub draft_body: json::Value,
+    pub draft_body: String,
     #[serde(with = "time::serde::rfc3339::option", default)]
     pub draft_created_at: Option<OffsetDateTime>,
     #[serde(with = "time::serde::rfc3339::option", default)]
@@ -338,7 +353,7 @@ pub struct Response {
     pub draft_podcast_preview_upload_id: Option<String>,
     pub draft_podcast_upload_id: Option<String>,
     pub draft_podcast_url: Option<String>,
-    pub draft_section_id: Option<String>,
+    pub draft_section_id: Option<i64>,
     pub draft_video_upload_id: Option<String>,
     pub draft_voiceover_upload_id: Option<String>,
     pub editor_v2: Option<bool>,
@@ -358,7 +373,7 @@ pub struct Response {
     pub podcast_url: Option<String>,
     pub search_engine_description: Option<String>,
     pub search_engine_title: Option<String>,
-    pub section_id: Option<String>,
+    pub section_id: Option<i64>,
     pub should_send_email: Option<bool>,
     pub should_send_free_preview: Option<bool>,
     pub show_guest_bios: Option<bool>,
@@ -366,18 +381,33 @@ pub struct Response {
     pub social_title: Option<String>,
     pub subscriber_set_id: Option<String>,
     pub subtitle: Option<String>,
-    pub syndicate_to_section_id: Option<String>,
+    pub syndicate_to_section_id: Option<i64>,
     pub should_syndicate_to_other_feed: Option<bool>,
     pub title: Option<String>,
     pub write_comment_permissions: Option<String>,
     pub section_chosen: Option<bool>,
+
+    #[serde(with = "time::serde::rfc3339::option")]
+    pub post_date: Option<OffsetDateTime>,
+}
+impl Response {
+    //pub async fn put(&self, client: &reqwest::Client) -> Result<Response> {
+    //    let url = Url::parse(&format!("{}/drafts/{}", &config().API_URL))?;
+    //    Ok(client
+    //        .put(url)
+    //        .headers(config().HEADERS.clone())
+    //        .json(self)
+    //        .retry()
+    //        .send::<Response>()
+    //        .await?)
+    //}
 }
 
 impl Response {
-    pub fn into_substack_draft(self, articles_id: Uuid) -> directus::SubstackDraft {
-        directus::SubstackDraft {
+    pub fn into_substack_draft(self, articles_id: Uuid) -> model::SubstackDraft {
+        model::SubstackDraft {
             id: Uuid::new_v4(),
-            articles_id,
+            articles_id: Some(articles_id),
             substack_draft_id: self.id,
             substack_uuid: self.uuid,
             draft_title: self.draft_title,
@@ -387,7 +417,8 @@ impl Response {
             section_chosen: self.section_chosen,
             publication_id: self.publication_id,
             word_count: self.word_count,
-            draft_body: self.draft_body,
+            draft_body: json::from_str(&self.draft_body)
+                .expect("Failed to deserialize draft body in Response into SubstackDraft"),
             draft_created_at: self.draft_created_at,
             draft_updated_at: self.draft_updated_at,
             status: "draft".to_string(),
@@ -436,11 +467,13 @@ impl Response {
             should_syndicate_to_other_feed: self.should_syndicate_to_other_feed,
             title: self.title,
             write_comment_permissions: self.write_comment_permissions,
+
+            post_date: self.post_date,
         }
     }
 }
-impl From<directus::SubstackDraft> for Response {
-    fn from(draft: directus::SubstackDraft) -> Self {
+impl From<model::SubstackDraft> for Response {
+    fn from(draft: model::SubstackDraft) -> Self {
         Response {
             id: draft.substack_draft_id,
             type_: draft.draft_type.parse().unwrap_or_default(),
@@ -450,7 +483,9 @@ impl From<directus::SubstackDraft> for Response {
             section_chosen: draft.section_chosen,
             publication_id: draft.publication_id,
             word_count: draft.word_count,
-            draft_body: draft.draft_body,
+            draft_body: json::to_string(&draft.draft_body).expect(
+                "Failed to serialize draft body in From<model::SubstackDraft> for Response",
+            ),
             draft_created_at: draft.draft_created_at,
             draft_updated_at: draft.draft_updated_at,
             uuid: draft.substack_uuid,
@@ -492,6 +527,7 @@ impl From<directus::SubstackDraft> for Response {
             should_syndicate_to_other_feed: draft.should_syndicate_to_other_feed,
             title: draft.title,
             write_comment_permissions: draft.write_comment_permissions,
+            post_date: draft.post_date,
         }
     }
 }

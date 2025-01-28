@@ -63,6 +63,8 @@ serde_urlencoded = { version = "0.7" }
 tracing = { version = "0.1", features = ["log"] }
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
+moddef = "0.2.6"
+
 [workspace.metadata.scripts]
 w = "cargo run-script bundle & cargo run-script watch"
 bundle = "rm ./crates/sites/site_1/src/web-folder/assets/index* & cargo run-script bundle-site-1"

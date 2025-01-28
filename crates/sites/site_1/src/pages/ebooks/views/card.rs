@@ -1,33 +1,33 @@
 use crate::prelude::*;
-use lib_core::model::directus::EbooksTranslations;
+use lib_core::model::EbooksTranslations;
 
 pub struct Card<'a> {
-  pub ebook: &'a EbooksTranslations,
+    pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for Card<'_> {
-  fn render(&self) -> Markup {
-    card(self.ebook)
-  }
+    fn render(&self) -> Markup {
+        card(self.ebook)
+    }
 }
 
 fn card(ebook: &EbooksTranslations) -> Markup {
-  html! {
-    article.card
-    id=(&ebook.id)
-    hx_patch=(format!("https://tosapp.eman.network/ebooks/{}", ebook.id))
-    data-umami-event="ebook-card-clicked"
-    //data-umami-event-ebook=(ebook.id)
-    //data-umami-event-name=(ebook.name)
-    hx_trigger="mouseover" {
-      //(ebooks::Cover3D{ ebook })
-      //h2 .book-name { (ebook.name) }
-      //p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
-      //(Button::Primary { href: ebook.get_file_download(), text: "Download".to_owned() })
-      //(js())
+    html! {
+      article.card
+      id=(&ebook.id)
+      hx_patch=(format!("https://tosapp.eman.network/ebooks/{}", ebook.id))
+      data-umami-event="ebook-card-clicked"
+      //data-umami-event-ebook=(ebook.id)
+      //data-umami-event-name=(ebook.name)
+      hx_trigger="mouseover" {
+        //(ebooks::Cover3D{ ebook })
+        //h2 .book-name { (ebook.name) }
+        //p.subtext { (ebook.sub_text.clone().unwrap_or("".to_owned())) }
+        //(Button::Primary { href: ebook.get_file_download(), text: "Download".to_owned() })
+        //(js())
+      }
+      (css())
     }
-    (css())
-  }
 }
 
 js! {

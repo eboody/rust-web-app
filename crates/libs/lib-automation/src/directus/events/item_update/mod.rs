@@ -1,5 +1,5 @@
 use axum::extract::{Json, State};
-use lib_core::model::directus::{Articles, PartialArticles, articles};
+use lib_core::model::{Articles, PartialArticles};
 use lib_substack::drafts;
 
 use crate::{directus::trigger, prelude::*};
@@ -22,10 +22,10 @@ pub async fn on_item_update(
 pub async fn on_article_event(
     _mm: &ModelManager,
     trigger: &trigger::Body,
-    event: &articles::Event,
+    event: &model::Event,
 ) -> Result<String> {
     match event {
-        articles::Event::Update => {
+        model::Event::Update => {
             if let Some(payload) = trigger.clone().payload {
                 let payload = json::from_value::<PartialArticles>(payload)?;
                 debug!("->> {:<12} - payload: {:#?}", file!(), payload);

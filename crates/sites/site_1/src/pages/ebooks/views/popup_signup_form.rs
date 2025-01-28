@@ -1,54 +1,54 @@
 use crate::prelude::*;
-use lib_core::model::directus::EbooksTranslations;
+use lib_core::model::EbooksTranslations;
 
 pub struct PopupSignupForm<'a> {
-  pub ebook: &'a EbooksTranslations,
+    pub ebook: &'a EbooksTranslations,
 }
 
 impl Render for PopupSignupForm<'_> {
-  fn render(&self) -> Markup {
-    let app_url = std::env::var("APP_URL")
-      .unwrap_or_else(|_| "https://tos.eman.network".to_string());
+    fn render(&self) -> Markup {
+        let app_url =
+            std::env::var("APP_URL").unwrap_or_else(|_| "https://tos.eman.network".to_string());
 
-    let url = format!("{}/ebooks/signup", app_url);
+        let url = format!("{}/ebooks/signup", app_url);
 
-    html! {
-      form
-      hx-post=(url)
-      hx-swap="outerHTML"
-      hx-target="#popup"
-      hx-trigger="submit" {
-        (FormField {
-          name: "first_name",
-          label: Some("First Name"),
-          input_type: "text",
-          placeholder: Some("First Name"),
-          value: None
-        })
-        (FormField {
-          name: "email",
-          label: Some("Email"),
-          input_type: "email",
-          placeholder: Some("Email"),
-          value: None
-        })
-        (FormField {
-          name: "ebook_name",
-          input_type: "hidden",
-          label: None,
-          placeholder: None,
-          value: self.ebook.title.as_deref()
-        })
+        html! {
+          form
+          hx-post=(url)
+          hx-swap="outerHTML"
+          hx-target="#popup"
+          hx-trigger="submit" {
+            (FormField {
+              name: "first_name",
+              label: Some("First Name"),
+              input_type: "text",
+              placeholder: Some("First Name"),
+              value: None
+            })
+            (FormField {
+              name: "email",
+              label: Some("Email"),
+              input_type: "email",
+              placeholder: Some("Email"),
+              value: None
+            })
+            (FormField {
+              name: "ebook_name",
+              input_type: "hidden",
+              label: None,
+              placeholder: None,
+              value: self.ebook.title.as_deref()
+            })
 
-        .button-container{
-          (Button::Primary { href: None, text: "Yes, send me my free ebook!" })
-          (Button::Secondary { href: None, text: "No Thanks" })
+            .button-container{
+              (Button::Primary { href: None, text: "Yes, send me my free ebook!" })
+              (Button::Secondary { href: None, text: "No Thanks" })
+            }
+          }
+          (js())
+          (css())
         }
-      }
-      (js())
-      (css())
     }
-  }
 }
 
 js! {

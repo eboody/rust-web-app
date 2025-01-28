@@ -1,5 +1,5 @@
 pub use json::json;
-pub use lib_core::model::ModelManager;
+pub use lib_core::model::{self, ModelManager};
 pub use ormlite::{
     model::{Join, JoinMeta, Model, ModelBuilder},
     query_builder::OnConflict,

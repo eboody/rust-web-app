@@ -3,7 +3,7 @@ use uuid::Uuid;
 
 use axum::response::{IntoResponse, Response};
 use derive_more::From;
-use lib_core::model::directus::UploadFilePayload;
+use lib_core::model::UploadFilePayload;
 use reqwest::StatusCode;
 use serde::Serialize;
 use serde_with::{DisplayFromStr, serde_as};

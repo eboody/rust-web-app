@@ -8,6 +8,8 @@ use tokio_retry::{
 
 use serde_with::{DisplayFromStr, serde_as};
 
+use crate::debug_deserialize::DebugDeserialize;
+
 pub trait RetryableRequest {
     fn retry(self) -> Retryable;
 }
@@ -81,13 +83,14 @@ impl Retryable {
                 }
 
                 // Deserialize JSON into the generic type T
-                let result: Result<T, Error> = json::from_str(&body).map_err(Error::Serde);
+                let result: Result<DebugDeserialize<T>, Error> =
+                    json::from_str(&body).map_err(Error::Serde);
 
                 if let Err(result) = result {
                     println!("body: {:#?}", &body);
                     Err(result)
                 } else {
-                    result
+                    result.map(|d| d.0)
                 }
             }
         })
